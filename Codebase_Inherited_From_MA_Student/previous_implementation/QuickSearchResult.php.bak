@@ -1,0 +1,277 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+
+<head> </head>
+<body topmargin="0" leftmargin="0" rightmargin="0" style="font-family:Verdana">
+
+<?php
+        //include the header page
+        include("header.php");
+        session_start();
+        $maxExecutionTime=6000;
+		set_time_limit ( $maxExecutionTime );
+?>        
+        <table cellpadding="0" cellspacing="0" width="95%" align="center">
+        <tr>
+                <td align="left">&nbsp;</td>
+                <td align="right">&nbsp;</td>
+        </tr>
+        <tr>
+                <td align="left">&nbsp;</td>
+                <td align="right"><font color="#4682B4"><h5><a href='QuickSearch.php'>&lt;&lt;Back to Quick Gene Search</a> | <a title='logout' href='index.php'>Log Out</a></h5></font></td>
+        </tr>
+        
+
+		</table>
+<?php
+         //get session variabe
+          $db_UN=$_SESSION['un'];
+          $db_PASS=$_SESSION['pass'];
+          $db_DB=$_SESSION['db'];
+  
+          //connection to the database
+          $db_conn = ocilogon($db_UN, $db_PASS, $db_DB);
+
+
+        //get the search criteria from previous page
+        $searchCriteria = $_POST['searchCriteria'];
+        
+        //get the search token from previous page
+        $searchToken=$_POST['txt_searchToken'];
+		$SearchTokenParts=explode(",",$searchToken);
+
+		$newSearchToken="'". trim($SearchTokenParts[0]) ."'";
+		if(count($SearchTokenParts)>1)
+		{
+			for($i=1;$i<count($SearchTokenParts);$i++)
+				$newSearchToken=$newSearchToken ."," . "'". trim($SearchTokenParts[$i]) ."'";
+		}
+		
+        
+        //get all the Unique array from session varialbe
+        $EXPERIMENTNAME_S=$_SESSION['EXP_NAME_Q'];
+     	$ACTIVECATEGORY_S=$_SESSION['CATG_Q'];
+     	$ACTIVESPECIES_S=$_SESSION['SPEC_Q'];
+     	$EXPERIMENTSUBJECT_S=$_SESSION['SUBJ_Q'];
+     	$REGULATIONVALUE_S=$_SESSION['REG_VAL_Q'];
+     	
+     	//get rest of the search criteria
+        //-----------Experiment name--------------------
+        $EXPERIMENTNAME_TEMP=$_POST['EXP_NAME'];
+        $EXPERIMENTNAME_TEMP_SIZE=sizeof($EXPERIMENTNAME_TEMP);
+        if ($EXPERIMENTNAME_TEMP_SIZE==1)
+        	$EXPERIMENTNAME="'" . $EXPERIMENTNAME_S[$EXPERIMENTNAME_TEMP[0]] . "'";
+        elseif($EXPERIMENTNAME_TEMP_SIZE>1)
+        {
+			$EXPERIMENTNAME="'" . $EXPERIMENTNAME_S[$EXPERIMENTNAME_TEMP[0]] . "'";
+			for($i=1;$i<$EXPERIMENTNAME_TEMP_SIZE;$i++)
+				$EXPERIMENTNAME=$EXPERIMENTNAME ."," ."'" . $EXPERIMENTNAME_S[$EXPERIMENTNAME_TEMP[$i]] . "'";
+		}
+		
+		
+		//---------------Active Category------------------------
+        $ACTIVECATEGORY_TEMP=$_POST['CATG'];
+        $ACTIVECATEGORY_TEMP_SIZE=sizeof($ACTIVECATEGORY_TEMP);
+        if ($ACTIVECATEGORY_TEMP_SIZE==1)
+        	$ACTIVECATEGORY="'" . $ACTIVECATEGORY_S[$ACTIVECATEGORY_TEMP[0]] . "'";
+        elseif($ACTIVECATEGORY_TEMP_SIZE>1)
+        {
+			$ACTIVECATEGORY="'" . $ACTIVECATEGORY_S[$ACTIVECATEGORY_TEMP[0]] . "'";
+			for($i=1;$i<$ACTIVECATEGORY_TEMP_SIZE;$i++)
+				$ACTIVECATEGORY=$ACTIVECATEGORY ."," ."'" . $ACTIVECATEGORY_S[$ACTIVECATEGORY_TEMP[$i]] . "'";
+		}
+		
+		//---------------Active Species------------------------
+        $ACTIVESPECIES_TEMP=$_POST['SPEC'];
+        $ACTIVESPECIES_TEMP_SIZE=sizeof($ACTIVESPECIES_TEMP);
+        if ($ACTIVESPECIES_TEMP_SIZE==1)
+        	$ACTIVESPECIES="'" . $ACTIVESPECIES_S[$ACTIVESPECIES_TEMP[0]] . "'";
+        elseif($ACTIVESPECIES_TEMP_SIZE>1)
+        {
+			$ACTIVESPECIES="'" . $ACTIVESPECIES_S[$ACTIVESPECIES_TEMP[0]] . "'";
+			for($i=1;$i<$ACTIVESPECIES_TEMP_SIZE;$i++)
+				$ACTIVESPECIES=$ACTIVESPECIES ."," ."'" . $ACTIVESPECIES_S[$ACTIVESPECIES_TEMP[$i]] . "'";
+		}
+		
+		//---------------Experiment Subject------------------------
+        $EXPERIMENTSUBJECT_TEMP=$_POST['SUBJ'];
+        $EXPERIMENTSUBJECT_TEMP_SIZE=sizeof($EXPERIMENTSUBJECT_TEMP);
+        if ($EXPERIMENTSUBJECT_TEMP_SIZE==1)
+        	$EXPERIMENTSUBJECT="'" . $EXPERIMENTSUBJECT_S[$EXPERIMENTSUBJECT_TEMP[0]] . "'";
+        elseif($EXPERIMENTSUBJECT_TEMP_SIZE>1)
+        {
+			$EXPERIMENTSUBJECT="'" . $EXPERIMENTSUBJECT_S[$EXPERIMENTSUBJECT_TEMP[0]] . "'";
+			for($i=1;$i<$EXPERIMENTSUBJECT_TEMP_SIZE;$i++)
+				$EXPERIMENTSUBJECT=$EXPERIMENTSUBJECT ."," ."'" . $EXPERIMENTSUBJECT_S[$EXPERIMENTSUBJECT_TEMP[$i]] . "'";
+		}        
+		
+		//-------------Regulation Value-----------------------------------
+       	$REGULATIONVALUE_TEMP=$_POST['REG_VAL'];
+        $REGULATIONVALUE_TEMP_SIZE=sizeof($REGULATIONVALUE_TEMP);
+        if ($REGULATIONVALUE_TEMP_SIZE==1)
+        	$REGULATIONVALUE="'" . $REGULATIONVALUE_S[$REGULATIONVALUE_TEMP[0]] . "'";
+        elseif($REGULATIONVALUE_TEMP_SIZE>1)
+        {
+			$REGULATIONVALUE="'" . $REGULATIONVALUE_S[$REGULATIONVALUE_TEMP[0]] . "'";
+			for($i=1;$i<$REGULATIONVALUE_TEMP_SIZE;$i++)
+				$REGULATIONVALUE=$REGULATIONVALUE ."," ."'" . $REGULATIONVALUE_S[$REGULATIONVALUE_TEMP[$i]] . "'";
+		}        
+		
+        echo "<table border=0 width='90%' align='center'>\n";
+        echo "<tr>\n";
+      	echo "<td>";
+
+		echo "<table border=0>\n";
+        echo "<tr>\n";
+      	echo "<td>";
+		echo"<br><br><fieldset>";
+
+        echo "<br><b>" . $searchCriteria . ":</b>";
+        echo $searchToken . "<br>";
+        
+        //get matrix value from database
+		$restricted='1';
+		$notRestricted='0';
+		$userid=$_SESSION['userid'];
+
+        $cmdstrRetrieve = "SELECT DISTINCT PROBEID, CGNUMBER, GENENAME, FBCGNUMBER,EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, REGULATIONVALUE,ADDITIONALINFO FROM FULL_VIEW  WHERE RESTRICTED='" .$notRestricted."' and $searchCriteria IN ($newSearchToken)";
+
+		$cmdstrRetrieve2="SELECT DISTINCT PROBEID, CGNUMBER, GENENAME, FBCGNUMBER,EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, REGULATIONVALUE,ADDITIONALINFO FROM FULL_VIEW  WHERE RESTRICTED='" .$restricted."' and CREATED_BY='".$userid."' and $searchCriteria IN ($newSearchToken)";
+        
+		
+        if(($EXPERIMENTNAME_TEMP[0]) !=0)
+        {
+         	$cmdstrRetrieve=$cmdstrRetrieve . " and EXPERIMENTNAME IN ($EXPERIMENTNAME)";
+			$cmdstrRetrieve2=$cmdstrRetrieve2 . " and EXPERIMENTNAME IN ($EXPERIMENTNAME)";
+			echo "<b>EXPERIMENTNAME: </b>" . $EXPERIMENTNAME . "<br>";
+		}		
+		
+		if(($ACTIVECATEGORY_TEMP[0]) !=0)
+        {
+         	$cmdstrRetrieve=$cmdstrRetrieve . " and ACTIVECATEGORY IN ($ACTIVECATEGORY)";   
+			$cmdstrRetrieve2=$cmdstrRetrieve2 . " and ACTIVECATEGORY IN ($ACTIVECATEGORY)"; 
+			echo "<b>ACTIVECATEGORY: </b>" . $ACTIVECATEGORY . "</b><br>";
+		}		
+		
+        if(($ACTIVESPECIES_TEMP[0]) !=0)
+        {
+         	
+         	$cmdstrRetrieve=$cmdstrRetrieve . " and ACTIVESPECIES IN ($ACTIVESPECIES)"; 
+			$cmdstrRetrieve2=$cmdstrRetrieve2 . " and ACTIVESPECIES IN ($ACTIVESPECIES)"; 
+			echo "<b>ACTIVESPECIES: </b>" . $ACTIVESPECIES . "</b><br>";
+		}		
+		
+        if(($EXPERIMENTSUBJECT_TEMP[0]) !=0)
+        {
+         	
+         	$cmdstrRetrieve=$cmdstrRetrieve . " and EXPERIMENTSUBJECT IN ($EXPERIMENTSUBJECT)";   
+			$cmdstrRetrieve2=$cmdstrRetrieve2 . " and EXPERIMENTSUBJECT IN ($EXPERIMENTSUBJECT)";
+			echo "<b>EXPERIMENTSUBJECT: </b>" . $EXPERIMENTSUBJECT . "</b><br>";
+		}
+		
+		if(($REGULATIONVALUE_TEMP[0]) !=0)
+        {
+         	
+         	$cmdstrRetrieve=$cmdstrRetrieve . " and REGULATIONVALUE IN ($REGULATIONVALUE)"; 
+			$cmdstrRetrieve2=$cmdstrRetrieve2 . " and REGULATIONVALUE IN ($REGULATIONVALUE)";
+			echo "<b>REGULATIONVALUE: </b>" . $REGULATIONVALUE . "</b><br>";
+		}
+		//$cmdstrRetrieve=$cmdstrRetrieve . " order by EXPERIMENTNAME,PROBEID"; 
+		$cmdstrRetrieveUnion=$cmdstrRetrieve . " union " . $cmdstrRetrieve2 . " ORDER BY 5,1";
+
+		$_SESSION['cmdStrQuick']=$cmdstrRetrieveUnion;
+		//echo $cmdstrRetrieveUnion;
+		//echo $cmdstrRetrieve;
+        //$parsed = ociparse($db_conn, $cmdstrRetrieve);
+		$parsed = ociparse($db_conn, $cmdstrRetrieveUnion);
+        ociexecute($parsed);
+        $numrows = ocifetchstatement($parsed, $results);
+        echo "<b>Search Result: " .$numrows . "</b><br><br>";
+		echo"</fieldset><br><br>";
+		echo "</td>";
+		echo "</tr>\n";
+        echo "</table>";
+
+        
+        //$str2="PROBEID CGNUMBER GENENAME FBCGNUMBER EXPERIMENTNAME ACTIVECATEGORY ACTIVESPECIES EXPERIMENTSUBJECT REGULATIONVALUE ADDITIONALINFO";
+        //$token=str_word_count($str2,1);
+
+		//string for header
+        $str2="PROB ID,CG<br>Number,Gene<br>Name,FBGN Number,Experiment Name,Active<br>Category,Active<br>Species,Experiment<br>Subject,Regulation<br>Value,Additional<br>Info";
+		$str="PROBEID CGNUMBER GENENAME FBCGNUMBER EXPERIMENTNAME ACTIVECATEGORY ACTIVESPECIES EXPERIMENTSUBJECT REGULATIONVALUE ADDITIONALINFO";
+        $token2=explode(",",$str2);
+		$token=str_word_count($str,1);
+        
+		echo "<font size=2pt>";
+        echo "<center>";
+        echo "<table border=2 cellspacing='1' width='100%' align='center' style='border-left-color:White; border-right-color:White; border-top-color:White; border-bottom-color:White;border-collapse :collapse'>\n";
+        echo "<tr>\n";
+      	echo "<td bgcolor='#F0FFF0'><b>" .$token2[0]. "</b></td>";
+      	echo "<td bgcolor='#F0FFF0'><b>" .$token2[1]. "</b></td>";
+      	echo "<td bgcolor='#F0FFF0'><b>" .$token2[2]. "</b></td>";
+      	echo "<td bgcolor='#F0FFF0'><b>" .$token2[3]. "</b></td>";
+      	echo "<td bgcolor='#F0FFF0'><b>" .$token2[4]. "</b></td>";
+      	echo "<td bgcolor='#F0FFF0'><b>" .$token2[5]. "</b></td>";
+      	echo "<td bgcolor='#F0FFF0'><b>" .$token2[6]. "</b></td>";
+      	echo "<td bgcolor='#F0FFF0'><b>" .$token2[7]. "</b></td>";
+      	echo "<td bgcolor='#F0FFF0'><b>" .$token2[8]. "</b></td>";
+      	echo "<td bgcolor='#F0FFF0'><b>" .$token2[9]. "</b></td>";
+      	echo "</tr>\n";
+      	for ($i = 0; $i < $numrows; $i++ )
+    	{
+			if(($i%2)==1)
+			{
+				echo "<tr>\n";
+				echo "<td bgcolor='#DDDDDD'> " . $results["$token[0]"][$i]. "</td>";
+				echo "<td bgcolor='#DDDDDD'> <a href ='http://flybase.org/cgi-bin/uniq.html?species=Dmel&field=SYN&db=fbgn&context=" . $results["$token[1]"][$i] . "&authors=&year=&alltext=&caller=quicksearch' target=_blank>" .$results["$token[1]"][$i]. "</a></td>";
+				echo "<td bgcolor='#DDDDDD'> <a href ='http://flybase.org/cgi-bin/uniq.html?species=Dmel&field=SYN&db=fbgn&context=" . $results["$token[2]"][$i] . "&authors=&year=&alltext=&caller=quicksearch' target=_blank>" .$results["$token[2]"][$i]. "</a></td>";
+				echo "<td bgcolor='#DDDDDD'> <a href= 'http://flybase.org/reports/" . $results["$token[3]"][$i] . ".html' target=_blank>" .$results["$token[3]"][$i]. "</a></td>";      		
+				echo "<td bgcolor='#DDDDDD'>" . $results["$token[4]"][$i]. "</td>";
+				echo "<td bgcolor='#DDDDDD'> " .$results["$token[5]"][$i]. "</td>";
+				echo "<td bgcolor='#DDDDDD'> " .$results["$token[6]"][$i]. "</td>";
+				echo "<td bgcolor='#DDDDDD'>" . $results["$token[7]"][$i] . "</td>";
+				echo "<td bgcolor='#DDDDDD'> " .$results["$token[8]"][$i]. "</td>";
+				echo "<td bgcolor='#DDDDDD'> " .$results["$token[9]"][$i]. "</td>";
+				echo "</tr>\n";
+			}
+			else
+			{
+				echo "<tr>\n";
+				echo "<td> " . $results["$token[0]"][$i]. "</td>";
+				echo "<td> <a href ='http://flybase.org/cgi-bin/uniq.html?species=Dmel&field=SYN&db=fbgn&context=" . $results["$token[1]"][$i] . "&authors=&year=&alltext=&caller=quicksearch' target=_blank>" .$results["$token[1]"][$i]. "</a></td>";
+				echo "<td> <a href ='http://flybase.org/cgi-bin/uniq.html?species=Dmel&field=SYN&db=fbgn&context=" . $results["$token[2]"][$i] . "&authors=&year=&alltext=&caller=quicksearch' target=_blank>" .$results["$token[2]"][$i]. "</a></td>";
+				echo "<td> <a href= 'http://flybase.org/reports/" . $results["$token[3]"][$i] . ".html' target=_blank>" .$results["$token[3]"][$i]. "</a></td>";      		
+				echo "<td>" . $results["$token[4]"][$i]. "</td>";
+				echo "<td> " .$results["$token[5]"][$i]. "</td>";
+				echo "<td> " .$results["$token[6]"][$i]. "</td>";
+				echo "<td>" . $results["$token[7]"][$i] . "</td>";
+				echo "<td> " .$results["$token[8]"][$i]. "</td>";
+				echo "<td> " .$results["$token[9]"][$i]. "</td>";
+				echo "</tr>\n";
+			}
+    	}
+      	echo "</table></center>";
+		echo "</font>";
+
+		echo "<form action='exportQuickSearch.php' method='post' name='index'>";
+		echo "<table cellpadding='0' cellspacing='0' width='100%' border='0'>";
+		echo "<tr>";
+		echo "<td width='100%' align='left'><br>";
+		echo "<input name='btn_submit' type='submit' value='Export Result'/>";
+		echo "</td>";
+		echo "</tr>";
+		echo "</table>";
+		echo "</form>";
+		
+		echo "</td>";
+		echo "</tr>\n";
+        echo "</table>";
+        
+      	
+        
+        //close database connection
+		oci_close($db_conn);
+  
+  ?>
+</body>
+</html>
