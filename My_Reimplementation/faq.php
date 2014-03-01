@@ -1,3 +1,9 @@
+<?php
+require_once("WebPage.php");
+
+$faq_page= new WebPage();
+$faq_page->title = "FAQ";
+$faq_page->content =<<<EOT
 
 <div class="central_widget">
 
@@ -143,13 +149,12 @@
     <a href="faq.php">&lt;&lt;Back to FAQ</a>
 </div>
 
-<?php
-//include the header page
-include("footer.php");
-?>
-</body>
-</html>
 
+EOT;
+
+$faq_page->display_page();
+
+?>
 
 
 

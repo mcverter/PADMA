@@ -1,14 +1,9 @@
-  
 <?php
 require_once("WebPage.php");
 
-class IndexPage extends WebPage {
-    public function __construct() {
-        $this->set_title("Index");
-    }
-
-    function content() {
-        echo <<< EOT
+$support_page= new WebPage();
+$support_page->title = "Supports";
+$support_page->content =<<<EOT
     <div class="central_widget">
       <h2>PADMA Supporting Status</h2>
       <hr>
@@ -44,11 +39,7 @@ class IndexPage extends WebPage {
     </div>
 EOT;
 
-    }
-}
 
-$pg = new IndexPage() ;
-$pg->display_page();
+$support_page->display_page();
 
 ?>
-

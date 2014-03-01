@@ -2,10 +2,9 @@
 
 require_once("Controls.php");
 class WebPage {
-    public    $title;
-    public    $js;
-    public  $authorization;
-    public  $content;
+    protected  $title;
+    protected  $js;
+    protected  $authorization;
 
     public function prepare() {
         initialize_session();
@@ -16,7 +15,7 @@ class WebPage {
 
         $title = $this->title;
         $js = $this->js;
-        $content = $this->content;
+        $content = $this->content
         echo <<< EOT
 <!DOCTYPE html>
 <html>
@@ -29,7 +28,7 @@ class WebPage {
     <body>
 EOT;
         require("header.php");
-        echo $content;
+        echo $this->content();
         require("footer.php");
 
             echo <<< EOT
@@ -37,7 +36,40 @@ EOT;
     <body>
 EOT;
 
+	$this->cleanup();
     }
+
+
+    function add_js() {echo $js;}
+
+    function cleanup() {}
+
+    function header_nav() {
+        require("header.php");
+    }
+
+    function footer_nav() {
+        require("footer.php");
+    }
+
+
+    function html_start() {
+    }
+
+    function html_end() {
+        $this->footer_nav();
+        echo <<< EOT
+    </head>
+    <body>
+EOT;
+
+    }
+
+    function content() {
+
+    }
+
+
 
 }
 

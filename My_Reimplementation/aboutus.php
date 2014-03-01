@@ -1,13 +1,10 @@
 <?php
 require_once("WebPage.php");
 
-class IndexPage extends WebPage {
-    public function __construct() {
-        $this->set_title("Index");
-    }
+$about_page= new WebPage();
+$about_page->title = "About Us";
+$about_page->content =<<<EOT
 
-    function content() {
-        echo <<< EOT
     <div class="centered_exposition">
       <h2>About Us</h2>
       <p>
@@ -128,11 +125,8 @@ class IndexPage extends WebPage {
       </div>
     </div>
 EOT;
-    }
-}
 
-$pg = new IndexPage() ;
-$pg->display_page();
+$about_page->display_page();
 
 ?>
 
