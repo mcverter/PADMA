@@ -37,165 +37,48 @@ function make_select_widget($db_conn, $full_v_entity, $userid)
      echo "</select>";
 }
 
-abstract class DB_Entity {
+class DB_Entity {
     public $table_name;
     public $table_col;
 
-    public $DB_col;
-    public $DB_name;
-
+    public $view_name;
+    public $view_col;
 
     public $html_label;
 
-    public abstract function __construct();
-}
-
-
-
-
-
-class EXP_NAME extends DB_Entity {
-    public function __construct(){
-        parent::__construct();
-        $this->table_name = "EXPERIMENT";
-        $this->table_col  = "EXP_NAME";
-
-        $this->view_name = "FULL_V";
-        $this->view_col = "EXPERIMENTNAME";
-
-        $this->html_label = "Experiment Name";
-    }
-}
-
-
-class CATEGORY extends DB_Entity {
-    public function __construct(){
-        parent::__construct();
-        $this->table_name = "EXPERIMENT";
-        $this->table_col  = "CATG" ;
-
-        $this->view_name = "FULL_V";
-        $this->view_col = "ACTIVECATEGORY";
-
-        $this->html_label = "Active Category";
-    }
-}
-
-class SPECIES extends DB_Entity {
-    public function __construct(){
-        parent::__construct();
-        $this->table_name = "EXPERIMENT";
-        $this->table_col  = "SPEC";
-
-        $this->view_name = "FULL_V";
-        $this->view_col = "ACTIVESPECIES";
-
-        $this->html_label = "Active Species";
-    }
-}
-
-
-class SUBJECT extends DB_Entity {
-    public function __construct(){
-        parent::__construct();
-        $this->table_name = "EXPERIMENT";
-        $this->table_col  = "SUBJ";
-
-        $this->view_name = "FULL_V";
-        $this->view_col = "EXPERIMENTSUBJECT";
-
-        $this->html_label = "Experiment Subject";
-    }
-}
-
-class BIOFUNCTION extends DB_Entity {
-    public function __construct(){
-        parent::__construct();
-        $this->table_name = "REFERENCE_BIO";
-        $this->table_col  = "BIOFUNCTION";
-
-
-        $this->view_name = "FULL_V";
-        $this->view_col = "BIOFUNCTION";
-
-        $this->html_label = "Bio Function";
+    public function __construct($tn, $tc, $vn, $vc, $hl) {
+        $this->table_name = $tn;
+        $this->table_col = $tc;
+        $this->view_name = $vn;
+        $this->view_col = $vc;
+        $this->html_label = $hl;
     }
 }
 
 
 
-class CGNUMBER extends DB_Entity {
-    public function __construct(){
-        parent::__construct();
-        $this->view_name = "FULL_V";
-        $this->view_col = "CGNUMBER";
-
-        $this->html_label = "CG Number";
-    }
-}
-
-class PROBE_ID extends DB_Entity {
-    public function __construct(){
-        parent::__construct();
-        $this->view_name = "FULL_V";
-        $this->view_col = "PROBEID";
-
-        $this->html_label = "Probe Id";
-    }
-}
-
-class CG_NUMBER extends DB_Entity {
-    public function __construct(){
-        parent::__construct();
-        $this->view_name = "FULL_V";
-        $this->view_col = "CGNUMBER";
-
-        $this->html_label = "CG Number";
-    }
-}
-
-class REG_VAL extends DB_Entity {
-    public function __construct(){
-        parent::__construct();
-        $this->view_name = "FULL_V";
-        $this->view_col = "Regulation Value";
-
-	$this->$table_name = "EXPERIMENT";
-	$this->$table_col = "REG_VAL";
-        $this->html_label = "CG Number";
-    }
-}
-
-
-class FBCGNUMBER extends DB_Entity {
-    public function __construct(){
-        parent::__construct();
-        $this->view_name = "FULL_V";
-        $this->view_col = "FBCGNUMBER";
-
-        $this->html_label = "Flybase Number";
-    }
-}
-
-class GENENAME extends DB_Entity {
-    public function __construct(){
-        parent::__construct();
-        $this->view_name = "FULL_V";
-        $this->view_col = "GENENAME";
-
-        $this->html_label = "Gene Name";
-    }
-}
-
-class GONUMBER extends DB_Entity {
-    public function __construct(){
-        parent::__construct();
-        $this->view_name = "FULL_V";
-        $this->view_col = "GONUMBER";
-
-        $this->html_label = "GO Number";
-    }
-}
+$exp_name = new DB_Entity("EXPERIMENT", "EXP_NAME", "FULL_V",
+        "EXPERIMENTNAME", "Experiment Name");
+$category = new DB_Entity("EXPERIMENT", "CATG" ,  "FULL_V",
+    "ACTIVECATEGORY", "Active Category");
+$species = new DB_Entity("EXPERIMENT", "SPEC",
+    "FULL_V", "ACTIVESPECIES", "Active Species");
+$subject = new DB_Entity ("EXPERIMENT", "SUBJ",
+    "FULL_V", "EXPERIMENTSUBJECT", "Experiment Subject");
+$biofunction = new DB_Entity("REFERENCE_BIO", "BIOFUNCTION",
+    "FULL_V", "BIOFUNCTION", "Bio Function");
+$cgnumber = new DB_Entity("", "",
+    "FULL_V", "CGNUMBER", "CG Number");
+$probeid = new DB_Entity("", "",
+    "FULL_V", "PROBEID", "Probe Id");
+$fbcgnumber = new DB_Entity("", "",
+    "FULL_V", "FBCGNUMBER", "Flybase Number");
+$genename = new DB_Entity("", "",
+    "FULL_V", "GENENAME", "Gene Name");
+$gonumber = new DB_Entity("", "",
+    "FULL_V", "GONUMBER", "GO Number");
+$regval = new DB_Entity("EXPERIMENT",  "REG_VAL",
+    "FULL_V", "REGULATIONVALUE", "Regulation Value");
 
 /*
  *
