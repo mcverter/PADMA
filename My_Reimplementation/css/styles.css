@@ -1,0 +1,173 @@
+body {
+    margin-top:0px;
+    margin-left:0px;
+    margin-right:0px;
+    font-family:Verdana;
+}
+
+
+.central_widget {
+    background-color: #B8F5C6;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    border: 2px solid;
+    display: block;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 35px;
+}
+
+
+
+#search_panel {
+    background-color: pink;
+    width: 80%;
+    margin-right: auto;
+    margin-left: auto;
+    border: 2px solid;
+    display: block;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    padding: 35px;
+}
+
+
+.search_button {
+    width:40%;
+    font-weight:bold;
+    height:35px;
+    color:aqua;
+}
+
+
+
+#padmalogo {
+    background-image:url('../images/header.png');
+    width:25%;
+}
+#ccnytrademark {
+    align: center;
+    text-color: gray;
+}
+
+label {
+    float:left;
+    align: right;
+    width: 200px;
+    clear: left;
+}
+
+select {
+    clear: left;
+    font-family:verdana;
+}
+
+
+.wide_button {
+
+    width:40%;
+    font-weight:bold;
+    height:35px;
+    color:#4682B4;
+}
+
+
+p.instructions {
+    font-weight: bold;
+    font-family: "Times New Roman", Georgia, serif;
+    font-size: 150%;
+    background-color: blue;
+    padding: 15px;
+}
+form {
+    font-weight: bold;
+}
+
+input[type=submit] {
+    font-weight: bold;
+    font-size: 125%
+
+}
+
+/******   H3    */
+ul.menu{
+    margin:0;
+    padding:0;
+    list-style-type:none;
+    width:auto;
+    position:relative;
+    display:block;
+    height:36px;
+    text-transform:uppercase;
+    font-size:12px;
+    font-weight:bold;
+    background:transparent url("../images/OFF.gif") repeat-x top left;
+    font-family:Helvetica,Arial,Verdana,sans-serif;
+    border-bottom:6px solid #9BC0E5;
+    border-top:1px solid #9BC0E5;
+}
+
+dt {
+    font-weight: bold;
+    font-family: "Times New Roman", Georgia, serif;
+    font-size: 150%;
+}
+dd {
+    font-family: helvetica, arial, sans-serif;
+}
+
+ul.menu li{
+    display:block;
+    float:left;
+    margin:0;
+    padding:0;
+}
+ul.menu li a{
+    display:block;
+    float:left;
+    color:#6d7078;
+    text-decoration:none;
+    font-weight:bold;
+    padding:12px 20px 0 20px;
+    height:24px;
+    background:transparent url("../images/DIVIDER.gif") no-repeat top right;
+}
+ul.menu li a:hover{
+    background:transparent url("../images/HOVER.gif") no-repeat top right;
+}
+
+
+div.modalPopupTransparent
+{
+    filter: alpha(opacity=50);
+    opacity: 0.5;
+    background: #CCCCCC;
+    position: absolute;
+    top: 0px;
+    left: 0px;
+    display: none;
+}
+div.modalPopupWindow
+{
+    position: absolute;
+    background-color: #FFFFFF;
+    border: 2px solid black;
+    padding: 8px;
+    text-align: left;
+    display: none;
+    width: 600px;
+}
+
+
+
+.search_btn {
+    width:40%;
+    font-weight:bold;
+    height:35px;
+    COLOR:#4682B4;
+}
+
+
+
+
