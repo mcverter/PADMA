@@ -1,41 +1,6 @@
 <?php
 
 
-function make_text_input_widget($db_conn, $full_v_entity)
-{
-    $view_col = $full_v_entity->view_col;
-    echo <<< EOT
-    <input name='$view_col' type='text' />
-EOT;
-}
-
-function make_select_widget($db_conn, $full_v_entity, $userid)
-{
-    $table_col = $full_v_entity->table_col;
-    $table_name = $full_v_entity->table_name;
-
-    $view_col = $full_v_entity->view_col;
-
-   $query = "select distinct $table_col from $table_name where RESTRICTED ='0' ";
-   if (isset($userid) && ! empty($userid)) {
-       $query .= "  UNION select distinct $table_col from $table_name where RESTRICTED ='1' and CREATED_BY='$userid' order by 1";
-    }
-
-
-    echo "<select name='$view_col' multiple='multiple'>\n";
-    echo "\t<option value=0>ALL</option>\n";
-
-
-    $stdid= ociparse($db_conn, $query);
-    ociexecute($stdid);
-
-     $idx = 1;
-     while ($row = oci_fetch_assoc($stdid))
-     {
-            echo "\t<option value=$idx>" . $row[$table_col] . "</option>\n";
-     }
-     echo "</select>";
-}
 
 class DB_Entity {
     public $table_name;
@@ -46,39 +11,73 @@ class DB_Entity {
 
     public $html_label;
 
-    public function __construct($tn, $tc, $vn, $vc, $hl) {
+    public function __construct($vn, $vc, $hl, $tn="", $tc="" ) {
         $this->table_name = $tn;
         $this->table_col = $tc;
         $this->view_name = $vn;
         $this->view_col = $vc;
         $this->html_label = $hl;
     }
+
+
+    function make_text_input_widget()
+    {
+        $view_col = $this->view_col;
+        echo <<< EOT
+    <input name='$view_col' type='text' />
+EOT;
+    }
+
+    function make_select_input_widget($db_conn, $userid="")
+    {
+        $table_col = $this->table_col;
+        $table_name = $this->table_name;
+
+        $view_col = $this->view_col;
+
+        $query = "select distinct $table_col from $table_name where RESTRICTED ='0' ";
+        if (isset($userid) && ! empty($userid)) {
+            $query .= "  UNION select distinct $table_col from $table_name where RESTRICTED ='1' and CREATED_BY='$userid' order by 1";
+        }
+
+
+        echo "<select name='$view_col' multiple='multiple'>\n";
+        echo "\t<option value=0>ALL</option>\n";
+
+
+        $stdid= ociparse($db_conn, $query);
+        ociexecute($stdid);
+
+        $idx = 1;
+        while ($row = oci_fetch_assoc($stdid))
+        {
+            echo "\t<option value=$idx>" . $row[$table_col] . "</option>\n";
+        }
+        echo "</select>";
+    }
+
 }
 
 
 
-$exp_name = new DB_Entity("EXPERIMENT", "EXP_NAME", "FULL_V",
-        "EXPERIMENTNAME", "Experiment Name");
-$category = new DB_Entity("EXPERIMENT", "CATG" ,  "FULL_V",
-    "ACTIVECATEGORY", "Active Category");
-$species = new DB_Entity("EXPERIMENT", "SPEC",
-    "FULL_V", "ACTIVESPECIES", "Active Species");
-$subject = new DB_Entity ("EXPERIMENT", "SUBJ",
-    "FULL_V", "EXPERIMENTSUBJECT", "Experiment Subject");
-$biofunction = new DB_Entity("REFERENCE_BIO", "BIOFUNCTION",
-    "FULL_V", "BIOFUNCTION", "Bio Function");
-$cgnumber = new DB_Entity("", "",
-    "FULL_V", "CGNUMBER", "CG Number");
-$probeid = new DB_Entity("", "",
-    "FULL_V", "PROBEID", "Probe Id");
-$fbcgnumber = new DB_Entity("", "",
-    "FULL_V", "FBCGNUMBER", "Flybase Number");
-$genename = new DB_Entity("", "",
-    "FULL_V", "GENENAME", "Gene Name");
-$gonumber = new DB_Entity("", "",
-    "FULL_V", "GONUMBER", "GO Number");
-$regval = new DB_Entity("EXPERIMENT",  "REG_VAL",
-    "FULL_V", "REGULATIONVALUE", "Regulation Value");
+$exp_name = new DB_Entity("FULL_V", "EXPERIMENTNAME", "Experiment Name",
+    "EXPERIMENT", "EXP_NAME");
+$category = new DB_Entity("FULL_V", "ACTIVECATEGORY", "Active Category",
+    "EXPERIMENT", "CATG" );
+$species = new DB_Entity ("FULL_V", "ACTIVESPECIES", "Active Species",
+    "EXPERIMENT", "SPEC");
+$subject = new DB_Entity ("FULL_V", "EXPERIMENTSUBJECT", "Experiment Subject",
+    "EXPERIMENT", "SUBJ");
+$biofunction = new DB_Entity("FULL_V", "BIOFUNCTION", "Bio Function",
+    "REFERENCE_BIO", "BIOFUNCTION");
+$regval = new DB_Entity("FULL_V", "REGULATIONVALUE", "Regulation Value",
+    "EXPERIMENT",  "REG_VAL");
+
+$cgnumber = new DB_Entity("FULL_V", "CGNUMBER", "CG Number");
+$probeid = new DB_Entity("FULL_V", "PROBEID", "Probe Id");
+$fbcgnumber = new DB_Entity("FULL_V", "FBCGNUMBER", "Flybase Number");
+$genename = new DB_Entity("FULL_V", "GENENAME", "Gene Name");
+$gonumber = new DB_Entity("FULL_V", "GONUMBER", "GO Number");
 
 /*
  *

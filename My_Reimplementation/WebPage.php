@@ -2,21 +2,20 @@
 
 require_once("Controls.php");
 class WebPage {
-    public    $title;
-    public    $js;
-    public  $authorization;
-    public  $content;
+    public  $title;
 
     public function prepare() {
         initialize_session();
     }
 
+    public function print_js() {}
+    public function print_content() {}
+    public function cleanup(){}
+
     public function display_page() {
         $this->prepare();
 
         $title = $this->title;
-        $js = $this->js;
-        $content = $this->content;
         echo <<< EOT
 <!DOCTYPE html>
 <html>
@@ -24,12 +23,15 @@ class WebPage {
     <title> PADMA: $title </title>
     <link rel="stylesheet" href="css/style.css" type="text/css" />
     <meta charset="UTF-8">
-    $js
+EOT;
+    $this->print_js();
+
+    echo <<< EOT
     </head>
     <body>
 EOT;
         require("header.php");
-        echo $content;
+        $this->print_content();
         require("footer.php");
 
             echo <<< EOT

@@ -52,9 +52,6 @@ EOT;
 }
 
 
-
-
-
 function make_update_profile_btn () {
   echo <<< EOT
   <form  action='newprofile.php' method='post' name='profilemanagement'>
@@ -62,10 +59,6 @@ function make_update_profile_btn () {
 	  </form>
 EOT;
 }
-
-
-
-
 
 
 /*************************
@@ -89,6 +82,47 @@ function make_data_mgmt_button() {
 
 EOT;
 }
+
+function make_upload_experiment_widget() {
+    echo <<< EOT
+    <form  action='uploadagreement.php' method='post' name='index'>
+	<input id='btnLogin' type='submit' value='Load Experiment Data' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
+EOT;
+}
+
+function make_delete_experiment_widget() {
+    echo <<< EOT
+    <form  action='deleteExpResearcher.php' method='post' name='index'>
+	<input id='btnLogin' type='submit' value='Delete Experiment Data' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
+EOT;
+}
+
+function make_edit_experiment_widget() {
+    echo <<< EOT
+    <form  action='SelectExperimentResearcher.php' method='post' name='index'>
+	<input id='btnLogin' type='submit' value='Enter/Edit Experiment Detail' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
+EOT;
+
+}
+function make_upload_reference_data_widget() {
+    echo <<< EOT
+
+    <form  action='loaderStart.php' method='post' name='usermanagement'>
+	<input id='btnLogin' type='submit' value='Load Reference Data' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
+EOT;
+    }
+
+function make_delete_reference_data_widget() {
+    echo <<< EOT
+	<form  action='deleteRefAdministrator.php' method='post' name='index'>
+	<input id='btnLogin' type='submit' value='Delete Reference Data' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
+EOT;
+}
+
+
+
+
+
 
 
 

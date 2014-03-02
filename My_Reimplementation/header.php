@@ -10,7 +10,7 @@
         <?php
         if (session_id() == "") session_start();
 
-        $role=$_SESSION['role'];
+        $role = isset($_SESSION['role']) ? $_SESSION['role'] : "";
 
         if($role == "Administrator")
         {

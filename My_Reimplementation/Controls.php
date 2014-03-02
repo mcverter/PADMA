@@ -5,9 +5,9 @@ function initialize_session() {
 }
 
 function connect_to_db() {
-    $db_UN=$_SESSION['un'];
-    $db_PASS=$_SESSION['pass'];
-    $db_DB=$_SESSION['db'];
+    $db_UN = "drosophilarc2";
+    $db_PASS= "drosopivot";
+    $db_DB= "//127.0.0.1/ORATIKI";
 
     set_time_limit(6000);
     $db_conn = ocilogon($db_UN, $db_PASS, $db_DB);
