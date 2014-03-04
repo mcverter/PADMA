@@ -47,7 +47,7 @@ EOT;
 
     <p><div id="access"></div></p>
 
-    <button style="width:65;height:65" onClick="utility('AssignRight')"><b>Submit</b></button>
+    < button style="width:65;height:65" onClick="utility('AssignRight')"><b>Submit</b></button>
     </form>
     </fieldset>
 

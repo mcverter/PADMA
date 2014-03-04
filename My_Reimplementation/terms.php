@@ -1,19 +1,14 @@
 <?php
-include ("control_functions.php");
-initialize_session();
-?>
 
+require_once("WebPage.php");
 
-<!DOCTYPE html>
+class termsOfUse extends WebPage {
+    function __construct() {
+        parent::__construct();
+    }
 
-<head>
-    <title>PADMA Database</title>
-    <meta charset="utf-8">
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-</head>
-<body>
-  <?php  include("header.php");  ?>
-
+    function print_content()  {
+        echo <<< EOL
   <form class="central_widget" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
     <h2> PLEASE READ THESE TERMS OF USE CAREFULLY BEFORE USING <a href="http://padmadatabase.org">http://padmadatabase.org</a>, INCLUDING THE PATHOGEN ASSOCIATED DROSOPHILA MICROARRAY (PADMA) DATABASE (the "Site").</h2>
     <input type="radio" NAME="terms" VALUE="agree">Agree</input>
@@ -94,9 +89,13 @@ initialize_session();
   include("footer.php");
   ?>
   </div>
-</body>
-</html>
+EOL;
+    }
+}
+$toe = new termsOfUse();
+$toe->display_page();
 
+?>
 
 
 
