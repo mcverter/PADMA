@@ -1,38 +1,6 @@
 <?php
 
-function make_search_panel() {
-  $string = <<<HERE
-    <div id='search_panel'> 
-       %s
-       %s
-       %s
-    </div>
-HERE;
 
-  printf($string, 
-	 make_quick_search_button(),
-	 make_advanced_query_button(),
-	 make_refined_search_button());
-
-  }
-
-function make_quick_search_button() {
-  echo <<< EOT
-    <input id='QuickSearch'  type='button' value='Quick Gene Search' class="search_button" onclick="submit_form(this.id)"><br>
-EOT;
-}
-
-function make_advanced_query_button() {
-  echo <<< EOT
-    <input id='AdvancedQuery'  type='button' value='Advanced Query' class="search_button" onclick="submit_form(this.id)"><br>
-EOT;
-}
-
-function make_refined_search_button(){
-  echo <<< EOT
-    <input id='RefineSearch'    type='button' value='Refined Search' class='search_button' onclick="submit_form(this.id)">
-EOT;
-}
 
 function make_experiment_list_panel() {
     $string = <<<HERE
@@ -51,37 +19,52 @@ function make_experiment_list_button() {
 EOT;
 }
 
-
-function make_update_profile_btn () {
-  echo <<< EOT
-  <form  action='newprofile.php' method='post' name='profilemanagement'>
-	    <input id='btnLogin' type='submit' value='Your Profile Update' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>;
-	  </form>
+function make_control_button ($href, $button_text) {
+    echo <<< EOT
+    <div class="control_button">
+      <a href="{$href}">
+	    <input type='button' value='{$button_text}'/>
+       </a>
+    </div>
 EOT;
+
+}
+function make_update_profile_btn () {
+    make_control_button("newprofile.php", "Edit Profile");
 }
 
 
-/*************************
-*
-*
-*************************/
-
 function make_user_mgmt_button() {
-  echo <<< EOT
-    <form  action='usermanagement.php' method='post' name='usermanagement'>
-    <input id='btnLogin' type='submit' value='User Setup' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
-    </form>
-EOT;
+    make_control_button("usermanagement.php", "User Setup");
 }
 
 function make_data_mgmt_button() {
-  echo <<< EOT
-
-    <form  action='DataManagement.php' method='post' name='index'>
-	    <input id='DataManagement' type='submit' value='Data Management' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
-
-EOT;
+    make_control_button("DataManagement.php", 'Data Management');
 }
+
+function make_quick_search_button() {
+    make_control_button("QuickSearch.php", "Quick Search");
+}
+
+function make_advanced_query_button() {
+    make_control_button("AdvancedSearch.php", "Advanced Search");
+}
+
+function make_refined_search_button(){
+    make_control_button("RefinedSearch.php", "Refined Search");
+}
+
+function make_search_panel() {
+
+    echo "<div id='search_panel'>";
+    make_quick_search_button();
+    make_advanced_query_button();
+    make_refined_search_button();
+    echo "</div>";
+
+}
+
+
 
 function make_upload_experiment_widget() {
     echo <<< EOT
@@ -89,7 +72,6 @@ function make_upload_experiment_widget() {
 	<input id='btnLogin' type='submit' value='Load Experiment Data' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
 EOT;
 }
-
 function make_delete_experiment_widget() {
     echo <<< EOT
     <form  action='deleteExpResearcher.php' method='post' name='index'>
@@ -114,6 +96,7 @@ EOT;
 
 function make_delete_reference_data_widget() {
     echo <<< EOT
+
 	<form  action='deleteRefAdministrator.php' method='post' name='index'>
 	<input id='btnLogin' type='submit' value='Delete Reference Data' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
 EOT;

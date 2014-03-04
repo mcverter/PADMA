@@ -1,5 +1,5 @@
 <?php
-require_once("WebPage.php");
+require_once(__DIR__ . "/../templates/WebPage.php");
 
 class DocumentPage extends WebPage {
 
@@ -46,6 +46,4 @@ EOT;
     }
 }
 
-$dp = new DocumentPage();
-$dp->display_page();
 ?>

@@ -1,5 +1,5 @@
 <?php
-require_once("WebPage.php");
+require_once(__DIR__ . "/../templates/WebPage.php");
 
 class FAQPage extends WebPage {
 
@@ -159,9 +159,6 @@ class FAQPage extends WebPage {
 EOT;
     }
 }
-
-$fp = new FAQPage();
-$fp->display_page();
 
 ?>
 

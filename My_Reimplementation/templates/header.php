@@ -1,7 +1,8 @@
+
 <div id="header">
     <div id="banner">
-        <img alt="ccny" src="images/ccnylogo2.png"/>
-        <img id="headertext" alt="Welcome to Padma!" src='images/headertext.png' />
+        <img alt="ccny" src="../images/ccnylogo2.png"/>
+        <img id="headertext" alt="Welcome to Padma!" src='../images/headertext.png' />
     </div>
     <ul class="menu">
         <li><a href="index.php" title="PADMA Home Page">Home</a></li>
@@ -18,7 +19,7 @@
      <li><a href="EditProfile.php" title="Profile Management">Update Profile</a></li>
      <li><a href="usermanagement.php" title="User Management">User Setup</a></li>
      <li><a href="DataManagement.php" title="Data Management">Data Management</a></li>
-     <li><a href="logout.php" title="Logout">Log Out</a></li>
+     <li><a href="index.php?logout=true" title="Logout">Log Out</a></li>
 EOT;
         }
         else if ($role =="Researcher")
@@ -26,7 +27,7 @@ EOT;
             echo <<<EOT
      <li><a href="newprofile.php" title="Profile Management">Update Profile</a></li>
      <li><a href="DataManagement.php" title="Data Management">Data Management</a></li>
-     <li><a href="logout.php" title="Logout">Log Out</a></li>
+     <li><a href="index.php?logout=true" title="Logout">Log Out</a></li>
 
 EOT;
 
@@ -35,7 +36,7 @@ EOT;
         {
             echo <<<EOT
      <li><a href="newprofile.php" title="Profile Management">Update Profile</a></li>
-     <li><a href="logout.php" title="Logout">Log Out</a></li>
+     <li><a href="index.php?logout=true" title="Logout">Log Out</a></li>
 
 EOT;
 
@@ -58,3 +59,4 @@ EOT;
     </ul>
 </div>
 
+<div class="main">

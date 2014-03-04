@@ -1,5 +1,5 @@
 <?php
-require_once("WebPage.php");
+require_once(__DIR__ . "/../templates/WebPage.php");
 
 class ContactPage extends WebPage {
 
@@ -30,8 +30,6 @@ public function print_content() {
 EOT;
 }
 }
-$cp = new ContactPage();
-$cp->display_page();
 
 
 ?>

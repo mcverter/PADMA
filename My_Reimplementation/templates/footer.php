@@ -1,3 +1,6 @@
+
+</div>
+
 <div>
     <ul class="menu">
         <li><a href="index.php" title="PADMA Home Page">Home</a></li>

@@ -1,7 +1,7 @@
 <?php
-require_once("WebPage.php");
+require_once(__DIR__ . "/../templates/WebPage.php");
 
-class ContactPage extends WebPage {
+class AboutUsPage extends WebPage {
 
     public function __construct() {
         parent::__construct();
@@ -135,8 +135,6 @@ EOT;
     }
 }
 
-$cp = new ContactPage();
-$cp->display_page();
 
 ?>
 
