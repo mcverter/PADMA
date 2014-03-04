@@ -1,52 +1,37 @@
 <?php
-require ("../templates/WebPage.php");
-require ("../widgets/search_widgets.php");
+require_once("WebPage.php");
+require_once("WidgetMaker.php");
+class SearchPage extends WebPage {
+    function __construct() {
+        parent::__construct();
+        $this->title=" Search The Database ";
+    }
 
-initialize_session();
-$db_conn = connect_to_db();
-$html_head("Search");
-?>
-
-<?php
-include("control_functions.php");
-initialize_session();
-include("user_control_buttons.php");
-?>
-
-<!DOCTYPE html>
-<html>
-<head>
-    <title>PADMA Database</title>
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-
-    <script>
+    function print_js() {
+        echo <<< EOT
+        <script>
         function submit_form(action) {
             document.forms["PickSearch"].action = action + '.php';
             document.forms["PickSearch"].submit();
         }
     </script>
-</head>
+EOT;
 
-<body>
-<?php
-//include the header page
-if (session_id() == "") session_start();
-include("header.php");
-?>
+    }
+    function print_content() {
+        echo <<< EOT
 
 <h2> Explore the Database </h2>
 <form class="central_widget" method="post" id="PickSearch">
     <legend> Pick One ... </legend>
-    <?php search_panel() ?>
+EOT;
+
+    make_search_panel();
+        echo <<< EOT
 
 </form>
-
-<?php
-//include the footer page
-include("footer.php");
-?>
-</body>
-</html>
-
-
-
+EOT;
+    }
+}
+$sp = new SearchPage();
+$sp->display_page();

@@ -1,9 +1,15 @@
 <?php
 require_once("WebPage.php");
 
-$faq_page= new WebPage();
-$faq_page->title = "FAQ";
-$faq_page->content =<<<EOT
+class FAQPage extends WebPage {
+
+    public function __construct() {
+        parent::__construct();
+        $this->title = " FAQ ";
+    }
+
+    public function print_content() {
+        echo <<<EOT
 
 <div class="central_widget">
 
@@ -151,8 +157,11 @@ $faq_page->content =<<<EOT
 
 
 EOT;
+    }
+}
 
-$faq_page->display_page();
+$fp = new FAQPage();
+$fp->display_page();
 
 ?>
 

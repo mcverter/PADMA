@@ -1,15 +1,13 @@
 <?php
 
-class SearchPage extends WebPage {
+class SearchPage extends DatabaseConnectionPage {
 
-    protected $db_conn;
     protected $search_type;
     protected $text_input_widgets;
     protected $select_widgets;
 
     public function __construct($title, $type) {
         parent::__construct($title);
-        $this->db_conn = connect_to_db();
         $this->search_type = new SearchType($search_type);
     }
 

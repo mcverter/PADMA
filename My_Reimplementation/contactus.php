@@ -1,10 +1,16 @@
 <?php
 require_once("WebPage.php");
 
+class ContactPage extends WebPage {
 
-$contact_page= new WebPage();
-$contact_page->title = "Contact Us";
-$contact_page->content =<<<EOT
+public function __construct() {
+    parent::__construct();
+    $this->title = " Contact Us ";
+}
+
+public function print_content() {
+    echo <<<EOT
+
     <div class="centered_form">
       <p class="instructions">&nbsp;&nbsp;Send your inquiry or problem &#8212; we will respond you!
       </p>
@@ -17,13 +23,16 @@ $contact_page->content =<<<EOT
 	  <label for="comments"> Comments</label>
 	  <textarea id="comments" rows="6" cols="50"></textarea><br>
 	</fieldset>
+
 	<input type="submit" value="Send">
       </form>
     </div>
 EOT;
+}
+}
+$cp = new ContactPage();
+$cp->display_page();
 
-
-$contact_page->display_page();
 
 ?>
 

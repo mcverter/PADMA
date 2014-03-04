@@ -1,8 +1,8 @@
 <?php
 class PickSearch extends WebPage {
   public function __construct($title, $type) {
-    $this->title = "Pick Search";
     parent::__construct($this->title);
+    $this->title = "Pick Search";
     $this->search_type = new SearchType($search_type);
   }
 

@@ -1,20 +1,20 @@
 <?php
 
 require_once("Controls.php");
-class WebPage {
-    public  $title;
 
-    public function prepare() {
+class WebPage {
+
+    protected $title;
+
+    public function __construct() {
         initialize_session();
     }
 
     public function print_js() {}
     public function print_content() {}
-    public function cleanup(){}
+    public function cleanup() {}
 
     public function display_page() {
-        $this->prepare();
-
         $title = $this->title;
         echo <<< EOT
 <!DOCTYPE html>
@@ -27,16 +27,20 @@ EOT;
     $this->print_js();
 
     echo <<< EOT
+
     </head>
     <body>
 EOT;
+
         require("header.php");
+
         $this->print_content();
+
         require("footer.php");
 
             echo <<< EOT
-    </head>
-    <body>
+    </body>
+    </html>
 EOT;
 
     }

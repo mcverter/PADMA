@@ -1,14 +1,21 @@
 <?php
 require_once("WebPage.php");
 
-$about_page= new WebPage();
-$about_page->title = "About Us";
-$about_page->content =<<<EOT
+class ContactPage extends WebPage {
+
+    public function __construct() {
+        parent::__construct();
+        $this->title = " About Us ";
+    }
+
+    public function print_content() {
+        echo <<<EOT
 
     <div class="centered_exposition">
       <h2>About Us</h2>
       <p>
-	We are a group of academic researchers and computer scientists looking to bridge the
+	We are a group of academic researchers and
+	computer scientists looking to bridge the
 	gap between the voluminous microarray data
 	in the public domain and difficulties in
 	accessing these datasets.  Specifically, we
@@ -125,8 +132,11 @@ $about_page->content =<<<EOT
       </div>
     </div>
 EOT;
+    }
+}
 
-$about_page->display_page();
+$cp = new ContactPage();
+$cp->display_page();
 
 ?>
 

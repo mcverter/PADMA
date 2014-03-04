@@ -1,9 +1,14 @@
 <?php
 require_once("WebPage.php");
 
-$index_page= new WebPage();
-$index_page->title = "Index";
-$index_page->content =<<<EOT
+class IndexPage extends WebPage {
+
+    public function __construct() {
+      parent::__construct();
+        $this->title = " Welcome to Padma! ";
+    }
+    public function print_content() {
+        echo <<<EOT
     <div class="central_widget">
       <p>
 	<img id="dropso" src="images/SDNA_tsmall.png" alt="drosophila">
@@ -14,8 +19,10 @@ $index_page->content =<<<EOT
     </div>
 
 EOT;
-
-$index_page->display_page();
+    }
+}
+$ip = new IndexPage();
+$ip->display_page();
 
 ?>
 

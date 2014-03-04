@@ -1,9 +1,15 @@
 <?php
 require_once("WebPage.php");
 
-$document_page= new WebPage();
-$document_page->title = "Documents";
-$document_page->content =<<<EOT
+class DocumentPage extends WebPage {
+
+    public function __construct() {
+        parent::__construct();
+        $this->title = " Documents ";
+    }
+
+    public function print_content() {
+        echo <<<EOT
 
     <div class="centered_exposition">
       <h2>User Basics</h2>
@@ -37,5 +43,9 @@ $document_page->content =<<<EOT
       </dl>
     </div>
 EOT;
+    }
+}
 
-$document_page->display_page();
+$dp = new DocumentPage();
+$dp->display_page();
+?>

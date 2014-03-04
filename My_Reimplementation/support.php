@@ -1,9 +1,16 @@
 <?php
 require_once("WebPage.php");
 
-$support_page= new WebPage();
-$support_page->title = "Supports";
-$support_page->content =<<<EOT
+class SupportPage extends WebPage {
+
+    public function __construct() {
+        parent::__construct();
+        $this->title = " Support ";
+    }
+
+    public function print_content() {
+        echo <<<EOT
+
     <div class="central_widget">
       <h2>PADMA Supporting Status</h2>
       <hr>
@@ -38,8 +45,9 @@ $support_page->content =<<<EOT
       </ul>
     </div>
 EOT;
-
-
-$support_page->display_page();
+    }
+}
+$sp = new SupportPage();
+$sp->display_page();
 
 ?>

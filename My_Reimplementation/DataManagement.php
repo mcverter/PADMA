@@ -3,9 +3,10 @@ require_once("WebPage.php");
 require_once("WidgetMaker.php");
 
 class DataManagement extends WebPage {
-    public function prepare() {
+
+    public function __construct() {
+        parent::__construct();
         check_role('ar');
-        parent::prepare();
     }
 
     function print_content() {
@@ -18,19 +19,19 @@ EOT;
         $role = $_SESSION['role'];
       if ($role=="Researcher")
       {
-          upload_experiment_widget();
-          delete_experiment_widget();
-          edit_experiment_widget();
+          make_upload_experiment_widget();
+          make_delete_experiment_widget();
+          make_edit_experiment_widget();
       }
 
       if ($role=="Administrator")
       {
-          upload_experiment_widget();
-          delete_experiment_widget();
-          edit_experiment_widget();
+          make_upload_experiment_widget();
+          make_delete_experiment_widget();
+          make_edit_experiment_widget();
 
-          upload_reference_data_widget();
-          delete_reference_data_widget();
+          make_upload_reference_data_widget();
+          make_delete_reference_data_widget();
       }
 
         echo <<< EOT
@@ -42,7 +43,8 @@ EOT;
     }
 }
 
-
+$dm = new DataManagement();
+$dm->display_page();
 
 
 

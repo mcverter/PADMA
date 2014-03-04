@@ -15,7 +15,7 @@
         if($role == "Administrator")
         {
             echo <<<EOT
-     <li><a href="newprofile.php" title="Profile Management">Update Profile</a></li>
+     <li><a href="EditProfile.php" title="Profile Management">Update Profile</a></li>
      <li><a href="usermanagement.php" title="User Management">User Setup</a></li>
      <li><a href="DataManagement.php" title="Data Management">Data Management</a></li>
      <li><a href="logout.php" title="Logout">Log Out</a></li>

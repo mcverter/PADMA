@@ -1,7 +1,5 @@
 <?php
 
-
-
 class DB_Entity {
     public $table_name;
     public $table_col;
@@ -23,8 +21,11 @@ class DB_Entity {
     function make_text_input_widget()
     {
         $view_col = $this->view_col;
+        $label = $this->html_label;
         echo <<< EOT
-    <input name='$view_col' type='text' />
+    <label for='{$view_col}'> {$label} </label>
+    <input name='{$view_col}' type='text' />
+    <br />
 EOT;
     }
 
@@ -35,12 +36,15 @@ EOT;
 
         $view_col = $this->view_col;
 
+        $label = $this->html_label;
+
         $query = "select distinct $table_col from $table_name where RESTRICTED ='0' ";
         if (isset($userid) && ! empty($userid)) {
             $query .= "  UNION select distinct $table_col from $table_name where RESTRICTED ='1' and CREATED_BY='$userid' order by 1";
         }
 
 
+        echo "<label for='{$view_col}'> {$label} </label>";
         echo "<select name='$view_col' multiple='multiple'>\n";
         echo "\t<option value=0>ALL</option>\n";
 
@@ -53,7 +57,111 @@ EOT;
         {
             echo "\t<option value=$idx>" . $row[$table_col] . "</option>\n";
         }
-        echo "</select>";
+        echo "</select>\n<br />";
+    }
+
+    static function delete_experiment ($db_conn, $exName) {
+        $cmdstr = "delete from EXPERIMENT where EXP_NAME='{$exName}'";
+        $cmdstr2 = "delete from EXP_MASTER where EXP_NAME='{$exName}'";
+        $parsed = ociparse($db_conn, $cmdstr);
+        ociexecute($parsed);
+        $parsed = ociparse($db_conn, $cmdstr2);
+        ociexecute($parsed);
+
+    }
+    static function make_countries_widget($db_conn, $country) {
+        echo <<< EOT
+            <label for="country">Country:</label>c
+            <select name="country" style="width:92%">
+
+EOT;
+        $cmdCountry = "select country,countryid from country order by countryid";
+        $parsed = ociparse($db_conn, $cmdCountry);
+        ociexecute($parsed);
+        $totalCountry = ocifetchstatement($parsed, $results);
+
+        for ($i=0 ; $i < $totalCountry; $i++) {
+            echo "<option value=" . $results["COUNTRYID"][$i] ;
+            if ($country == $results["COUNTRY"][$i]) { echo " selected ";}
+            echo  ">" . $results["COUNTRY"][$i] . "</option>";
+        }
+        oci_free_statement($parsed);
+
+        echo <<< EOT
+
+        </select>
+EOT;
+    }
+
+
+    static function get_user_data ($db_conn, $userid) {
+
+        //obtain this user's profile
+        $cmdName = "select title,fname, lname, mname,add_1,add_2,city,state,zip,country,phone,email,ind,prof,updated_by,updated_on from client where user_id = '".$userid."'";
+        $parsed = ociparse($db_conn, $cmdName);
+        ociexecute($parsed);
+        $result = oci_fetch_array($parsed, OCI_ASSOC+OCI_RETURN_NULLS);
+        if ($result == null) {
+            echo "<font color='red'>";
+            echo "<b>ERROR: invalid user ID (internal logic error), please contact PADMA administrator.</b>";
+            echo "</font>";
+            echo "<br /><a title='logout' href='index.php'>Click Here</a> to go back to home page";
+            oci_free_statement($parsed);
+            exit;
+        }
+        return $result;
+    }
+
+    static function make_experiment_list_widget($db_conn) {
+        $cmdCountry = "select EXP_NAME from EXP_MASTER where RESTRICTED ='0' order by EXP_NAME";
+        $parsed = ociparse($db_conn, $cmdCountry);
+        ociexecute($parsed);
+        $totalCountry = ocifetchstatement($parsed, $results);
+        for ($i=0;$i<$totalCountry;$i++) {
+            echo "<option value=\"" . $results["EXP_NAME"][$i] . "\">" . $results["EXP_NAME"][$i] . "</option>";
+        }
+    }
+
+    static function make_new_users_widget($db_conn) {
+        $cmdName = "select c_id,fname,lname from client where ACC_RIGHT_ID = 0 order by lname ";
+        $parsed = ociparse($db_conn, $cmdName);
+        ociexecute($parsed);
+        $totalName = ocifetchstatement($parsed, $results);
+        echo "<select name='country' style='width:92%' size='5' onchange='showUserInfo(this.value)'>";
+        for ($i=0;$i<$totalName;$i++)
+        {
+            echo "<option value=" . $results["C_ID"][$i] . ">" . strtoupper($results["LNAME"][$i]) .", ". strtoupper($results["FNAME"][$i]). "</option>";
+        }
+        echo"</select>";
+    }
+
+    static function make_existing_users_widget($db_conn) {
+
+        $cmdName = "select c_id,fname,lname from client where ACC_RIGHT_ID > 0 order by lname ";
+
+        $parsed = ociparse($db_conn, $cmdName);
+        ociexecute($parsed);
+        $totalName = ocifetchstatement($parsed, $results);
+        echo "<select name='country' style='width:92%' size='8' onchange='showUserInfo(this.value)'>";
+        for ($i=0;$i<$totalName;$i++)
+        {
+            echo "<option value=" . $results["C_ID"][$i] . ">" . strtoupper($results["LNAME"][$i]) .", ". strtoupper($results["FNAME"][$i]). "</option>";
+        }
+        echo"</select>";
+    }
+
+    function make_access_right_widget($db_conn) {
+        $cmdName = "select ACC_RIGHT_ID,ACC_RIGHT_DESC from ACCESS_RIGHT order by ACC_RIGHT_DESC ";
+        $parsed = ociparse($db_conn, $cmdName);
+        ociexecute($parsed);
+        $totalName = ocifetchstatement($parsed, $results);
+        echo "<select name='accright'>";
+
+        for ($i=0;$i<$totalName;$i++)
+        {
+            echo "<option value=" . $results["ACC_RIGHT_ID"][$i] . ">" . ($results["ACC_RIGHT_DESC"][$i]). "</option>";
+        }
+        echo"</select>";
     }
 
 }
@@ -78,6 +186,12 @@ $probeid = new DB_Entity("FULL_V", "PROBEID", "Probe Id");
 $fbcgnumber = new DB_Entity("FULL_V", "FBCGNUMBER", "Flybase Number");
 $genename = new DB_Entity("FULL_V", "GENENAME", "Gene Name");
 $gonumber = new DB_Entity("FULL_V", "GONUMBER", "GO Number");
+
+
+
+
+
+
 
 /*
  *
