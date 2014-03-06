@@ -1,5 +1,6 @@
 <?php
 
+
 function initialize_session() {
     session_start();
 }
