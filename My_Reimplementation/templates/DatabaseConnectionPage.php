@@ -1,6 +1,6 @@
 <?php
 require_once("WebPage.php");
-require_once("DB_Entity.php");
+require_once("DB_WidgetMaker.php");
 
 class DatabaseConnectionPage extends WebPage {
     protected $db_conn;

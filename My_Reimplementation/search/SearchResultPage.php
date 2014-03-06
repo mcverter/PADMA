@@ -1,25 +1,21 @@
 <?php
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
-$full_view_cols = array(
-    "PROBEID"=> 1,
-    "CGNUMBER"=> 1,
-    "GENENAME"=> 1,
-    "FBCGNUMBER"=> 1,
-    "BIOFUNCTION"=> 1,
-    "GONUMBER"=> 1,
-    "EXPERIMENTNAME"=> 1,
-    "ACTIVECATEGORY"=> 1,
-    "ACTIVESPECIES"=> 1,
-    "EXPERIMENTSUBJECT"=> 1,
-    "REGULATIONVALUE"=> 1,
-    "ADDITIONALINFO"=> 1,
-    "RESTRICTED"=> 1,
-    "CREATED_BY"=> 1,
-    "HOUR"=>1);
+$advanced_cols = Array (
+    "PROBEID",
+    "CGNUMBER",
+    "GENENAME",
+    "FBCGNUMBER",
+    "EXPERIMENTNAME",
+    "ACTIVECATEGORY",
+    "ACTIVESPECIES",
+    "EXPERIMENTSUBJECT",
+    "GONUMBER",
+    "BIOFUNCTION");
 
-$full_view = "FULL_V"
-class SearchResultPage extends WebPage {
-    protected $db_conn;
+$full_view = "FULL_V";
+
+class SearchResultPage extends DatabaseConnectionPage {
 
     function __construct(){
         $this->title = "Search Results";
@@ -28,10 +24,11 @@ class SearchResultPage extends WebPage {
 
     function extract_csv_from_array($arr)
     {
-        $csv = " ( '" . array_pop($arr) . "'";
+
+        $csv = " ( '" . unescape_space(array_pop($arr)) . "'";
         foreach ($arr as $v)
         {
-            $csv .= " , '$v' ";
+            $csv .= " , '" . unescape_space($v) ."' ";
         }
         $csv .= ") ";
         return $csv;
@@ -39,57 +36,69 @@ class SearchResultPage extends WebPage {
 
     function extract_csv_from_string ($str)
     {
+        return $this->extract_csv_from_array(explode(',', $str ));
     }
 
     function build_query() {
-        $selected_categories = "  ";
-        $constraints = "1 ";
+        global $full_view;
+        error_log("post vars " . print_r($_POST, true));
+        $searchType = $_POST['search_type'];
+        if ($searchType == "advanced") {
+            global $advanced_cols;
+            $cols = $advanced_cols;
+        }
 
-        foreach($_POST as $post_ey=>$post_val)
+        $constraints = " 1=1 ";
+
+        foreach($cols as $col)
         {
-            if (array_key_exists($post_key, $full_view_columns)) {
-                $selected_categories .= " $post_key , ";
-                if (empty($post_val)) {}
-                elseif (is_array($post_val)) {
-                    $constraints .= " AND $post_val IN " .
-                        extract_csv_from_array($post_val)
-                }
-                else {
-                    $constraints .= " AND $post_val IN " .
-                        extract_csv_from_string($post_val);
+            $post_val = $_POST[$col];
+
+            if (is_array($post_val) && !empty($post_val)) {
+                $constraints .= " AND $col IN " .
+                    $this->extract_csv_from_array($post_val);
+            }
+
+            else  {
+                trim($post_val);
+                if (!empty ($post_val)) {
+                $constraints .= " AND $col IN " .
+                    $this->extract_csv_from_string($post_val);
                 }
             }
         }
-        $selected_categories .=  " ADDITIONALINFO, HOUR  ";
-        $query = " SELECT $selected_categories FROM $full_view WHERE $constraints "
+
+        $selected_categories = implode(" , ", $cols) .  " , ADDITIONALINFO, HOUR  ";
+        $query = " SELECT $selected_categories FROM $full_view WHERE $constraints ";
 
         if (! isset($_POST['userid']) && ! empty($_POST['userid']))
         {
             $query =
-                $query + "  AND RESTRICTED='0'  UNION  " +
-                $query + " AND RESTRICTED='1' AND CREATED BY " + $_POST['userid'];
+                $query . "  AND RESTRICTED='0'  UNION  " .
+                $query . " AND RESTRICTED='1' AND CREATED BY " . $_POST['userid'];
         }
         else {
-            $query += "  AND RESTRICTED='0' ";
+            $query .= "  AND RESTRICTED='0' ";
         }
 
 
+        error_log("Query is " . $query);
         $db_conn = $this->db_conn;
-        $parsed = ociparse($db_conn, $query_string);
+        $parsed = ociparse($db_conn, $query);
         ociexecute($parsed);
         $numrows = ocifetchstatement($parsed, $results);
         if ($numrows > 1000) {
 
-                echo "<b>" .$numrows . " Results found</b><br>(Information listed below is partial view of search result)<br>";
-                $numrows=1000;
-            }
+            echo "<b>" .$numrows . " Results found</b><br>(Information listed below is partial view of search result)<br>";
+            $numrows=1000;
+        }
         else
-            {
-                echo "<b>" .$numrows . " Results found</b><br><br>";
-            }
+        {
+            echo "<b>" .$numrows . " Results found</b><br><br>";
+        }
 
         echo "<table>";
-        make_table_heading($selected_categories);
+//        make_table_heading($selected_categories);
 
         for ($i=0; $i<$numrows;$i++ )
         {
@@ -101,9 +110,12 @@ class SearchResultPage extends WebPage {
             }
 
         }
-        export();
+  //      export();
     }
 
+    function print_content() {
+        $this->build_query();
+    }
 }
 
 /*

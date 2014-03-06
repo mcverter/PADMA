@@ -1,27 +1,9 @@
 <?php
 
-class DB_Entity {
-    public $table_name;
-    public $table_col;
+class DB_WidgetMaker {
 
-    public $view_name;
-    public $view_col;
-
-    public $html_label;
-
-    public function __construct($vn, $vc, $hl, $tn="", $tc="" ) {
-        $this->table_name = $tn;
-        $this->table_col = $tc;
-        $this->view_name = $vn;
-        $this->view_col = $vc;
-        $this->html_label = $hl;
-    }
-
-
-    function make_text_input_widget()
+    static function make_text_input_widget($view_col, $label)
     {
-        $view_col = $this->view_col;
-        $label = $this->html_label;
         echo <<< EOT
     <label for='{$view_col}'> {$label} </label>
     <input name='{$view_col}' type='text' />
@@ -29,33 +11,88 @@ class DB_Entity {
 EOT;
     }
 
-    function make_select_input_widget($db_conn, $userid="")
-    {
-        $table_col = $this->table_col;
-        $table_name = $this->table_name;
 
-        $view_col = $this->view_col;
+    static function make_cgnumber_input() {
+        self::make_text_input_widget("CGNUMBER", "CG Number");
+    }
+    static function make_probeid_input() {
+        self::make_text_input_widget("PROBEID", "Probe Id");
+    }
+    static function make_genename_input() {
+        self::make_text_input_widget("GENENAME", "Gene Name");
+    }
 
-        $label = $this->html_label;
+    static function make_flybase_input() {
+        self::make_text_input_widget("FBCGNUMBER", "Flybase Number");
+    }
 
+    static function make_gonumber_input() {
+        self::make_text_input_widget("GONUMBER", "GO Number");
+    }
+
+
+    static function make_exp_name_select($db_conn, $userid) {
+        self::construct_experiment_table_query ($db_conn,  "EXP_NAME", "EXPERIMENT",
+            "EXPERIMENTNAME", "Experiment Name", $userid);
+    }
+
+    static function make_category_select($db_conn, $userid) {
+        self::construct_experiment_table_query ($db_conn, "CATG", "EXPERIMENT",
+            "ACTIVECATEGORY", "Active Category", $userid);
+    }
+
+    static function make_species_select($db_conn, $userid) {
+        self::construct_experiment_table_query ($db_conn, "SPEC",  "EXPERIMENT",
+            "ACTIVESPECIES", "Active Species", $userid);
+    }
+
+    static function make_subject_select($db_conn, $userid) {
+        self::construct_experiment_table_query ($db_conn, "SUBJ",  "EXPERIMENT",
+            "EXPERIMENTSUBJECT", "Experiment Subject",$userid);
+    }
+
+    static function make_regval_select($db_conn, $userid) {
+        self::construct_experiment_table_query ($db_conn, "REG_VAL", "EXPERIMENT", "REGULATIONVALUE", "Regulation Value", $userid);
+    }
+
+    static function make_biofunction_select($db_conn, $userid) {
+        $query = "select distinct BIOFUNCTION from REFERENCE_BIO order by BIOFUNCTION";
+        error_log("in biofunction query is " . $query);
+
+        self::make_select_input_widget ($db_conn, $query,
+            "BIOFUNCTION", "BIOFUNCTION", "Bio Function");
+    }
+
+
+    static function construct_experiment_table_query
+        ( $db_conn, $table_col, $table_name, $view_col, $label, $userid="")  {
         $query = "select distinct $table_col from $table_name where RESTRICTED ='0' ";
         if (isset($userid) && ! empty($userid)) {
             $query .= "  UNION select distinct $table_col from $table_name where RESTRICTED ='1' and CREATED_BY='$userid' order by 1";
         }
 
+        self::make_select_input_widget ($db_conn, $query, $table_col, $view_col, $label);
+	}
 
-        echo "<label for='{$view_col}'> {$label} </label>";
-        echo "<select name='$view_col' multiple='multiple'>\n";
+
+    static function make_select_input_widget
+    ( $db_conn, $query, $query_col, $name, $label)
+    {
+
+        $name = $name . "[]";
+        error_log("Query is " . $query);
+        echo "<label for='{$name}'> {$label} </label>";
+        echo "<select name='$name' multiple='multiple'>\n";
         echo "\t<option value=0>ALL</option>\n";
-
 
         $stdid= ociparse($db_conn, $query);
         ociexecute($stdid);
 
-        $idx = 1;
+#        $idx = 1;
         while ($row = oci_fetch_assoc($stdid))
         {
-            echo "\t<option value=$idx>" . $row[$table_col] . "</option>\n";
+            $val = $row[$query_col];
+            echo "\t<option value='" . escape_space($val) . "'> {$val} </option>\n";
         }
         echo "</select>\n<br />";
     }
@@ -150,7 +187,7 @@ EOT;
         echo"</select>";
     }
 
-    function make_access_right_widget($db_conn) {
+    static function make_access_right_widget($db_conn) {
         $cmdName = "select ACC_RIGHT_ID,ACC_RIGHT_DESC from ACCESS_RIGHT order by ACC_RIGHT_DESC ";
         $parsed = ociparse($db_conn, $cmdName);
         ociexecute($parsed);
@@ -164,28 +201,8 @@ EOT;
         echo"</select>";
     }
 
+
 }
-
-
-
-$exp_name = new DB_Entity("FULL_V", "EXPERIMENTNAME", "Experiment Name",
-    "EXPERIMENT", "EXP_NAME");
-$category = new DB_Entity("FULL_V", "ACTIVECATEGORY", "Active Category",
-    "EXPERIMENT", "CATG" );
-$species = new DB_Entity ("FULL_V", "ACTIVESPECIES", "Active Species",
-    "EXPERIMENT", "SPEC");
-$subject = new DB_Entity ("FULL_V", "EXPERIMENTSUBJECT", "Experiment Subject",
-    "EXPERIMENT", "SUBJ");
-$biofunction = new DB_Entity("FULL_V", "BIOFUNCTION", "Bio Function",
-    "REFERENCE_BIO", "BIOFUNCTION");
-$regval = new DB_Entity("FULL_V", "REGULATIONVALUE", "Regulation Value",
-    "EXPERIMENT",  "REG_VAL");
-
-$cgnumber = new DB_Entity("FULL_V", "CGNUMBER", "CG Number");
-$probeid = new DB_Entity("FULL_V", "PROBEID", "Probe Id");
-$fbcgnumber = new DB_Entity("FULL_V", "FBCGNUMBER", "Flybase Number");
-$genename = new DB_Entity("FULL_V", "GENENAME", "Gene Name");
-$gonumber = new DB_Entity("FULL_V", "GONUMBER", "GO Number");
 
 
 

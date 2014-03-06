@@ -6,7 +6,7 @@
     </div>
     <ul class="menu">
         <li><a href="index.php" title="PADMA Home Page">Home</a></li>
-        <li><a href="Search.php" title="Quick Search"> Search </a></li>
+        <li><a href="select_search.php" title="Quick Search"> Search </a></li>
         <li><a href="ListofExperiment.php" title="Experiment List"> Experiment List </a></li>
         <?php
         if (session_id() == "") session_start();

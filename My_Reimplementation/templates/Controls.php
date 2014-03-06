@@ -4,6 +4,14 @@ function initialize_session() {
     session_start();
 }
 
+function escape_space($string) {
+    return str_replace(' ', '^', $string);
+}
+
+function unescape_space($string) {
+    return str_replace('^', ' ', $string);
+}
+
 function connect_to_db() {
     $db_UN = "drosophilarc2";
     $db_PASS= "drosopivot";
