@@ -307,19 +307,18 @@ EOT;
 
 
 
-make_delete_reference_version_form() {
+static function make_delete_reference_version_form() {
 }
+
 static function make_edit_description_widget ($db_conn, $userid) {
 
-    echo <<<
+    echo <<< EOT
 
 	<div class="edit_description">
 	  <form name="form1" method="post">
 	    <h2>Experiment Name</h2>
-	    <?php
-	    echo "<b>" . $ExpName . "</b>";
-	    ?>
-<?php
+	    echo "<b>" . $ExpName . "</b>
+EOT;
 $str ="SELECT EXP_MASTER.* FROM EXP_MASTER WHERE EXP_MASTER.EXP_NAME = '".$ExpName."'";
 $parsed = ociparse($db_conn, $str);
 ociexecute($parsed);
@@ -327,11 +326,12 @@ $numrows = ocifetchstatement($parsed, $results);
 echo "<textarea  name='Description' rows ='15' cols='75' style='font-size:medium;font-family:verdana '>";
 echo  $results["EXP_DESC"][0];
 echo "</textarea>";
-?>
+    echo <<< EOT
+
 <input name="expName" type="hidden" value=<?php echo "\"$ExpName\"";?>
 <input name="btnSubmit" type="button" value="Save" style="width:65;height:65" onClick="save()"/>
 
-
+EOT;
 
 }
 

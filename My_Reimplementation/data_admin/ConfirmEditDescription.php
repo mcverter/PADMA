@@ -1,47 +1,38 @@
 <?php
-include ("control_functions.php");
-check_role('ar');
-initialize_session();
-$db_conn = connect_to_db();
+include (__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 
-$userid=strtoupper($_SESSION['userid']);
+class ConfirmEditDescriptionPage extends DatabaseConnectionPage {
+    function __construct(){}
+    function print_content() {
+        check_role('ar');
+        initialize_session();
+        $db_conn = connect_to_db();
 
-$expName= isset($_POST['expName'])? urldecode($_POST['expName']) : "";
-$desc= isset($_POST['desc'])? urldecode($_POST['desc']) : "";
+        $userid=strtoupper($_SESSION['userid']);
 
-if (empty($expName) || empty($desc)) {
-  ECHO "<font color='#FF0000'>Error! Invalid input formation, contact PADMA administrator</font>";
-  return;
+        $expName= isset($_POST['expName'])? urldecode($_POST['expName']) : "";
+        $desc= isset($_POST['desc'])? urldecode($_POST['desc']) : "";
+
+        if (empty($expName) || empty($desc)) {
+            ECHO "<font color='#FF0000'>Error! Invalid input formation, contact PADMA administrator</font>";
+            return;
+        }
+
+        $str ="update EXP_MASTER set EXP_DESC='".$desc."' WHERE EXP_MASTER.EXP_NAME = '".$expName."'";
+        $parsed = ociparse($db_conn, $str);
+        $execute=ociexecute($parsed);
+
+
+        if($execute)
+        {
+            edit_success_page();
+        }
+        else
+        {
+            edit_failure_page();
+        }
+
+
+    }
 }
-
-$str ="update EXP_MASTER set EXP_DESC='".$desc."' WHERE EXP_MASTER.EXP_NAME = '".$expName."'";
-$parsed = ociparse($db_conn, $str);
-$execute=ociexecute($parsed);
-
-
-if($execute)
-{
-  edit_success_page(); 
-}
-else
-{
-  edit_failure_page();
-}
-oci_close($db_conn);
-?>
-
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 

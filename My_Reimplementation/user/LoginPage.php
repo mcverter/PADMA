@@ -1,5 +1,5 @@
 <?php
-require_once("DatabaseConnectionPage.php");
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 class LogInPage extends DatabaseConnectionPage {
 
@@ -72,10 +72,5 @@ EOT;
     }
 }
 
-$lp = new LogIn();
-$lp->display_page();
- 
- 
- 
- 
+?>
  

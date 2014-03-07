@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
-require_once(__DIR__ . "/../templates/DB_WidgetMaker.php");
+require_once(__DIR__ . "/../widgets/DB_WidgetMaker.php");
 
 class SearchBase extends DatabaseConnectionPage {
     protected $db_conn;

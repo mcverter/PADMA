@@ -41,7 +41,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         	Title:&nbsp;&nbsp;
         </td>
         <td class='_50L'>&nbsp;<br />
-        	 <b>  strtoupper($results["TITLE"][0])  </b>                                                                                                                                     </td>
+        	 <b>  strtoupper([0])  </b>                                                                                                                                     </td>
     </tr>
     <tr>
         <td class='_50r'>

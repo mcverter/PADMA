@@ -4,9 +4,9 @@ require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 class CreateNewUserPage extends  DatabaseConnectionPage {
 
-function __construct() {}
-function print_content() {
-echo <<< EOT
+    function __construct() {}
+    function print_content() {
+        echo <<< EOT
 <!DOCTYPE html>
 <html>
   <head>
@@ -117,7 +117,7 @@ echo <<< EOT
     </script>
   </head>
   <body>
-    <?php
+
     //include the header page
     include("header.php");
     ?>
@@ -166,7 +166,7 @@ echo <<< EOT
 	  <input name="zip" type="text" style="width:90%" />
 	  Country:&nbsp;&nbsp;
 	  <select name='Country' style='width:92%'>
-	    <?php
+EOT;
 	    $cmdCountry = "select country,countryid from country order by countryid";
 	    $parsed = ociparse($db_conn, $cmdCountry);
 	    ociexecute($parsed);
@@ -176,7 +176,7 @@ echo <<< EOT
               echo "<option value=" . $results["COUNTRYID"][$i] . ">" . $results["COUNTRY"][$i] . "</option>";
 	    }
 	    oci_free_statement($parsed);
-	    ?>
+echo <<< EOT
 	  </select>
 	  Phone Number:&nbsp;&nbsp;
 	  <input name="phone" type="text" style="width:90%" />
@@ -190,14 +190,6 @@ echo <<< EOT
 
       <input name="btnSubmit" type="submit" value="Submit" />&nbsp;&nbsp;&nbsp;&nbsp;
 	</form>
-	<?php
-	//close database connection
-	oci_close($db_conn);
-	//include the header page
-	include("footer.php");
-	?>
-  </body>
-</html>
 
 EOT;
 }

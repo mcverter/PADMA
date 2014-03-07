@@ -1,24 +1,19 @@
 <?php
-include ("control_functions.php");
-check_role('a');
-initialize_session();
-$db_conn = connect_to_db();
-?>
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>PADMA Database</title>
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-    <meta charset="UTF-8">
-    <?php 
-    $ExpName = isset($_POST['expName'])? $_POST['expName'] : "";
-    if (empty($ExpName)) {
-      echo "ERROR: logic error";
-      exit;
+require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
+
+class EditDescriptionPage extends DatabaseConnectionPage {
+    function __construct() {
+        check_role('a');
     }
-    ?>
 
+    function print_content() {
+        $ExpName = isset($_POST['expName'])? $_POST['expName'] : "";
+        if (empty($ExpName)) {
+            echo "ERROR: logic error";
+            exit;
+        }
+        echo <<< EOT
     <script LANGUAGE="JavaScript" type="text/javascript">
      var xmlHttp
 
@@ -84,11 +79,10 @@ $db_conn = connect_to_db();
 	    ?>
 	  </form>
 	</div>
-    </body>
-</html>
+EOT;
 
-
-
+    }
+}
 
 
 

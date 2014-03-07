@@ -1,5 +1,4 @@
 <?php
-include ("control_functions.php");
 check_role('a');
 initialize_session();
 $db_conn = connect_to_db();
@@ -31,26 +30,11 @@ $userid=strtoupper($_SESSION['userid']);
     {
       echo "&nbsp;<br>";
     }
-    ?>
+    echo <<< EOT
     <form   action="insertReference.php" method="POST">
       <table class="headerImage"></table>
       <td ><h2><font color="#ffffff">Confirmation...</font></h2></td>
-      <?php
-      //Get sesisson veriable to connect to database
-      $db_UN=$_SESSION['un'];
-      $db_PASS=$_SESSION['pass'];
-      $db_DB=$_SESSION['db'];
-
-      //connection to the database
-      $db_conn = ocilogon($db_UN, $db_PASS, $db_DB);
-      if (! $db_conn)
-      {
-	$e = oci_error();
- 	print htmlentities($e['message']);
- 	exit;
-
-      }
-
+EOT;
 
       $PID=array();
       $cgNumber=array();

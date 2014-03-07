@@ -3,56 +3,49 @@ require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 class CreateProfilePage extends DatabaseConnectionPage {
 
-function print_content() {
-    $userid=strtoupper($_SESSION['userid']);
+    function print_content() {
+        $userid=strtoupper($_SESSION['userid']);
 
-if ($userid == "undefined") {
-  echo <<< EOT
+        if ($userid == "undefined") {
+            echo <<< EOT
   <font color='red'>
   <b>ERROR: undefined user ID (internal logic error), please contact PADMA administrator.</b>
   </font>
   <br /><a title='logout' href='index.php'>Click Here</a> to go back to home page
+EOT;
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>PADMA: Update Profile</title>
-    <meta charset="UTF-8">
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-  </head>
-  <?php
-  //obtain this user's profile
-  $cmdName = "select title,fname,lname,mname,add_1,add_2,city,state,zip,country,phone,email,ind,prof,updated_by,updated_on from client where user_id = '".$userid."'";
-  $parsed = ociparse($db_conn, $cmdName);
-  ociexecute($parsed);
-  $result = oci_fetch_array($parsed, OCI_ASSOC+OCI_RETURN_NULLS);
-  if ($result == null) {
-    echo "<font color='red'>";
-    echo "<b>ERROR: invalid user ID (internal logic error), please contact PADMA administrator.</b>";
-    echo "</font>";
-    echo "<br /><a title='logout' href='index.php'>Click Here</a> to go back to home page";
-    oci_free_statement($parsed);
-    exit;
-  }
-  $Title= strtoupper($result["TITLE"]);
-  $Lname= $result["LNAME"];
-  $Fname= $result["FNAME"];
-  $Mname= $result["MNAME"];
-  $Address1=$result["ADD_1"];
-  $Address2=$result["ADD_2"];
-  $City=$result["CITY"];
-  $State=$result["STATE"];
-  $Zip=$result["ZIP"];
-  $Country=$result["COUNTRY"];
-  $Phone=$result["PHONE"];
-  $Email=$result["EMAIL"];
-  $Ind=$result["IND"];
-  $Profession=$result["PROF"];
-  $UpdatedBy=$result["UPDATED_BY"];
-  $UpdatedOn=$result["UPDATED_ON"];
-  oci_free_statement($parsed);
-  ?>
+            //obtain this user's profile
+            $cmdName = "select title,fname,lname,mname,add_1,add_2,city,state,zip,country,phone,email,ind,prof,updated_by,updated_on from client where user_id = '".$userid."'";
+            $parsed = ociparse($db_conn, $cmdName);
+            ociexecute($parsed);
+            $result = oci_fetch_array($parsed, OCI_ASSOC+OCI_RETURN_NULLS);
+            if ($result == null) {
+                echo "<font color='red'>";
+                echo "<b>ERROR: invalid user ID (internal logic error), please contact PADMA administrator.</b>";
+                echo "</font>";
+                echo "<br /><a title='logout' href='index.php'>Click Here</a> to go back to home page";
+                oci_free_statement($parsed);
+                exit;
+            }
+            $Title= strtoupper($result["TITLE"]);
+            $Lname= $result["LNAME"];
+            $Fname= $result["FNAME"];
+            $Mname= $result["MNAME"];
+            $Address1=$result["ADD_1"];
+            $Address2=$result["ADD_2"];
+            $City=$result["CITY"];
+            $State=$result["STATE"];
+            $Zip=$result["ZIP"];
+            $Country=$result["COUNTRY"];
+            $Phone=$result["PHONE"];
+            $Email=$result["EMAIL"];
+            $Ind=$result["IND"];
+            $Profession=$result["PROF"];
+            $UpdatedBy=$result["UPDATED_BY"];
+            $UpdatedOn=$result["UPDATED_ON"];
+            oci_free_statement($parsed);
 
+            echo<<<EOT
   <script LANGUAGE="JavaScript" type="text/javascript">
    var xmlHttp;
    function validate(form1) {
@@ -220,7 +213,7 @@ if ($userid == "undefined") {
 
 	  <label for="country">Country:</label>
 	  <select name="country" style="width:92%">
-	    <?php
+EOT;
 	    $cmdCountry = "select country,countryid from country order by countryid";
 	    $parsed = ociparse($db_conn, $cmdCountry);
 	    ociexecute($parsed);
@@ -230,7 +223,7 @@ if ($userid == "undefined") {
               echo "<option value=" . $results["COUNTRYID"][$i] . ($Country == $results["COUNTRY"][$i]? " selected":"") . ">" . $results["COUNTRY"][$i] . "</option>";
 	    }
 	    oci_free_statement($parsed);
-	    ?>
+	echo <<< EOT
 	  </select>
 
 	  <label for="phone"> Phone Number:</label>
@@ -268,5 +261,5 @@ EOT;
 
 
 
-}
+    }
 }

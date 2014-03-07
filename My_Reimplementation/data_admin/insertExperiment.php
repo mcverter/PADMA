@@ -59,12 +59,6 @@ $userid=strtoupper($_SESSION['userid']);
 			$db_PASS=$_SESSION['pass'];
 			$db_DB=$_SESSION['db'];
 
-			//connection to the database
-			$db_conn = ocilogon($db_UN, $db_PASS, $db_DB);
-			if (! $db_conn)
-			{
-			  print_db_conn_failure( oci_error() );
-			}
 
 			$prob_id=array();
 			$exp_name=array();

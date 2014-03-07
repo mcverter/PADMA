@@ -74,7 +74,7 @@ function get_quick_search_widgets($db_conn) {
       <div class="selector">
         <label> Experiment Name: </label>
 EOT;
-    make_widget($db_conn, "EXP_NAME", $userid)
+    make_widget($db_conn, "EXP_NAME", $userid);
   echo <<< EOT
       </div>
 
@@ -160,18 +160,4 @@ function get_string_widgets()
       <input name="GONUMBER" type="text"><br>
 
 EOT;
-}
-
-
-class SearchType {
-    public $name;
-    public text_widgets();
-    public select_widgets();
-
-
-}
-
-
-class AdvancedSearch extends SearchType {
-
 }

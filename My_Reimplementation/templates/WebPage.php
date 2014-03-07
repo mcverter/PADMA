@@ -2,14 +2,14 @@
 
 require_once(__DIR__ . "/../functions/PageControlFunctions.php");
 
-class WebPage {
+abstract class WebPage {
 
     protected $title;
 
-    abstract public function __construct() {
+     public function __construct() {
         initialize_session();
     }
-    abstract public function print_content() {}
+    abstract public function print_content();
 
 
     public function print_js() {}
@@ -33,11 +33,11 @@ EOT;
     <body>
 EOT;
 
-        require("header.php");
+        require(__DIR__ . "/../partials/header.php");
 
         $this->print_content();
 
-        require("footer.php");
+        require(__DIR__ . "/../partials/footer.php");
 
             echo <<< EOT
     </body>

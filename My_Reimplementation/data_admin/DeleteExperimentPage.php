@@ -1,5 +1,5 @@
 <?php
-require_once("DatabaseConnectionPage.php");
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 
 class DeleteExperiment extends DatabaseConnectionPage {
@@ -11,6 +11,7 @@ class DeleteExperiment extends DatabaseConnectionPage {
 
     function print_content() {
         $db_conn = $this->db_conn;
+//        $expName;
         if (isset ($_POST['exp_name']) &&
             !empty ($_POST['exp_name'])) {
             $expName=$_POST['exp_name'];
@@ -32,9 +33,6 @@ EOT;
         }
     }
 }
-$de = new DeleteExperiment();
-$de->display_page();
-
 
 
 

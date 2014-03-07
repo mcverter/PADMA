@@ -5,9 +5,9 @@ initialize_session();
 $db_conn = connect_to_db();
 $userid=strtoupper($_SESSION['userid']);
 unset($_SESSION['expName']);
-?>
 
 
+echo <<< EOT
 <!DOCTYPE html>
 
 
@@ -64,26 +64,17 @@ unset($_SESSION['expName']);
   </script>
 </head>
 <body>
-  <?php
-  //include the header page
-  include("header.php");
-  ?>
 
     <form name="form1" action="EditDescription.php" method="post" onSubmit="return validate(form1);">
       Select an Experiment:&nbsp;&nbsp;
-	<?php select_from_researcher_experiments() ?>
+EOT;
+//	select_from_researcher_experiments();
+
+echo <<< EOT
       </select>
       <div id="txtHint"></div>
-      <?php
-      //close database connection
-      oci_close($db_conn);
-      //include the header page
-      include("footer.php");
-      ?>
-    </form>
-</body>
-</html>
 
+EOT;
 
 
 

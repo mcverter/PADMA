@@ -2,10 +2,10 @@
 require_once("WebPage.php");
 require_once(__DIR__ . "/../widgets/DB_WidgetMaker.php");
 
-class DatabaseConnectionPage extends WebPage {
+abstract class DatabaseConnectionPage extends WebPage {
     protected $db_conn;
 
-    abstract function __construct() {
+     function __construct() {
         parent::__construct();
         $this->db_conn = connect_to_db();
     }

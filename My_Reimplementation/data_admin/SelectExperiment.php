@@ -69,7 +69,7 @@ unset($_SESSION['expName']);
     <div class="edit_form">
       <h2> Select an Experiment </h2>
       <form name="form1" action="EditDescription.php" method="post">
-	<?php select_from_all_experiments();  ?>
+	 select_from_all_experiments();
 	<input name="btnSubmit" type="submit" value="Edit/Enter Description" class="submit button">
       </form>
 

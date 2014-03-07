@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . "/../templates/WebPage.php");
-require_once(__DIR__ . "/../templates/WidgetMaker.php");
+require_once(__DIR__ . "/../widgets/WidgetMaker.php");
 
 class SelectSearchPage extends WebPage {
     function __construct() {

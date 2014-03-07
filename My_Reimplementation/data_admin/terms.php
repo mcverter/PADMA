@@ -1,6 +1,6 @@
 <?php
 
-require_once("WebPage.php");
+require_once(__DIR__ . "/../templates/WebPage.php");
 
 class termsOfUse extends WebPage {
     function __construct() {
@@ -8,21 +8,23 @@ class termsOfUse extends WebPage {
     }
 
     function print_content()  {
-        echo <<< EOL
-  <form class="central_widget" action="<?php echo $_SERVER['PHP_SELF']; ?>" method="post">
+        echo <<< EOT
+  <form class="central_widget" action=" " method="post">
     <h2> PLEASE READ THESE TERMS OF USE CAREFULLY BEFORE USING <a href="http://padmadatabase.org">http://padmadatabase.org</a>, INCLUDING THE PATHOGEN ASSOCIATED DROSOPHILA MICROARRAY (PADMA) DATABASE (the "Site").</h2>
     <input type="radio" NAME="terms" VALUE="agree">Agree</input>
     <input type="radio" NAME="terms" VALUE="disagree" checked>Disagree</input>
     <input type="submit" value="submit">
   </form>
-  <?php
+
+
+EOT;
   if (isset($_POST['terms'])) {
     if ($_POST['terms'] == "agree") header("Location: newuser.php");
     else header("Location: index.php");
     exit;
   }
-  ?>
 
+echo <<< EOT
   <div class="central_widget">
   <h3>Terms of Use</h3>
   <p> Your use of the Site is subject to the following Terms of Use which include by reference the <a href="http://portal.cuny.edu/cms/id/cuny/documents/level_3_page/001171.htm">Computer Use Policy</a> and <a href="http://www.cuny.edu/website/privacy.html">Web Site Privacy Policy</a> of The City University of New York ("CUNY").</p>
@@ -89,11 +91,9 @@ class termsOfUse extends WebPage {
   include("footer.php");
   ?>
   </div>
-EOL;
+EOT;
     }
 }
-$toe = new termsOfUse();
-$toe->display_page();
 
 ?>
 

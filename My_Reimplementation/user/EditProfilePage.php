@@ -156,5 +156,4 @@ EOT;
 
 }
 
-$ep = new EditProfile();
-$ep->display_page();
+?>

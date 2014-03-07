@@ -7,7 +7,7 @@ class SubmitProfilePage extends DatabaseConnectionPage {
 function __construct() {
 
 }
-function print_contents() {
+function print_content() {
 $title = empty($_POST['title'])? "" : $_POST['title'];
 $lname = $_POST['lname']; // mandatory
 $fname = $_POST['fname']; // mandatory

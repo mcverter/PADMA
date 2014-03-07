@@ -1,6 +1,6 @@
 <?php
 require_once(__DIR__ . "/../templates/WebPage.php");
-require_once(__DIR__ . "/../WidgetMaker.php");
+require_once(__DIR__ . "/../widgets/WidgetMaker.php");
 
 class MainPage extends WebPage {
 

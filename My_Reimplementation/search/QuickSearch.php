@@ -1,21 +1,14 @@
 <?php
-require_once("DatabaseConnectionPage.php");
-$select_input_widgets = Array($biofunction, $exp_name,$category, $species, $subject);
-$text_input_widgets = Array($probeid, $cgnumber, $fbcgnumber, $genename, $gonumber);
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 class QuickSearch extends DatabaseConnectionPage {
     function __construct() {
       parent::_construct();
-        global $select_input_widgets, $text_input_widgets;
         $this->title= "Quick Search";
-        $this->select_input_widgets = $select_input_widgets;
-        $this->text_input_widgets = $text_input_widgets;
-
     }
+    function print_content() {}
 }
 
-$qs = new QuickSearch();
-$qs->display_page();
 
 
 
