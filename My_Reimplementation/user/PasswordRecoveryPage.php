@@ -1,11 +1,14 @@
 <?php
-include ("control_functions.php");
-initialize_session();
-if (session_id() == "") session_start();
-$_SESSION['uidVerified']="false";
-?>
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
+class PasswordRecoveryPage extends DatabaseConnectionPage {
 
+    function __construct() {
+
+    }
+
+    function print_content() {
+        echo <<< EOT
 
 <!DOCTYPE html>
 <head>
@@ -89,12 +92,9 @@ $_SESSION['uidVerified']="false";
   </form>
   <div id="txtHint"></div>
 
-  <?php include("footer.php");  ?>
-
-</body>
-</html>
-
-
+EOT;
+    }
+}
 
 
 

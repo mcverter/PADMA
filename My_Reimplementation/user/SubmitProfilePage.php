@@ -1,9 +1,13 @@
 <?php
-include ("control_functions.php");
-initialize_session();
-$db_conn = connect_to_db();
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
+
+class SubmitProfilePage extends DatabaseConnectionPage {
 
 
+function __construct() {
+
+}
+function print_contents() {
 $title = empty($_POST['title'])? "" : $_POST['title'];
 $lname = $_POST['lname']; // mandatory
 $fname = $_POST['fname']; // mandatory
@@ -40,7 +44,8 @@ oci_free_statement($parsed);
 
 //Check if the information is saved and show appropriate message
 echo $execute? "<font color='#008000'>Your profile updated</font>" : "<font color='#008000'>Error! update failed</font>";
-
+}
+}
 ?>
 
 

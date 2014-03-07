@@ -1,6 +1,6 @@
 <?php
-require_once("DatabaseConnectionPage.php");
-require_once("DB_Entity.php");
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
+require_once(__DIR__ . "/../widgets/DB_WidgetMaker.php");
 
 class UserManagementPage extends DatabaseConnectionPage {
 

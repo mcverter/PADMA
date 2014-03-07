@@ -1,11 +1,12 @@
 <?php
-include ("control_functions.php");
-check_role('a');
-initialize_session();
-$db_conn = connect_to_db();
-$_SESSION['uidVerified'] = "false";
-?>
 
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
+
+class CreateNewUserPage extends  DatabaseConnectionPage {
+
+function __construct() {}
+function print_content() {
+echo <<< EOT
 <!DOCTYPE html>
 <html>
   <head>
@@ -198,6 +199,8 @@ $_SESSION['uidVerified'] = "false";
   </body>
 </html>
 
+EOT;
+}
 
 
 
@@ -205,3 +208,4 @@ $_SESSION['uidVerified'] = "false";
 
 
 
+}

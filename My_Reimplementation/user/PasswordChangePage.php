@@ -1,17 +1,10 @@
 <?php
-include ("control_functions.php");
-check_role('any');
-initialize_session();
-$db_conn = connect_to_db();
-$userid=strtoupper($_SESSION['userid']);
-$username=$_SESSION['userid'];
-?>
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
-<!DOCTYPE html>
-
-
-<?php
-?>
+class PasswordChangePage extends DatabaseConnectionPage {
+function __construct() {}
+function print_content() {
+    echo <<< EOT
 
 <head>
   <title>Droso Pivot</title>
@@ -95,19 +88,6 @@ $username=$_SESSION['userid'];
 	    <input type="button"  onClick="utility('ChangePassword')" value="Submit" />
 	    <div id="txtHint"></div>
     </fieldset>
-
-
-
-    <?php  include("footer.php"); ?>
-
-  </form>
-</body>
-</html>
-
-<?php
-oci_close($db_conn);
-?>
-
-
-
-
+EOT;
+}
+}

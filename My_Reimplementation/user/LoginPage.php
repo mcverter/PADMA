@@ -1,7 +1,7 @@
 <?php
 require_once("DatabaseConnectionPage.php");
 
-class LogIn extends DatabaseConnectionPage {
+class LogInPage extends DatabaseConnectionPage {
 
     function __construct() {
         parent::__construct();

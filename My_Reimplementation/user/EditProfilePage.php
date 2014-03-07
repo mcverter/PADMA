@@ -1,5 +1,5 @@
 <?php
-require_once("DatabaseConnectionPage.php");
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 
 
@@ -120,7 +120,6 @@ EOT;
     function print_content() {
         $db_conn = $this->db_conn;
         /*        if (!isset($_SESSION['userid'])) {}
-                    $userid=strtoupper($_SESSION['userid']);
                     if ($userid == "undefined") {}
                         echo <<< EOT
           <font color='red'>
@@ -130,24 +129,6 @@ EOT;
         EOT;
 
          */
-        $userid = $_SESSION['userid'];
-        $ud = DB_Entity::get_user_data($db_conn, $userid);
-        $title = $ud['TITLE'];
-        $fname = $ud['FNAME'];
-        $lname = $ud['LNAME'];
-        $mname = $ud['MNAME'];
-        $address1 = $ud['ADD_1'];
-        $address2 = $ud['ADD_2'];
-        $city = $ud['CITY'];
-        $state = $ud['STATE'];
-        $zip = $ud['ZIP'];
-        $country = $ud['COUNTRY'];
-        $phone = $ud['PHONE'];
-        $ind = $ud['IND'];
-        $email = $ud['EMAIL'];
-        $prof = $ud['PROF'];
-        $updatedBy = $ud['UPDATED_BY'];
-        $updatedOn = $ud['UPDATED_ON'];
 
 echo <<< EOT
 <fieldset>
@@ -163,83 +144,8 @@ echo <<< EOT
         "{$userid}" &#8212; to change password, click <a href="PassChange.php">here</a>
 </div>
 
-
+DB_Entity::make_user_info_panel($db_conn);
 <div id="txtHintX">&nbsp;</div>
-
-<form class="central_widget" name="form1" method="post">
-    <h2><font color="#4682B4">Your current profile in the system</font></h2>
-    <fieldset>
-        <legend>
-            Last updated by {$updatedBy} on {$updatedOn}
-        </legend>
-
-        <label for="title"> Title:</label>
-        <select name="title" style="width:46%">
-            <option value="Mr."
-EOT;
-    if ($title == "MR"  || $title == "MR." || $title == "") echo " selected";
-
-
-        echo <<< EOT
-
-            >Mr.</option>
-            <option value="Ms."
-EOT;
-        if ($title == "MS"  || $title == "MS.") echo " selected";
-
-        echo <<< EOT
-        >Ms.</option>
-            <option value="Dr."
-EOT;
-        if ($title == "DR"  || $title == "DR.") echo " selected";
-
-        echo <<< EOT
-        >Dr.</option>
-        </select>
-
-        <label for="lname"> Last Name: </label>
-        <input name="lname" type="text" value="{$lname}" style="width:90%" />
-
-        <label for="fname"> First Name:<font color="red">*</font></label>
-        <input name="fname" type="text" value="{$fname}" style="width:90%" />
-
-        <label for="mname"> MI:</label>
-        <input name="mname" type="text" value="{$mname}" style="width:90%" />
-
-        <label for="address"> Address:</label>
-        <input name="address" type="text" value="{$address1}" style="width:90%" />
-
-        <label for="address2"> Address2:</label>
-        <input name="address2" type="text" value="{$address2}" style="width:90%" />
-
-
-        <label for="city"> City:</label>
-        <input name="city" type="text" value="{$city}" style="width:90%" />
-
-        <label for="state"> State:</label>
-        <input name="state" type="text" value="{$state}" style="width:90%" />
-
-        <label for="zip">Zip Code:</label>
-        <input name="zip" type="text" value="{$zip}" style="width:90%" />
-EOT;
-
-        DB_Entity::make_countries_widget($db_conn, $country);
-
-echo <<< EOT
-
-<label for="phone"> Phone Number:</label>
-<input name="phone" type="text" value="{$phone}" style="width:90%" />
-
-<label for="email"> E-mail Address:<font color="red">*</font></label>
-<input name="email" type="text" value="{$email}" style="width:90%" />
-
-<label for="industry"> Industry:</label>
-<input name="industry" type="text" value="{$ind}" style="width:90%" />
-
-<label for="profession"> Profession:</label>
-<input name="profession" type="text" value="{$prof}" style="width:90%" />
-
-</fieldset>
 <input name="btnSubmit" type="button" value="Submit" onClick="utility()"/>&nbsp;&nbsp;&nbsp;&nbsp;
 <div id="txtHint">&nbsp;</div>
 </form>

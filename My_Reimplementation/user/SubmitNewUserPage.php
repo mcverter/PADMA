@@ -1,11 +1,12 @@
 <?php
-include ("control_functions.php");
-check_role('a');
-initialize_session();
-$db_conn = connect_to_db();
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
-include("header.php");
-// get value of userid verification from session veriable
+class SubmitNewUserPage extends DatabaseConnectionPage {
+
+function __construct() {
+    function print_content() {
+    // get value of userid verification from session veriable
+
 $uidVerified=$_SESSION['uidVerified'];
 
 //Check if the user id was verified before submitting the form
@@ -124,9 +125,8 @@ else
 
 //unset the session variable that is saving the information about userid verification
 unset($_SESSION['uidVerified']);
-oci_close($db_conn);
-?>
-
+    }
+}
  
  
  
