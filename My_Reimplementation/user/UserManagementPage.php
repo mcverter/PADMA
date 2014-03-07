@@ -21,14 +21,14 @@ class UserManagementPage extends DatabaseConnectionPage {
       <legend><font color="#4682B4">New User </font></legend>
 EOT;
 
-    DB_Entity::make_new_users_widget($db_conn);
+    DB_WidgetMaker::make_new_users_widget($db_conn);
 
         echo <<< EOT
 
     <fieldset>
       <legend>Existing Users</legend>
 EOT;
-        DB_Entity::make_existing_users_widget($db_conn);
+        DB_WidgetMaker::make_existing_users_widget($db_conn);
 
         echo <<< EOT
 

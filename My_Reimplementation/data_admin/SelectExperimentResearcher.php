@@ -3,7 +3,7 @@ include ("control_functions.php");
 check_role('r');
 initialize_session();
 $db_conn = connect_to_db();
-$userid=strtoupper($_SESSION['userid']);
+$userid=0;
 unset($_SESSION['expName']);
 
 

@@ -21,12 +21,10 @@ require_once(__DIR__ . "/../user/EditProfilePage.php");
 require_once(__DIR__ . "/../data_admin/loaderStart.php");
 require_once(__DIR__ . "/../user/LoginPage.php");
 require_once(__DIR__ . "/../user/PasswordRecoveryPage.php");
-require_once(__DIR__ . "/../data_admin/testupload.php");
 require_once(__DIR__ . "/../user/SubmitNewUserPage.php");
 require_once(__DIR__ . "/../data_admin/uploadagreement.php");
 require_once(__DIR__ . "/../user/SubmitProfilePage.php");
 require_once(__DIR__ . "/../data_admin/uploader.php");
-require_once(__DIR__ . "/../user/UserInfoPage.php");
 require_once(__DIR__ . "/../functions/PageControlFunctions.php");
 require_once(__DIR__ . "/../user/UserManagementPage.php");
 require_once(__DIR__ . "/../functions/utility.php");
@@ -76,5 +74,6 @@ require_once(__DIR__ . "/../user/MainPage.php");
 require_once(__DIR__ . "/../data_admin/SelectExperimentResearcher.php");
 require_once(__DIR__ . "/../user/PasswordChangePage.php");
 require_once(__DIR__ . "/../data_admin/terms.php");
+require_once(__DIR__ . "/../user/UserInfoPage.php");
 
 ?>

@@ -1,6 +1,6 @@
 <?php
 
-require_once (__DIR__ . "/../DatabaseConnectionPage.php");
+require_once (__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 class GetUserInfoPage extends DatabaseConnectionPage {
     function __construct() {
@@ -41,14 +41,14 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         	Title:&nbsp;&nbsp;
         </td>
         <td class='_50L'>&nbsp;<br />
-        	 <b>  strtoupper([0])  </b>                                                                                                                                     </td>
+        	 <b>  strtoupper(0])  </b>                                                                                                                                     </td>
     </tr>
     <tr>
         <td class='_50r'>
         Last Name:&nbsp;&nbsp;
     	</td>
     	<td class='_50L'>
-            <b>  strtoupper($results["LNAME"][0])  </b>
+            <b>  strtoupper($results"LNAME"0])  </b>
         </td>
     </tr>
     <tr>
@@ -56,7 +56,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         First Name:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b> strtoupper($results["FNAME"][0])  </b>
+            <b> strtoupper($results"FNAME"][0])  </b>
         </td>
     </tr>
 	<tr>
@@ -64,7 +64,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         MI:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b> strtoupper($results["MNAME"][0])  </b>
+            <b> strtoupper($results"MNAME"][0])  </b>
         </td>
     </tr>
 	<tr>
@@ -72,7 +72,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         User ID:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b><div id='got_userid'> strtoupper($results["USER_ID"][0])  </div></b>
+            <b><div id='got_userid'> strtoupper($results"USER_ID"][0])  </div></b>
         </td>
     </tr>
 	<tr>
@@ -80,7 +80,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         Adress:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b>  strtoupper($results["ADD_1"][0]) </b>
+            <b>  strtoupper($results"ADD_1"][0]) </b>
         </td>
     </tr>
 	<tr>
@@ -88,7 +88,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         Adress2:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b> strtoupper($results["ADD_2"][0])  </b>
+            <b> strtoupper($results"ADD_2"][0])  </b>
         </td>
     </tr>
 	<tr>
@@ -96,7 +96,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         City:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b> strtoupper($results["CITY"][0])  </b>
+            <b> strtoupper($results"CITY"][0])  </b>
         </td>
     </tr>
 	<tr>
@@ -104,7 +104,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         State:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b> strtoupper($results["STATE"][0])  </b>
+            <b> strtoupper($results"STATE"][0])  </b>
         </td>
     </tr>
 	<tr>
@@ -112,7 +112,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         Zip:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b> strtoupper($results["ZIP"][0])  </b>
+            <b> strtoupper($results"ZIP"][0])  </b>
         </td>
     </tr>
 	<tr>
@@ -120,7 +120,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         Country:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b> strtoupper($results["COUNTRY"][0])  </b>
+            <b> strtoupper($results"COUNTRY"][0])  </b>
         </td>
     </tr>
 	<tr>
@@ -128,7 +128,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         Phone:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b> strtoupper($results["PHONE"][0])  </b>
+            <b> strtoupper($results"PHONE"][0])  </b>
         </td>
     </tr>
 	<tr>
@@ -136,7 +136,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         E-Mail:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b><div id='got_email'> strtoupper($results["EMAIL"][0])  </div></b>
+            <b><div id='got_email'> strtoupper($results"EMAIL"][0])  </div></b>
         </td>
     </tr>
 	<tr>
@@ -144,7 +144,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         Agency/Company:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b> strtoupper($results["IND"][0])  </b>
+            <b> strtoupper($results"IND"][0])  </b>
         </td>
     </tr>
 	<tr>
@@ -152,7 +152,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         Profession:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b> strtoupper($results["PROF"][0])  </b>
+            <b> strtoupper($results"PROF"][0])  </b>
         </td>
     </tr>
 	<tr>
@@ -160,7 +160,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         Access Right:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b> strtoupper($results["RIGHT"][0])  </b>
+            <b> strtoupper($results"RIGHT"][0])  </b>
         </td>
     </tr>
 	<tr>
@@ -168,7 +168,7 @@ class GetUserInfoPage extends DatabaseConnectionPage {
         Delete Flag:&nbsp;&nbsp;
         </td>
         <td class='_50L'>
-            <b> strtoupper(($results["DEL_FLAG"][0] == "1"? "0 - inactive user" : "1 - active user"))  </b>
+            <b> strtoupper(($results"DEL_FLAG"][0] == "1"? "0 - inactive user" : "1 - active user"))  </b>
         </td>
     </tr>
 EOT;

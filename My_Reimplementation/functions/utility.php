@@ -1,15 +1,14 @@
 <?php
-session_start();
-$param = isset($_GET['param'])? $_GET['param'] : "undefined";
+require_once(__DIR__ . "/../functions/PageControlFunctions.php");
+
 
 //get connection string variable from session
-$db_UN=$_SESSION['un'];
-$db_PASS=$_SESSION['pass'];
-$db_DB=$_SESSION['db'];
+$db_UN=0;
+$db_PASS=0;
+$db_DB=0;
 
 //connection to the database
-$db_conn = ocilogon($db_UN, $db_PASS, $db_DB);
-if (! $db_conn)
+$db_conn = 0; if (! $db_conn)
 {
 	$e = oci_error(); 		
 	echo "<font color='red'>";
