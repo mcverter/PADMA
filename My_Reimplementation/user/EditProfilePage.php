@@ -3,7 +3,7 @@ require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 
 
-class EditProfile extends DatabaseConnectionPage {
+class EditProfilePage extends DatabaseConnectionPage {
     public function __construct() {
         parent::__construct();
         $this->title = "Edit Profile";

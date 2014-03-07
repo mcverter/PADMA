@@ -39,7 +39,7 @@ ociexecute($parsed);
     <form name="form1" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
       <fieldset>
 	<b>(Select a Version to delete)</b><br>
-        <?php delete_ref_version() ?>
+ 
       </fieldset>
     </form>
     <?php include("footer.php"); ?>

@@ -2,6 +2,8 @@
 
 class WidgetMaker {
 
+
+
 static function make_control_button ($href, $button_text) {
     echo <<< EOT
     <div class="control_button">

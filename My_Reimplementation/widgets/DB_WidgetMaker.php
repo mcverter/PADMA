@@ -2,6 +2,108 @@
 
 class DB_WidgetMaker {
 
+
+    static function make_user_info_panel($db_conn, $userid) {
+        $ud = DB_Entity::get_user_data($db_conn, $userid);
+        $title = $ud['TITLE'];
+        $fname = $ud['FNAME'];
+        $lname = $ud['LNAME'];
+        $mname = $ud['MNAME'];
+        $address1 = $ud['ADD_1'];
+        $address2 = $ud['ADD_2'];
+        $city = $ud['CITY'];
+        $state = $ud['STATE'];
+        $zip = $ud['ZIP'];
+        $country = $ud['COUNTRY'];
+        $phone = $ud['PHONE'];
+        $ind = $ud['IND'];
+        $email = $ud['EMAIL'];
+        $prof = $ud['PROF'];
+        $updatedBy = $ud['UPDATED_BY'];
+        $updatedOn = $ud['UPDATED_ON'];
+
+        echo <<< EOT
+
+
+        <form class="central_widget" name="form1" method="post">
+<h2><font color="#4682B4">Your current profile in the system</font></h2>
+<fieldset>
+<legend>
+        Last updated by {$updatedBy} on {$updatedOn}
+</legend>
+
+<label for="title"> Title:</label>
+<select name="title" style="width:46%">
+    <option value="Mr."
+            EOT;
+    if ($title == "MR"  || $title == "MR." || $title == "") echo " selected";
+
+
+
+    >Mr.</option>
+    <option value="Ms."
+            EOT;
+    if ($title == "MS"  || $title == "MS.") echo " selected";
+
+    echo <<< EOT
+    >Ms.</option>
+    <option value="Dr."
+            EOT;
+    if ($title == "DR"  || $title == "DR.") echo " selected";
+
+    echo <<< EOT
+    >Dr.</option>
+</select>
+
+<label for="lname"> Last Name: </label>
+<input name="lname" type="text" value="{$lname}" style="width:90%" />
+
+<label for="fname"> First Name:<font color="red">*</font></label>
+<input name="fname" type="text" value="{$fname}" style="width:90%" />
+
+<label for="mname"> MI:</label>
+<input name="mname" type="text" value="{$mname}" style="width:90%" />
+
+<label for="address"> Address:</label>
+<input name="address" type="text" value="{$address1}" style="width:90%" />
+
+<label for="address2"> Address2:</label>
+<input name="address2" type="text" value="{$address2}" style="width:90%" />
+
+
+<label for="city"> City:</label>
+<input name="city" type="text" value="{$city}" style="width:90%" />
+
+<label for="state"> State:</label>
+<input name="state" type="text" value="{$state}" style="width:90%" />
+
+<label for="zip">Zip Code:</label>
+<input name="zip" type="text" value="{$zip}" style="width:90%" />
+
+
+        DB_Entity::make_countries_widget($db_conn, $country);
+
+echo <<< EOT
+
+<label for="phone"> Phone Number:</label>
+<input name="phone" type="text" value="{$phone}" style="width:90%" />
+
+<label for="email"> E-mail Address:<font color="red">*</font></label>
+<input name="email" type="text" value="{$email}" style="width:90%" />
+
+<label for="industry"> Industry:</label>
+<input name="industry" type="text" value="{$ind}" style="width:90%" />
+
+<label for="profession"> Profession:</label>
+<input name="profession" type="text" value="{$prof}" style="width:90%" />
+
+</fieldset>
+
+EOT;
+
+
+
+}
     static function make_text_input_widget($view_col, $label)
     {
         echo <<< EOT
@@ -65,14 +167,14 @@ EOT;
 
 
     static function construct_experiment_table_query
-        ( $db_conn, $table_col, $table_name, $view_col, $label, $userid="")  {
+    ( $db_conn, $table_col, $table_name, $view_col, $label, $userid="")  {
         $query = "select distinct $table_col from $table_name where RESTRICTED ='0' ";
         if (isset($userid) && ! empty($userid)) {
             $query .= "  UNION select distinct $table_col from $table_name where RESTRICTED ='1' and CREATED_BY='$userid' order by 1";
         }
 
         self::make_select_input_widget ($db_conn, $query, $table_col, $view_col, $label);
-	}
+    }
 
 
     static function make_select_input_widget
@@ -202,6 +304,37 @@ EOT;
     }
 
 
+
+
+
+make_delete_reference_version_form() {
+}
+static function make_edit_description_widget ($db_conn, $userid) {
+
+    echo <<<
+
+	<div class="edit_description">
+	  <form name="form1" method="post">
+	    <h2>Experiment Name</h2>
+	    <?php
+	    echo "<b>" . $ExpName . "</b>";
+	    ?>
+<?php
+$str ="SELECT EXP_MASTER.* FROM EXP_MASTER WHERE EXP_MASTER.EXP_NAME = '".$ExpName."'";
+$parsed = ociparse($db_conn, $str);
+ociexecute($parsed);
+$numrows = ocifetchstatement($parsed, $results);
+echo "<textarea  name='Description' rows ='15' cols='75' style='font-size:medium;font-family:verdana '>";
+echo  $results["EXP_DESC"][0];
+echo "</textarea>";
+?>
+<input name="expName" type="hidden" value=<?php echo "\"$ExpName\"";?>
+<input name="btnSubmit" type="button" value="Save" style="width:65;height:65" onClick="save()"/>
+
+
+
+}
+
 }
 
 
@@ -211,9 +344,9 @@ EOT;
 
 
 /*
- *
- *
- *
+*
+*
+*
 SQL> select owner, table_name from dba_tables where owner='DROSOPHILARC2';
 
 OWNER			       TABLE_NAME
@@ -232,100 +365,100 @@ DROSOPHILARC2		       REFERENCE_MAIN
 SQL> Describe Access_right;
 SP2-0565: Illegal identifier.
 SQL> Describe Access_right;
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- ACC_RIGHT_ID				   NOT NULL NUMBER
- ACC_RIGHT_DESC 			   NOT NULL VARCHAR2(30)
+Name					   Null?    Type
+----------------------------------------- -------- ----------------------------
+ACC_RIGHT_ID				   NOT NULL NUMBER
+ACC_RIGHT_DESC 			   NOT NULL VARCHAR2(30)
 
 SQL> describe client;
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- C_ID					   NOT NULL VARCHAR2(30)
- TITLE						    VARCHAR2(10)
- LNAME						    VARCHAR2(60)
- MNAME						    VARCHAR2(20)
- FNAME						    VARCHAR2(20)
- ADD_1						    VARCHAR2(40)
- ADD_2						    VARCHAR2(40)
- CITY						    VARCHAR2(20)
- STATE						    VARCHAR2(20)
- ZIP						    VARCHAR2(10)
- PHONE						    VARCHAR2(15)
- EMAIL						    VARCHAR2(30)
- IND						    VARCHAR2(100)
- PROF						    VARCHAR2(100)
- ACC_RIGHT_ID					    NUMBER
- DEL_FLAG					    VARCHAR2(1)
- CREATED_BY					    VARCHAR2(30)
- CREATED_ON					    DATE
- UPDATED_BY					    VARCHAR2(30)
- UPDATED_ON					    DATE
- USER_ID				   NOT NULL VARCHAR2(15)
- PASSWORD				   NOT NULL VARCHAR2(250)
- LAST_LOGIN					    DATE
- TOTAL_LOGIN				   NOT NULL NUMBER
- COUNTRY					    VARCHAR2(50)
- DATE_APPLIED					    DATE
+Name					   Null?    Type
+----------------------------------------- -------- ----------------------------
+C_ID					   NOT NULL VARCHAR2(30)
+TITLE						    VARCHAR2(10)
+LNAME						    VARCHAR2(60)
+MNAME						    VARCHAR2(20)
+FNAME						    VARCHAR2(20)
+ADD_1						    VARCHAR2(40)
+ADD_2						    VARCHAR2(40)
+CITY						    VARCHAR2(20)
+STATE						    VARCHAR2(20)
+ZIP						    VARCHAR2(10)
+PHONE						    VARCHAR2(15)
+EMAIL						    VARCHAR2(30)
+IND						    VARCHAR2(100)
+PROF						    VARCHAR2(100)
+ACC_RIGHT_ID					    NUMBER
+DEL_FLAG					    VARCHAR2(1)
+CREATED_BY					    VARCHAR2(30)
+CREATED_ON					    DATE
+UPDATED_BY					    VARCHAR2(30)
+UPDATED_ON					    DATE
+USER_ID				   NOT NULL VARCHAR2(15)
+PASSWORD				   NOT NULL VARCHAR2(250)
+LAST_LOGIN					    DATE
+TOTAL_LOGIN				   NOT NULL NUMBER
+COUNTRY					    VARCHAR2(50)
+DATE_APPLIED					    DATE
 
 SQL> describe country;
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- COUNTRYID					    NUMBER
- COUNTRY					    VARCHAR2(40)
+Name					   Null?    Type
+----------------------------------------- -------- ----------------------------
+COUNTRYID					    NUMBER
+COUNTRY					    VARCHAR2(40)
 
 SQL> describe experiment;
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- PROB_ID				   NOT NULL VARCHAR2(50)
- EXP_NAME				   NOT NULL VARCHAR2(50)
- CATG					   NOT NULL VARCHAR2(20)
- SPEC					   NOT NULL VARCHAR2(20)
- SUBJ					   NOT NULL VARCHAR2(20)
- REG_VAL					    VARCHAR2(2)
- OPEN						    VARCHAR2(20)
- CREATED_BY					    VARCHAR2(30)
- CREATED_ON				   NOT NULL VARCHAR2(15)
- RESTRICTED				   NOT NULL VARCHAR2(1)
- HOUR					   NOT NULL VARCHAR2(10)
+Name					   Null?    Type
+----------------------------------------- -------- ----------------------------
+PROB_ID				   NOT NULL VARCHAR2(50)
+EXP_NAME				   NOT NULL VARCHAR2(50)
+CATG					   NOT NULL VARCHAR2(20)
+SPEC					   NOT NULL VARCHAR2(20)
+SUBJ					   NOT NULL VARCHAR2(20)
+REG_VAL					    VARCHAR2(2)
+OPEN						    VARCHAR2(20)
+CREATED_BY					    VARCHAR2(30)
+CREATED_ON				   NOT NULL VARCHAR2(15)
+RESTRICTED				   NOT NULL VARCHAR2(1)
+HOUR					   NOT NULL VARCHAR2(10)
 
 SQL> describe  exp_master;
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- EXP_NAME				   NOT NULL VARCHAR2(50)
- EXP_DESC					    VARCHAR2(4000)
- CREATED_BY					    VARCHAR2(30)
- CREATED_ON				   NOT NULL VARCHAR2(15)
- RESTRICTED					    VARCHAR2(1)
- QUANTITY				   NOT NULL NUMBER
+Name					   Null?    Type
+----------------------------------------- -------- ----------------------------
+EXP_NAME				   NOT NULL VARCHAR2(50)
+EXP_DESC					    VARCHAR2(4000)
+CREATED_BY					    VARCHAR2(30)
+CREATED_ON				   NOT NULL VARCHAR2(15)
+RESTRICTED					    VARCHAR2(1)
+QUANTITY				   NOT NULL NUMBER
 
 SQL> describe reference_bio;
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- GONUMBER				   NOT NULL VARCHAR2(15)
- BIOFUNCTION					    VARCHAR2(250)
- VERSION				   NOT NULL VARCHAR2(15)
- CREATED_BY				   NOT NULL VARCHAR2(15)
- CREATED_ON				   NOT NULL VARCHAR2(15)
+Name					   Null?    Type
+----------------------------------------- -------- ----------------------------
+GONUMBER				   NOT NULL VARCHAR2(15)
+BIOFUNCTION					    VARCHAR2(250)
+VERSION				   NOT NULL VARCHAR2(15)
+CREATED_BY				   NOT NULL VARCHAR2(15)
+CREATED_ON				   NOT NULL VARCHAR2(15)
 
 SQL> describe reference_go;
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- PROB_ID				   NOT NULL VARCHAR2(25)
- GONUMBER				   NOT NULL VARCHAR2(15)
- VERSION				   NOT NULL VARCHAR2(15)
- CREATED_BY				   NOT NULL VARCHAR2(15)
- CREATED_ON				   NOT NULL VARCHAR2(15)
+Name					   Null?    Type
+----------------------------------------- -------- ----------------------------
+PROB_ID				   NOT NULL VARCHAR2(25)
+GONUMBER				   NOT NULL VARCHAR2(15)
+VERSION				   NOT NULL VARCHAR2(15)
+CREATED_BY				   NOT NULL VARCHAR2(15)
+CREATED_ON				   NOT NULL VARCHAR2(15)
 
 SQL> describe reference_main;
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- PROB_ID				   NOT NULL VARCHAR2(25)
- CGNUMBER					    VARCHAR2(25)
- GENENAME					    VARCHAR2(50)
- FBGNNUMBER					    VARCHAR2(25)
- VERSION				   NOT NULL VARCHAR2(15)
- CREATED_BY				   NOT NULL VARCHAR2(15)
- CREATED_ON				   NOT NULL VARCHAR2(15)
+Name					   Null?    Type
+----------------------------------------- -------- ----------------------------
+PROB_ID				   NOT NULL VARCHAR2(25)
+CGNUMBER					    VARCHAR2(25)
+GENENAME					    VARCHAR2(50)
+FBGNNUMBER					    VARCHAR2(25)
+VERSION				   NOT NULL VARCHAR2(15)
+CREATED_BY				   NOT NULL VARCHAR2(15)
+CREATED_ON				   NOT NULL VARCHAR2(15)
 
 SQL> select owner, view_name from dba_views where owner='DROSOPHILARC2';
 
@@ -334,23 +467,23 @@ OWNER			       VIEW_NAME
 DROSOPHILARC2		       FULL_V
 
 SQL> describe FULL_V;
- Name					   Null?    Type
- ----------------------------------------- -------- ----------------------------
- PROBEID				   NOT NULL VARCHAR2(50)
- CGNUMBER					    VARCHAR2(25)
- GENENAME					    VARCHAR2(50)
- FBCGNUMBER					    VARCHAR2(25)
- BIOFUNCTION					    VARCHAR2(250)
- GONUMBER					    VARCHAR2(15)
- EXPERIMENTNAME 			   NOT NULL VARCHAR2(50)
- ACTIVECATEGORY 			   NOT NULL VARCHAR2(20)
- ACTIVESPECIES				   NOT NULL VARCHAR2(20)
- EXPERIMENTSUBJECT			   NOT NULL VARCHAR2(20)
- REGULATIONVALUE				    VARCHAR2(2)
- ADDITIONALINFO 				    VARCHAR2(20)
- RESTRICTED				   NOT NULL VARCHAR2(1)
- CREATED_BY					    VARCHAR2(30)
- HOUR					   NOT NULL VARCHAR2(10)
+Name					   Null?    Type
+----------------------------------------- -------- ----------------------------
+PROBEID				   NOT NULL VARCHAR2(50)
+CGNUMBER					    VARCHAR2(25)
+GENENAME					    VARCHAR2(50)
+FBCGNUMBER					    VARCHAR2(25)
+BIOFUNCTION					    VARCHAR2(250)
+GONUMBER					    VARCHAR2(15)
+EXPERIMENTNAME 			   NOT NULL VARCHAR2(50)
+ACTIVECATEGORY 			   NOT NULL VARCHAR2(20)
+ACTIVESPECIES				   NOT NULL VARCHAR2(20)
+EXPERIMENTSUBJECT			   NOT NULL VARCHAR2(20)
+REGULATIONVALUE				    VARCHAR2(2)
+ADDITIONALINFO 				    VARCHAR2(20)
+RESTRICTED				   NOT NULL VARCHAR2(1)
+CREATED_BY					    VARCHAR2(30)
+HOUR					   NOT NULL VARCHAR2(10)
 
 
 */

@@ -1,17 +1,18 @@
 <?php
 
-require_once("Controls.php");
+require_once(__DIR__ . "/../functions/PageControlFunctions.php");
 
 class WebPage {
 
     protected $title;
 
-    public function __construct() {
+    abstract public function __construct() {
         initialize_session();
     }
+    abstract public function print_content() {}
+
 
     public function print_js() {}
-    public function print_content() {}
     public function cleanup() {}
 
     public function display_page() {

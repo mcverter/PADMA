@@ -74,30 +74,9 @@ $db_conn = connect_to_db();
   </head>
   <body>
     <?php include ("header.php"); ?>
-      <div class="data_mgmt_nav">
-	<!--
-	<td class="_R">><font color="#4682B4"><h5><a href='DataManagement.php'>&lt;&lt;Back to Data ManageMent</a> | <a title='logout' href='index.php'>Log Out</a></h5></font></td>
-	-->
-	<div class="edit_description">
-	  <form name="form1" method="post">
-	    <h2>Experiment Name</h2>
-	    <?php
-	    echo "<b>" . $ExpName . "</b>";
-	    ?>
-	    <?php
-	    $str ="SELECT EXP_MASTER.* FROM EXP_MASTER WHERE EXP_MASTER.EXP_NAME = '".$ExpName."'";
-	    $parsed = ociparse($db_conn, $str);
-	    ociexecute($parsed);
-	    $numrows = ocifetchstatement($parsed, $results);
-	    echo "<textarea  name='Description' rows ='15' cols='75' style='font-size:medium;font-family:verdana '>";
-	    echo  $results["EXP_DESC"][0];
-	    echo "</textarea>";
-	    ?>
-	    <input name="expName" type="hidden" value=<?php echo "\"$ExpName\"";?>
-            <input name="btnSubmit" type="button" value="Save" style="width:65;height:65" onClick="save()"/>
-
-
   	    <?php
+
+	    static function make_edit_description_widget ($db_conn, $userid) ;
 	    //close database connection
 	    oci_close($db_conn);
 	    //include the header page
