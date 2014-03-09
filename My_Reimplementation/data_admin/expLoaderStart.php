@@ -1,11 +1,11 @@
 <?php
-include ("control_functions.php");
-check_role('ar');
-initialize_session();
-$db_conn = connect_to_db();
-$userid=strtoupper($_SESSION['userid']);
-?>
+require_once (__DIR__ . "/../templates/DatabaseConnectionPage.php");
+class ExploaderStartPage extends DatabaseConnectionPage {
+  function __construct() {}
+  function print_content() {
+      $role=0;
 
+    echo <<<EOT
 <!DOCTYPE html>
   <head>
     <title>PADMA Database</title>
@@ -34,9 +34,8 @@ $userid=strtoupper($_SESSION['userid']);
     </script>
   </head>
   <body>
-    <?php
-    //include the header page
-    include("header.php");
+       
+EOT;
 
 
     if ($role == "Administrator" || $role =="Researcher" || $role=="GeneralUser")
@@ -53,7 +52,8 @@ $userid=strtoupper($_SESSION['userid']);
     {
       echo "&nbsp;<br>";
     }
-    ?>
+
+echo <<< EOT
     <br><br><br>
     <form   action="expUploader.php" method="POST" name="index" enctype="multipart/form-data" onsubmit="return validate(index);">
       <table class="_100">
@@ -115,10 +115,10 @@ $userid=strtoupper($_SESSION['userid']);
 	</tr>
       </table>
     </form>
-  </body>
-</html>
-
- 
+				      
+EOT;
+  }
+} 
  
  
  

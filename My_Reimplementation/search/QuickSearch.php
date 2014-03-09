@@ -14,8 +14,8 @@ class QuickSearch extends DatabaseConnectionPage {
 
 /*
 <?php
-require ("../templates/WebPage.php");
-require ("../widgets/search_widgets.php");
+require_once ("../templates/WebPage.php");
+require_once ("../widgets/search_widgets.php");
 
 initialize_session();
 $db_conn = connect_to_db();

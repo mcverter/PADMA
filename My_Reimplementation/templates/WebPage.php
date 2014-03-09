@@ -33,11 +33,11 @@ EOT;
     <body>
 EOT;
 
-        require(__DIR__ . "/../partials/header.php");
+        require_once (__DIR__ . "/../partials/header.php");
 
         $this->print_content();
 
-        require(__DIR__ . "/../partials/footer.php");
+        require_once(__DIR__ . "/../partials/footer.php");
 
             echo <<< EOT
     </body>

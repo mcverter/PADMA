@@ -1,23 +1,18 @@
 <?php
-include ("control_functions.php");
-check_role('a');
-initialize_session();
-$db_conn = connect_to_db();
-$userid=strtoupper($_SESSION['userid']);
-?>
 
+require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
 
-<!DOCTYPE html>
-<head>
-  <title>PADMA: Load Reference Data </title>
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
+class LoaderStartPage extends DatabaseConnectionPage {
+    function __construct() {
+        check_role('a');
+    }
 
+    function print_js()
+    {
 
-  <script  type="text/javascript">
-   <!-- hide script from older browsers
+        echo <<< EOT
+       function validate(index)
 
-   function validate(index)
-   {
      //Check if the version field is empty
      if(""==document.forms.index.version.value)
      {
@@ -35,19 +30,14 @@ $userid=strtoupper($_SESSION['userid']);
 
 
    }
-   stop hiding script -->
   </script>
-</head>
-<body>
-  <?php
-  //include the header page
-  include("header.php");
-  ?>
-  <div class="nav_prev">
-    <a title='back' href='DataManagement.php'>Back to Data Management</a> <br />
-  </div>
+
+EOT;
+    }
+function print_content() {
 
 
+echo <<< EOT
   <form  class="central_widget"  action="uploader.php" method="POST" name="index" enctype="multipart/form-data" onsubmit="return validate(index);">
     <heading>Reference Data Loading...</heading>
     <fieldset>
@@ -63,10 +53,11 @@ $userid=strtoupper($_SESSION['userid']);
     <input name="Button1" type="submit" value="Verify Data" />
     <p><div id="txtHint"><b></b></div>
   </form>
-</body>
-</html>
 
+EOT;
 
+}
+}
 
 
 

@@ -1,15 +1,13 @@
 <?php
-include ("control_functions.php");
-check_role('a');
-$db_conn=initialize_session();
-connect_to_db();
-$userid=strtoupper($_SESSION['userid']);
-?>
+require_once (__DIR__ . "/../templates/DatabaseConnectionPage.php");
+class DeleteReferencePage extends DatabaseConnectionPage {
+    function __construct() {check_role('a');
+    }
+    function print_content() {
+        $role=0;
+        $db_conn = $this->db_conn;
+        $userid=strtoupper($_SESSION['userid']);
 
-
-<?php
-
-$userid=strtoupper($_SESSION['userid']);
 
 //delete experiment when delete button is clicked
 $version=$_POST['version'];
@@ -25,29 +23,17 @@ $parsed = ociparse($db_conn, $cmdstr3);
 ociexecute($parsed);
 
 
-?>
+echo <<< EOT
 
-<!DOCTYPE html>
-<html>
-  <head>
-    <title>PADMA Database</title>
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-  </head>
-  <body>
-
-    <?php include("header.php"); ?>
-    <form name="form1" action="<?php echo $_SERVER['PHP_SELF'];?>" method="post">
+     <form name="form1" action="" method="post">
       <fieldset>
 	<b>(Select a Version to delete)</b><br>
  
       </fieldset>
     </form>
-    <?php include("footer.php"); ?>
-  </body>
-</html>
-
-<?php  oci_close($db_conn); ?>
-
+EOT;
+    }
+}
 
 
 

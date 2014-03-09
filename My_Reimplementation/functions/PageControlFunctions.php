@@ -2,7 +2,9 @@
 
 
 function initialize_session() {
-    session_start();
+    if(  session_id() == "")  {
+          session_start();
+    }
 }
 
 function escape_space($string) {

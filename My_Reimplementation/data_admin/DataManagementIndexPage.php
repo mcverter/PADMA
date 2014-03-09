@@ -43,10 +43,6 @@ EOT;
     }
 }
 
-$dm = new DataManagement();
-$dm->display_page();
-
-
 
 
 

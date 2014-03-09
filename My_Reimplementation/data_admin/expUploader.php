@@ -1,21 +1,16 @@
 <?php
-include ("control_functions.php");
-check_role('ar');
-initialize_session();
-$db_conn = connect_to_db();
-$userid=strtoupper($_SESSION['userid']);
-?>
 
-<!DOCTYPE html>
-  <head>
-    <title>PADMA Database</title>
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
+require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
 
-  </head>
-  <body>
-    <?php
-    //include the header page
-    include("header.php");
+class ExperimentUploader extends DatabaseConnectionPage {
+    function __construct() {
+        check_role('ar');
+    }
+
+    function print_content() {
+        $role=0;
+        $db_conn = $this->db_conn;
+
 
 
     if ($role == "Administrator" || $role =="Researcher" || $role=="GeneralUser")
@@ -32,7 +27,7 @@ $userid=strtoupper($_SESSION['userid']);
     {
       echo "&nbsp;<br>";
     }
-    ?>
+    echo <<< EOT
     <br><br><br>
     <form   action="insertExperiment.php" method="POST">
       <table class="_100">
@@ -53,8 +48,8 @@ $userid=strtoupper($_SESSION['userid']);
 		    <tr>
 		      <td class="_20r">&nbsp;</td>
 		      <td class="8lb">
-			<?php
 
+EOT;
 			//upload file to the server
 			$uploaddir = 'C:/inetpub/wwwroot/PADMA/drosoData/';
 			$uploadfile = $uploaddir . $_FILES['uploadedfile']['name'];
@@ -69,14 +64,6 @@ $userid=strtoupper($_SESSION['userid']);
 			    $db_PASS=$_SESSION['pass'];
 			    $db_DB=$_SESSION['db'];
 
-			    //connection to the database
-			    $db_conn = ocilogon($db_UN, $db_PASS, $db_DB);
-			    if (! $db_conn)
-			    {
-			      print_db_conn_failure( oci_error() );
- 			      exit;
-
-			    }
 			    //Directory location of the file that will be loaded
 			    $directories="C:/inetpub/wwwroot/PADMA/drosoData/";
 			    //$file = $_REQUEST['uploadedfile'] ;
@@ -189,28 +176,9 @@ $userid=strtoupper($_SESSION['userid']);
 			{
 			  print "Invalid file type, file was not uploaded. ";
 			}
-			?>
-		      </TD>
-		      <td class="_20r">&nbsp;</td>
-		      <td> <p><div id="txtHint"><b></b></div></p> </td>
-		    </tr>
-		  </table>
-		  <br><br><br>
-		</td>
-	      </tr>
-	    </table>
-	    <td class="_20">&nbsp;</td>
-	</tr>
-      </table>
-    </form>
-    <?php
-    //close database connection
-    oci_close($db_conn);
-    ?>
-  </body>
-</html>
-
- 
+    }
+}
+?>
  
  
  

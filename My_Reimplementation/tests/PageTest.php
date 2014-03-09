@@ -30,7 +30,6 @@ require_once(__DIR__ . "/../data_admin/SelectExperimentResearcher.php");
 require_once(__DIR__ . "/../user/PasswordChangePage.php");
 require_once(__DIR__ . "/../data_admin/terms.php");
 require_once(__DIR__ . "/../user/PasswordRecoveryPage.php");
-require_once(__DIR__ . "/../data_admin/testupload.php");
 require_once(__DIR__ . "/../user/SubmitNewUserPage.php");
 require_once(__DIR__ . "/../data_admin/uploadagreement.php");
 require_once(__DIR__ . "/../user/SubmitProfilePage.php");

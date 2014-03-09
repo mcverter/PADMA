@@ -182,11 +182,7 @@ mail($my_email,$subject,$message,$headers);
   </head>
 
   <body bgcolor="#F0F8FF" text="#000000">
-    <?php
-    //include the header page
-    if (session_id() == "") session_start();
-    include("header.php");
-    ?>
+
     <div>
       <center><br><be>
 	<b>Thank you <?php print stripslashes($_REQUEST['name']); ?></b>

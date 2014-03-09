@@ -1,21 +1,13 @@
 <?php
-include ("control_functions.php");
-initialize_session();
-$db_conn = connect_to_db();
 
-$userid=strtoupper($_SESSION['userid']);
-unset($_SESSION['expName']);
-?>
+require_once (__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
+class SelectExperimentPage extends DatabaseConnectionPage {
+    function __construct() {}
 
-<!DOCTYPE html>
+    function print_js() {
 
-<html>
-
-  <head>
-    <title>Droso Pivot</title>
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-
+        echo <<<EOT
     <script LANGUAGE="JavaScript" type="text/javascript">
      var xmlHttp
 
@@ -58,14 +50,12 @@ unset($_SESSION['expName']);
        return xmlHttp;
      }
     </script>
-  </head>
-  <body>
-    <?php
-    //include the header page
-    include("header.php");
-    ?>
+EOT;
+    }
 
+function print_content() {
 
+echo <<< EOT
     <div class="edit_form">
       <h2> Select an Experiment </h2>
       <form name="form1" action="EditDescription.php" method="post">
@@ -73,17 +63,7 @@ unset($_SESSION['expName']);
 	<input name="btnSubmit" type="submit" value="Edit/Enter Description" class="submit button">
       </form>
 
-      <?php include("footer.php"); ?>
-  </body>
-</html>
-
-
-<?php oci_close($db_conn); ?>
-
-
-
-
-
-
-
+EOT;
+}
+}
 

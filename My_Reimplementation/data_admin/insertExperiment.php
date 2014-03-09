@@ -1,39 +1,11 @@
 <?php
-include ("control_functions.php");
-check_role('ar');
-initialize_session();
-$db_conn = connect_to_db();
-$userid=strtoupper($_SESSION['userid']);
-?>
+require_once (__DIR__ . "/../templates/DatabaseConnectionPage.php");
+class InsertExperiment extends DatabaseConnectionPage {
+    function __construct() {}
+    function print_content() {
 
+echo <<< EOT
 
-<!DOCTYPE html>
-
-  <head>
-  <title>PADMA Database</title>
-  <link rel="stylesheet" href="css/style.css" type="text/css" />
-    </head>
-  <body>
-    <?php
-  //include the header page
-  include("header.php");
-
-    if ($role == "Administrator" || $role =="Researcher" || $role=="GeneralUser")
-    {
-      echo "<table class='_90small_bold'>";
-      echo	"<tr>";
-      echo		"<td class='rc'>";
-      echo			"<a title='back' href='DataManagement.php'>Back to Data Management Page</a> <br/>";
-      echo		"</td>";
-      echo	"</tr>";
-      echo "</table>";
-    }
-    else
-    {
-      echo "&nbsp;<br>";
-    }
-    ?>
-    <br><br><br>
     <form   action="insertReference.php" method="POST">
       <table class="_100">
 	<tr>
@@ -53,13 +25,8 @@ $userid=strtoupper($_SESSION['userid']);
 		    <tr>
 		      <td class="_20r">&nbsp;</td>
 		      <td class="8lb">
-			<?php
-			//Get sesisson veriable to connect to database
-			$db_UN=$_SESSION['un'];
-			$db_PASS=$_SESSION['pass'];
-			$db_DB=$_SESSION['db'];
-
-
+EOT;
+/*
 			$prob_id=array();
 			$exp_name=array();
 			$catg=array();
@@ -135,26 +102,10 @@ $userid=strtoupper($_SESSION['userid']);
 			  exit("ERROR! Inserting Record# $EXPERIMENT_ROWCOUNT Into EXPERIMENT Table");
 			}
 			echo "<b>Experiment $exp_name[0] Inserted SUCCESSFULLY. </b>";
-			?>
-		      </TD>
-		      <td class="_20r">&nbsp;</td>
-		      <td> <p><div id="txtHint"><b></b></div></p> </td>
-		    </tr>
-		  </table>
-		  <br><br><br>
-		</td>
-	      </tr>
-	    </table>
-	    <td class="_20">&nbsp;</td>
-	</tr>
-      </table>
-    </form>
-    <?php oci_close($db_conn); ?>
-  </body>
-</html>
+*/
 
- 
- 
+    }
+}
  
  
  

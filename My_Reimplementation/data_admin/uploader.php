@@ -1,31 +1,26 @@
 <?php
-check_role('ar');
-initialize_session();
-connect_to_db();
-$userid=strtoupper($_SESSION['userid']);
-?>
+
+require_once(__DIR__  . "/../templates/DatabaseConnectionPage.php");
+
+class UploaderPage extends DatabaseConnectionPage {
+    function __construct() {
+        parent::__construct();
+        check_role('ar');
+        $this->title= " Upload ";
+    }
 
 
-
-<!DOCTYPE html>
-
-<html>
-
-  <head>
-    <title>PADMA Database</title>
-    <link rel="stylesheet" href="css/style.css" type="text/css" />
-  </head>
-  <body>
-    <?php include("header.php"); ?>
+    function print_content() {
+       echo <<< EOT
 
     <form   action="insertReference.php" method="POST">
       <table class="headerImage">
 	<b><font color="#ffffff">Confirmation...</font></b>
       </table>
 
-      <?php
-      //upload file to the server
-      $uploaddir = 'C:/inetpub/wwwroot/PADMA/drosoData/';
+EOT;
+
+        $uploaddir = 'C:/inetpub/wwwroot/PADMA/drosoData/';
       $uploadfile = $uploaddir . $_FILES['uploadedfile']['name'];
 
       $extension=explode(".",$uploadfile);
@@ -199,17 +194,8 @@ $userid=strtoupper($_SESSION['userid']);
       {
 	print "Invalid file type, file was not uploaded. ";
       }
-      ?>
-    </form>
-    <?php
-    //close database connection
-    oci_close($db_conn);
-    ?>
-  </body>
-</html>
-
-
-
+    }
+}
 
 
 

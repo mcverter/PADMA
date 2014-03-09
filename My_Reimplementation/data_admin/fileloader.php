@@ -1,4 +1,5 @@
 <?php
+  /*
 if ($HTTP_POST_VARS['submit'])
 {
   if (!is_uploaded_file($HTTP_POST_FILES['file']['tmp_name']))
@@ -27,6 +28,7 @@ if ($HTTP_POST_VARS['submit'])
     }
   }
 }
+  */
 ?>
 
 <html>

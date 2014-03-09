@@ -157,9 +157,6 @@ EOT;
 
 }
 
-$ump = new UserManagementPage();
-$ump->display_page();
-
 ?>
 
 

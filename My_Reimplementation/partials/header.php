@@ -9,7 +9,7 @@
         <li><a href="select_search.php" title="Quick Search"> Search </a></li>
         <li><a href="ListofExperiment.php" title="Experiment List"> Experiment List </a></li>
         <?php
-        if (session_id() == "") session_start();
+
 
         $role = isset($_SESSION['role']) ? $_SESSION['role'] : "";
 
