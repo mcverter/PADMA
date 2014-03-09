@@ -1,15 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
-
-class ExperimentDescriptionPage extends DatabaseConnectionPage {
-    function __construct() {
-        parent::__construct();
-        check_role('a');
-    }
-
-    function print_content() {
-        $db_conn = $this->db_conn;
+function read_experiment_description($db_conn) {
+          $db_conn = $this->db_conn;
         $param=0;
 
         //store experimentname into a session variable
@@ -24,19 +16,7 @@ class ExperimentDescriptionPage extends DatabaseConnectionPage {
         echo        	$results["EXP_DESC"][0];
         oci_close($db_conn);
 
-    }
-}
+  }
+
 
 ?>
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 
- 

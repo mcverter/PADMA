@@ -1,14 +1,5 @@
 <?php
-include (__DIR__ . "/../templates/DatabaseConnectionPage.php");
-
-
-class ConfirmEditDescriptionPage extends DatabaseConnectionPage {
-    function __construct(){}
-    function print_content() {
-        check_role('ar');
-        initialize_session();
-        $db_conn = connect_to_db();
-
+function confirm_edit_description($db_conn) {
         $userid=strtoupper($_SESSION['userid']);
 
         $expName= isset($_POST['expName'])? urldecode($_POST['expName']) : "";
@@ -34,5 +25,7 @@ class ConfirmEditDescriptionPage extends DatabaseConnectionPage {
         }
 
 
-    }
-}
+
+  }
+
+?>
