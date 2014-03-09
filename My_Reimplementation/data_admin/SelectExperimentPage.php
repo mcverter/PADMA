@@ -1,6 +1,6 @@
 <?php
 
-require_once (__DIR__ . "/../templates/DatabaseConnectionPage.php");
+require_once (__DIR__ . "/../functions/db_ReadFunctions.php");
 
 class SelectExperimentPage extends DatabaseConnectionPage {
     function __construct() {}
@@ -59,7 +59,10 @@ echo <<< EOT
     <div class="edit_form">
       <h2> Select an Experiment </h2>
       <form name="form1" action="EditDescription.php" method="post">
-	 select_from_all_experiments();
+EOT;
+
+read_all_experiments();
+echo <<< EOT
 	<input name="btnSubmit" type="submit" value="Edit/Enter Description" class="submit button">
       </form>
 
