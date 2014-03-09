@@ -1,5 +1,8 @@
 <?php
-class UploadAgreement extends WebPage {
+
+require_once(__DIR__ . "/../templates/WebPage.php");
+
+class UploadAgreementPage extends WebPage {
 
     public function __construct() {
         parent::__construct();
@@ -56,8 +59,6 @@ echo" </form>";
 }
 }
 
-$up = new UploadAgreement();
-$up->display_page();
 
 
 

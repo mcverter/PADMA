@@ -63,7 +63,7 @@ echo <<< EOT
     <form name="form1" action="EditDescription.php" method="post" onSubmit="return validate(form1);">
       Select an Experiment:&nbsp;&nbsp;
 
-//	select_from_researcher_experiments();
+read_researcher_experiments();
 
       </select>
       <div id="txtHint"></div>

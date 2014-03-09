@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . "/../templates/WebPage.php");
 
-class termsOfUse extends WebPage {
+class TermsOfUsePage extends WebPage {
     function __construct() {
         parent::__construct();
     }

@@ -1,5 +1,6 @@
 <?php
 
+function read_researcher_experiments(){}
 
 function read_all_experiments() {
   }
