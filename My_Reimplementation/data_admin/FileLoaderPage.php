@@ -1,7 +1,18 @@
 <?php
-  /*
-if ($HTTP_POST_VARS['submit'])
-{
+
+require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
+
+class FileLoaderPage extends DatabaseConnectionPage {
+   
+  function __construct() {
+    parent::__construct();
+    check_role('ar');
+  }
+
+  function print_content() {
+
+    if ($HTTP_POST_VARS['submit'])
+      {
   if (!is_uploaded_file($HTTP_POST_FILES['file']['tmp_name']))
   {
     $error = "You did not upload a file!";
@@ -28,8 +39,8 @@ if ($HTTP_POST_VARS['submit'])
     }
   }
 }
-  */
-?>
+    echo <<< EOT
+
 
 <html>
   <head></head>
@@ -40,10 +51,9 @@ if ($HTTP_POST_VARS['submit'])
       <input type="file" name="file"><br>
       <input type="submit" name="submit" value="submit">
     </form>
-  </body>
-</html> 
- 
- 
+      EOT;
+  }
+} 
  
  
  
