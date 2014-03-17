@@ -7,7 +7,7 @@
  */
 
 class FormMaker {
-static function make_create_profile_form($db_conn) {
+static function form_create_profile($db_conn) {
     //obtain this user's profile
     $cmdName = "select title,fname,lname,mname,add_1,add_2,city,state,zip,country,phone,email,ind,prof,updated_by,updated_on from client where user_id = '".$userid."'";
     $parsed = ociparse($db_conn, $cmdName);
@@ -147,7 +147,7 @@ EOT;
 }
 
 
-    static function make_new_user_form($db_conn)
+    static function form_new_user($db_conn)
 {
     echo <<< EOT
 
@@ -214,4 +214,54 @@ EOT;
 EOT;
 
 }
+
+    static function form_search_panel() {
+
+        echo "<div id='search_panel'>";
+        self::form_quick_search_button();
+        self::form_advanced_query_button();
+        self::form_refined_search_button();
+        echo "</div>";
+
+    }
+
+
+
+    static function form_upload_experiment_widget() {
+        echo <<< EOT
+    <form  action='uploadagreement.php' method='post' name='index'>
+	<input id='btnLogin' type='submit' value='Load Experiment Data' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
+EOT;
+    }
+    static function form_delete_experiment_widget() {
+        echo <<< EOT
+    <form  action='deleteExpResearcher.php' method='post' name='index'>
+	<input id='btnLogin' type='submit' value='Delete Experiment Data' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
+EOT;
+    }
+
+    static function form_edit_experiment_widget() {
+        echo <<< EOT
+    <form  action='SelectExperimentResearcher.php' method='post' name='index'>
+	<input id='btnLogin' type='submit' value='Enter/Edit Experiment Detail' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
+EOT;
+
+    }
+    static function form_upload_reference_data_widget() {
+        echo <<< EOT
+
+    <form  action='loaderStart.php' method='post' name='usermanagement'>
+	<input id='btnLogin' type='submit' value='Load Reference Data' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
+EOT;
+    }
+
+    static function form_delete_reference_data_widget() {
+        echo <<< EOT
+
+	<form  action='deleteRefAdministrator.php' method='post' name='index'>
+	<input id='btnLogin' type='submit' value='Delete Reference Data' style='width:40%;font-weight:bold;height:35px;COLOR:#4682B4'/>
+EOT;
+    }
+
+
 } 

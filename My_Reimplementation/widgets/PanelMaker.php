@@ -7,7 +7,15 @@
  */
 
 class PanelMaker {
-static function panel_edit_profile() {
+
+    static function panel_experiment_list() {
+        echo "<div id='experiment'>";
+        self::panel_experiment_list_button();
+        echo "</div>";
+    }
+
+
+    static function panel_edit_profile() {
     echo <<< EOT
 <fieldset>
     <h2>YOUR PROFILE</h2>
