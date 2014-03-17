@@ -31,7 +31,7 @@ function read_login_user($db_conn) {
         $_SESSION['userid']=$modifiedUserID;
 
     }
-
+}
 function read_all_countries($db_conn) {
     $cmdCountry = "select country,countryid from country order by countryid";
     $parsed = ociparse($db_conn, $cmdCountry);
@@ -62,6 +62,5 @@ function read_experiment_description($db_conn) {
         oci_close($db_conn);
 
   }
-
 
 ?>

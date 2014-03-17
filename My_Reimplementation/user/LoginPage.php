@@ -24,8 +24,6 @@ class LogInPage extends DatabaseConnectionPage {
                 header( 'Location: index.php' ) ;
             }
 
-        }
-
         echo <<< EOT
     <form  action="login.php" method="post">
 	<h2> Log in </h2> 

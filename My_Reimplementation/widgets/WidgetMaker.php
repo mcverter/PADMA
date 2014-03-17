@@ -2,39 +2,6 @@
 
 class WidgetMaker {
 
-
-  static function make_load_reference_button() {
-    self::make_control_button("load_reference.php", " Load Reference ");
-  }
-
-  static function make_delete_reference_button() {
-    self::make_control_button("delete_reference.php", " Delete Reference ");
-  }
-
-
-  static function make_load_experiment_button() {
-    self::make_control_button("experiment_loader_start.php", " Load Reference ");
-  }
-
-  static function make_delete_experiment_button() {
-    self::make_control_button("delete_experiment.php", " Delete Reference ");
-  }
-
-  static function make_edit_experiment_button() {
-    self::make_control_button("edit_experiment.php", " Delete Reference ");
-  }
-
- 
-static function make_control_button ($href, $button_text) {
-    echo <<< EOT
-    <div class="control_button">
-      <a href="{$href}">
-	    <input type='button' value='{$button_text}'/>
-       </a>
-    </div>
-EOT;
-
-}
 static function make_update_profile_btn () {
     self::make_control_button("edit_profile.php", "Edit Profile");
 }
