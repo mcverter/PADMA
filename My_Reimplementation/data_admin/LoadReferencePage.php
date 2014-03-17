@@ -2,7 +2,7 @@
 
 require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
 
-class LoaderStartPage extends DatabaseConnectionPage {
+class LoaderReferencePage extends DatabaseConnectionPage {
     function __construct() {
         check_role('a');
     }

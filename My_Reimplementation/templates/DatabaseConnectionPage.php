@@ -11,8 +11,8 @@ abstract class DatabaseConnectionPage extends WebPage {
     }
 
     function __destruct() {
-        $db_conn = $this->db_conn;
-        oci_close($db_conn);
+      $db_conn = $this->db_conn;
+      oci_close($db_conn);
     }
 
 }

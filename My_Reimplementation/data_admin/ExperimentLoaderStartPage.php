@@ -31,6 +31,7 @@ EOT;
 
 }
 function print_content() {
+  $role = 0;
   echo <<< EOT
   <form   action="expUploader.php" method="POST" name="index" enctype="multipart/form-data" onsubmit="return validate(index);">
   <td ><b><font color="#ffffff">Experiment Data Loading...</font></b></td>
@@ -54,7 +55,7 @@ function print_content() {
 
 			      <input name="Button1" type="submit" value="Verify Data" />
   <td> <p><div id="txtHint"><b></b></div></p> </td>
-    EOT;
+EOT;
     }
     }
 

@@ -1,6 +1,14 @@
 <?php
+
+    $handle = opendir(__DIR__ . "/../webpages");
+    while ($webpage = readdir($handle)) {
+        $bn = basename($webpage);
+        print "Checking {$bn} \n";
+        require_once(__DIR__ . "/../webpages/" . $webpage);
+    }
+/*
 require_once(__DIR__ . "/../widgets/DB_WidgetMaker.php");
-require_once(__DIR__ . "/../data_admin/ConfirmEditDescription.php");
+require_once(__DIR__ . "/../data_admin/ConfirmEditDescriptionPage.php");
 require_once(__DIR__ . "/../search/QuickSearch.php");
 require_once(__DIR__ . "/../search/SearchBase.php");
 require_once(__DIR__ . "/../data_admin/DeleteExperimentPage.php");
@@ -75,16 +83,6 @@ require_once(__DIR__ . "/../data_admin/SelectExperimentResearcher.php");
 require_once(__DIR__ . "/../user/PasswordChangePage.php");
 require_once(__DIR__ . "/../data_admin/terms.php");
 require_once(__DIR__ . "/../user/UserInfoPage.php");
-
-/*
-about_us.php	     edit_description.php   researcher_main.php
-admin_main.php	     edit_profile.php	    search_result.php
-advanced_search.php  faq.php		    select_search.php
-contact.php	     index.php		    submit_new_user.php
-create_profile.php   login.php		    submit_profile.php
-create_user.php      new_user.php	    user_info.php
-data_management.php  password_change.php    user_main.php
-documents.php	     password_recovery.php  user_management.php
 
  */
 ?>

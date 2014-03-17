@@ -2,7 +2,7 @@
 require_once(__DIR__ . "/../templates/WebPage.php");
 require_once(__DIR__ . "/../widgets/WidgetMaker.php");
 
-class DataManagement extends WebPage {
+class DataManagementIndexPage extends WebPage {
 
     public function __construct() {
         parent::__construct();
@@ -19,19 +19,20 @@ EOT;
         $role = $_SESSION['role'];
       if ($role=="Researcher")
       {
-          make_upload_experiment_widget();
-          make_delete_experiment_widget();
-          make_edit_experiment_widget();
+       
+	WidgetMaker::make_load_experiment_button() ;
+	WidgetMaker::make_delete_experiment_button() ;
+	WidgetMaker::make_edit_experiment_button() ;
       }
 
       if ($role=="Administrator")
       {
-          make_upload_experiment_widget();
-          make_delete_experiment_widget();
-          make_edit_experiment_widget();
+	WidgetMaker::make_load_experiment_button() ;
+	WidgetMaker::make_delete_experiment_button() ;
+	WidgetMaker::make_edit_experiment_button() ;
 
-          make_upload_reference_data_widget();
-          make_delete_reference_data_widget();
+	WidgetMaker::make_load_reference_button();
+	WidgetMaker::make_delete_reference_button();
       }
 
         echo <<< EOT

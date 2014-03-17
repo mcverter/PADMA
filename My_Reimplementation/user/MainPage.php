@@ -23,13 +23,13 @@ EOT;
 
         switch ($role) {
             case "a":
-                make_user_mgmt_button();
+                WidgetMaker::make_user_mgmt_button();
             case "r":
-                make_data_mgmt_button();
+                WidgetMaker::make_data_mgmt_button();
             case "u":
-                make_update_profile_btn();
+                WidgetMaker::make_update_profile_btn();
             default:
-                make_search_panel();
+                WidgetMaker::make_search_panel();
 
 
         }
