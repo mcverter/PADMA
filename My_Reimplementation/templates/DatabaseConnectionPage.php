@@ -1,13 +1,21 @@
 <?php
 require_once("WebPage.php");
-require_once(__DIR__ . "/../widgets/DB_WidgetMaker.php");
+require_once(__DIR__ . "/../functions/DBFunctions.php");
 
 abstract class DatabaseConnectionPage extends WebPage {
     protected $db_conn;
 
+    const DB_USER = "drosophilarc2";
+    const DB_PASS = "drosopivot";
+    const DB_DATABASE = "//127.0.0.1/ORATIKI";
+
+
      function __construct() {
         parent::__construct();
-        $this->db_conn = connect_to_db();
+         if ( $this->db_conn == null) {
+             $moo = connect_to_db();
+             $this->db_conn = connect_to_db();
+         }
     }
 
     function __destruct() {

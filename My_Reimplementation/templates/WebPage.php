@@ -2,13 +2,25 @@
 
 require_once(__DIR__ . "/../functions/PageControlFunctions.php");
 
+require_once(__DIR__ . "/../components/HeaderMaker.php");
+require_once(__DIR__ . "/../components/FooterMaker.php");
+require_once(__DIR__ . "/../components/WidgetMaker.php");
+
 abstract class WebPage {
 
     protected $title;
+    protected $userid;
+    protected $role;
 
      public function __construct() {
         initialize_session();
-    }
+         $_SESSION['userid'] = 'akira';
+         $_SESSION['role'] = 'Administrator';
+         $this->userid = isset($_SESSION['userid']) ? $_SESSION['userid'] : "";
+         $this->role = isset($_SESSION['role']) ? $_SESSION['role'] : "";
+
+
+     }
     abstract public function print_content();
 
 
@@ -33,12 +45,11 @@ EOT;
     <body>
 EOT;
 
-        require_once (__DIR__ . "/../partials/header.php");
+        HeaderMaker::make_header();
 
         $this->print_content();
 
-        require_once(__DIR__ . "/../partials/footer.php");
-
+        FooterMaker::make_footer();
             echo <<< EOT
     </body>
     </html>
