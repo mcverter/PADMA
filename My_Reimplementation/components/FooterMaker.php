@@ -1,11 +1,18 @@
 <?php
+
+/**
+ * Class FooterMaker
+ */
     class FooterMaker
     {
 
+        /**
+         * @return string
+         */
         static function make_footer()
         {
 
-            echo <<< EOT
+            $returnString = <<< EOT
 </div>
 
 <div>
@@ -22,6 +29,7 @@
     </div>
 </div>
 EOT;
+            return $returnString;
         }
     }
 

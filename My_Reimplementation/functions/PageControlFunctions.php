@@ -32,7 +32,7 @@ class PageControlFunctions
         set_time_limit(6000);
         $db_conn = ocilogon($db_UN, $db_PASS, $db_DB);
         if (!$db_conn) {
-            db_conn_failure(oci_error());
+            self::db_conn_failure(oci_error());
         }
         return $db_conn;
     }
@@ -83,4 +83,3 @@ EOT;
 
 
 }
-?>

@@ -1,11 +1,17 @@
 <?php
+
+/**
+ * Class HeaderMaker
+ */
 class HeaderMaker
 {
 
+    /**
+     * @return string
+     */
     static function make_header()
     {
-
-        echo <<< EOT
+        $returnString = <<< EOT
 
 <div id="header">
     <div id="banner">
@@ -22,14 +28,14 @@ EOT;
         $role = isset($_SESSION['role']) ? $_SESSION['role'] : "";
 
         if ($role == "Administrator") {
-            echo <<<EOT
+            $returnString .= <<<EOT
      <li><a href="EditProfile.php" title="Profile Management">Update Profile</a></li>
      <li><a href="usermanagement.php" title="User Management">User Setup</a></li>
      <li><a href="DataManagement.php" title="Data Management">Data Management</a></li>
      <li><a href="index.php?logout=true" title="Logout">Log Out</a></li>
 EOT;
         } else if ($role == "Researcher") {
-            echo <<<EOT
+            $returnString .= <<<EOT
      <li><a href="newprofile.php" title="Profile Management">Update Profile</a></li>
      <li><a href="DataManagement.php" title="Data Management">Data Management</a></li>
      <li><a href="index.php?logout=true" title="Logout">Log Out</a></li>
@@ -37,29 +43,30 @@ EOT;
 EOT;
 
         } else if ($role == "GeneralUser") {
-            echo <<<EOT
+            $returnString .= <<<EOT
      <li><a href="newprofile.php" title="Profile Management">Update Profile</a></li>
      <li><a href="index.php?logout=true" title="Logout">Log Out</a></li>
 
 EOT;
 
         } else if ($role == "NOTAUTHORIZED") {
-            echo <<<EOT
+            $returnString .= <<<EOT
 	<li><a href="login.php" title="Log In">Log In</a></li>
 
 EOT;
         } else {
-            echo <<<EOT
+            $returnString .= <<<EOT
 	<li><a href="login.php" title="Log In">Log In</a></li>
 
 EOT;
         }
-        echo <<<EOT
+        $returnString .= <<<EOT
 
     </ul>
 </div>
 
 <div class="main">
 EOT;
+        return $returnString;
     }
 }

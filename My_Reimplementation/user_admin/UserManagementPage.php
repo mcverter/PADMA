@@ -6,36 +6,44 @@
  * Time: 11:14 AM
  */
 
-class UserManagementPage {
-    function getNewUser() {
-        selectNewUserList();
-    }
-    function getExistingUser() {
-        selectExistingUserList();
-    }
+require_once(__DIR__ . '/../page_templates/DatabaseConnectionPage.php');
 
-    function getAccessRightList() {
-        selectAccessRightList();
-    }
-    function assignUserRight($cid, $accessright, $createdby, $date){
-        updateUserRight($cid, $accessright, $createdby, $date) ;
-    }
+class UserManagementPage extends DatabaseConnectionPage {
 
-    function exec_deleteUser($cid, $updatedby, $date)
-    {
-        deleteUser($cid, $updatedby, $date);
-    }
+    function generatePassword($minlength, $maxlength) {
 
-    function reactivateUser($cid, $updatedby, $date) {
-        updateUserActivation ($cid, $updatedby, $date);
     }
 
     function resetPassword($cid) {
-        $temppass=generatePassword(6,8);
-        update_password($cid, sha1($temppass));
+        $temppass=$this->generatePassword(6,8);
+        DBFunctions::updateUserPassword($this->db_conn, $cid, sha1($temppass));
     }
     function viewUserDetail($clientid) {
-        selectUserInfo($clientid);
+        DBFUnctions::selectUserInfo($this->db_conn, $clientid);
+    }
+
+
+    function __construct() {
+
+    }
+
+    function print_js () {
+        echo <<< EOT
+        $('#existingUsers').change(function() {
+
+        });
+EOT;
+
+    }
+    function print_content() {
+        $db_conn = $this->db_conn;
+        echo WidgetMaker::select_input('Existing Users', 'existingUsers', DBFunctions::selectExistingUserList($db_conn),
+            'C_ID') .
+            WidgetMaker::select_input('New Users', 'newUsers', DBFunctions::selectNewUserList($db_conn), 'C_ID') .
+            WidgetMaker::select_input('New Users', 'newUsers', DBFunctions::selectNewUserList($db_conn), 'C_ID') ;
+
+;
+
     }
 }
 

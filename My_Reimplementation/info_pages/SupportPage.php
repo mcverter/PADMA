@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../templates/WebPage.php");
+require_once(__DIR__ . "/../page_templates/WebPage.php");
 
 class SupportPage extends WebPage {
 
@@ -47,4 +47,3 @@ class SupportPage extends WebPage {
 EOT;
     }
 }
-?>

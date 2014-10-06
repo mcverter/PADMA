@@ -1,7 +1,5 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 9/30/14
- * Time: 11:29 AM
- */ 
+require_once(__DIR__ .   "/../data_admin/EditExperimentPage.php");
+$p = new EditExperimentPage();
+$p->display_page();
+

@@ -1,11 +1,19 @@
 <?php
 
-require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
+require_once(__DIR__ . '/../page_templates/DatabaseConnectionPage.php');
 
+/**
+ * Class UploadReferencePage
+ */
 class UploadReferencePage extends DatabaseConnectionPage {
 
     const FILE_POSTVAR = 'referenceFile';
+    const UPLOAD_DIR = "/var/www/html/drosoReference/";
 
+
+    /**
+     * @param $db_conn
+     */
     function upload_file($db_conn)
     {
         $version = $_POST['version'];
@@ -14,72 +22,72 @@ class UploadReferencePage extends DatabaseConnectionPage {
 
         $uploadedFileName = $_FILES['referenceFile']['name'];
         if (strtolower(substr($uploadedFileName, -3, 3)) != "csv") {
-            return redirectDueToError("Invalid File Type.  Only csv files are accepted");
+            return PageControlFunctions::redirectDueToError("Invalid File Type.  Only csv files are accepted");
         }
-        $destinationFileName = UPLOAD_DIR . $uploadedFileName;
+        $destinationFileName = self::UPLOAD_DIR . $uploadedFileName;
         if (move_uploaded_file($_FILES['experimentFile']['tmp_name'], $destinationFileName)) {
-            return redirectDueToError("File could not be uploaded to path {$destinationFileName}. Please check with
+            return PageControlFunctions::redirectDueToError("File could not be uploaded to path {$destinationFileName}. Please check with
         PADMA support");
         }
 
         if (!($fileHandle = fopen($destinationFileName, "rb"))) {
-            return redirectDueToError("Could not open uploaded file {$destinationFileName}.  Please report error to support");
+            return PageControlFunctions::redirectDueToError("Could not open uploaded file {$destinationFileName}.  Please report error to support");
         }
         // first line is header
         if (! fgets($fileHandle)) {
-            return redirectDueToError("Empty File");
+            return PageControlFunctions::redirectDueToError("Empty File");
         }
         while (($line = fgets($fileHandle)) !== false) {
             if (substr_count($line, ",") != 4) {
-                return redirectDueToError("There must be 5 columns in each line of {$destinationFileName}.  The following line does not:\n'{$line}'' ");
+                return PageControlFunctions::redirectDueToError("There must be 5 columns in each line of {$destinationFileName}.  The following line does not:\n'{$line}'' ");
             }
 
             list ($probeid, $cgname, $genename, $flybasenum, $godata) =
                 explode($line, ",");
-            insertReference($probeid, $cgname, $genename, $flybasenum, $version, $userid, $date);
+            DBFunctions::insertReference($db_conn, $probeid, $cgname, $genename, $flybasenum, $version, $userid, $date);
 
             // if godata not empty
             if (preg_match("/\d/", $godata)) {
                 foreach (explode("///", $godata) as $goentry) {
                     $gospecification = explode("//", $goentry);
                     $gonumber = array_shift($gospecification);
-                    insertReferenceGo($probeid, $gonumber, $version, $userid, $date);
+                    DBFunctions::insertReferenceGo($probeid, $gonumber, $version, $userid, $date);
                     foreach ($gospecification as $description) {
-                        insertReferenceBio($gonumber, $description, $version, $userid, $date);
+                        DBFunctions::insertReferenceBio($gonumber, $description, $version, $userid, $date);
                     }
                 }
             }
         }
     }
 
-
+    /**
+     *
+     */
     function __construct()
     {
         $_SESSION['role'] = 'Administrator';
-        check_role('ar');
+        PageControlFunctions::check_role('ar');
         parent::__construct();
     }
 
 
-
+    /**
+     *
+     */
     function print_content() {
         if(empty($_FILES) || ($_FILES['size'] < 1) ||
             empty($_FILES[self::FILE_POSTVAR]) || empty($_FILES[self::FILE_POSTVAR]["name"]) ||
             ! is_uploaded_file($_FILES[self::FILE_POSTVAR]["name"])) {
             $actionUrl = $_SERVER['PHP_SELF'];
 
-        echo <<< EOT
-        <form name="uploadReferenceForm" action="$actionUrl" method="POST" enctype="multipart/form-data">
-            <h1>Load Reference Data</h1>
-EOT;
-            WidgetMaker::text_input('Version Number', 'version');
+//        <form name="uploadReferenceForm" action="$actionUrl" method="POST" enctype="multipart/form-data">
+//            <h1>Load Reference Data</h1>
 
-            WidgetMaker::file_input("Upload File", self::FILE_POSTVAR);
-            WidgetMaker::submit_button();
-
-                    echo <<< EOT
-            </form>
-EOT;
+        echo WidgetMaker::start_form($actionUrl, '') .
+            WidgetMaker::text_input('Version Number', 'version') .
+            WidgetMaker::file_input("Upload File", self::FILE_POSTVAR) .
+            WidgetMaker::submit_button() .
+            WidgetMaker::end_form();
 
         }
         else {

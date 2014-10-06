@@ -1,37 +1,42 @@
 <?php
-require_once (__DIR__ . "/../templates/DatabaseConnectionPage.php");
+require_once (__DIR__ . "/../page_templates/DatabaseConnectionPage.php");
 
-class DeleteReferencePage {
+/**
+ * Class DeleteReferencePage
+ */
+class DeleteReferencePage extends DatabaseConnectionPage {
     const VERSION_LABEL = "Version to Delete";
     const VERSION_SELECT_NAME = "Version";
     const VERSION_KEYVAL = "VERSION";
     const VERSION_POSTVAR = "version";
 
-    function make_version_select()
-    {
-        WidgetMaker::form_select(
-            self::VERSION_LABEL,
-            self::VERSION_SELECT_NAME,
-            $this->showReferenceList(),
-            self::VERSION_KEYVAL,
-            false);
+    /**
+     *
+     */
+    function showReferenceList() {
+        DBFunctions::selectVersionList();
     }
 
-    function showReferenceList() {
-        db_selectVersionList();
-    }
-    function exec_delete_reference($version) {
-        deleteReference($version);
-    }
+
+    /**
+     *
+     */
     function make_submit_button()
     {
-        WidgetMaker::submit_button('deleteBtn', 'Delete', '');
     }
 
-    function __construct() {check_role('a');
+    /**
+     *
+     */
+    function __construct() {
+        PageControlFunctions::check_role('a');
         parent::__construct();
         $this->title = " Delete Reference ";
     }
+
+    /**
+     *
+     */
     function print_content() {
         $db_conn = $this->db_conn;
 
@@ -39,7 +44,7 @@ class DeleteReferencePage {
             !empty ($_POST[self::VERSION_POSTVAR])
         ) {
             $versionPost = $_POST[self::VERSION_POSTVAR];
-            $this->exec_delete_reference($versionPost);
+            DBFunctions::deleteReference($db_conn, $versionPost);
             echo <<< EOT
             <h2> Version $versionPost has been deleted </h2>
 EOT;
@@ -55,9 +60,15 @@ EOT;
      <form name="deleteVersion" action="$actionUrl" method="post">
 
 EOT;
-        $this->make_version_select();
+        echo
+        WidgetMaker::select_input(
+            self::VERSION_LABEL,
+            self::VERSION_SELECT_NAME,
+            DBFunctions::selectVersionList($db_conn),
+            self::VERSION_KEYVAL,
+            false) .
 
-        $this->make_submit_button();
+        WidgetMaker::submit_button('deleteBtn', 'Delete', '');
 
 
         echo<<< EOT
@@ -65,5 +76,4 @@ EOT;
 EOT;
 
     }
-
 }

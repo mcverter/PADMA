@@ -17,12 +17,29 @@ Functions Below are divided into the following categories:
  */
 class DBFunctions
 {
+
+    /**
+     * @return bool|string
+     */
+    static function now() {
+        return date("m/d/y");
+    }
+
+    /**
+     * @param $db_conn
+     * @param $query
+     */
     private static function execute_NON_SELECT_query($db_conn, $query)
     {
         $parsed = ociparse($db_conn, $query);
         oci_execute($parsed);
     }
 
+    /**
+     * @param $db_conn
+     * @param $query
+     * @return resource
+     */
     private static function execute_SELECT_query_and_return($db_conn, $query)
     {
         $parsed = ociparse($db_conn, $query);
@@ -31,66 +48,114 @@ class DBFunctions
     }
 
 // Multiple Categories
+    /**
+     * @param $db_conn
+     * @param $userid
+     * @return resource
+     */
     static function selectAllUnrestrictedExperimentList($db_conn, $userid)
     {
         $query = "select distinct EXP_NAME from EXPERIMENT where RESTRICTED ='0' UNION select distinct EXP_NAME from EXPERIMENT where RESTRICTED ='1' AND CREATED_BY='{$userid}' order by 1";
-        return execute_SELECT_query_and_return($db_conn, $query);
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 
+    /**
+     * @param $db_conn
+     * @param $userid
+     * @return resource
+     */
     static function selectUserRestrictedExperimentList($db_conn, $userid)
     {
         $query = "select distinct EXP_NAME from EXPERIMENT where RESTRICTED ='1' AND CREATED_BY='" . $userid . "' order by EXP_NAME";
-        return execute_SELECT_query_and_return($db_conn, $query);
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 // Search Functions
+    /**
+     * @param $db_conn
+     * @return resource
+     */
     static function selectBiofunctionList($db_conn)
     {
         $query = "select distinct biofunction as BIOFUNCTION from REFERENCE_BIO order by biofunction";
-        return execute_SELECT_query_and_return($db_conn, $query);
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
+    /**
+     * @param $db_conn
+     * @param $userid
+     * @return resource
+     */
     static function selectCategoryList($db_conn, $userid)
     {
         $query = "select distinct CATG from EXPERIMENT where RESTRICTED ='0'	UNION select distinct CATG from EXPERIMENT where RESTRICTED ='1' AND	CREATED_BY='{$userid}' order by 1";
-        return execute_SELECT_query_and_return($db_conn, $query);
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
+    /**
+     * @param $db_conn
+     * @param $userid
+     * @return resource
+     */
     static function selectSpeciesList($db_conn, $userid)
     {
         $query = "select distinct SPEC from EXPERIMENT where RESTRICTED ='0'	UNION select distinct SPEC from EXPERIMENT where RESTRICTED ='1' AND	CREATED_BY='{$userid}' order by 1";
-        return execute_SELECT_query_and_return($db_conn, $query);
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
+    /**
+     * @param $db_conn
+     * @param $userid
+     * @return resource
+     */
     static function selectSubjectList($db_conn, $userid)
     {
         $query = "select distinct SUBJ from EXPERIMENT where RESTRICTED ='0'	UNION select distinct SUBJ from EXPERIMENT where RESTRICTED ='1' AND	CREATED_BY='{$userid}' order by 1";
-        return execute_SELECT_query_and_return($db_conn, $query);
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
+    /**
+     * @param $db_conn
+     * @param $userid
+     * @return resource
+     */
     static function selectRegValList($db_conn, $userid)
     {
         $query = "select distinct REG_VAL from EXPERIMENT where RESTRICTED ='0'	UNION select distinct REG_VAL from EXPERIMENT where RESTRICTED ='1' AND	CREATED_BY='{$userid}' order by 1";
-        return execute_SELECT_query_and_return($db_conn, $query);
+        return self::execute_SELECT_query_and_return($db_conn, $query);
+    }
+
+    /**
+     * @param $db_conn
+     * @param $userid
+     * @param $constraint
+     * @return resource
+     */
+    static function selectAdvancedQueryResult($db_conn, $userid, $constraint) {
+        $query = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT,GONUMBER, BIOFUNCTION,REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW where  {$constraint}  AND RESTRICTED='0' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT,GONUMBER, BIOFUNCTION,REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW where {$constraint} AND RESTRICTED='1' and CREATED_BY='{$userid}' ORDER BY 5,1";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
+    }
+
+    /**
+     * @param $db_conn
+     * @param $userid
+     * @param $constraint
+     * @return resource
+     */
+    static function selectQuickSearchResultList($db_conn, $userid, $constraint) {
+        $query = "SELECT DISTINCT PROBEID, CGNUMBER, GENENAME, FBCGNUMBER,EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW WHERE RESTRICTED='0' and {$constraint} union SELECT DISTINCT PROBEID, CGNUMBER, GENENAME, FBCGNUMBER,EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW WHERE RESTRICTED='1' and CREATED_BY={$userid} and {$constraint} ORDER BY 5,1";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
+
+
     }
     /*
-    static function SELECTAdvancedQueryResult() {
-        $query = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  where RESTRICTED='" .$notRestricted}' union SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  where RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' ORDER BY 5,1";
-        // $cmdstrRetrieve = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT,GONUMBER, BIOFUNCTION,REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW where "  . $str . " AND RESTRICTED='" .$notRestricted}' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT,GONUMBER, BIOFUNCTION,REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW where "  . $str . " AND RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' ORDER BY 5,1";
+    function selectRefineSearchResultList($db_conn) {
+        $queryRetrieve = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$notRestricted}' $str union SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' $str order by 5,1";
     }
     
-    function SELECTQuickSearchResultList() {
-        $cmdstrRetrieve = "SELECT DISTINCT PROBEID, CGNUMBER, GENENAME, FBCGNUMBER,EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$notRestricted}' and $searchCriteria IN ($newSearchToken)";
-        QuickSearchResult.php:	$cmdstrRetrieve2="SELECT DISTINCT PROBEID, CGNUMBER, GENENAME, FBCGNUMBER,EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' and $searchCriteria IN ($newSearchToken)";
-    }
-    
-    function SELECTRefineSearchResultList() {
-        $cmdstrRetrieve = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$notRestricted}' $str union SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' $str order by 5,1";
-    }
-    
-    function SELECTRefineSearchResultRefinedList() {
-        $cmdstrRetrieve ="SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$notRestricted}' $str union SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' $str order by 5,1";
+    function selectRefineSearchResultRefinedList($db_conn) {
+        $queryRetrieve ="SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$notRestricted}' $str union SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' $str order by 5,1";
     }
     */
     /*
@@ -98,211 +163,247 @@ class DBFunctions
      */
 //Check if the experimrnt exist into the database
 // expUploader.php:
-    static function selectExperimentByName($name)
+    /**
+     * @param $db_conn
+     * @param $name
+     * @return resource
+     */
+    static function selectExperimentByName($db_conn, $name)
     {
         $query = "SELECT  * FROM EXPERIMENT  WHERE EXP_NAME='{$name}'";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 
 //SelectExperiment.php:
-    static function selectUnrestrictedExperimentListFromMaster()
+    static function selectUnrestrictedExperimentListFromMaster($db_conn)
     {
         $query = "select EXP_NAME from EXP_MASTER where RESTRICTED ='0' order by EXP_NAME";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 //SelectExperimentResearcher.php:
     static function selectRestrictedExperimentListFromMaster($db_conn, $userid)
     {
         $query = "select EXP_NAME from EXP_MASTER where RESTRICTED ='0' and CREATED_BY='{$userid}' order by EXP_NAME";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 // EditDescription.php
-    static function selectExperimentDescription($name)
+    static function selectExperimentDescription($db_conn, $name)
     {
         $query = "SELECT EXP_MASTER.* FROM EXP_MASTER WHERE EXP_MASTER.EXP_NAME = '{$name}'";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
-    static function selectVersionList()
+    static function selectVersionList($db_conn)
     {
 //    deleteRefAdministrator.php:
         $query = "select distinct VERSION from REFERENCE_MAIN order by VERSION";
-
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 //    uploader.php:
 
-    static function selectFromReferenceByVersion($version)
+
+static function selectTitleList($db_conn) {
+
+}
+
+    static function selectFromReferenceByVersion($db_conn, $version)
     {
         $query = "SELECT  * FROM REFERENCE_MAIN  WHERE VERSION='{$version}'";
-
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
-    static function okay_to_insert_into_master()
+    static function okay_to_insert_into_master($db_conn)
     {
 
     }
 
-    static function experimentInDB($name)
+    static function experimentInDB($db_conn, $name)
     {
 
     }
 
 //insertExperiment.php:
-    static function insertIntoExpTbl($prob_id, $exp_name, $catg, $spec, $subj, $reg_val, $open, $userid, $date, $restricted, $hour)
+    static function insertIntoExpTbl($db_conn, $prob_id, $exp_name, $catg, $spec, $subj, $reg_val, $open, $userid,
+                                     $date, $restricted, $hour)
     {
         $query = "insert into EXPERIMENT VALUES('{$prob_id}','{$exp_name}','{$catg}' ,'{$spec}','{$subj}','{$reg_val}','{$open}','{$userid}', '{$date}','{$restricted}','{$hour}')";
-        exec_insert_query($query);
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
-    static function insertIntoExpMasterTbl($name, $description, $userid, $date, $restricted, $recNum)
+    static function insertIntoExpMasterTbl($db_conn, $name, $description, $userid, $date, $restricted, $recNum)
     {
         $query = "insert into EXP_MASTER VALUES($name, $description, $userid, $date, $restricted, $recNum)";
-        exec_insert_query($query);
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
 
-    static function insertReference($probeid, $cgname, $genename, $flybasenum, $version, $userid, $date)
+    static function insertReference($db_conn, $probeid, $cgname, $genename, $flybasenum, $version, $userid, $date)
     {
         // insertReference.php:
         $query = "insert into REFERENCE_MAIN VALUES('{$probeid}', '{$cgname}', '{$genename}' ,'{$flybasenum}', '{$version}', '{$userid}', '{$date}')";
-        exec_insert_query($query);
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
-    static function insertReferenceGo($probeid, $gonumber, $version, $userid, $date)
+    static function insertReferenceGo($db_conn, $probeid, $gonumber, $version, $userid, $date)
     {
         $query = "insert into REFERENCE_GO VALUES('{$probeid}', '{$gonumber}', '{$version}', '{$userid}', '{$date}')";
-        exec_insert_query($query);
+        self::execute_NON_SELECT_query($db_conn, $query);
 
     }
 
-    static function insertReferenceBio($gonumber, $biofunction, $version, $userid, $date)
+    static function insertReferenceBio($db_conn, $gonumber, $biofunction, $version, $userid, $date)
     {
         $query = "insert into REFERENCE_BIO VALUES('{$gonumber}', '{$biofunction}', '{$version}', '{$userid}', '{$date}')";
-        exec_insert_query($query);
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
 //insertExperiment.php:
-    static function DELETEFromExpTblAfterFailedInsertion($name)
+    static function deleteFromExpTblAfterFailedInsertion($db_conn, $name)
     {
-        $strDel = "delete from EXPERIMENT where EXP_NAME='$name'";
+        $query = "delete from EXPERIMENT where EXP_NAME='$name'";
+        self::execute_NON_SELECT_query($db_conn, $query);
+
     }
 
 // insertExperiment.php:
-    static function DELETEFromExpMasterTblAfterFailedInsertion($name)
+    static function deleteFromExpMasterTblAfterFailedInsertion($db_conn, $name)
     {
-        $strDel = "delete from EXP_MASTER where EXP_NAME='$name'";
+        $query = "delete from EXP_MASTER where EXP_NAME='$name'";
+        self::execute_NON_SELECT_query($db_conn, $query);
+
+    }
+//$cmdName = "select title,fname,lname,mname,add_1,add_2,city,state,zip,country,phone,email,ind,prof,updated_by,updated_on from client where user_id = '".$userid."'";
+
+    static function deleteReferenceMainAfterFailedInsertion($db_conn, $version)
+    {
+        $query = "delete from REFERENCE_MAIN where VERSION='{$version}'";
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
-    static function DELETEReferenceMainAfterFailedInsertion($version)
-    {
-        $strDel = "delete from REFERENCE_MAIN where VERSION='{$version}'";
-    }
-
-    static function DELETEReferenceGoAfterFailedInsertion($version)
+    static function deleteReferenceGoAfterFailedInsertion($db_conn, $version)
     {
         $query = "delete from REFERENCE_GO where VERSION='{$version}'";
+        self::execute_NON_SELECT_query($db_conn, $query);
+
     }
 
-    static function DELETEReferenceBioAfterFailedInsertion($version)
+    static function deleteReferenceBioAfterFailedInsertion($db_conn, $version)
     {
         $query = "delete from REFERENCE_BIO where VERSION='{$version}'";
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
-    static function UPDATEExperimentDescription($name, $description)
+    static function updateExperimentDescription($db_conn, $name, $description)
     {
         //ConfirmEditDescription.php:
         $query = "update EXP_MASTER set EXP_DESC='{$description}' WHERE EXP_MASTER.EXP_NAME = '{$name}'";
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
 // deleteExpAdministrator . php:$
-    static function DELETEExpFromExpTbl($name)
+    static function deleteExpFromExpTbl($db_conn, $name)
     {
         $query = "delete from EXPERIMENT where EXP_NAME='{$name}'";
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
 //deleteExpAdministrator.php:
-    static function DELETEExpFromExMasterTbl($name)
+    static function deleteExpFromExMasterTbl($db_conn, $name)
     {
-        $cmdstr2 = "delete from EXP_MASTER where EXP_NAME='{$name}'";
+        $query = "delete from EXP_MASTER where EXP_NAME='{$name}'";
+        self::execute_NON_SELECT_query($db_conn, $query);
+
     }
 
-    static function DELETEExperiment($name)
+    static function deleteExperiment($db_conn, $name)
     {
-        deleteExpFromExpTbl($name);
-        deleteExpFromExMasterTbl($name);
-    }
-
-//deleteRefAdministrator.php:
-    static function DELETEReferenceFromMain($version)
-    {
-        $cmdstr = "delete from REFERENCE_MAIN where VERSION='{$version}'";
+        self::deleteExpFromExpTbl($db_conn, $name);
+        self::deleteExpFromExMasterTbl($db_conn, $name);
     }
 
 //deleteRefAdministrator.php:
-    static function DELETEReferenceFromGo($version)
+    static function deleteReferenceFromMain($db_conn, $version)
+    {
+        $query = "delete from REFERENCE_MAIN where VERSION='{$version}'";
+        self::execute_NON_SELECT_query($db_conn, $query);
+    }
+
+//deleteRefAdministrator.php:
+    static function deleteReferenceFromGo($db_conn, $version)
     {
         $query = "delete from REFERENCE_GO where VERSION='{$version}'";
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
-    static function DELETEReferenceFromBio($version)
+    static function deleteReferenceFromBio($db_conn, $version)
     {
         $query = "delete from REFERENCE_BIO where VERSION='{$version}'";
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
-    static function DELETEReference($version)
+    static function deleteReference($db_conn, $version)
     {
-        deleteReferenceFromMain($version);
-        deleteReferenceFromGo($version);
-        deleteReferenceFromBio($version);
+        self::deleteReferenceFromMain($db_conn, $version);
+        self::deleteReferenceFromGo($db_conn, $version);
+        self::deleteReferenceFromBio($db_conn, $version);
     }
 
 
 // User
-    static function SELECTCountryList()
+    static function selectCountryList($db_conn)
     {
         $query = "select country,countryid from country order by countryid";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 // newprofileSubmit.php:
-    static function SELECTCountryById($countryID)
+    static function selectCountryById($db_conn, $countryID)
     {
         $query = "select country from country where countryid = {$countryID}";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 //get user information from database
 //usermanagement.php:
-    static function SELECTNewUserList()
+    static function selectNewUserList($db_conn)
     {
         $query = "select c_id,fname,lname from client where ACC_RIGHT_ID = 0 order by lname ";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
-    static function SELECTExistingUserList()
+    static function selectExistingUserList($db_conn)
     {
         $query = "select c_id,fname,lname from client where ACC_RIGHT_ID > 0 order by lname ";
-
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 //    usermanagement.php:
-    static function SELECTAccessRightList()
+    static function selectAccessRightList($db_conn)
     {
         $query = "select ACC_RIGHT_ID,ACC_RIGHT_DESC from ACCESS_RIGHT order by ACC_RIGHT_DESC ";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 // getUserInfo.php
-    static function SELECTUserInfo($clientid)
+    static function selectUserInfo($db_conn, $clientid)
     {
         $query = "SELECT CLIENT.*, ACCESS_RIGHT.ACC_RIGHT_DESC as RIGHT FROM CLIENT INNER JOIN ACCESS_RIGHT ON CLIENT.ACC_RIGHT_ID = ACCESS_RIGHT.ACC_RIGHT_ID WHERE CLIENT.c_id = '{$clientid}'";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 //newprofile.php
-    static function SELECTProfileInfo($db_conn, $userid)
+    static function selectProfileInfo($db_conn, $userid)
     {
         $query = "select title,fname,lname,mname,add_1,add_2,city,state,zip,country,phone,email,ind,prof,updated_by,updated_on from client where user_id = '{$userid}'";
-
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 // newprofileSubmit.php
-    static function UPDATEUserProfile($title, $lname, $fname, $mname,
+    static function updateUserProfile($db_conn, $title, $lname, $fname, $mname,
                                $address1, $address2, $city, $state, $zip, $country,
                                $phone, $email, $industry, $profession, $userid)
     {
@@ -313,10 +414,11 @@ class DBFunctions
             "ADD_1='{$address1}',ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$country}'," .
             "PHONE= '{$phone}',EMAIL='{$email}',IND='{$industry}',PROF='{$profession}'," .
             "UPDATED_BY='{$userid}',UPDATED_ON=SYSDATE WHERE USER_ID='{ $userid }'";
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
 
-    static function INSERTUserProfile($title, $lname, $mname, $fname,
+    static function insertUserProfile($db_conn, $title, $lname, $mname, $fname,
                                $address1, $address2, $city, $state, $zip, $country,
                                $phone, $email, $industry, $profession, $userid, $password, $date)
     {
@@ -326,51 +428,58 @@ class DBFunctions
             "VALUES(NULL,$title,$lname, $mname, $fname, " .
             " $address1,$address2, $city, $state, $zip, $country," .
             "$phone, $email, $industry, $profession, $userid, $password,$date,0,0,0)";
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
-    static function SELECTUserByIDAndPW($db_conn, $userid, $password)
+    static function selectUserByIDAndPW($db_conn, $userid, $password)
     {
-        $cmdstr = "select USER_ID from CLIENT WHERE USER_ID = '{$userid}' and PASSWORD='{$password}'";
+        $query = "select USER_ID from CLIENT WHERE USER_ID = '{$userid}' and PASSWORD='{$password}'";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
-    static function UPDATE_password($db_conn, $userid, $password)
+    static function updateUserPassword($db_conn, $userid, $password)
     {
         $query = "update CLIENT set PASSWORD= '{$password}' WHERE USER_ID = '{$userid}'";
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
 //newuserSubmit.php:
 // to see if user already exists
-    static function SELECTUserIdFromModifiedUserId($modifiedID)
+    static function selectUserIdFromModifiedUserId($db_conn, $modifiedID)
     {
-        $cmdstr = "select USER_ID from CLIENT WHERE USER_ID = '{$modifiedID}'";
+        $query = "select USER_ID from CLIENT WHERE USER_ID = '{$modifiedID}'";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 //newuserSubmit.php:
-    static function SELECTUserIdFromModifiedEmail($modifiedEmail)
+    static function selectUserIdFromModifiedEmail($db_conn, $modifiedEmail)
     {
-        $cmdstr = "select USER_ID from CLIENT WHERE EMAIL='{$modifiedEmail}'";
+        $query = "select USER_ID from CLIENT WHERE EMAIL='{$modifiedEmail}'";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
-    static function UPDATEUserRight($cid, $accessright, $createdby, $date)
+    static function updateUserRight($db_conn, $cid, $accessright, $createdby, $date)
     {
         $query = "UPDATE CLIENT SET ACC_RIGHT_ID='$accessright', CREATED_BY='$createdby',created_on='$date' WHERE C_ID='$cid'";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
-    static function DELETEUser($cid, $updatedby, $date)
+    static function deleteUser($db_conn, $cid, $updatedby, $date)
     {
         $query = "UPDATE CLIENT SET DEL_FLAG='1', UPDATED_BY=$updatedby,UPDATED_ON=$date WHERE C_ID=$cid";
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
-    static function UPDATEUserActivation($cid, $updatedby, $date)
+    static function updateUserActivation($db_conn, $cid, $updatedby, $date)
     {
         $query = "UPDATE CLIENT SET DEL_FLAG='0', UPDATED_BY=$updatedby,UPDATED_ON=$date WHERE C_ID=$cid";
-
+        self::execute_NON_SELECT_query($db_conn, $query);
     }
 
-    static function SELECTGeneName()
+    static function selectGeneName($db_conn)
     {
         $query = "select distinct GENENAME from FULL_VIEW where RESTRICTED ='0' order by GENENAME";
-
+        return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
 }

@@ -1,7 +1,10 @@
 <?php
 
-require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
+require_once(__DIR__ . "/../page_templates/DatabaseConnectionPage.php");
 
+/**
+ * Class DeleteExperimentPage
+ */
 class DeleteExperimentPage extends DatabaseConnectionPage
 {
 
@@ -11,9 +14,12 @@ class DeleteExperimentPage extends DatabaseConnectionPage
     const EXPNAME_POSTVAR = "expName";
 
 
+    /**
+     * @throws ErrorException
+     */
     function make_experiment_select()
     {
-        WidgetMaker::form_select(
+        WidgetMaker::select_input(
             self::EXPERIMENT_LABEL,
             self::EXPERIMENT_SELECT_NAME,
             $this->showExperimentList(),
@@ -21,12 +27,18 @@ class DeleteExperimentPage extends DatabaseConnectionPage
             false);
     }
 
+    /**
+     *
+     */
     function make_submit_button()
     {
         WidgetMaker::submit_button('deleteBtn', 'Delete', '');
     }
 
 
+    /**
+     * @throws ErrorException
+     */
     function showExperimentList()
     {
         $db_conn = $this->db_conn;
@@ -34,33 +46,37 @@ class DeleteExperimentPage extends DatabaseConnectionPage
         $userid = $this->userid;
 
         if ($role == 'Administrator') {
-            return db_selectAllUnrestrictedExperimentList($db_conn, $userid);
+            return DBFunctions::selectAllUnrestrictedExperimentList($db_conn, $userid);
         } else if ($role == 'Researcher') {
-            return db_selectUserRestrictedExperimentList($db_conn, $userid);
+            return DBFunctions::selectUserRestrictedExperimentList($db_conn, $userid);
         } else {
             throw new ErrorException();
         }
     }
 
-    function exec_delete_experiment($name)
-    {
-        deleteExperiment($name);
-    }
 
+    /**
+     *
+     */
     function __construct()
     {
         $_SESSION['role'] = 'Administrator';
-        check_role('ar');
+        PageControlFunctions::check_role('ar');
         parent::__construct();
     }
 
+
+    /**
+     *
+     */
     function print_content()
     {
         if (isset ($_POST[self::EXPNAME_POSTVAR]) &&
             !empty ($_POST[self::EXPNAME_POSTVAR])
         ) {
+            $db_conn = $this->db_conn;
             $expName = $_POST[self::EXPNAME_POSTVAR];
-            $this->exec_delete_experiment($expName);
+            DBFunctions::deleteExperiment($db_conn, $expName);
             echo <<< EOT
             <h2> Experiment $expName has been deleted </h2>
 EOT;
@@ -82,10 +98,7 @@ EOT;
         echo<<< EOT
         </form>
 EOT;
-
     }
-
-
 }
 
 
