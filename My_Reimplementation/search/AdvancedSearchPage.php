@@ -16,7 +16,7 @@ class AdvancedSearchPage extends SearchBase {
 EOT;
 
 
-    echo WidgetMaker::start_form('advanced_search_result.php', 'POST') .
+    echo WidgetMaker::start_form('search_result.php', 'POST') .
         $this->make_probeid_text_input() .
         $this->make_cgnumber_text_input() .
         $this->make_flybasenumber_text_input() .

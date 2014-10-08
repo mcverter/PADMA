@@ -41,7 +41,7 @@ class DBFunctions
     /**
      * @param $db_conn
      * @param $query
-     * @return uource
+     * @return
      */
     private static function execute_SELECT_query_and_return($db_conn, $query)
     {
@@ -135,7 +135,7 @@ class DBFunctions
      * @param $constraint
      * @return resource
      */
-    static function selectAdvancedQueryResult($db_conn, $userid, $constraint) {
+    static function selectSearchResult($db_conn, $userid, $constraint) {
         $query = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT,
 GONUMBER, BIOFUNCTION,REGULATIONVALUE,ADDITIONALINFO,HOUR FROM  " . self::FULLVIEW_TABLE . " where  {$constraint}  AND
 RESTRICTED='0' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES,
@@ -144,20 +144,6 @@ RESTRICTED='0' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENT
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
-    /**
-     * @param $db_conn
-     * @param $userid
-     * @param $constraint
-     * @return resource
-     */
-    static function selectQuickSearchResultList($db_conn, $userid, $constraint) {
-        $query = "SELECT DISTINCT PROBEID, CGNUMBER, GENENAME, FBCGNUMBER,EXPERIMENTNAME, ACTIVECATEGORY,
-        ACTIVESPECIES, EXPERIMENTSUBJECT, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . " WHERE
-RESTRICTED='0' and {$constraint} union SELECT DISTINCT PROBEID, CGNUMBER, GENENAME, FBCGNUMBER,EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . " WHERE RESTRICTED='1' and CREATED_BY={$userid} and {$constraint} ORDER BY 5,1";
-        return self::execute_SELECT_query_and_return($db_conn, $query);
-
-
-    }
     /*
     function selectRefineSearchResultList($db_conn) {
         $queryRetrieve = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . "  WHERE RESTRICTED='" .$notRestricted}' $str union SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . "  WHERE RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' $str order by 5,1";

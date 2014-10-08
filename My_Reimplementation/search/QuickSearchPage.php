@@ -29,7 +29,7 @@ class QuickSearchPage extends SearchBase
     <h2>{$title}</h2>
     <br>
 EOT;
-        echo WidgetMaker::start_form('quick_search_result.php', 'POST') .
+        echo WidgetMaker::start_form('search_result.php', 'POST') .
         $this->make_quicksearch_widget() .
         $this->make_experiment_select($db_conn, $userid) .
         $this->make_category_select($db_conn, $userid) .
