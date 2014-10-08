@@ -26,12 +26,17 @@ abstract class SearchBase extends DatabaseConnectionPage
     const GENENAME_LABEL = "Gene Name";
 
 
-    const EXPERIMENT_SELECT_NAME = "Experiment[]";
-    const CATEGORY_SELECT_NAME = "Category[]";
-    const SPECIES_SELECT_NAME = "Species[]";
-    const SUBJECT_SELECT_NAME = "Subject[]";
-    const REGVAL_SELECT_NAME = "RegulationValue[]";
-    const BIOFUNCTION_SELECT_NAME = "Biofunction[]";
+    const PROBEID_POSTVAR = "probeid";
+    const CGNUM_POSTVAR = "cgnum";
+    const FLYBASE_POSTVAR = "flybasenum";
+    const GONUMBER_POSTVAR = "gonum";
+    const GENENAME_POSTVAR = "genename";
+    const EXPERIMENT_POSTVAR = "Experiment[]";
+    const CATEGORY_POSTVAR = "Category[]";
+    const SPECIES_POSTVAR = "Species[]";
+    const SUBJECT_POSTVAR = "Subject[]";
+    const REGVAL_POSTVAR = "RegulationValue[]";
+    const BIOFUNCTION_POSTVAR = "Biofunction[]";
 
 
     const EXPERIMENT_EXP_TBL_COL = "EXP_NAME";
@@ -42,8 +47,7 @@ abstract class SearchBase extends DatabaseConnectionPage
     const BIOFUNCTION_EXP_TBL_COL = "BIOFUNCTION";
 
 
-    const FLYBASE_EXP_TBL_COL = '';
-    const FLYBASE_FULLVIEW_TBL_COL = '';
+    const FLYBASE_FULLVIEW_TBL_COL = 'FBCGNUMBER';
 
     const PROBEID_FULLVIEW_TBL_COL = "PROBEID";
     const CGNUMBER_FULLVIEW_TBL_COL = "CGNUMBER";
@@ -76,20 +80,89 @@ abstract class SearchBase extends DatabaseConnectionPage
     const ADDITIONALINFO_HEADING = "Fold Induction";
     const HOUR_HEADING = "Hour";
 
+
+    static $result_cols = array (
+        array (
+            'col' =>self::PROBEID_FULLVIEW_TBL_COL,
+            'type' =>'string',
+            'postvar' => self::PROBEID_POSTVAR,
+            'heading' => self::PROBEID_HEADING
+        ),
+        array (
+            'col' =>self::CGNUMBER_FULLVIEW_TBL_COL,
+            'type' =>'string',
+            'postvar' => self::CGNUM_POSTVAR,
+            'heading' => self::CGNUMBER_HEADING
+        ),
+        array (
+            'col' =>self::FLYBASE_FULLVIEW_TBL_COL,
+            'type' =>'string',
+            'postvar' => self::FLYBASE_POSTVAR,
+            'heading' => self::FLYBASE_HEADING
+        ),
+        array (
+            'col' =>self::GONUMBER_FULLVIEW_TBL_COL,
+            'type' =>'string',
+            'postvar' => self::GONUMBER_POSTVAR,
+            'heading' => self::GONUMBER_HEADING
+        ),
+        array (
+            'col' =>self::GENENAME_FULLVIEW_TBL_COL,
+            'type' =>'array',
+            'postvar' => self::GENENAME_POSTVAR,
+            'heading' => self::GENENAME_HEADING
+
+        ),
+        array (
+            'col' =>self::BIOFUNCTION_FULLVIEW_TBL_COL,
+            'type' =>'array',
+            'postvar' => self::BIOFUNCTION_POSTVAR,
+            'heading' => self::BIOFUNCTION_HEADING
+        ),
+        array (
+            'col' =>self::EXPERIMENTNAME_FULLVIEW_TBL_COL,
+            'type' =>'array',
+            'postvar' => self::EXPERIMENT_POSTVAR,
+            'heading' => self::EXPERIMENTNAME_HEADING
+        ),
+        array (
+            'col' =>self::ACTIVECATEGORY_FULLVIEW_TBL_COL,
+            'type' =>'array',
+            'postvar' => self::CATEGORY_POSTVAR,
+            'heading' => self::ACTIVECATEGORY_HEADING
+        ),
+        array (
+            'col' =>self::ACTIVESPECIES_FULLVIEW_TBL_COL,
+            'type' =>'array',
+            'postvar' => self::SPECIES_POSTVAR,
+            'heading' => self::ACTIVESPECIES_HEADING
+        ),
+        array (
+            'col' =>self::EXPERIMENTSUBJECT_FULLVIEW_TBL_COL,
+            'type' =>'array',
+            'postvar' => self::SUBJECT_POSTVAR,
+            'heading' => self::EXPERIMENTSUBJECT_HEADING
+
+        ),
+    );
+
+
+
+
     protected function make_probeid_text_input() {
-        WidgetMaker::text_input("Probe Id:", 'probeid');
+       return  WidgetMaker::text_input("Probe Id:", self::PROBEID_POSTVAR);
     }
     protected function make_cgnumber_text_input() {
-        WidgetMaker::text_input("CG Number:", 'cgnum');
+        return WidgetMaker::text_input("CG Number:", self::CGNUM_POSTVAR);
     }
     protected function make_flybasenumber_text_input() {
-        WidgetMaker::text_input("Flybase Number:", 'flynum');
+        return WidgetMaker::text_input("Flybase Number:", self::FLYBASE_POSTVAR);
     }
     protected function make_genename_text_input() {
-        WidgetMaker::text_input("Gene Name:", 'gene');
+        return WidgetMaker::text_input("Gene Name:", self::GENENAME_POSTVAR);
     }
     protected function make_gonumber_text_input() {
-        WidgetMaker::text_input("GO Number:", 'gonum');
+        return WidgetMaker::text_input("GO Number:", self::GONUMBER_POSTVAR);
     }
 
     /**
@@ -97,9 +170,9 @@ abstract class SearchBase extends DatabaseConnectionPage
      * @param $userid
      */
     protected function make_experiment_select($db_conn, $userid) {
-        WidgetMaker::select_input(
+        return WidgetMaker::select_input(
             self::EXPERIMENT_LABEL,
-            self::EXPERIMENT_SELECT_NAME,
+            self::EXPERIMENT_POSTVAR,
             DBFunctions::selectAllUnrestrictedExperimentList($db_conn, $userid),
             self::EXPERIMENT_EXP_TBL_COL);
     }
@@ -109,9 +182,9 @@ abstract class SearchBase extends DatabaseConnectionPage
      * @param $userid
      */
     protected function make_category_select($db_conn, $userid) {
-        WidgetMaker::select_input(
+        return WidgetMaker::select_input(
             self::CATEGORY_LABEL,
-            self::CATEGORY_SELECT_NAME,
+            self::CATEGORY_POSTVAR,
             DBFunctions::selectCategoryList($db_conn, $userid),
             self::CATEGORY_EXP_TBL_COL);
     }
@@ -121,9 +194,9 @@ abstract class SearchBase extends DatabaseConnectionPage
      * @param $userid
      */
     protected function make_species_select($db_conn, $userid) {
-        WidgetMaker::select_input(
+        return WidgetMaker::select_input(
             self::SPECIES_LABEL,
-            self::SPECIES_SELECT_NAME,
+            self::SPECIES_POSTVAR,
             DBFunctions::selectSpeciesList($db_conn, $userid),
             self::SPECIES_EXP_TBL_COL);
     }
@@ -133,9 +206,9 @@ abstract class SearchBase extends DatabaseConnectionPage
      * @param $userid
      */
     protected function make_subject_select($db_conn, $userid) {
-        WidgetMaker::select_input(
+        return WidgetMaker::select_input(
             self::SUBJECT_LABEL,
-            self::SUBJECT_SELECT_NAME,
+            self::SUBJECT_POSTVAR,
             DBFunctions::selectSubjectList($db_conn, $userid),
             self::SUBJECT_EXP_TBL_COL);
     }
@@ -145,16 +218,16 @@ abstract class SearchBase extends DatabaseConnectionPage
      * @param $userid
      */
     protected function make_regval_select($db_conn, $userid) {
-        WidgetMaker::select_input(
+        return WidgetMaker::select_input(
             self::REGVAL_LABEL,
-            self::REGVAL_SELECT_NAME,
+            self::REGVAL_POSTVAR,
             DBFunctions::selectRegValList($db_conn, $userid),
             self::REGVAL_EXP_TBL_COL);
     }
     protected function make_biofunction_select($db_conn, $userid) {
-        WidgetMaker::select_input(
+        return WidgetMaker::select_input(
             self::BIOFUNCTION_LABEL,
-            self::BIOFUNCTION_SELECT_NAME,
+            self::BIOFUNCTION_POSTVAR,
             DBFunctions::selectBiofunctionList($db_conn, $userid),
             self::BIOFUNCTION_EXP_TBL_COL);
     }
@@ -180,7 +253,7 @@ abstract class SearchBase extends DatabaseConnectionPage
 
 
     function build_constraint($search_params ) {
-        $constraint = " 1 ";
+        $constraint = " 1=1 ";
         foreach ($search_params as $param) {
             if ($param['type'] === 'quicksearch') {
 
@@ -205,320 +278,10 @@ abstract class SearchBase extends DatabaseConnectionPage
                 }
             }
         }
+        return $constraint;
     }
 }
 
 
 
 
-/**
-class SearchResultPage extends DatabaseConnectionPage {
-
-function build_query() {
-$result = read_search_results($db_conn);
-$numrows = ocifetchstatement($parsed, $results);
-if ($numrows > 1000) {
-
-echo "<b>" .$numrows . " Results found</b><br>(Information listed below is partial view of search result)<br>";
-$numrows=1000;
-}
-else
-{
-echo "<b>" .$numrows . " Results found</b><br><br>";
-}
-
-echo "<table>";
-//        make_table_heading($selected_categories);
-
-for ($i=0; $i<$numrows;$i++ )
-{
-if ($i % 2 == 0 ) {
-echo "<tr class=''>  ";
-}
-else {
-echo "<tr class=''>  ";
-}
-
-}
-//      export();
-}
-
-function print_content() {
-$this->build_query();
-}
-}
-
-
-
-
-function display_results() {
-
-$numrows=0;
-
-    if ($numrows>1000)
-    {
-      echo "<b>" .$numrows . " Results found</b><br>(Information listed below is partial view of search result)<br>";
-      $numrows=1000;
-    }
-    else
-    {
-      echo "<b>" .$numrows . " Results found</b><br><br>";
-    }
-    echo"</fieldset><br><br>";
-    echo "</td>";
-    echo "</tr>\n";
-    echo "</table>";
-    //echo $cmdstrRetrieve;
-    //string for header
-    $str2="PROB ID,CG<br>Number,Gene<br>Name,FlyBase<br>Number,Experiment Name,Active<br>Category,Active<br>Species,Experiment<br>Subject,GO<br>Number,Bio Function,Regulation<br>Value,Fold<br>Induction,Hour";
-    $str="PROBEID CGNUMBER GENENAME FBCGNUMBER EXPERIMENTNAME ACTIVECATEGORY ACTIVESPECIES EXPERIMENTSUBJECT GONUMBER BIOFUNCTION REGULATIONVALUE ADDITIONALINFO,HOUR";
-    $token2=explode(",",$str2);
-    $token=str_word_count($str,1);
-    //echo "<br>".$cmdstrRetrieve ."<br>";
-    echo <<< EOT
-    <font size=2pt>
-    <center>
-    <table class='_100b1'>
-    <tr>
-    <td bgcolor='#F0FFF0'><b>" .$token2[0]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[1]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[2]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[3]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[4]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[5]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[6]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[7]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[8]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[9]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[10]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[11]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[12]. "</b></td>
-    </tr>
-EOT;
-
-    for ($i = 0; $i < $numrows; $i++ )
-    {
-
-      if(($i%2)==1)
-      {
-	echo "<tr>\n";
-	echo "<td bgcolor='#DDDDDD'> " . $results["$token[0]"][$i]. "</td>";
-	echo "<td bgcolor='#DDDDDD'> <a href ='http://flybase.org/cgi-bin/uniq.html?species=Dmel&field=SYN&db=fbgn&context=" . $results["$token[1]"][$i] . "&authors=&year=&alltext=&caller=quicksearch' target=_blank>" .$results["$token[1]"][$i]. "</a></td>";
-	echo "<td bgcolor='#DDDDDD'> <a href ='http://flybase.org/cgi-bin/uniq.html?species=Dmel&field=SYN&db=fbgn&context=" . $results["$token[2]"][$i] . "&authors=&year=&alltext=&caller=quicksearch' target=_blank>" .$results["$token[2]"][$i]. "</a></td>";
-	echo "<td bgcolor='#DDDDDD'> <a href= 'http://flybase.org/reports/" . $results["$token[3]"][$i] . ".html' target=_blank>" .$results["$token[3]"][$i]. "</a></td>";
-	echo "<td bgcolor='#DDDDDD'> " .$results["$token[4]"][$i]. "</td>";
-	echo "<td bgcolor='#DDDDDD'> " .$results["$token[5]"][$i]. "</td>";
-	echo "<td bgcolor='#DDDDDD'>" . $results["$token[6]"][$i]. "</td>";
-	echo "<td bgcolor='#DDDDDD'> " .$results["$token[7]"][$i]. "</td>";
-
-	if(strlen($results["$token[8]"][$i]) < 1)
-	  echo "<td bgcolor='#DDDDDD'> " ."UNKNOWN". "</td>";
-	else
-	  echo "<td bgcolor='#DDDDDD'> " .$results["$token[8]"][$i]. "</td>";
-	if(strlen($results["$token[9]"][$i]) < 1)
-	  echo "<td bgcolor='#DDDDDD'> " ."UNKNOWN". "</td>";
-	else
-	  echo "<td bgcolor='#DDDDDD'> " .$results["$token[9]"][$i]. "</td>";
-
-	echo "<td bgcolor='#DDDDDD'> " .$results["$token[10]"][$i]. "</td>";
-	echo "<td bgcolor='#DDDDDD'> " .number_format($results["$token[11]"][$i],3,'.',''). "</td>";
-	echo "<td bgcolor='#DDDDDD'> " .$results["$token[12]"][$i]. "</td>";
-	echo "</tr>\n";
-      }
-      else
-      {
-	echo "<tr>\n";
-	echo "<td> " . $results["$token[0]"][$i]. "</td>";
-	echo "<td> <a href ='http://flybase.org/cgi-bin/uniq.html?species=Dmel&field=SYN&db=fbgn&context=" . $results["$token[1]"][$i] . "&authors=&year=&alltext=&caller=quicksearch' target=_blank>" .$results["$token[1]"][$i]. "</a></td>";
-	echo "<td> <a href ='http://flybase.org/cgi-bin/uniq.html?species=Dmel&field=SYN&db=fbgn&context=" . $results["$token[2]"][$i] . "&authors=&year=&alltext=&caller=quicksearch' target=_blank>" .$results["$token[2]"][$i]. "</a></td>";
-	echo "<td> <a href= 'http://flybase.org/reports/" . $results["$token[3]"][$i] . ".html' target=_blank>" .$results["$token[3]"][$i]. "</a></td>";
-	echo "<td> " .$results["$token[4]"][$i]. "</td>";
-	echo "<td> " .$results["$token[5]"][$i]. "</td>";
-	echo "<td>" . $results["$token[6]"][$i]. "</td>";
-	echo "<td> " .$results["$token[7]"][$i]. "</td>";
-
-	if(strlen($results["$token[8]"][$i]) < 1)
-	  echo "<td> " ."UNKNOWN". "</td>";
-	else
-	  echo "<td> " .$results["$token[8]"][$i]. "</td>";
-	if(strlen($results["$token[9]"][$i]) < 1)
-	  echo "<td> " ."UNKNOWN". "</td>";
-	else
-	  echo "<td> " .$results["$token[9]"][$i]. "</td>";
-
-	echo "<td> " .$results["$token[10]"][$i]. "</td>";
-	echo "<td> " .number_format($results["$token[11]"][$i],3,'.',''). "</td>";
-	echo "<td> " .$results["$token[12]"][$i]. "</td>";
-	echo "</tr>\n";
-      }
-
-
-    }
-
-  }
-
-
-function allow_export() {
-    echo <<< EOT
-    </table></center>
-    </font>
-
-    <form action='exportToExcel.php' method='post' name='index'>
-    <table class='_100'>
-    <tr>
-    <td class='_100c'><br>
-    <input name='btn_submit' type='submit' value='Export Result'/>
-    <input name='command' type='hidden' value='cmdStrCustom'/>
-    </td>
-    </tr>
-    <tr><td class='_C'>[ data exporting is limited up to 5000 rows ]<td></tr>
-    <tr><td>&nbsp;<td></tr>
-    </table>
-    </form>
-    </td>
-    </tr>\n
-    </table>
-EOT;
-
-}
-  $query_string = " SELECT ";
-  $query_string .= join($multiple_select_inputs, " , " ) . " , " .
-    join($text_field_inputs, " , " );
-  $query_string .= " WHERE 1 ";
-
-
-
-
-function display_results() {
-
-$numrows=0;
-
-    if ($numrows>1000)
-    {
-      echo "<b>" .$numrows . " Results found</b><br>(Information listed below is partial view of search result)<br>";
-      $numrows=1000;
-    }
-    else
-    {
-      echo "<b>" .$numrows . " Results found</b><br><br>";
-    }
-    echo"</fieldset><br><br>";
-    echo "</td>";
-    echo "</tr>\n";
-    echo "</table>";
-    //echo $cmdstrRetrieve;
-    //string for header
-    $str2="PROB ID,CG<br>Number,Gene<br>Name,FlyBase<br>Number,Experiment Name,Active<br>Category,Active<br>Species,Experiment<br>Subject,GO<br>Number,Bio Function,Regulation<br>Value,Fold<br>Induction,Hour";
-    $str="PROBEID CGNUMBER GENENAME FBCGNUMBER EXPERIMENTNAME ACTIVECATEGORY ACTIVESPECIES EXPERIMENTSUBJECT GONUMBER BIOFUNCTION REGULATIONVALUE ADDITIONALINFO,HOUR";
-    $token2=explode(",",$str2);
-    $token=str_word_count($str,1);
-    //echo "<br>".$cmdstrRetrieve ."<br>";
-    echo <<< EOT
-    <font size=2pt>
-    <center>
-    <table class='_100b1'>
-    <tr>
-    <td bgcolor='#F0FFF0'><b>" .$token2[0]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[1]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[2]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[3]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[4]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[5]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[6]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[7]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[8]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[9]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[10]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[11]. "</b></td>
-    <td bgcolor='#F0FFF0'><b>" .$token2[12]. "</b></td>
-    </tr>
-EOT;
-
-    for ($i = 0; $i < $numrows; $i++ )
-    {
-
-      if(($i%2)==1)
-      {
-	echo "<tr>\n";
-	echo "<td bgcolor='#DDDDDD'> " . $results["$token[0]"][$i]. "</td>";
-	echo "<td bgcolor='#DDDDDD'> <a href ='http://flybase.org/cgi-bin/uniq.html?species=Dmel&field=SYN&db=fbgn&context=" . $results["$token[1]"][$i] . "&authors=&year=&alltext=&caller=quicksearch' target=_blank>" .$results["$token[1]"][$i]. "</a></td>";
-	echo "<td bgcolor='#DDDDDD'> <a href ='http://flybase.org/cgi-bin/uniq.html?species=Dmel&field=SYN&db=fbgn&context=" . $results["$token[2]"][$i] . "&authors=&year=&alltext=&caller=quicksearch' target=_blank>" .$results["$token[2]"][$i]. "</a></td>";
-	echo "<td bgcolor='#DDDDDD'> <a href= 'http://flybase.org/reports/" . $results["$token[3]"][$i] . ".html' target=_blank>" .$results["$token[3]"][$i]. "</a></td>";
-	echo "<td bgcolor='#DDDDDD'> " .$results["$token[4]"][$i]. "</td>";
-	echo "<td bgcolor='#DDDDDD'> " .$results["$token[5]"][$i]. "</td>";
-	echo "<td bgcolor='#DDDDDD'>" . $results["$token[6]"][$i]. "</td>";
-	echo "<td bgcolor='#DDDDDD'> " .$results["$token[7]"][$i]. "</td>";
-
-	if(strlen($results["$token[8]"][$i]) < 1)
-	  echo "<td bgcolor='#DDDDDD'> " ."UNKNOWN". "</td>";
-	else
-	  echo "<td bgcolor='#DDDDDD'> " .$results["$token[8]"][$i]. "</td>";
-	if(strlen($results["$token[9]"][$i]) < 1)
-	  echo "<td bgcolor='#DDDDDD'> " ."UNKNOWN". "</td>";
-	else
-	  echo "<td bgcolor='#DDDDDD'> " .$results["$token[9]"][$i]. "</td>";
-
-	echo "<td bgcolor='#DDDDDD'> " .$results["$token[10]"][$i]. "</td>";
-	echo "<td bgcolor='#DDDDDD'> " .number_format($results["$token[11]"][$i],3,'.',''). "</td>";
-	echo "<td bgcolor='#DDDDDD'> " .$results["$token[12]"][$i]. "</td>";
-	echo "</tr>\n";
-      }
-      else
-      {
-	echo "<tr>\n";
-	echo "<td> " . $results["$token[0]"][$i]. "</td>";
-	echo "<td> <a href ='http://flybase.org/cgi-bin/uniq.html?species=Dmel&field=SYN&db=fbgn&context=" . $results["$token[1]"][$i] . "&authors=&year=&alltext=&caller=quicksearch' target=_blank>" .$results["$token[1]"][$i]. "</a></td>";
-	echo "<td> <a href ='http://flybase.org/cgi-bin/uniq.html?species=Dmel&field=SYN&db=fbgn&context=" . $results["$token[2]"][$i] . "&authors=&year=&alltext=&caller=quicksearch' target=_blank>" .$results["$token[2]"][$i]. "</a></td>";
-	echo "<td> <a href= 'http://flybase.org/reports/" . $results["$token[3]"][$i] . ".html' target=_blank>" .$results["$token[3]"][$i]. "</a></td>";
-	echo "<td> " .$results["$token[4]"][$i]. "</td>";
-	echo "<td> " .$results["$token[5]"][$i]. "</td>";
-	echo "<td>" . $results["$token[6]"][$i]. "</td>";
-	echo "<td> " .$results["$token[7]"][$i]. "</td>";
-
-	if(strlen($results["$token[8]"][$i]) < 1)
-	  echo "<td> " ."UNKNOWN". "</td>";
-	else
-	  echo "<td> " .$results["$token[8]"][$i]. "</td>";
-	if(strlen($results["$token[9]"][$i]) < 1)
-	  echo "<td> " ."UNKNOWN". "</td>";
-	else
-	  echo "<td> " .$results["$token[9]"][$i]. "</td>";
-
-	echo "<td> " .$results["$token[10]"][$i]. "</td>";
-	echo "<td> " .number_format($results["$token[11]"][$i],3,'.',''). "</td>";
-	echo "<td> " .$results["$token[12]"][$i]. "</td>";
-	echo "</tr>\n";
-      }
-
-
-    }
-
-  }
-
-
-function allow_export() {
-    echo <<< EOT
-    </table></center>
-    </font>
-
-    <form action='exportToExcel.php' method='post' name='index'>
-    <table class='_100'>
-    <tr>
-    <td class='_100c'><br>
-    <input name='btn_submit' type='submit' value='Export Result'/>
-    <input name='command' type='hidden' value='cmdStrCustom'/>
-    </td>
-    </tr>
-    <tr><td class='_C'>[ data exporting is limited up to 5000 rows ]<td></tr>
-    <tr><td>&nbsp;<td></tr>
-    </table>
-    </form>
-    </td>
-    </tr>\n
-    </table>
-EOT;
-
-}
-
-
-*/

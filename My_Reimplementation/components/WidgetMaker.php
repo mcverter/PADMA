@@ -8,6 +8,10 @@ class WidgetMaker
 
     // GENERAL PURPOSE WIDGETS
 
+    static function hidden_input($name, $value) {
+        $returnString = "\n<input type='hidden' name='$name' value='$value' />\n";
+        return $returnString;
+    }
     static function navigation_button() {
 
     }
@@ -74,8 +78,8 @@ EOT;
      * @param string $onsubmit
      * @return string
      */
-    static function start_form ($action, $class='', $onsubmit='') {
-        $returnString = "\n<form action='$action' ";
+    static function start_form ($action, $method='POST', $class='', $onsubmit='') {
+        $returnString = "\n<form action='$action' method='$method' ";
         if (! empty($class)) {
             $returnString .= " class='$class' ";
         }

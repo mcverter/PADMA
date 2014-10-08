@@ -10,85 +10,22 @@
 require_once (__DIR__ . "/SearchResultsBase.php");
 
 class AdvancedSearchResultPage extends SearchResultsBase {
-    static $advanced_cols = [
-        [
-            'col' =>self::PROBEID_FULLVIEW_TBL_COL,
-            'type' =>'string',
-            'postvar' => self::PROBEID_LABEL,
-            'heading' => self::PROBEID_HEADING
-        ],
-        [
-            'col' =>self::CGNUMBER_FULLVIEW_TBL_COL,
-            'type' =>'string',
-            'postvar' => self::CGNUMBER_LABEL,
-            'heading' => self::CGNUMBER_HEADING
-        ],
-        [
-            'col' =>self::FLYBASE_FULLVIEW_TBL_COL,
-            'type' =>'string',
-            'postvar' => self::FLYBASE_LABEL,
-            'heading' => self::FLYBASE_HEADING
-        ],
-        [
-            'col' =>self::GONUMBER_FULLVIEW_TBL_COL,
-            'type' =>'string',
-            'postvar' => self::GONUMBER_LABEL,
-            'heading' => self::GONUMBER_HEADING
-        ],
-        [
-            'col' =>self::GENENAME_FULLVIEW_TBL_COL,
-            'type' =>'array',
-            'postvar' => self::GENENAME_LABEL,
-            'heading' => self::GENENAME_HEADING
-
-        ],
-        [
-            'col' =>self::BIOFUNCTION_FULLVIEW_TBL_COL,
-            'type' =>'array',
-            'postvar' => self::BIOFUNCTION_LABEL,
-            'heading' => self::BIOFUNCTION_HEADING
-        ],
-        [
-            'col' =>self::EXPERIMENTNAME_FULLVIEW_TBL_COL,
-            'type' =>'array',
-            'postvar' => self::EXPERIMENTNAME_LABEL,
-            'heading' => self::EXPERIMENTNAME_HEADING
-        ],
-        [
-            'col' =>self::ACTIVECATEGORY_FULLVIEW_TBL_COL,
-            'type' =>'array',
-            'postvar' => self::ACTIVECATEGORY_LABEL,
-            'heading' => self::ACTIVECATEGORY_HEADING
-        ],
-        [
-            'col' =>self::ACTIVESPECIES_FULLVIEW_TBL_COL,
-            'type' =>'array',
-            'postvar' => self::ACTIVESPECIES_LABEL,
-            'heading' => self::ACTIVESPECIES_HEADING
-        ],
-        [
-            'col' =>self::EXPERIMENTSUBJECT_FULLVIEW_TBL_COL,
-            'type' =>'array',
-            'postvar' => self::EXPERIMENTSUBJECT_LABEL,
-            'heading' => self::EXPERIMENTSUBJECT_HEADING
-
-        ],
-    ];
 
 
+    const RESULT_TABLE_ID = 'resultTable';
 
     function search_query() {
-        return DBFunctions::selectAdvancedQueryResult($this->db_conn, $this->userid,
-            $this->build_constraint(self::$advanced_cols));
+        return DBFunctions::selectAdvancedQueryResult($this->db_conn, $this->userid, $this->build_constraint(self::$result_cols));
     }
 
     function print_results () {
+        $tableid = self::RESULT_TABLE_ID;
         $returnString = <<< EOT
-        <table>
+        <table id='$tableid'>
             <thead>
 EOT;
 
-        foreach ( self::$advanced_cols as $col) {
+        foreach ( self::$result_cols as $col) {
             $returnString .= "\n <th> " . $col['heading'] . " </th> ";
         }
         $returnString .= <<< EOT
@@ -99,7 +36,7 @@ EOT;
 
         while (($row = oci_fetch_array($query_result)) != false) {
             $returnString .= "\n <tr> ";
-            foreach ( self::$advanced_cols as $col) {
+            foreach ( self::$result_cols as $col) {
                 $returnString .= "\n <td> " . $row[$col['col']] . " </td> ";
             }
             $returnString .= "\n </tr> ";
@@ -133,11 +70,38 @@ EOT;
         parent::__construct();
     }
 
+    function print_js() {
+        $tableID = self::RESULT_TABLE_ID;
+        echo <<< EOT
+        <!-- DataTables CSS -->
+<link rel="stylesheet" type="text/css" href="../css/jquery.dataTables.css">
+<link rel="stylesheet" type="text/css" href="../extensions/TableTools/css/dataTables.tableTools.css">
+	<link rel="stylesheet" type="text/css" href="../extensions/ColReorder/css/dataTables.colReorder.css">
+	<link rel="stylesheet" type="text/css" href="../extensions/ColVis/css/dataTables.colVis.css">
+
+<!-- jQuery -->
+<script type="text/javascript" charset="utf8" src="../js/jquery.js"></script>
+
+<!-- DataTables -->
+<script type="text/javascript" charset="utf8" src="../js/jquery.dataTables.js"></script>
+<script type="text/javascript" language="javascript" src="../extensions/TableTools/js/dataTables.tableTools.js"></script>
+	<script type="text/javascript" language="javascript" src="../extensions/ColReorder/js/dataTables.colReorder.js"></script>
+	<script type="text/javascript" language="javascript" src="../extensions/ColVis/js/dataTables.colVis.js"></script>
+
+$(document).ready( function () {
+    $('#{$tableID}').dataTable( {
+        "dom": 'RC<"clear">lfrtip',
+        "tableTools": {
+            "sSwfPath": "/swf/copy_csv_xls_pdf.swf"
+        }
+    } );
+} );
+</script>
+EOT;
+
+    }
     function print_content() {
-        echo $this->print_results();
-        WidgetMaker::start_form('');
-        WidgetMaker::submit_button('export', 'Export Results');
-        WidgetMaker::end_form();
+        echo $this->print_results() .
     }
 
-} 
+}

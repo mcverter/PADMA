@@ -16,25 +16,19 @@ class AdvancedSearchPage extends SearchBase {
 EOT;
 
 
-        $this->make_probeid_text_input() ;
-
-        $this->make_cgnumber_text_input();
-
-        $this->make_flybasenumber_text_input();
-
-        $this->make_genename_text_input() ;
-
-        $this->make_gonumber_text_input();
-
-        $this->make_biofunction_select($db_conn, $userid);
-
-        $this->make_experiment_select($db_conn, $userid);
-
-        $this->make_category_select($db_conn, $userid);
-
-        $this->make_species_select($db_conn, $userid);
-
-        $this->make_subject_select($db_conn, $userid);
+    echo WidgetMaker::start_form('advanced_search_result.php', 'POST') .
+        $this->make_probeid_text_input() .
+        $this->make_cgnumber_text_input() .
+        $this->make_flybasenumber_text_input() .
+        $this->make_genename_text_input()  .
+        $this->make_gonumber_text_input() .
+        $this->make_biofunction_select($db_conn, $userid) .
+        $this->make_experiment_select($db_conn, $userid) .
+        $this->make_category_select($db_conn, $userid) .
+        $this->make_species_select($db_conn, $userid) .
+        $this->make_subject_select($db_conn, $userid) .
+        WidgetMaker::submit_button('submit', 'Search') .
+    WidgetMaker::end_form();
 
     }
 }

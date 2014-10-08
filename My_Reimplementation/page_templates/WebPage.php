@@ -33,7 +33,7 @@ abstract class WebPage {
 <html>
   <head>
     <title> PADMA: $title </title>
-    <link rel="stylesheet" href="../css/style.css" type="text/css" />
+    <!-- link rel="stylesheet" href="../css/style.css" type="text/css" -->
     <meta charset="UTF-8">
 EOT;
     $this->print_js();

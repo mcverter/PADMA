@@ -5,6 +5,7 @@ require_once(__DIR__ . "/../page_templates/DatabaseConnectionPage.php");
 class EditProfilePage extends DatabaseConnectionPage {
     const TITLE_POSTVAR = 'title';
     const LNAME_POSTVAR = 'lname';
+    const FNAME_POSTVAR = 'fname';
     const MNAME_POSTVAR = 'mname';
     const ADDRESS1_POSTVAR = 'address1';
     const ADDRESS2_POSTVAR = 'address2';
@@ -21,21 +22,23 @@ class EditProfilePage extends DatabaseConnectionPage {
 
         $db_conn = $this->db_conn;
         $userid = $this->userid;
-        if ($_POST['submitted']) {
+        if (isset ($_POST['submitted']) &&
+            ($_POST['submitted']) === 'submitted') {
             list($title, $lname, $fname, $mname,
                 $address1, $address2, $city, $state, $zip, $country,
                 $phone, $email, $industry, $profession) =
-               [$_POST[self::TITLE_POSTVAR], $_POST[self::LNAME_POSTVAR],
-                   $_POST[self::MNAME_POSTVAR], $_POST[self::ADDRESS1_POSTVAR],
+               array( $_POST[self::TITLE_POSTVAR], $_POST[self::LNAME_POSTVAR],
+                   $_POST[self::FNAME_POSTVAR], $_POST[self::MNAME_POSTVAR],
+                   $_POST[self::ADDRESS1_POSTVAR],
                    $_POST[self::ADDRESS2_POSTVAR], $_POST[self::CITY_POSTVAR],
                    $_POST[self::STATE_POSTVAR], $_POST[self::ZIP_POSTVAR],
                    $_POST[self::COUNTRY_POSTVAR], $_POST[self::PHONE_POSTVAR],
                    $_POST[self::EMAIL_POSTVAR], $_POST[self::INDUSTRY_POSTVAR],
-                   $_POST[self::PROFESSION_POSTVAR] ] ;
+                   $_POST[self::PROFESSION_POSTVAR] ) ;
 
             $updated_by = $this->userid;
             $updated_on = DBFunctions::now();
-            DBFunctions::updateUserProfile($title, $lname, $fname, $mname,
+            DBFunctions::updateUserProfile($db_conn, $title, $lname, $fname, $mname,
                 $address1, $address2, $city, $state, $zip, $country,
                 $phone, $email, $industry, $profession, $userid);
         }
@@ -62,26 +65,27 @@ EOT;
         $formAction = $_SERVER['PHP_SELF'];
 
         echo "<h2> Your current profile </h2> \n" .
-            "<input type='hidden' name='submitted'".
             "<p> Last updated by $updated_by  on $updated_on </p>" .
             "<hr>\n" .
-            WidgetMaker::start_form('', '', 'verifyForm') .
+            WidgetMaker::start_form($formAction, 'POST', 'verifyForm') .
+            WidgetMaker::hidden_input('submitted', 'submitted') .
             WidgetMaker::select_input('Title', 'title', DBFunctions::selectTitleList($db_conn), 'TITLE', false, $title,
                 '') .
-            WidgetMaker::text_input('Last Name', 'lname',  $lname, '') .
-            WidgetMaker::text_input('First Name', 'fname',  $fname, '') .
-            WidgetMaker::text_input('Middle Initial', 'mname',  $mname, '') .
-            WidgetMaker::text_input('Address:', 'address1',  $address1, '') .
-            WidgetMaker::text_input('Address 2:', 'address2',  $address2, '') .
-            WidgetMaker::text_input('City:', 'city',  $city, '') .
-            WidgetMaker::text_input('State:', 'state',  $state, '') .
-            WidgetMaker::text_input('Zip Code:', 'zip',  $zip, '') .
-            WidgetMaker::select_input('Country', 'country', DBFunctions::selectCountryList($db_conn), 'COUNTRY', false,
+            WidgetMaker::text_input('Last Name', self::LNAME_POSTVAR,  $lname, '') .
+            WidgetMaker::text_input('First Name', self::FNAME_POSTVAR,  $fname, '') .
+            WidgetMaker::text_input('Middle Initial', self::MNAME_POSTVAR,  $mname, '') .
+            WidgetMaker::text_input('Address:', self::ADDRESS1_POSTVAR,  $address1, '') .
+            WidgetMaker::text_input('Address 2:', self::ADDRESS2_POSTVAR,  $address2, '') .
+            WidgetMaker::text_input('City:', self::CITY_POSTVAR,  $city, '') .
+            WidgetMaker::text_input('State:', self::STATE_POSTVAR,  $state, '') .
+            WidgetMaker::text_input('Zip Code:', self::ZIP_POSTVAR,  $zip, '') .
+            WidgetMaker::select_input('Country', self::COUNTRY_POSTVAR, DBFunctions::selectCountryList($db_conn), 'COUNTRY', false,
                 $country, '') .
-            WidgetMaker::text_input('Phone Number', 'phone',  $phone, '') .
-            WidgetMaker::text_input('Email', 'email',  $email, '') .
-            WidgetMaker::text_input('Industry', 'industry',  $industry, '') .
-            WidgetMaker::text_input('Profession', 'profession',  $profession, '') ;
+            WidgetMaker::text_input('Phone Number', self::PHONE_POSTVAR,  $phone, '') .
+            WidgetMaker::text_input('Email', self::EMAIL_POSTVAR,  $email, '') .
+            WidgetMaker::text_input('Industry', self::INDUSTRY_POSTVAR,  $industry, '') .
+            WidgetMaker::text_input('Profession', self::PROFESSION_POSTVAR,  $profession, '') .
+        WidgetMaker::submit_button('submit', 'Update Profile');
     }
 
     function __construct() {

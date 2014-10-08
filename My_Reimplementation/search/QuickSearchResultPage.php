@@ -7,48 +7,10 @@
  */
 
 class QuickSearchResultPage extends SearchResultsBase {
-    static $quicksearch_cols = [
-        [
-//            'col' =>self::PROBEID_FULLVIEW_TBL_COL,
-            'type' =>'quicksearch',
-//            'postvar' => self::PROBEID_LABEL,
-
-        ],
-        [
-            'col' =>self::BIOFUNCTION_FULLVIEW_TBL_COL,
-            'type' =>'array',
-            'postvar' => self::BIOFUNCTION_LABEL,
-
-        ],
-        [
-            'col' =>self::EXPERIMENTNAME_FULLVIEW_TBL_COL,
-            'type' =>'array',
-            'postvar' => self::EXPERIMENTNAME_LABEL,
-
-        ],
-        [
-            'col' =>self::ACTIVECATEGORY_FULLVIEW_TBL_COL,
-            'type' =>'array',
-            'postvar' => self::ACTIVECATEGORY_LABEL,
-
-        ],
-        [
-            'col' =>self::ACTIVESPECIES_FULLVIEW_TBL_COL,
-            'type' =>'array',
-            'postvar' => self::ACTIVESPECIES_LABEL,
-
-        ],
-        [
-            'col' =>self::EXPERIMENTSUBJECT_FULLVIEW_TBL_COL,
-            'type' =>'array',
-            'postvar' => self::EXPERIMENTSUBJECT_LABEL,
-
-        ],
-    ];
 
     function search_query() {
         return DBFunctions::selectQuickSearchResultList($this->db_conn, $this->userid,
-            $this->build_constraint(self::$quicksearch_cols));
+            $this->build_constraint(self::$result_cols));
     }
 
     function print_results () {
@@ -57,7 +19,7 @@ class QuickSearchResultPage extends SearchResultsBase {
             <thead>
 EOT;
 
-        foreach ( self::$quicksearch_cols as $col) {
+        foreach ( self::$result_cols as $col) {
             $returnString .= "\n <th> " . $col['heading'] . " </th> ";
         }
         $returnString .= <<< EOT
@@ -68,7 +30,7 @@ EOT;
 
         while (($row = oci_fetch_array($query_result)) != false) {
             $returnString .= "\n <tr> ";
-            foreach ( self::$quicksearch_cols as $col) {
+            foreach ( self::$result_cols as $col) {
                 $returnString .= "\n <td> " . $row[$col['col']] . " </td> ";
             }
             $returnString .= "\n </tr> ";

@@ -5,10 +5,10 @@ Functions Below are divided into the following categories:
  * (2) Search-related functions
  * (3) Data Management functions
  * (4) User management functions
-  *
+ *
  * Within each category, functions are divided into
  *(1) Select (2) Insert (3) Update (4) Delete
- * 
+ *
  * Naming convention:
  * To make it clear that these functions make direct database
  * calls and to avoid accidental name clobbering, all functions
@@ -17,6 +17,9 @@ Functions Below are divided into the following categories:
  */
 class DBFunctions
 {
+
+    const FULLVIEW_TABLE = 'FULL_V';
+
 
     /**
      * @return bool|string
@@ -38,7 +41,7 @@ class DBFunctions
     /**
      * @param $db_conn
      * @param $query
-     * @return resource
+     * @return uource
      */
     private static function execute_SELECT_query_and_return($db_conn, $query)
     {
@@ -133,7 +136,11 @@ class DBFunctions
      * @return resource
      */
     static function selectAdvancedQueryResult($db_conn, $userid, $constraint) {
-        $query = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT,GONUMBER, BIOFUNCTION,REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW where  {$constraint}  AND RESTRICTED='0' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT,GONUMBER, BIOFUNCTION,REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW where {$constraint} AND RESTRICTED='1' and CREATED_BY='{$userid}' ORDER BY 5,1";
+        $query = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT,
+GONUMBER, BIOFUNCTION,REGULATIONVALUE,ADDITIONALINFO,HOUR FROM  " . self::FULLVIEW_TABLE . " where  {$constraint}  AND
+RESTRICTED='0' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES,
+        EXPERIMENTSUBJECT,GONUMBER, BIOFUNCTION,REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " .self::FULLVIEW_TABLE . "
+            where  {$constraint} AND RESTRICTED='1' and CREATED_BY='{$userid}' ORDER BY 5,1";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -144,18 +151,20 @@ class DBFunctions
      * @return resource
      */
     static function selectQuickSearchResultList($db_conn, $userid, $constraint) {
-        $query = "SELECT DISTINCT PROBEID, CGNUMBER, GENENAME, FBCGNUMBER,EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW WHERE RESTRICTED='0' and {$constraint} union SELECT DISTINCT PROBEID, CGNUMBER, GENENAME, FBCGNUMBER,EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW WHERE RESTRICTED='1' and CREATED_BY={$userid} and {$constraint} ORDER BY 5,1";
+        $query = "SELECT DISTINCT PROBEID, CGNUMBER, GENENAME, FBCGNUMBER,EXPERIMENTNAME, ACTIVECATEGORY,
+        ACTIVESPECIES, EXPERIMENTSUBJECT, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . " WHERE
+RESTRICTED='0' and {$constraint} union SELECT DISTINCT PROBEID, CGNUMBER, GENENAME, FBCGNUMBER,EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . " WHERE RESTRICTED='1' and CREATED_BY={$userid} and {$constraint} ORDER BY 5,1";
         return self::execute_SELECT_query_and_return($db_conn, $query);
 
 
     }
     /*
     function selectRefineSearchResultList($db_conn) {
-        $queryRetrieve = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$notRestricted}' $str union SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' $str order by 5,1";
+        $queryRetrieve = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . "  WHERE RESTRICTED='" .$notRestricted}' $str union SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . "  WHERE RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' $str order by 5,1";
     }
-    
+
     function selectRefineSearchResultRefinedList($db_conn) {
-        $queryRetrieve ="SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$notRestricted}' $str union SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM FULL_VIEW  WHERE RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' $str order by 5,1";
+        $queryRetrieve ="SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . "  WHERE RESTRICTED='" .$notRestricted}' $str union SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . "  WHERE RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' $str order by 5,1";
     }
     */
     /*
@@ -206,9 +215,10 @@ class DBFunctions
 //    uploader.php:
 
 
-static function selectTitleList($db_conn) {
-
-}
+    static function selectTitleList($db_conn) {
+        $query = "select distinct title from client";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
+    }
 
     static function selectFromReferenceByVersion($db_conn, $version)
     {
@@ -356,7 +366,7 @@ static function selectTitleList($db_conn) {
 // User
     static function selectCountryList($db_conn)
     {
-        $query = "select country,countryid from country order by countryid";
+        $query = "select distinct country, countryid from country order by countryid";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -398,29 +408,38 @@ static function selectTitleList($db_conn) {
 //newprofile.php
     static function selectProfileInfo($db_conn, $userid)
     {
+        $userid = strtoupper($userid);
+        $query = "select title,fname,lname,mname,add_1,add_2,city,state,zip,country,phone,email,ind,prof,updated_by, updated_on from client where user_id = '{$userid}'";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
+    }
+
+
+    static function selectProfileInfoByUserID($db_conn, $userid)
+    {
         $query = "select title,fname,lname,mname,add_1,add_2,city,state,zip,country,phone,email,ind,prof,updated_by,updated_on from client where user_id = '{$userid}'";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
+
 // newprofileSubmit.php
     static function updateUserProfile($db_conn, $title, $lname, $fname, $mname,
-                               $address1, $address2, $city, $state, $zip, $country,
-                               $phone, $email, $industry, $profession, $userid)
+                                      $address1, $address2, $city, $state, $zip, $country,
+                                      $phone, $email, $industry, $profession, $userid)
     {
-        $country = $country["COUNTRY"][0];
         $email = strtoupper($email);
+        $userid = strtoupper($userid);
 //update user profile
         $query = "update CLIENT set TITLE='{$title}',LNAME='{$lname}',FNAME='{$fname}',MNAME='{$mname}'," .
-            "ADD_1='{$address1}',ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$country}'," .
+            "ADD_1=' {$address1}',
+ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$country}'," .
             "PHONE= '{$phone}',EMAIL='{$email}',IND='{$industry}',PROF='{$profession}'," .
             "UPDATED_BY='{$userid}',UPDATED_ON=SYSDATE WHERE USER_ID='{ $userid }'";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 
-
     static function insertUserProfile($db_conn, $title, $lname, $mname, $fname,
-                               $address1, $address2, $city, $state, $zip, $country,
-                               $phone, $email, $industry, $profession, $userid, $password, $date)
+                                      $address1, $address2, $city, $state, $zip, $country,
+                                      $phone, $email, $industry, $profession, $userid, $password, $date)
     {
         $query = "INSERT INTO CLIENT (C_ID,TITLE,LNAME,MNAME,FNAME,ADD_1,ADD_2,CITY,STATE,ZIP,COUNTRY," .
             "PHONE,EMAIL,IND,PROF,USER_ID,PASSWORD," .
@@ -478,7 +497,7 @@ static function selectTitleList($db_conn) {
 
     static function selectGeneName($db_conn)
     {
-        $query = "select distinct GENENAME from FULL_VIEW where RESTRICTED ='0' order by GENENAME";
+        $query = "select distinct GENENAME from " . self::FULLVIEW_TABLE . " where RESTRICTED ='0' order by GENENAME";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
