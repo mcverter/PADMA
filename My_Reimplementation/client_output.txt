@@ -1,0 +1,424 @@
+[oracle@localhost ~]$ sqlplus
+
+SQL*Plus: Release 11.2.0.1.0 Production on Thu Oct 9 18:56:46 2014
+
+Copyright (c) 1982, 2009, Oracle.  All rights reserved.
+
+Enter user-name: drosophilarc2
+Enter password: 
+ERROR:
+ORA-01017: invalid username/password; logon denied
+
+
+Enter user-name: drosophilarc2
+Enter password: 
+
+Connected to:
+Oracle Database 11g Enterprise Edition Release 11.2.0.1.0 - Production
+With the Partitioning, OLAP, Data Mining and Real Application Testing options
+
+SQL> select count(*) from client;
+
+  COUNT(*)
+----------
+	26
+
+SQL> set Heading off
+SQL> select * from client
+  2  ;
+
+2647			       Mr
+Lee
+		     Marky
+
+
+						GANASPIS@GMAIL.COM
+
+
+	   2 0 DORKYHEAD		      19-OCT-10
+GANASPIS		       19-OCT-10 GANASPIS
+aafdc23870ecbcd3d557b6423a8982134e17927e
+02-NOV-10	    6 United States
+19-OCT-10
+
+
+3022			       Mr
+venkat
+		     chintapalli
+
+
+						VRC1H@UDCF.GLA.AC.UK
+
+
+	   0 0
+					 VRC1H
+5a46b8253d07320a14cace9b4dcbf80f93dcef04
+		    0  United Kingdom
+
+30-OCT-10
+
+18			       Mr
+Martin
+		     Steve
+
+
+						MARTIN.STEVE@MSRTIN.COM
+
+
+	   2 0 ARIF1078 		      01-MAY-09
+					 RESEARCHER2
+fb60abe9c8e20af840b1c71dc1e3919c777bd22f
+
+		    0 United States
+01-MAY-09
+
+12			       Mr
+MONDAL
+H		     ARIFUL
+ 770 OCEAN PARKWAY
+APT5N					 BROOKLYN
+NY		     11230	6462704796	ARIF1078@GMAIL.COM
+CITY COLLEGE
+STUDENT
+	   1 0 USERID			      12-NOV-08
+ARIF1078		       12-NOV-08 ARIF1078
+
+fb60abe9c8e20af840b1c71dc1e3919c777bd22f
+26-DEC-10	  153 United States
+12-NOV-08
+
+22			       Mrs.
+Goncharuk
+		     Tamara
+
+
+						TOMULYA87@YAHOO.COM
+
+student
+	   3 0 dorkyhead		      12-MAR-09
+
+					 MARA87
+116fff59236183fddebc6cc5fe70d7270987b47e
+12-MAR-09	    2 United States
+12-MAR-09
+
+14			       Mr
+doe
+		     john
+1 main street
+					 brooklyn
+NY		     11230	1234567897	ARIF1078@GMAIL.COM
+test
+test
+
+	   2 0 ARIF1078 		      13-NOV-08
+					 TESTUSER
+fb60abe9c8e20af840b1c71dc1e3919c777bd22f
+13-DEC-08	    8 United States
+13-NOV-08
+
+13			       Mr
+test
+		     test
+lala land
+					 brooklyn
+NY		     11218	7188594862	arif1078@gmail.com
+test
+
+tester
+	   3 0 arif1078 		      13-NOV-08
+					 TESTER
+6216f8a75fd5bb3d5f22b6f9958cdede3fc086c2
+13-NOV-08	    3 United States
+13-NOV-08
+
+15			       Mr
+test
+t		     test
+
+
+						TEST@TEST.COM
+
+
+
+	   2 0 DORKYHEAD		      09-JUN-09
+					 READONLY
+9a27718297218c3757c365d357d13f49d0fa3065
+18-DEC-08	    1 United States
+18-DEC-08
+
+21			       DR.
+Rajwani
+		     Roma
+
+
+
+						RAJWANI.ROMA@GMAIL.COM
+
+
+	   3 0 dorkyhead		      12-MAR-09
+					 ROMEZR
+e65e8ccff249e7600da6cc8df78c92f0c7710308
+		    0 United States
+12-MAR-09
+
+23			       Mrs.
+Kalamarz
+		     Marta
+
+
+
+						KALAMARZ@GMAIL.COM
+
+
+	   3 1 dorkyhead		      12-MAR-09
+DORKYHEAD		       03-DEC-09 KALAMARZ
+46de43d9f866a5638005f66bc6d7f066ce06053e
+12-MAR-09	    4 United States
+12-MAR-09
+
+24			       Mr
+Uribe
+		     Jeffrey
+
+42-15 43rd Avenue
+					 Sunnyside
+New York	     11104			JEFFU986@YAHOO.COM
+
+
+	   3 0 dorkyhead		      12-MAR-09
+					 JEFF
+0d58f2aaa0edcac04a3b6cbb31870d8bac7c2cd7
+12-MAR-09	    5 United States
+12-MAR-09
+
+25			       Mr
+venkat
+
+		     chintapalli
+
+					 glasgow
+lanarikshire	     g116nu	01413306811	TAKNEVC@YAHOO.CO.IN
+academic
+science
+	   0 0
+					 VENKAT
+2d8e63fe5a8c53e8608627c8201cb7970a53ab8b
+		    0  United Kingdom
+15-MAR-09
+
+16			       Mr
+
+Doe
+		     John
+1 Main street
+
+						DOE.JOHN@DOE.COM
+
+
+	   2 0 ARIF1078 		      01-MAY-09
+DORKYHEAD		       09-JUN-09 RESEARCHER
+ff825f4d379d99e324a99a701cca2053f812bf69
+11-MAY-09	    3 United States
+01-MAY-09
+
+
+19			       Mr
+Lee
+J		     Mark
+
+
+						MARK_LEE22@HOTMAIL.COM
+
+
+	   1 0 ARIF1078 		      13-MAY-09
+					 DORKYHEAD
+71758e42f14a02ec473034a4408c27ebc91f94fd
+29-DEC-10	  190 United States
+13-MAY-09
+
+
+20			       Dr.
+Kawaguchi
+		     Akira
+CS Dept.
+City College of New York, CUNY		 New York
+NY		     10031	1-212-650-6015	AKIRA@CS.CCNY.CUNY.EDU
+CUNY / Academia fish s
+System Maintenance/Administration
+	   1 0 DORKYHEAD		      17-OCT-10
+AKIRA			       05-FEB-14 AKIRA
+ba88452dff75ce0c7137b679baf360bf29e5c4b4
+09-OCT-14	  174 United States
+
+13-MAY-09
+
+1897			       Mr
+test
+		     test
+
+
+						TEST@TESTSSSS.COM
+
+
+	   0 1
+DORKYHEAD		       08-NOV-10 TEEEEEEST
+c6efae9869218c6d45b92a3090bce129f27c070d
+
+		    0 United States
+14-JUN-09
+
+2022			       Ms.
+Salazar Jaramillo
+		     Laura
+
+
+						LAURAALAZAR@GMAIL.COM
+
+Biologist
+	   2 0 DORKYHEAD		      08-NOV-10
+					 LUNA
+
+f25460b3fe03bb915d291d7adaa64a88cdb26176
+09-NOV-10	    2  Netherlands
+15-JUN-09
+
+2147			       Mr
+test
+		     user
+
+
+						ARIF1078@FDDF.COM
+
+
+	   0 1
+
+DORKYHEAD		       08-NOV-10 TESTUSER3
+a94a8fe5ccb19ba61c4c0873d391e987982fbbd3
+		    0 United States
+15-JUN-09
+
+2272			       Mr
+Dora
+		     Explorer
+
+
+						DORA@MAKEBELIEVE.COM
+
+
+
+	   2 0 DORKYHEAD		      05-SEP-09
+					 DORA
+7ec4fa89d0c005d7b155848254f5e7ef0897d95b
+19-DEC-09	   22 United States
+05-SEP-09
+
+2397			       Ms.
+Mao
+		     Chunhong
+
+
+						CMAO@VBI.VT.EDU
+
+
+
+	   2 0 DORKYHEAD		      08-NOV-10
+					 CMAO
+441293968a5cf2eda6716a7c9f8ed5f568549c1e
+		    0 United States
+12-NOV-09
+
+2522			       Ms.
+Kalamarz
+		     Marta
+
+
+						MARTA@CITY.COM
+
+
+
+	   2 0 DORKYHEAD		      03-DEC-09
+AKIRA			       28-SEP-14 MARTA
+3d5b3458fe2f6adbd120c86d313f0a3791e19d8a
+03-DEC-09	    1 United States
+03-DEC-09
+
+2897			       DR.
+Steward
+		     Ruth
+
+
+
+						STEWARD@WAKSMAN.RUTGERS.EDU
+
+
+	   2 0 DORKYHEAD		      26-OCT-10
+					 STEWARD
+84c2d5bd9fe969baa0e313f34cfc6fc4e6d6bed4
+		    0 United States
+26-OCT-10
+
+3147			       Ms.
+Qi
+		     Yan
+
+
+
+						QIYAN.QY@GMAIL.COM
+
+
+	   2 0 DORKYHEAD		      08-NOV-10
+					 YANQI
+7c4a8d09ca3762af61e59520943dc26494f8941b
+01-DEC-10	    3 United States
+01-NOV-10
+
+3397			       Mr.
+Nguyen
+		     Xuan-Hung
+
+
+
+						CASPERIBT@YAHOO.COM
+
+
+	   2 0 DORKYHEAD		      09-DEC-10
+					 CASPERIBT
+8a2da05455775e8987cbfac5a0ca54f3f728e274
+09-DEC-10	    2 United States
+08-DEC-10
+
+2772			       Dr.
+Akira
+
+		     Kawaguchi
+Computer Science Dept
+City College of New York		 New York
+NY		     10031	212-650-6015	AKIRA@CS.CCNY.CUNY.EDU
+Academia (higher education)
+Professor
+	   2 0 AKIRA			      29-OCT-10
+AKIRA_USER		       07-NOV-10 AKIRA_USER
+a0acd4884fd51da15171313ecc516f7a4c6dfa6a
+10-NOV-10	   54 United States
+24-OCT-10
+
+3272			       Mr.
+
+Car
+		     Mex
+
+
+						MOON_0_0@163.COM
+
+
+	   2 0 DORKYHEAD		      08-NOV-10
+					 CARMEX
+7c4a8d09ca3762af61e59520943dc26494f8941b
+		    0 United States
+08-NOV-10
+
+
+26 rows selected.
+
+SQL> 

@@ -23,33 +23,6 @@ class PageControlFunctions
         return str_replace('^', ' ', $string);
     }
 
-    static function connect_to_db()
-    {
-        $db_UN = "drosophilarc2";
-        $db_PASS = "drosopivot";
-        $db_DB = "//127.0.0.1/ORATIKI";
-
-        set_time_limit(6000);
-        $db_conn = ocilogon($db_UN, $db_PASS, $db_DB);
-        if (!$db_conn) {
-            self::db_conn_failure(oci_error());
-        }
-        return $db_conn;
-    }
-
-    static function db_conn_failure($err)
-    {
-        $error_message = htmlentities($err['message']);
-        echo <<<EOT
-      echo "<font color='red'>";
-      $error_message
-    <br>ERROR: Connecting to Database, Please try back later<br>;
-    <a title='logout' href='index.php'>Click Here</a> to go back to home page
-EOT;
-        exit;
-
-    }
-
     static function check_role($roletype)
     {
         $role = $_SESSION['role'];

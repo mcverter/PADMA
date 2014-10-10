@@ -3,8 +3,29 @@
 /**
  * Class WidgetMaker
  */
-class WidgetMaker
+
+class FormWidget {
+    protected $id_name;
+    protected $value;
+    protected $attrs;
+    protected $input_tag;
+
+     function FormWidget($id_name, $value, $attrs, $input_tag='input') {
+        $this->id_name = $id_name;
+        $this->value = $value;
+        $this->$attrs = $attrs;
+        $this->input_tag = $input_tag;
+    }
+
+     function toString() {
+        return "< $this->input_tag $this->id_name $this->value $this->attrs >" ;
+    }
+
+};
+
+class WidgetMaker extends FormWidget
 {
+
 
     // GENERAL PURPOSE WIDGETS
 
@@ -23,9 +44,8 @@ class WidgetMaker
      * @param string $onclick
      * @return string
      */
-    static function submit_button($name='', $value='Submit', $class='', $onclick='') {
-        $returnString = "\n<input type='submit' name='$name' value='$value' class='$class'
-onclick='$onclick' />\n";
+    static function submit_button($name='', $value='Submit', $class='') {
+        $returnString = "\n<input type='submit' name='$name' value='$value' class='$class' />\n";
         return $returnString;
     }
 
@@ -151,28 +171,42 @@ EOT;
     }
 
 
-    /**
-     * @param $href
-     * @param $button_text
-     * @return string
-     */
-    static function button_link($href, $button_text)
-    {
+    static function button_ajax($id, $buttontext) {
         $returnString = <<< EOT
-    <div class="control">
-      <a href="{$href}">
-	    <input type='button' value='{$button_text}'/>
-       </a>
-    </div>
+	    <input type='button' id='{$id}' value='{$buttontext}'/>
 EOT;
         return $returnString;
+
+
     }
+
 
 
 
     // SPECIAL USE
 
     static function quicksearch_widget() {
+
+    }
+
+    const ID_COL = "C_ID";
+    const FNAME_COL = "FNAME";
+    const LNAME_COL = "LNAME";
+
+    static function user_pick_widget($label, $widget_name, $db_statement,$class='UserSelect') {
+        $returnString = "<br>\n" .
+             "<label for='{$widget_name}'> $label </label>\n " .
+            "<select name='{$widget_name}'
+ id='{$widget_name}' class='$class'  /> \n";
+
+        while (($row = oci_fetch_array($db_statement)) != false) {
+            $value = $row[self::ID_COL];
+            $text = $row[self::LNAME_COL] . ", " . $row[self::FNAME_COL];
+            $returnString .= "<option value='$value' > $text </option>\n";
+        }
+        $returnString .= "</select>\n";
+        $returnString .= "<br>\n";
+        return $returnString;
 
     }
 

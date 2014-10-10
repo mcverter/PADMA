@@ -21,6 +21,37 @@ class DBFunctions
     const FULLVIEW_TABLE = 'FULL_V';
 
 
+
+
+
+    static function connect_to_db()
+    {
+        $db_UN = "drosophilarc2";
+        $db_PASS = "drosopivot";
+        $db_DB = "//127.0.0.1/ORATIKI";
+
+        set_time_limit(6000);
+        $db_conn = ocilogon($db_UN, $db_PASS, $db_DB);
+        if (!$db_conn) {
+            self::db_conn_failure(oci_error());
+        }
+        return $db_conn;
+    }
+
+    static function db_conn_failure($err)
+    {
+        $error_message = htmlentities($err['message']);
+        echo <<<EOT
+      echo "<font color='red'>";
+      $error_message
+    <br>ERROR: Connecting to Database, Please try back later<br>;
+    <a title='logout' href='index.php'>Click Here</a> to go back to home page
+EOT;
+        exit;
+
+    }
+
+
     /**
      * @return bool|string
      */
@@ -384,25 +415,24 @@ RESTRICTED='0' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENT
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
-// getUserInfo.php
+/* getUserInfo.php
     static function selectUserInfo($db_conn, $clientid)
     {
         $query = "SELECT CLIENT.*, ACCESS_RIGHT.ACC_RIGHT_DESC as RIGHT FROM CLIENT INNER JOIN ACCESS_RIGHT ON CLIENT.ACC_RIGHT_ID = ACCESS_RIGHT.ACC_RIGHT_ID WHERE CLIENT.c_id = '{$clientid}'";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
-
+*/
 //newprofile.php
-    static function selectProfileInfo($db_conn, $userid)
+    static function selectProfileInfoByUserID($db_conn, $userid)
     {
         $userid = strtoupper($userid);
         $query = "select title,fname,lname,mname,add_1,add_2,city,state,zip,country,phone,email,ind,prof,updated_by, updated_on from client where user_id = '{$userid}'";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
-
-    static function selectProfileInfoByUserID($db_conn, $userid)
+    static function selectProfileInfoByCID($db_conn, $cid)
     {
-        $query = "select title,fname,lname,mname,add_1,add_2,city,state,zip,country,phone,email,ind,prof,updated_by,updated_on from client where user_id = '{$userid}'";
+        $query = "SELECT CLIENT.*, ACCESS_RIGHT.ACC_RIGHT_DESC as RIGHT FROM CLIENT INNER JOIN ACCESS_RIGHT ON CLIENT.ACC_RIGHT_ID = ACCESS_RIGHT.ACC_RIGHT_ID WHERE CLIENT.c_id = '{$cid}'";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 

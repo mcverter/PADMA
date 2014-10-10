@@ -46,7 +46,7 @@ class EditProfilePage extends DatabaseConnectionPage {
             list($title, $fname, $lname, $mname,
                 $address1, $address2, $city, $state, $zip, $country,
                 $phone, $email, $industry, $profession, $updated_by, $updated_on) =
-                oci_fetch_array(DBFunctions::selectProfileInfo($db_conn, $userid));
+                oci_fetch_array(DBFunctions::selectProfileInfoByUserID($db_conn, $userid));
         }
         echo <<< EOT
     <h2> Profile Information </h2>

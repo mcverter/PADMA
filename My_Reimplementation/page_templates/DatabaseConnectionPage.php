@@ -13,7 +13,7 @@ abstract class DatabaseConnectionPage extends WebPage {
      function __construct() {
         parent::__construct();
          if ( $this->db_conn == null) {
-             $this->db_conn = PageControlFunctions::connect_to_db();
+             $this->db_conn = DBFunctions::connect_to_db();
          }
     }
 
