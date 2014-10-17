@@ -2,19 +2,21 @@
 require_once(__DIR__ . "/../page_templates/WebPage.php");
 
 class IndexPage extends WebPage {
-
+  function make_page_middle($title, $userid, $role){
+    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+      }
     public function __construct() {
         parent::__construct();
         $this->title = " Welcome to Padma! ";
     }
-    public function print_content() {
+    public function make_main_frame($title, $userid, $role) {
         //unathenticate user when log out
         if ((isset($_GET['logout']) &&
             $_GET['logout'] == 'true')) {
-            $_SESSION['role']="NOTAUTHORIZED";
-            unset($_SESSION['userid']);
+            $_SESSION[wPg::ROLE_SESSVAR]="NOTAUTHORIZED";
+            unset($_SESSION[wPg::USERID_SESSVAR]);
         }
-        echo <<<EOT
+        $returnString = <<<EOT
     <div class="central_widget">
       <p>
 	<img id="dropso" src="../images/SDNA_tsmall.png" alt="drosophila">
@@ -25,6 +27,7 @@ class IndexPage extends WebPage {
     </div>
 
 EOT;
+        return $returnString;
     }
 }
 

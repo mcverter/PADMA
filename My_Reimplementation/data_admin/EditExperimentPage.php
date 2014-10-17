@@ -11,13 +11,15 @@ class EditExperimentPage extends DatabaseConnectionPage
     const EXPERIMENT_KEYVAL = "EXP_NAME";
     const EXPNAME_POSTVAR = "expName";
     const DESCRIPTION_SCRIPT = "ReadExperimentDescription.php";
-
+  function make_page_middle($title, $userid, $role){
+    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+      }
     /**
      * @throws ErrorException
      */
     function make_experiment_select()
     {
-        WidgetMaker::select_input(
+        wMk::select_input(
             self::EXPERIMENT_LABEL,
             self::EXPERIMENT_SELECT_NAME,
             $this->showExperimentMasterList(),
@@ -32,10 +34,10 @@ class EditExperimentPage extends DatabaseConnectionPage
     {
         $role = $this->$role;
 
-        if ($role == 'Administrator') {
-            return DBFunctions::selectUnrestrictedExperimentListFromMaster($this->db_conn);
-        } elseif ($role == 'Researcher') {
-            return DBFunctions::selectRestrictedExperimentListFromMaster($this->db_conn, $this->userid);
+        if ($role == wPg::ADMINISTRATOR_ROLE) {
+            return dbFn::selectUnrestrictedExperimentListFromMaster($this->db_conn);
+        } elseif ($role == wPg::RESEARCHER_ROLE) {
+            return dbFn::selectRestrictedExperimentListFromMaster($this->db_conn, $this->userid);
         } else {
             throw new ErrorException();
         }
@@ -46,7 +48,7 @@ class EditExperimentPage extends DatabaseConnectionPage
      */
     function showExperimentDescription($name)
     {
-        DBFunctions::selectExperimentDescription($this->db_conn, $name);
+        dbFn::selectExperimentDescription($this->db_conn, $name);
     }
 
     /**
@@ -55,7 +57,7 @@ class EditExperimentPage extends DatabaseConnectionPage
      */
     function changeExperimentDescription($name, $description)
     {
-        DBFunctions::updateExperimentDescription($this->db_conn, $name, $description);
+        dbFn::updateExperimentDescription($this->db_conn, $name, $description);
     }
 
     /**
@@ -63,59 +65,30 @@ class EditExperimentPage extends DatabaseConnectionPage
      */
     function __construct()
     {
-        $_SESSION['role'] = 'Administrator';
+        $_SESSION[wPg::ROLE_SESSVAR] = wPg::ADMINISTRATOR_ROLE;
         PageControlFunctions::check_role('ar');
         parent::__construct();
     }
 
-    /**
-     *
-     */
-    function print_js() {
-        $experiment_select_name = self::EXPERIMENT_SELECT_NAME;
-        $description_script = self::DESCRIPTION_SCRIPT;
-
-        $innerHTML =
-            WidgetMaker::start_form($_SERVER['PHP_SELF']) .
-            WidgetMaker::text_area() .
-            WidgetMaker::submit_button() .
-            WidgetMaker::end_form();
-
-        $descriptionScript = '';
-        echo <<< EOT
-        <script type="text/javascript" src="../js/jquery.js"></script>
-        <script type="text/javascript">
-        $(document).ready(function(event) {
-            event.preventDefault();
-            $('#{$experiment_select_name}').change(function() {
-                var experimentData = {expName : $(this).name }
-                $.post('{$descriptionScript}', experimentData, function(data) {
-                    $('#description').innerHTML({$innerHTML});
-                });
-          });
-        });
-        </script>
-EOT;
-
-    }
-    function print_content()
+    function make_main_frame($title, $userid, $role)
     {
 
         $actionUrl = $_SERVER['PHP_SELF'];
 
-        echo <<< EOT
+        $returnString = <<< EOT
         <h2> Edit Description </h2>
         <form action=$actionUrl>
 EOT;
 
-        WidgetMaker::select_input(self::EXPERIMENT_LABEL, self::EXPERIMENT_SELECT_NAME,$this->showExperimentMasterList(), "EXP_NAME", false);
+        wMk::select_input(self::EXPERIMENT_LABEL, self::EXPERIMENT_SELECT_NAME,$this->showExperimentMasterList(), "EXP_NAME", false);
 
-        WidgetMaker::submit_button('editDescription', 'Edit Description');
+        wMk::submit_button('editDescription', 'Edit Description');
 
-         echo <<< EOT
+         $returnString .= <<< EOT
         </form>
         <div name="description"> </div>
 EOT;
 
+        return $returnString;
     }
 }

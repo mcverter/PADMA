@@ -150,19 +150,19 @@ abstract class SearchBase extends DatabaseConnectionPage
 
 
     protected function make_probeid_text_input() {
-       return  WidgetMaker::text_input("Probe Id:", self::PROBEID_POSTVAR);
+       return  wMk::text_input("Probe Id:", self::PROBEID_POSTVAR);
     }
     protected function make_cgnumber_text_input() {
-        return WidgetMaker::text_input("CG Number:", self::CGNUM_POSTVAR);
+        return wMk::text_input("CG Number:", self::CGNUM_POSTVAR);
     }
     protected function make_flybasenumber_text_input() {
-        return WidgetMaker::text_input("Flybase Number:", self::FLYBASE_POSTVAR);
+        return wMk::text_input("Flybase Number:", self::FLYBASE_POSTVAR);
     }
     protected function make_genename_text_input() {
-        return WidgetMaker::text_input("Gene Name:", self::GENENAME_POSTVAR);
+        return wMk::text_input("Gene Name:", self::GENENAME_POSTVAR);
     }
     protected function make_gonumber_text_input() {
-        return WidgetMaker::text_input("GO Number:", self::GONUMBER_POSTVAR);
+        return wMk::text_input("GO Number:", self::GONUMBER_POSTVAR);
     }
 
     /**
@@ -170,10 +170,10 @@ abstract class SearchBase extends DatabaseConnectionPage
      * @param $userid
      */
     protected function make_experiment_select($db_conn, $userid) {
-        return WidgetMaker::select_input(
+        return wMk::select_input(
             self::EXPERIMENT_LABEL,
             self::EXPERIMENT_POSTVAR,
-            DBFunctions::selectAllUnrestrictedExperimentList($db_conn, $userid),
+            dbFn::selectAllUnrestrictedExperimentList($db_conn, $userid),
             self::EXPERIMENT_EXP_TBL_COL);
     }
 
@@ -182,10 +182,10 @@ abstract class SearchBase extends DatabaseConnectionPage
      * @param $userid
      */
     protected function make_category_select($db_conn, $userid) {
-        return WidgetMaker::select_input(
+        return wMk::select_input(
             self::CATEGORY_LABEL,
             self::CATEGORY_POSTVAR,
-            DBFunctions::selectCategoryList($db_conn, $userid),
+            dbFn::selectCategoryList($db_conn, $userid),
             self::CATEGORY_EXP_TBL_COL);
     }
 
@@ -194,10 +194,10 @@ abstract class SearchBase extends DatabaseConnectionPage
      * @param $userid
      */
     protected function make_species_select($db_conn, $userid) {
-        return WidgetMaker::select_input(
+        return wMk::select_input(
             self::SPECIES_LABEL,
             self::SPECIES_POSTVAR,
-            DBFunctions::selectSpeciesList($db_conn, $userid),
+            dbFn::selectSpeciesList($db_conn, $userid),
             self::SPECIES_EXP_TBL_COL);
     }
 
@@ -206,10 +206,10 @@ abstract class SearchBase extends DatabaseConnectionPage
      * @param $userid
      */
     protected function make_subject_select($db_conn, $userid) {
-        return WidgetMaker::select_input(
+        return wMk::select_input(
             self::SUBJECT_LABEL,
             self::SUBJECT_POSTVAR,
-            DBFunctions::selectSubjectList($db_conn, $userid),
+            dbFn::selectSubjectList($db_conn, $userid),
             self::SUBJECT_EXP_TBL_COL);
     }
 
@@ -218,17 +218,17 @@ abstract class SearchBase extends DatabaseConnectionPage
      * @param $userid
      */
     protected function make_regval_select($db_conn, $userid) {
-        return WidgetMaker::select_input(
+        return wMk::select_input(
             self::REGVAL_LABEL,
             self::REGVAL_POSTVAR,
-            DBFunctions::selectRegValList($db_conn, $userid),
+            dbFn::selectRegValList($db_conn, $userid),
             self::REGVAL_EXP_TBL_COL);
     }
     protected function make_biofunction_select($db_conn, $userid) {
-        return WidgetMaker::select_input(
+        return wMk::select_input(
             self::BIOFUNCTION_LABEL,
             self::BIOFUNCTION_POSTVAR,
-            DBFunctions::selectBiofunctionList($db_conn, $userid),
+            dbFn::selectBiofunctionList($db_conn, $userid),
             self::BIOFUNCTION_EXP_TBL_COL);
     }
 

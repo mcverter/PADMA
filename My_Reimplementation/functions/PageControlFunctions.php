@@ -1,6 +1,7 @@
 <?php
 class PageControlFunctions
 {
+
     static function redirectDueToError($errorMsg)
     {
 
@@ -25,30 +26,30 @@ class PageControlFunctions
 
     static function check_role($roletype)
     {
-        $role = $_SESSION['role'];
+        $role = $_SESSION[wPg::ROLE_SESSVAR];
         if (!isset($_SESSION["role"])) {
-            header("location: index.php");
+            header("location: oniondex.php");
         } else {
-            $role = $_SESSION['role'];
+            $role = $_SESSION[wPg::ROLE_SESSVAR];
 
             error_log("Role is " . $role);
 
 
             if ($roletype == 'a') {
                 if ($role != "Administrator") {
-                    header("location: index.php");
+                    header("location: oniondex.php");
                 }
             } else if ($roletype == 'ar') {
-                if (($role != "Researcher") && ($role != 'Administrator')) {
-                    header("location: index.php");
+                if (($role != "Researcher") && ($role != wPg::ADMINISTRATOR_ROLE)) {
+                    header("location: oniondex.php");
                 }
             } else if ($roletype == 'r') {
                 if ($role != "Researcher") {
-                    header("location: index.php");
+                    header("location: oniondex.php");
                 }
             } else if ($roletype == 'any') {
                 if (empty($role)) {
-                    header("location: index.php");
+                    header("location: oniondex.php");
                 }
             }
         }

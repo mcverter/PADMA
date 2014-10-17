@@ -9,12 +9,14 @@ class DeleteReferencePage extends DatabaseConnectionPage {
     const VERSION_SELECT_NAME = "Version";
     const VERSION_KEYVAL = "VERSION";
     const VERSION_POSTVAR = "version";
-
+  function make_page_middle($title, $userid, $role){
+    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+      }
     /**
      *
      */
     function showReferenceList() {
-        DBFunctions::selectVersionList();
+        dbFn::selectVersionList();
     }
 
 
@@ -37,22 +39,23 @@ class DeleteReferencePage extends DatabaseConnectionPage {
     /**
      *
      */
-    function print_content() {
+    function make_main_frame($title, $userid, $role) {
         $db_conn = $this->db_conn;
 
+        $returnString = '';
         if (isset ($_POST[self::VERSION_POSTVAR]) &&
             !empty ($_POST[self::VERSION_POSTVAR])
         ) {
             $versionPost = $_POST[self::VERSION_POSTVAR];
-            DBFunctions::deleteReference($db_conn, $versionPost);
-            echo <<< EOT
+            dbFn::deleteReference($db_conn, $versionPost);
+            $returnString .= <<< EOT
             <h2> Version $versionPost has been deleted </h2>
 EOT;
         }
 
         $actionUrl = $_SERVER['PHP_SELF'];
 
-        echo <<< EOT
+        $returnString .= <<< EOT
 
 	<h2> Select a Version to delete)</h2>
 	<br>
@@ -60,20 +63,21 @@ EOT;
      <form name="deleteVersion" action="$actionUrl" method="post">
 
 EOT;
-        echo
-        WidgetMaker::select_input(
+        $returnString .=
+        wMk::select_input(
             self::VERSION_LABEL,
             self::VERSION_SELECT_NAME,
-            DBFunctions::selectVersionList($db_conn),
+            dbFn::selectVersionList($db_conn),
             self::VERSION_KEYVAL,
             false) .
 
-        WidgetMaker::submit_button('deleteBtn', 'Delete', '');
+        wMk::submit_button('deleteBtn', 'Delete', '');
 
 
-        echo<<< EOT
+        $returnString .= <<< EOT
         </form>
 EOT;
 
+        return $returnString;
     }
 }

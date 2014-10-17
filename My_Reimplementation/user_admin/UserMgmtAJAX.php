@@ -8,25 +8,25 @@ $command = $_POST['command'];
 $adminID = $_POST['adminID'];
 $cid = $_POST['cid'];
 
-$date = DBFunctions::now();
-$db_conn = DBFunctions::connect_to_db();
+$date = dbFn::now();
+$db_conn = dbFn::connect_to_db();
 
 
 switch($command) {
     case UserManagementConstants::GET_USER_INFO_COMMAND:
-        $db_result = DBFunctions::selectProfileInfoByCID($db_conn, $cid);
+        $db_result = dbFn::selectProfileInfoByCID($db_conn, $cid);
         $row = oci_fetch_array($db_result);
-        echo makeUserInfoWidget($row);
+        $returnString .= makeUserInfoWidget($row);
         break;
     case UserManagementConstants::CHANGE_RIGHT_COMMAND:
         $accessRight = $_POST['accessRight'];
-        DBFunctions::updateUserRight($db_conn, $cid, $accessRight, $adminID, $date) ;
+        dbFn::updateUserRight($db_conn, $cid, $accessRight, $adminID, $date) ;
         break;
     case UserManagementConstants::DELETE_USER_COMMAND:
-        DBFunctions::deleteUser($db_conn, $cid, $adminID, $date);
+        dbFn::deleteUser($db_conn, $cid, $adminID, $date);
         break;
     case UserManagementConstants::REACTIVATE_USER_COMMAND:
-        DBFunctions::updateUserActivation($db_conn, $cid, $adminID, $date);
+        dbFn::updateUserActivation($db_conn, $cid, $adminID, $date);
          break;
 }
 
@@ -62,10 +62,10 @@ function makeUserInfoWidget($userRow) {
         "Profession:  "  .  $profession . " <br> ".
         "Access Right:  "  .  $accessRight . " <br> ".
         "Delete Flag:  "  .  $deleteflag . " <br> ";
-    $returnString .= WidgetMaker::AccessRightPanel() .
-        WidgetMaker::button_ajax(UserManagementConstants::RESET_PW_BUTTON_ID , 'Reset Password') .
-        WidgetMaker::button_ajax(UserManagementConstants::DELETE_BUTTON_ID, 'Delete User') .
-        WidgetMaker::button_ajax(UserManagementConstants::REACTIVATE_BUTTON_ID, 'Reactivate User') ;
+    $returnString .= wMk::AccessRightPanel() .
+        wMk::button_ajax(UserManagementConstants::RESET_PW_BUTTON_ID , 'Reset Password') .
+        wMk::button_ajax(UserManagementConstants::DELETE_BUTTON_ID, 'Delete User') .
+        wMk::button_ajax(UserManagementConstants::REACTIVATE_BUTTON_ID, 'Reactivate User') ;
 
     return $returnString;
 

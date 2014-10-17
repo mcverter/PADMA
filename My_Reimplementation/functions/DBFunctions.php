@@ -41,14 +41,13 @@ class DBFunctions
     static function db_conn_failure($err)
     {
         $error_message = htmlentities($err['message']);
-        echo <<<EOT
-      echo "<font color='red'>";
+        $returnString = <<<EOT
+
       $error_message
     <br>ERROR: Connecting to Database, Please try back later<br>;
-    <a title='logout' href='index.php'>Click Here</a> to go back to home page
+    <a title='logout' href='oniondex.php'>Click Here</a> to go back to home page
 EOT;
-        exit;
-
+    return $returnString;
     }
 
 
@@ -518,3 +517,6 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
     }
 
 }
+
+
+class_alias('DBFunctions', 'dbFn');

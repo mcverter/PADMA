@@ -2,14 +2,17 @@
 require_once(__DIR__ . "/../page_templates/WebPage.php");
 
 class AboutUsPage extends WebPage {
+  function make_page_middle($title, $userid, $role){
+    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+      }
 
     public function __construct() {
         parent::__construct();
         $this->title = " About Us ";
     }
 
-    public function print_content() {
-        echo <<<EOT
+    public function make_main_frame($title, $userid, $role) {
+        $returnString = <<<EOT
 
     <div class="centered_exposition">
       <h2>About Us</h2>
@@ -132,6 +135,7 @@ class AboutUsPage extends WebPage {
       </div>
     </div>
 EOT;
+        return $returnString;
     }
 }
 

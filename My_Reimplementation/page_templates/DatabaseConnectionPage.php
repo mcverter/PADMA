@@ -8,12 +8,11 @@ abstract class DatabaseConnectionPage extends WebPage {
     const DB_USER = "drosophilarc2";
     const DB_PASS = "drosopivot";
     const DB_DATABASE = "//127.0.0.1/ORATIKI";
-
-
-     function __construct() {
+  
+   function __construct() {
         parent::__construct();
          if ( $this->db_conn == null) {
-             $this->db_conn = DBFunctions::connect_to_db();
+             $this->db_conn = dbFn::connect_to_db();
          }
     }
 

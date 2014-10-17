@@ -5,38 +5,37 @@ require_once(__DIR__ . '/../page_templates/DatabaseConnectionPage.php');
 
 class ChangePasswordPage extends DatabaseConnectionPage
 {
-
-    function print_js() {
-        echo <<< EOT
-        <script type="text/javascript" src="../js/gvalidator.js"></script>
-EOT;
-
-    }
+  function make_page_middle($title, $userid, $role){
+    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+      }
     function checkPasswordMatch($password)
     {
-        DBFunctions::selectUserByIDAndPW($this->db_conn,
+        dbFn::selectUserByIDAndPW($this->db_conn,
             strtoupper($this->userid), sha1($password));
     }
 
     function __construct() {
 
     }
-    function print_content() {
+    function make_main_frame($title, $userid, $role) {
         $userid = $this->userid;
         $db_conn = $this->db_conn;
 
+        $returnString = '';
+
         if ($_POST['submitted']) {
             $newpass = $_POST['newpass'];
-            DBFunctions::updateUserPassword($db_conn, strtoupper($userid), sha1($newpass));
+            dbFn::updateUserPassword($db_conn, strtoupper($userid), sha1($newpass));
         }
         else {
             $actionUrl = $_SERVER['PHP_SELF'];
-            echo "User Id : $userid" .
-                WidgetMaker::start_form($actionUrl, 'gform') .
-                WidgetMaker::text_input('Old Password', 'oldpass', '') .
-                WidgetMaker::text_input('New Password', 'newpass', '', 'password') .
-                WidgetMaker::text_input('Confirm Password', 'confirmpass', '', 'confirmpass') .
-                WidgetMaker::end_form();
+            $returnString .= "User Id : $userid" .
+                wMk::start_form($actionUrl, 'gform') .
+                wMk::text_input('Old Password', 'oldpass', '') .
+                wMk::text_input('New Password', 'newpass', '', 'password') .
+                wMk::text_input('Confirm Password', 'confirmpass', '', 'confirmpass') .
+                wMk::end_form();
         }
+        return $returnString;
     }
 }

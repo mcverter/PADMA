@@ -52,7 +52,7 @@ $sql_details = array(
 
 require( '../../../../examples/server_side/scripts/ssp.class.php' );
 
-echo json_encode(
+$returnString .= json_encode(
 	SSP::simple( $_GET, $sql_details, $table, $primaryKey, $columns )
 );
 

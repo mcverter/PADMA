@@ -155,7 +155,7 @@ EOT;
         if ($multiple) {
             $returnString .= " multiple ";
         }
-        $returnString .= " /> \n";
+        $returnString .= " > \n";
 
         while (($row = oci_fetch_array($db_statement)) != false) {
             $rowval = $row[$db_array_key];
@@ -197,7 +197,7 @@ EOT;
         $returnString = "<br>\n" .
              "<label for='{$widget_name}'> $label </label>\n " .
             "<select name='{$widget_name}'
- id='{$widget_name}' class='$class'  /> \n";
+ id='{$widget_name}' class='$class'  > \n";
 
         while (($row = oci_fetch_array($db_statement)) != false) {
             $value = $row[self::ID_COL];
@@ -211,3 +211,6 @@ EOT;
     }
 
 }
+
+
+class_alias('WidgetMaker', 'wMk');

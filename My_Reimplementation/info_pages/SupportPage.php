@@ -2,14 +2,16 @@
 require_once(__DIR__ . "/../page_templates/WebPage.php");
 
 class SupportPage extends WebPage {
-
+  function make_page_middle($title, $userid, $role){
+    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+      }
     public function __construct() {
         parent::__construct();
         $this->title = " Support ";
     }
 
-    public function print_content() {
-        echo <<<EOT
+    public function make_main_frame($title, $userid, $role) {
+        $returnString = <<<EOT
 
     <div class="central_widget">
       <h2>PADMA Supporting Status</h2>
@@ -45,5 +47,6 @@ class SupportPage extends WebPage {
       </ul>
     </div>
 EOT;
+        return $returnString;
     }
 }

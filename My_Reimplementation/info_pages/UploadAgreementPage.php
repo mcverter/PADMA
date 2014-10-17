@@ -3,14 +3,16 @@
 require_once(__DIR__ . "/../page_templates/WebPage.php");
 
 class UploadAgreementPage extends WebPage {
-
+  function make_page_middle($title, $userid, $role){
+    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+      }
     public function __construct() {
         parent::__construct();
         $this->title = " Upload Agreement ";
     }
 
-    public function print_content() {
-        echo <<<EOT
+    public function make_main_frame($title, $userid, $role) {
+        $returnString = <<<EOT
 
 <div class="instructions">
     PLEASE READ THE FOLLOWING TERMS OF USE BEFORE UPLOADING TO THE
@@ -54,7 +56,8 @@ EOT;
         exit;
     }
 
-echo" </form>";
+$returnString .=" </form>";
+        return $returnString;
 
 }
 }

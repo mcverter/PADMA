@@ -14,8 +14,13 @@ class SearchResultPage extends SearchBase {
 
     const RESULT_TABLE_ID = 'resultTable';
 
+
+
+  function make_page_middle($title, $userid, $role){
+    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+      }
     function search_query() {
-        return DBFunctions::selectSearchResult($this->db_conn, $this->userid, $this->build_constraint(self::$result_cols));
+        return dbFn::selectSearchResult($this->db_conn, $this->userid, $this->build_constraint(self::$result_cols));
     }
 
     function print_results () {
@@ -58,50 +63,21 @@ EOT;
         header("Content-Disposition: attachment; filename=\"$filename\"");
         header("Content-Type: application/vnd.ms-excel");
         $headerrow = oci_fetch_array($queryResult, OCI_ASSOC);
-        echo implode("\t", array_keys($headerrow)) . "\n";
+        $returnString = implode("\t", array_keys($headerrow)) . "\n";
 
         while (false !== ($bodyrow = oci_fetch_array($queryResult, OCI_ASSOC))) {
-            echo rtrim(implode("\t", array_values( preg_replace("/\t/", "\\t", $bodyrow)))) . "\n";
+            $returnString .= rtrim(implode("\t", array_values( preg_replace("/\t/", "\\t", $bodyrow)))) . "\n";
         }
+        return $returnString;
     }
 
     function __construct(){
         $this->title = "Search Results";
         parent::__construct();
     }
-
-    function print_js() {
-        $tableID = self::RESULT_TABLE_ID;
-        echo <<< EOT
-        <!-- DataTables CSS -->
-<link rel="stylesheet" type="text/css" href="../css/jquery.dataTables.css">
-<link rel="stylesheet" type="text/css" href="../extensions/TableTools/css/dataTables.tableTools.css">
-	<link rel="stylesheet" type="text/css" href="../extensions/ColReorder/css/dataTables.colReorder.css">
-	<link rel="stylesheet" type="text/css" href="../extensions/ColVis/css/dataTables.colVis.css">
-
-<!-- jQuery -->
-<script type="text/javascript" charset="utf8" src="../js/jquery.js"></script>
-
-<!-- DataTables -->
-<script type="text/javascript" charset="utf8" src="../js/jquery.dataTables.js"></script>
-<script type="text/javascript" language="javascript" src="../extensions/TableTools/js/dataTables.tableTools.js"></script>
-	<script type="text/javascript" language="javascript" src="../extensions/ColReorder/js/dataTables.colReorder.js"></script>
-	<script type="text/javascript" language="javascript" src="../extensions/ColVis/js/dataTables.colVis.js"></script>
-
-$(document).ready( function () {
-    $('#{$tableID}').dataTable( {
-        "dom": 'RC<"clear">lfrtip',
-        "tableTools": {
-            "sSwfPath": "/swf/copy_csv_xls_pdf.swf"
-        }
-    } );
-} );
-</script>
-EOT;
-
-    }
-    function print_content() {
-        echo $this->print_results() ;
+    function make_main_frame($title, $userid, $role) {
+        $returnString = $this->print_results() ;
+        return $returnString;
     }
 
 }

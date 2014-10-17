@@ -17,7 +17,7 @@ class UploadReferencePage extends DatabaseConnectionPage {
     function upload_file($db_conn)
     {
         $version = $_POST['version'];
-        $userid = $_SESSION['userid'];
+        $userid = $_SESSION[wPg::USERID_SESSVAR];
         $date=date("m/d/y");
 
         $uploadedFileName = $_FILES['referenceFile']['name'];
@@ -44,16 +44,16 @@ class UploadReferencePage extends DatabaseConnectionPage {
 
             list ($probeid, $cgname, $genename, $flybasenum, $godata) =
                 explode($line, ",");
-            DBFunctions::insertReference($db_conn, $probeid, $cgname, $genename, $flybasenum, $version, $userid, $date);
+            dbFn::insertReference($db_conn, $probeid, $cgname, $genename, $flybasenum, $version, $userid, $date);
 
             // if godata not empty
             if (preg_match("/\d/", $godata)) {
                 foreach (explode("///", $godata) as $goentry) {
                     $gospecification = explode("//", $goentry);
                     $gonumber = array_shift($gospecification);
-                    DBFunctions::insertReferenceGo($probeid, $gonumber, $version, $userid, $date);
+                    dbFn::insertReferenceGo($probeid, $gonumber, $version, $userid, $date);
                     foreach ($gospecification as $description) {
-                        DBFunctions::insertReferenceBio($gonumber, $description, $version, $userid, $date);
+                        dbFn::insertReferenceBio($gonumber, $description, $version, $userid, $date);
                     }
                 }
             }
@@ -65,7 +65,7 @@ class UploadReferencePage extends DatabaseConnectionPage {
      */
     function __construct()
     {
-        $_SESSION['role'] = 'Administrator';
+        $_SESSION[wPg::ROLE_SESSVAR] = wPg::ADMINISTRATOR_ROLE;
         PageControlFunctions::check_role('ar');
         parent::__construct();
     }
@@ -74,7 +74,8 @@ class UploadReferencePage extends DatabaseConnectionPage {
     /**
      *
      */
-    function print_content() {
+    function make_main_frame($title, $userid, $role) {
+        $returnString = '';
         if(empty($_FILES) || ($_FILES['size'] < 1) ||
             empty($_FILES[self::FILE_POSTVAR]) || empty($_FILES[self::FILE_POSTVAR]["name"]) ||
             ! is_uploaded_file($_FILES[self::FILE_POSTVAR]["name"])) {
@@ -83,17 +84,18 @@ class UploadReferencePage extends DatabaseConnectionPage {
 //        <form name="uploadReferenceForm" action="$actionUrl" method="POST" enctype="multipart/form-data">
 //            <h1>Load Reference Data</h1>
 
-        echo WidgetMaker::start_form($actionUrl, '') .
-            WidgetMaker::text_input('Version Number', 'version') .
-            WidgetMaker::file_input("Upload File", self::FILE_POSTVAR) .
-            WidgetMaker::submit_button() .
-            WidgetMaker::end_form();
+        $returnString .= wMk::start_form($actionUrl, '') .
+            wMk::text_input('Version Number', 'version') .
+            wMk::file_input("Upload File", self::FILE_POSTVAR) .
+            wMk::submit_button() .
+            wMk::end_form();
 
         }
         else {
             $this->upload_file($this->db_conn);
         }
 
+        return $returnString;
     }
 }
 
