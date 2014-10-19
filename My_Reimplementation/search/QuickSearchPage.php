@@ -19,10 +19,8 @@ class QuickSearchPage extends SearchBase
         wMk::quicksearch_widget();
     }
 
-    function __construct()
-    {
+    function __construct() {
         parent::__construct();
-        $this->title = "Quick Search";
     }
 
     function make_main_frame($title, $userid, $role)

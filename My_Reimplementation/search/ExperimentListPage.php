@@ -3,8 +3,16 @@
 require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 class ExperimentListPage extends DatabaseConnectionPage{
+    function __construct() {
+        parent::__construct();
+    }
+
     function make_page_middle($title, $userid, $role) {
         return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    }
+
+    function __construct() {
+        parent::__construct();
     }
 
     function get_title() {

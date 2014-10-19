@@ -205,7 +205,7 @@ EOT;
     const FNAME_COL = "FNAME";
     const LNAME_COL = "LNAME";
 
-    static function user_pick_widget($label, $widget_name, $db_statement,$class='UserSelect') {
+    static function old_user_pick_widget($label, $widget_name, $db_statement,$class='UserSelect') {
         $returnString = "<br>\n" .
              "<label for='{$widget_name}'> $label </label>\n " .
             "<select name='{$widget_name}'
@@ -218,6 +218,47 @@ EOT;
         }
         $returnString .= "</select>\n";
         $returnString .= "<br>\n";
+        return $returnString;
+
+    }
+
+
+    static function user_pick_widget($label, $widget_name,$db_conn, $class='UserSelect') {
+        $returnString = '';
+        $returnString .= <<<EOT
+        <br>
+        <label for='{$widget_name}'> $label </label>
+        <select name='{$widget_name}' id='{$widget_name}' class='$class' size=5>
+            <option disabled>-- EXISTING USERS --</option>
+            <option disabled>--------------------</option>
+EOT;
+
+        $existing_user_statement = DBFunctions::selectExistingUserList($db_conn);
+        while (($row = oci_fetch_array($existing_user_statement)) != false) {
+            $value = $row[self::ID_COL];
+            $text = $row[self::LNAME_COL] . ", " . $row[self::FNAME_COL];
+            $returnString .= "<option value='$value' > $text </option>\n";
+        }
+        $returnString .= <<<EOT
+
+            <option disabled>--------------------</option>
+            <option disabled>--    NEW USERS   --</option>
+            <option disabled>--------------------</option>
+
+EOT;
+        $new_user_statement = DBFunctions::selectNewUserList($db_conn);
+        while (($row = oci_fetch_array($new_user_statement)) != false) {
+            $value = $row[self::ID_COL];
+            $text = $row[self::LNAME_COL] . ", " . $row[self::FNAME_COL];
+            $returnString .= "<option value='$value' > $text </option>\n";
+        }
+
+        $returnString .= <<<EOT
+
+            </select>
+            <br>
+
+EOT;
         return $returnString;
 
     }

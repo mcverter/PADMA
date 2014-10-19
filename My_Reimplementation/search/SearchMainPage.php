@@ -16,6 +16,9 @@ EOT;
         return $returnString;
 
     }
+    function __construct() {
+        parent::__construct();
+    }
 
 
     function make_page_middle($title, $userid, $role) {

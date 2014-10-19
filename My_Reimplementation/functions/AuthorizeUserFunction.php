@@ -24,7 +24,7 @@ if ($role === WebPage::RESEARCHER_ROLE ||
     $role === WebPage::USER_ROLE) {
     session_start();
     $_SESSION[WebPage::ROLE_SESSVAR]=$role;
-    $_SESSION[WebPage::USERID_SESSVAR]=ucwords($userid);
+    $_SESSION[WebPage::USERID_SESSVAR]=$userid;
 }
 else {
     $_SESSION[WebPage::ROLE_SESSVAR]=WebPage::NOTAUTHORIZED_ROLE;

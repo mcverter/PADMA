@@ -24,6 +24,7 @@ class HeaderMaker
      */
     static function make_header($userid, $role)
     {
+        $formatted_userid = ucwords(strtolower($userid));
         $returnString = <<< EOT
 
 <nav class="navbar navbar-default navbar-inverse" role="navigation">
@@ -39,8 +40,7 @@ class HeaderMaker
         <div class="">
             <ul class="nav navbar-nav">
 
-                <li> <a href="../webpages/oniondex.php"> Main Page </a></li>
-                <li><a href="../webpages/experiment_list.php" title="Experiment List"> Experiment List </a></li>
+                <li> <a href="../webpages/index.php"> Main Page </a></li>
                 <li><a href="../webpages/search_main.php" title="Search"> Search </a></li>
                 <li class="divider"></li>
 
@@ -69,7 +69,7 @@ EOT;
 
 
             <li><a href="../webpages/edit_profile.php" title="Edit Profile">Edit Profile</a></li>
-            <li style="color:red;" > Welcome $userid </li>
+            <li style="color:red;" > Welcome $formatted_userid </li>
             <li><a href="../functions/LogoutUserFunction.php" title="Logout">Log Out</a></li>
 
 EOT;

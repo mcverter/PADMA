@@ -11,9 +11,8 @@ class AboutUsPage extends WebPage {
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }
 
-    public function __construct() {
+    function __construct() {
         parent::__construct();
-        $this->title = " About Us ";
     }
 
     public function make_main_frame($title, $userid, $role) {

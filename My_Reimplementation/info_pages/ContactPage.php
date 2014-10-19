@@ -5,13 +5,13 @@ class ContactPage extends WebPage {
   function make_page_middle($title, $userid, $role){
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }
-    public function __construct() {
-        parent::__construct();
-        $this->title = " Contact Us ";
-    }
 
     function get_title() {
         return "Contact Us";
+    }
+
+    function __construct() {
+        parent::__construct();
     }
 
     public function make_main_frame($title, $userid, $role) {

@@ -18,7 +18,16 @@ class EditProfilePage extends DatabaseConnectionPage {
     const INDUSTRY_POSTVAR = 'industry';
     const PROFESSION_POSTVAR = 'profession';
 
-  function make_page_middle($title, $userid, $role){
+    function __construct() {
+        parent::__construct();
+    }
+
+    protected  function isAuthorizedToViewPage() {
+        return PageControlFunctions::check_role(WebPage::REGISTERED_ROLE);
+    }
+
+
+    function make_page_middle($title, $userid, $role){
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }
     function get_title() {
@@ -95,9 +104,4 @@ EOT;
         wMk::submit_button('submit', 'Update Profile');
         return $returnString;
     }
-
-    function __construct() {
-        parent::__construct();
-
-    }
-} 
+}

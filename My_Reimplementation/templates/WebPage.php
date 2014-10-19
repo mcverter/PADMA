@@ -20,10 +20,12 @@ abstract class WebPage
     const RESEARCHER_ROLE = 'Researcher';
     const USER_ROLE = 'GeneralUser';
     const NOTAUTHORIZED_ROLE = 'NOTAUTHORIZED';
+    const REGISTERED_ROLE = 'AnyUser';
+    const SUPERVISING_ROLE = 'Supervising';
 
 
-    protected  function checkAuthorization() {
-
+    protected  function isAuthorizedToViewPage() {
+        return true;
     }
 
     abstract function get_title() ;
@@ -35,11 +37,12 @@ abstract class WebPage
 
     public function __construct()
     {
-        $this->checkAuthorization();
-        PageControlFunctions::initialize_session();
-        $this->userid = isset($_SESSION[self::USERID_SESSVAR]) ? $_SESSION[self::USERID_SESSVAR] : "";
-        $this->role = isset($_SESSION[self::ROLE_SESSVAR]) ? $_SESSION[self::ROLE_SESSVAR] : "";
-        $this->title = $this->get_title();
+        if ($this->isAuthorizedToViewPage()) {
+            PageControlFunctions::initialize_session();
+            $this->userid = isset($_SESSION[self::USERID_SESSVAR]) ? $_SESSION[self::USERID_SESSVAR] : "";
+            $this->role = isset($_SESSION[self::ROLE_SESSVAR]) ? $_SESSION[self::ROLE_SESSVAR] : "";
+            $this->title = $this->get_title();
+        }
     }
 
     /**

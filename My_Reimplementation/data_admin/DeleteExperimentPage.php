@@ -15,6 +15,9 @@ class DeleteExperimentPage extends DatabaseConnectionPage
     const EXPERIMENT_KEYVAL = "EXP_NAME";
     const EXPNAME_POSTVAR = "expName";
 
+    function __construct() {
+        parent::__construct();
+    }
 
 
     function get_title() {
@@ -66,16 +69,6 @@ class DeleteExperimentPage extends DatabaseConnectionPage
         }
     }
 
-
-    /**
-     *
-     */
-    function __construct()
-    {
-        $_SESSION[wPg::ROLE_SESSVAR] = wPg::ADMINISTRATOR_ROLE;
-        PageControlFunctions::check_role('ar');
-        parent::__construct();
-    }
 
 
     /**

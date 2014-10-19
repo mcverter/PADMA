@@ -10,6 +10,14 @@ class UploadReferencePage extends DatabaseConnectionPage {
     const FILE_POSTVAR = 'referenceFile';
     const UPLOAD_DIR = "/var/www/html/drosoReference/";
 
+    function __construct() {
+        parent::__construct();
+    }
+
+    protected  function isAuthorizedToViewPage() {
+        return PageControlFunctions::check_role(WebPage::SUPERVISING_ROLE);
+    }
+
 
     function make_page_middle($title, $userid, $role) {
         return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
@@ -63,16 +71,6 @@ class UploadReferencePage extends DatabaseConnectionPage {
                 }
             }
         }
-    }
-
-    /**
-     *
-     */
-    function __construct()
-    {
-        $_SESSION[wPg::ROLE_SESSVAR] = wPg::ADMINISTRATOR_ROLE;
-        PageControlFunctions::check_role('ar');
-        parent::__construct();
     }
 
 

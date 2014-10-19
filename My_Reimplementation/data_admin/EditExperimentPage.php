@@ -12,6 +12,9 @@ class EditExperimentPage extends DatabaseConnectionPage
     const EXPNAME_POSTVAR = "expName";
     const DESCRIPTION_SCRIPT = "ReadExperimentDescription.php";
 
+    function __construct() {
+        parent::__construct();
+    }
 
     function get_title() {
         return "Edit Experiment";
@@ -65,15 +68,6 @@ class EditExperimentPage extends DatabaseConnectionPage
         dbFn::updateExperimentDescription($this->db_conn, $name, $description);
     }
 
-    /**
-     *
-     */
-    function __construct()
-    {
-        $_SESSION[wPg::ROLE_SESSVAR] = wPg::ADMINISTRATOR_ROLE;
-        PageControlFunctions::check_role('ar');
-        parent::__construct();
-    }
 
     function make_main_frame($title, $userid, $role)
     {

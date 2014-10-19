@@ -12,6 +12,16 @@ require_once(__DIR__ . '/UserManagementConstants.php');
 
 
 class UserManagementPage extends DatabaseConnectionPage {
+    function __construct() {
+        parent::__construct();
+    }
+
+    protected  function isAuthorizedToViewPage() {
+        return PageControlFunctions::check_role(WebPage::ADMINISTRATOR_ROLE);
+    }
+
+
+
     function get_title() {
         return "User Management";
     }
@@ -31,19 +41,12 @@ class UserManagementPage extends DatabaseConnectionPage {
         DBFUnctions::selectUserInfo($this->db_conn, $clientid);
     }
 
-
-    function __construct() {
-        parent::__construct();
-
-    }
-
     function make_main_frame($title, $userid, $role) {
         $db_conn = $this->db_conn;
 
         $returnString = '';
         $returnString .=
-            wMk::user_pick_widget('Existing Users', 'existingUsers', dbFn::selectExistingUserList($db_conn), UserManagementConstants::USER_PICKER_CLASS) .
-            wMk::user_pick_widget('New Users', 'newUsers', dbFn::selectNewUserList($db_conn),  UserManagementConstants::USER_PICKER_CLASS) .
+            wMk::user_pick_widget('Existing Users', 'existingUsers', $db_conn, UserManagementConstants::USER_PICKER_CLASS) .
             "<div id='userResult'></div>";
 
 

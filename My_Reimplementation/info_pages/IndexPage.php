@@ -5,10 +5,11 @@ class IndexPage extends WebPage {
   function make_page_middle($title, $userid, $role){
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }
-    public function __construct() {
+
+    function __construct() {
         parent::__construct();
-        $this->title = " Welcome to Padma! ";
     }
+
     public function make_main_frame($title, $userid, $role) {
         //unathenticate user when log out
         if ((isset($_GET['logout']) &&

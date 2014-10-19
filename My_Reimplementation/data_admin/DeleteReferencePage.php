@@ -10,6 +10,10 @@ class DeleteReferencePage extends DatabaseConnectionPage {
     const VERSION_KEYVAL = "VERSION";
     const VERSION_POSTVAR = "version";
 
+    function __construct() {
+        parent::__construct();
+    }
+
     function get_title() {
         return "Delete Reference";
     }
@@ -32,15 +36,7 @@ class DeleteReferencePage extends DatabaseConnectionPage {
     {
     }
 
-    /**
-     *
-     */
-    function __construct() {
-        PageControlFunctions::check_role('a');
-        parent::__construct();
-        $this->title = " Delete Reference ";
-    }
-
+\
     /**
      *
      */

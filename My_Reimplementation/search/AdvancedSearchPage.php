@@ -4,7 +4,6 @@ require_once(__DIR__ . "/SearchBase.php");
 class AdvancedSearchPage extends SearchBase {
     function __construct() {
         parent::__construct();
-        $this->title = "Advanced Search";
     }
 
 
