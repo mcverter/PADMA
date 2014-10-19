@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/../page_templates/DatabaseConnectionPage.php');
+require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
 
 /**
  * Class UploadExperimentPage
@@ -10,6 +10,10 @@ class UploadExperimentPage extends DatabaseConnectionPage {
 
     const UPLOAD_DIR = "/var/www/html/drosoData/";
     const FILE_POSTVAR = 'experimentFile';
+
+    function make_page_middle($title, $userid, $role) {
+        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    }
 
     /**
      * @param $db_conn
@@ -94,6 +98,10 @@ EOT;
             $this->upload_file($this->db_conn);
         }
         return $returnString;
+    }
+
+    function get_title() {
+        return "Upload Experiment";
     }
 }
 

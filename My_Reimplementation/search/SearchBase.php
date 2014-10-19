@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../page_templates/DatabaseConnectionPage.php");
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 abstract class SearchBase extends DatabaseConnectionPage
 {

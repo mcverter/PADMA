@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../page_templates/DatabaseConnectionPage.php");
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 /**
  * Class EditExperimentPage
@@ -11,6 +11,11 @@ class EditExperimentPage extends DatabaseConnectionPage
     const EXPERIMENT_KEYVAL = "EXP_NAME";
     const EXPNAME_POSTVAR = "expName";
     const DESCRIPTION_SCRIPT = "ReadExperimentDescription.php";
+
+
+    function get_title() {
+        return "Edit Experiment";
+    }
   function make_page_middle($title, $userid, $role){
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }

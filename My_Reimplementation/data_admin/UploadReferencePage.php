@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/../page_templates/DatabaseConnectionPage.php');
+require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
 
 /**
  * Class UploadReferencePage
@@ -9,6 +9,11 @@ class UploadReferencePage extends DatabaseConnectionPage {
 
     const FILE_POSTVAR = 'referenceFile';
     const UPLOAD_DIR = "/var/www/html/drosoReference/";
+
+
+    function make_page_middle($title, $userid, $role) {
+        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    }
 
 
     /**
@@ -97,6 +102,11 @@ class UploadReferencePage extends DatabaseConnectionPage {
 
         return $returnString;
     }
+
+    function get_title() {
+        return "Upload Version";
+    }
+
 }
 
 

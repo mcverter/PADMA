@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../page_templates/WebPage.php");
+require_once(__DIR__ . "/../templates/WebPage.php");
 
 class IndexPage extends WebPage {
   function make_page_middle($title, $userid, $role){
@@ -29,6 +29,10 @@ class IndexPage extends WebPage {
 EOT;
         return $returnString;
     }
+    function get_title() {
+        return "Home";
+    }
+
 }
 
 

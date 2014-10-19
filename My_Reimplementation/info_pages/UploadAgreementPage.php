@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/../page_templates/WebPage.php");
+require_once(__DIR__ . "/../templates/WebPage.php");
 
 class UploadAgreementPage extends WebPage {
   function make_page_middle($title, $userid, $role){
@@ -60,6 +60,12 @@ $returnString .=" </form>";
         return $returnString;
 
 }
+
+
+    function get_title() {
+        return "Upload Agreement";
+    }
+
 }
 
 

@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/../page_templates/DatabaseConnectionPage.php");
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 class_alias('DBFunctions', 'dbFn');
 class_alias('WidgetMaker', 'wMk');
 
@@ -14,6 +14,14 @@ class DeleteExperimentPage extends DatabaseConnectionPage
     const EXPERIMENT_SELECT_NAME = "Experiment";
     const EXPERIMENT_KEYVAL = "EXP_NAME";
     const EXPNAME_POSTVAR = "expName";
+
+
+
+    function get_title() {
+        return "Delete Experiment";
+    }
+
+
   function make_page_middle($title, $userid, $role){
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }

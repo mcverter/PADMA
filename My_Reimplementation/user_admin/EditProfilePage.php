@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/../page_templates/DatabaseConnectionPage.php");
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 class EditProfilePage extends DatabaseConnectionPage {
     const TITLE_POSTVAR = 'title';
@@ -21,6 +21,9 @@ class EditProfilePage extends DatabaseConnectionPage {
   function make_page_middle($title, $userid, $role){
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }
+    function get_title() {
+        return "Edit Profile";
+    }
 
     function make_main_frame($title, $userid, $role) {
 

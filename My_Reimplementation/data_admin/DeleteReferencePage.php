@@ -1,5 +1,5 @@
 <?php
-require_once (__DIR__ . "/../page_templates/DatabaseConnectionPage.php");
+require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 /**
  * Class DeleteReferencePage
@@ -9,7 +9,12 @@ class DeleteReferencePage extends DatabaseConnectionPage {
     const VERSION_SELECT_NAME = "Version";
     const VERSION_KEYVAL = "VERSION";
     const VERSION_POSTVAR = "version";
-  function make_page_middle($title, $userid, $role){
+
+    function get_title() {
+        return "Delete Reference";
+    }
+
+    function make_page_middle($title, $userid, $role){
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }
     /**

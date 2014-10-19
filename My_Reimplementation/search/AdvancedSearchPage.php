@@ -39,5 +39,9 @@ EOT;
         return $returnString;
 
     }
+    function get_title() {
+        return "Advanced Search";
+    }
+
 }
 

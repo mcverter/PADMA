@@ -4,3 +4,7 @@
     height: 200px;
     padding-top: 10px;
 }
+
+body {
+    background-color: #B7EDE8 !important;
+}

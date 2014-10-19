@@ -1,8 +1,13 @@
 <?php
-require_once(__DIR__ . "/../page_templates/WebPage.php");
+require_once(__DIR__ . "/../templates/WebPage.php");
 
 class AboutUsPage extends WebPage {
-  function make_page_middle($title, $userid, $role){
+
+    function get_title() {
+        return "About Us";
+    }
+
+    function make_page_middle($title, $userid, $role){
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }
 

@@ -47,4 +47,8 @@ EOT;
 
         return $returnString;
     }
+    function get_title() {
+        return "Quick Search";
+    }
+
 }

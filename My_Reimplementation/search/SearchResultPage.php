@@ -79,5 +79,9 @@ EOT;
         $returnString = $this->print_results() ;
         return $returnString;
     }
+    function get_title() {
+        return "Search Results";
+    }
+
 
 }

@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../page_templates/WebPage.php");
+require_once(__DIR__ . "/../templates/WebPage.php");
 
 class DocumentPage extends WebPage {
   function make_page_middle($title, $userid, $role){
@@ -8,6 +8,10 @@ class DocumentPage extends WebPage {
     public function __construct() {
         parent::__construct();
         $this->title = " Documents ";
+    }
+
+    function get_title() {
+        return "Documentation";
     }
 
     public function make_main_frame($title, $userid, $role) {

@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../page_templates/WebPage.php");
+require_once(__DIR__ . "/../templates/WebPage.php");
 
 class SupportPage extends WebPage {
   function make_page_middle($title, $userid, $role){
@@ -49,4 +49,9 @@ class SupportPage extends WebPage {
 EOT;
         return $returnString;
     }
+
+    function get_title() {
+        return "Support";
+    }
+
 }

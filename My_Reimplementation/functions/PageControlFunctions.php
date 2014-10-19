@@ -9,9 +9,9 @@ class PageControlFunctions
 
     static function initialize_session()
     {
-        if (session_id() == "") {
+      //  if (session_id() == "") {
             session_start();
-        }
+        // }
     }
 
     static function escape_space($string)

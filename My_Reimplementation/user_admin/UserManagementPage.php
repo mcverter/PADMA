@@ -6,12 +6,15 @@
  * Time: 11:14 AM
  */
 
-require_once(__DIR__ . '/../page_templates/DatabaseConnectionPage.php');
+require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
 require_once(__DIR__ . '/UserManagementConstants.php');
 
 
 
 class UserManagementPage extends DatabaseConnectionPage {
+    function get_title() {
+        return "User Management";
+    }
 
   function make_page_middle($title, $userid, $role){
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;

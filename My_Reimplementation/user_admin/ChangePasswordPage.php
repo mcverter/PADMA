@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/../page_templates/DatabaseConnectionPage.php');
+require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
 
 
 class ChangePasswordPage extends DatabaseConnectionPage
@@ -38,4 +38,8 @@ class ChangePasswordPage extends DatabaseConnectionPage
         }
         return $returnString;
     }
+    function get_title() {
+        return "Change Password";
+    }
+
 }

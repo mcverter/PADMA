@@ -92,6 +92,18 @@ EOT;
         return $returnString;
     }
 
+
+    static function password_input($label, $widget_name, $class='') {
+        $returnString = <<< EOT
+    <br>
+      <label for='$widget_name'> $label </label>
+      <input name='$widget_name' type='passwword' class='$class'  />
+     <br>
+EOT;
+        return $returnString;
+    }
+
+
     /**
      * @param $action
      * @param string $class
@@ -151,7 +163,7 @@ EOT;
                                 $class='') {
         $returnString = "<br>\n";
         $returnString .= "<label for='{$widget_name}'> $label </label>";
-        $returnString .= "<select name='{$widget_name}' class='$class' ";
+        $returnString .= "<select name='{$widget_name}' class='$class' size=5 ";
         if ($multiple) {
             $returnString .= " multiple ";
         }
