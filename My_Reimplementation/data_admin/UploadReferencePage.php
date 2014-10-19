@@ -10,10 +10,6 @@ class UploadReferencePage extends DatabaseConnectionPage {
     const FILE_POSTVAR = 'referenceFile';
     const UPLOAD_DIR = "/var/www/html/drosoReference/";
 
-    function __construct() {
-        parent::__construct();
-    }
-
     protected  function isAuthorizedToViewPage() {
         return PageControlFunctions::check_role(WebPage::SUPERVISING_ROLE);
     }

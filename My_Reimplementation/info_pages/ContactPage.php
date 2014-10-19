@@ -10,10 +10,6 @@ class ContactPage extends WebPage {
         return "Contact Us";
     }
 
-    function __construct() {
-        parent::__construct();
-    }
-
     public function make_main_frame($title, $userid, $role) {
         $returnString = <<<EOT
 

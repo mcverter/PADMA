@@ -2,10 +2,6 @@
 require_once(__DIR__ . "/SearchBase.php");
 
 class AdvancedSearchPage extends SearchBase {
-    function __construct() {
-        parent::__construct();
-    }
-
 
   function make_page_middle($title, $userid, $role){
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;

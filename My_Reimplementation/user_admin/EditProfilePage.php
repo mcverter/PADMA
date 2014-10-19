@@ -18,10 +18,6 @@ class EditProfilePage extends DatabaseConnectionPage {
     const INDUSTRY_POSTVAR = 'industry';
     const PROFESSION_POSTVAR = 'profession';
 
-    function __construct() {
-        parent::__construct();
-    }
-
     protected  function isAuthorizedToViewPage() {
         return PageControlFunctions::check_role(WebPage::REGISTERED_ROLE);
     }

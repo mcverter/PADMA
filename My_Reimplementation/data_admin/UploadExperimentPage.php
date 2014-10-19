@@ -10,9 +10,6 @@ class UploadExperimentPage extends DatabaseConnectionPage {
 
     const UPLOAD_DIR = "/var/www/html/drosoData/";
     const FILE_POSTVAR = 'experimentFile';
-    function __construct() {
-        parent::__construct();
-    }
 
     protected  function isAuthorizedToViewPage() {
         return PageControlFunctions::check_role(WebPage::SUPERVISING_ROLE);

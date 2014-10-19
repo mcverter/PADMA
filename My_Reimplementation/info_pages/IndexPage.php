@@ -6,10 +6,6 @@ class IndexPage extends WebPage {
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }
 
-    function __construct() {
-        parent::__construct();
-    }
-
     public function make_main_frame($title, $userid, $role) {
         //unathenticate user when log out
         if ((isset($_GET['logout']) &&

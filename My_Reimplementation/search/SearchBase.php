@@ -147,11 +147,6 @@ abstract class SearchBase extends DatabaseConnectionPage
     );
 
 
-    function __construct() {
-        parent::__construct();
-    }
-
-
     protected function make_probeid_text_input() {
        return  wMk::text_input("Probe Id:", self::PROBEID_POSTVAR);
     }

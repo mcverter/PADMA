@@ -15,11 +15,6 @@ class DeleteExperimentPage extends DatabaseConnectionPage
     const EXPERIMENT_KEYVAL = "EXP_NAME";
     const EXPNAME_POSTVAR = "expName";
 
-    function __construct() {
-        parent::__construct();
-    }
-
-
     function get_title() {
         return "Delete Experiment";
     }

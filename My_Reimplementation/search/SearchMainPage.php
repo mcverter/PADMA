@@ -16,10 +16,6 @@ EOT;
         return $returnString;
 
     }
-    function __construct() {
-        parent::__construct();
-    }
-
 
     function make_page_middle($title, $userid, $role) {
         return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;

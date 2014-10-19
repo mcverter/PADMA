@@ -70,10 +70,6 @@ EOT;
         }
         return $returnString;
     }
-    function __construct() {
-        parent::__construct();
-    }
-
 
     function make_main_frame($title, $userid, $role) {
         $returnString = $this->print_results() ;

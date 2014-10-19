@@ -10,17 +10,17 @@ abstract class DatabaseConnectionPage extends WebPage {
     const DB_DATABASE = "//127.0.0.1/ORATIKI";
 
     function __construct()
-   {
-       if (parent::__construct()) {
-           if ($this->db_conn == null) {
-               $this->db_conn = dbFn::connect_to_db();
-           }
-       }
-   }
+    {
+        parent::__construct();
+        if ($this->db_conn == null) {
+            $this->db_conn = dbFn::connect_to_db();
+        }
+
+    }
 
     function __destruct() {
-      $db_conn = $this->db_conn;
-      oci_close($db_conn);
+        $db_conn = $this->db_conn;
+        oci_close($db_conn);
     }
 
 }

@@ -12,10 +12,6 @@ class EditExperimentPage extends DatabaseConnectionPage
     const EXPNAME_POSTVAR = "expName";
     const DESCRIPTION_SCRIPT = "ReadExperimentDescription.php";
 
-    function __construct() {
-        parent::__construct();
-    }
-
     function get_title() {
         return "Edit Experiment";
     }

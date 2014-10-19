@@ -12,9 +12,6 @@ require_once(__DIR__ . '/UserManagementConstants.php');
 
 
 class UserManagementPage extends DatabaseConnectionPage {
-    function __construct() {
-        parent::__construct();
-    }
 
     protected  function isAuthorizedToViewPage() {
         return PageControlFunctions::check_role(WebPage::ADMINISTRATOR_ROLE);

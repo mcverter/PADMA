@@ -7,10 +7,6 @@ class ManageDataMainPage extends WebPage
         return PageControlFunctions::check_role(WebPage::SUPERVISING_ROLE);
     }
 
-    function __construct() {
-        parent::__construct();
-    }
-
     function make_main_frame($title, $userid, $role)
     {
         $returnString = '';
