@@ -25,25 +25,39 @@ abstract class WebPage
 
     const JS_DIR = "../js/";
 
+
+    /**
+     * Checks whether the current user has a $role to view page
+     * Called in constructor.
+     * Should be overridden by any restricted page
+     *
+     * @return bool
+     */
     protected  function isAuthorizedToViewPage() {
         return true;
     }
 
+    /**
+     * Returns page title
+     * Used in constructor
+     * Must be overridden
+     *
+     * @return string
+     */
     abstract function get_title() ;
+
+
     /**
      * Constructor()
      * $role, $userid initialized from SESSION variables
      * $title initialized in subclass
      */
-
     public function __construct()
     {
-        if ($this->isAuthorizedToViewPage()) {
-            PageControlFunctions::initialize_session();
-            $this->userid = isset($_SESSION[self::USERID_SESSVAR]) ? $_SESSION[self::USERID_SESSVAR] : "";
-            $this->role = isset($_SESSION[self::ROLE_SESSVAR]) ? $_SESSION[self::ROLE_SESSVAR] : "";
-            $this->title = $this->get_title();
-        }
+        PageControlFunctions::initialize_session();
+        $this->userid = isset($_SESSION[self::USERID_SESSVAR]) ? $_SESSION[self::USERID_SESSVAR] : "";
+        $this->role = isset($_SESSION[self::ROLE_SESSVAR]) ? $_SESSION[self::ROLE_SESSVAR] : "";
+        $this->title = $this->get_title();
     }
 
     /**
@@ -54,9 +68,7 @@ abstract class WebPage
      */
     abstract function make_page_middle($title, $userid, $role);
 
-
     function make_image_content_columns ($title, $userid, $role,  $imgOrientation, $imgWidth) {
-
         $reflectionClass = new ReflectionClass($this);
         $filename = $reflectionClass->getFileName();
 
@@ -121,16 +133,19 @@ EOT;
 
     public final function display_page()
     {
-        $title = $this->title;
-        $role = $this->role;
-        $userid = $this->userid;
+        if ($this->isAuthorizedToViewPage()) {
 
-        $displayString =  $this->make_page_top($title, $userid, $role)
-            . $this->make_page_middle($title, $userid, $role)
-            . $this->make_page_bottom();
+            $title = $this->title;
+            $role = $this->role;
+            $userid = $this->userid;
 
-        echo $displayString;
+            $displayString = $this->make_page_top($title, $userid, $role)
+                . $this->make_page_middle($title, $userid, $role)
+                . $this->make_page_bottom();
 
+            echo $displayString;
+
+        }
         $this->cleanup();
     }
 
@@ -240,13 +255,21 @@ EOT;
      <!-- Include all compiled plugins (below), or include individual files as needed -->
      <script src="../js/bootstrap.min.js"></script>
 EOT;
-        $reflectionClass = new ReflectionClass($this);
+/*        $reflectionClass = new ReflectionClass($this);
         $filename = self::JS_DIR .
             preg_replace("/php/", "js.php",
                 basename($reflectionClass->getFileName()));
         if (file_exists($filename)) {
-            $returnString .= file_get_contents($filename);
+            $returnString .= include($filename);
+                //eval(file_get_contents($filename));
+  //          ob_start();
+  //          echo "moo";
+//            $returnString .= ob_get_clean();
+//            $quack = ob_end_clean();
+
+//            $returnString .= "\n<script src='{$filename}'></script>\n"; //file_get_contents($filename);
         }
+*/
         return $returnString;
     }
 

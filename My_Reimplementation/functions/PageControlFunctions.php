@@ -9,8 +9,8 @@ class PageControlFunctions
 
     static function initialize_session()
     {
-      //  if (session_id() == "") {
-            session_start();
+        //  if (session_id() == "") {
+        session_start();
         // }
     }
 
@@ -26,34 +26,36 @@ class PageControlFunctions
 
     static function check_role($roletype)
     {
-        $role = $_SESSION[wPg::ROLE_SESSVAR];
         if (!isset($_SESSION["role"])) {
-            header("location: oniondex.php");
-        } else {
+            header("location: index.php");
+            return false;
+        }
+        else {
             $role = $_SESSION[wPg::ROLE_SESSVAR];
-
-            error_log("Role is " . $role);
-
-
-            if ($roletype == 'a') {
-                if ($role != "Administrator") {
-                    header("location: oniondex.php");
-                }
-            } else if ($roletype == 'ar') {
-                if (($role != "Researcher") && ($role != wPg::ADMINISTRATOR_ROLE)) {
-                    header("location: oniondex.php");
-                }
-            } else if ($roletype == 'r') {
-                if ($role != "Researcher") {
-                    header("location: oniondex.php");
-                }
-            } else if ($roletype == 'any') {
-                if (empty($role)) {
-                    header("location: oniondex.php");
-                }
+            switch ($roletype) {
+                case WebPage::ADMINISTRATOR_ROLE:
+                    if ($role != WebPage::ADMINISTRATOR_ROLE) {
+                        header("location: index.php");
+                        return false;
+                    }
+                    break;
+                case WebPage::SUPERVISING_ROLE:
+                    if (($role !== WebPage::ADMINISTRATOR_ROLE) &&
+                        ($role !== WebPage::RESEARCHER_ROLE)) {
+                        header("location: index.php");
+                        return false;
+                    }
+                    break;
+                case WebPage::REGISTERED_ROLE:
+                    if  (($role !== WebPage::ADMINISTRATOR_ROLE) &&
+                        ($role !== WebPage::RESEARCHER_ROLE) &&
+                        ($role !== WebPage::USER_ROLE)) {
+                        header("location: index.php");
+                        return false;
+                    }
+                    break;
             }
         }
+        return true;
     }
-
-
 }
