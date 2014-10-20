@@ -23,6 +23,7 @@ abstract class WebPage
     const REGISTERED_ROLE = 'AnyUser';
     const SUPERVISING_ROLE = 'Supervising';
 
+    const JS_DIR = "../js/";
 
     protected  function isAuthorizedToViewPage() {
         return true;
@@ -239,14 +240,12 @@ EOT;
      <!-- Include all compiled plugins (below), or include individual files as needed -->
      <script src="../js/bootstrap.min.js"></script>
 EOT;
-
-        $this_filename = (__FILE__);
-        $parent_dirname = (dirname(__DIR__));
-        $grandparent_dir = dirname(dirname(__DIR__));
-        $js_dir = $grandparent_dir . "/js";
-        $js_php_file = preg_replace(".php", ".js.php", $js_dir . "/" . $parent_dirname . "_" . $this_filename);
-        if (file_exists($js_php_file)) {
-            $returnString .= file_get_contents($js_php_file);
+        $reflectionClass = new ReflectionClass($this);
+        $filename = self::JS_DIR .
+            preg_replace("/php/", "js.php",
+                basename($reflectionClass->getFileName()));
+        if (file_exists($filename)) {
+            $returnString .= file_get_contents($filename);
         }
         return $returnString;
     }
