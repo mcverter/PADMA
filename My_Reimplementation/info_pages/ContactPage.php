@@ -10,7 +10,7 @@ class ContactPage extends WebPage {
         return "Contact Us";
     }
 
-    public function make_main_frame($title, $userid, $role) {
+    public function make_main_content($title, $userid, $role) {
         $returnString = <<<EOT
 
     <div class="centered_form">

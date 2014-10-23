@@ -4,7 +4,7 @@ require_once(__DIR__ . "/../templates/WebPage.php");
 
 class SearchMainPage extends WebPage{
 
-    function make_main_frame($title, $userid, $role)
+    function make_main_content($title, $userid, $role)
     {
         $returnString = '';
         $returnString .= <<< EOT

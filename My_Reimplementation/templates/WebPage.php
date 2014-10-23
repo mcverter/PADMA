@@ -90,7 +90,7 @@ abstract class WebPage
         <div class="col-md-{$remainingWidth}">
 EOT;
 
-                $returnString .= $this->make_main_frame($title, $userid, $role);
+                $returnString .= $this->make_main_content($title, $userid, $role);
 
                 $returnString .= <<< EOT
         </div>
@@ -106,7 +106,7 @@ EOT;
         <div class="col-md-{$remainingWidth}">
 EOT;
 
-                $returnString .= $this->make_main_frame($title, $userid, $role);
+                $returnString .= $this->make_main_content($title, $userid, $role);
 
                 $returnString .= <<< EOT
         </div>
@@ -120,12 +120,12 @@ EOT;
             }
             // Bad value for orientation
             else {
-                $returnString .= $this->make_main_frame($title, $userid, $role);
+                $returnString .= $this->make_main_content($title, $userid, $role);
             }
         }
         // No value for orientation or image
         else {
-            $returnString .= $this->make_main_frame($title, $userid, $role);
+            $returnString .= $this->make_main_content($title, $userid, $role);
         }
         return $returnString;
     }
@@ -215,7 +215,7 @@ EOT;
      * @param $role
      * @return string
      */
-    abstract protected function make_main_frame($title, $userid, $role);
+    abstract protected function make_main_content($title, $userid, $role);
 
     /**
      * Prints the footer , the js, and closes the page.

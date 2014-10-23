@@ -20,7 +20,7 @@ class ChangePasswordPage extends DatabaseConnectionPage
             strtoupper($this->userid), sha1($password));
     }
 
-    function make_main_frame($title, $userid, $role) {
+    function make_main_content($title, $userid, $role) {
         $userid = $this->userid;
         $db_conn = $this->db_conn;
 

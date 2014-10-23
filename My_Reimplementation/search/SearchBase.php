@@ -172,7 +172,9 @@ abstract class SearchBase extends DatabaseConnectionPage
             self::EXPERIMENT_LABEL,
             self::EXPERIMENT_POSTVAR,
             dbFn::selectAllUnrestrictedExperimentList($db_conn, $userid),
-            self::EXPERIMENT_EXP_TBL_COL);
+            self::EXPERIMENT_EXP_TBL_COL,
+            self::EXPERIMENT_EXP_TBL_COL
+        );
     }
 
     /**
@@ -184,7 +186,9 @@ abstract class SearchBase extends DatabaseConnectionPage
             self::CATEGORY_LABEL,
             self::CATEGORY_POSTVAR,
             dbFn::selectCategoryList($db_conn, $userid),
-            self::CATEGORY_EXP_TBL_COL);
+            self::CATEGORY_EXP_TBL_COL,
+            self::CATEGORY_EXP_TBL_COL
+            );
     }
 
     /**
@@ -196,7 +200,9 @@ abstract class SearchBase extends DatabaseConnectionPage
             self::SPECIES_LABEL,
             self::SPECIES_POSTVAR,
             dbFn::selectSpeciesList($db_conn, $userid),
-            self::SPECIES_EXP_TBL_COL);
+            self::SPECIES_EXP_TBL_COL,
+            self::SPECIES_EXP_TBL_COL
+        );
     }
 
     /**
@@ -208,7 +214,10 @@ abstract class SearchBase extends DatabaseConnectionPage
             self::SUBJECT_LABEL,
             self::SUBJECT_POSTVAR,
             dbFn::selectSubjectList($db_conn, $userid),
-            self::SUBJECT_EXP_TBL_COL);
+            self::SUBJECT_EXP_TBL_COL,
+            self::SUBJECT_EXP_TBL_COL
+
+        );
     }
 
     /**
@@ -220,14 +229,19 @@ abstract class SearchBase extends DatabaseConnectionPage
             self::REGVAL_LABEL,
             self::REGVAL_POSTVAR,
             dbFn::selectRegValList($db_conn, $userid),
-            self::REGVAL_EXP_TBL_COL);
+            self::REGVAL_EXP_TBL_COL,
+            self::REGVAL_EXP_TBL_COL
+
+        );
     }
     protected function make_biofunction_select($db_conn, $userid) {
         return wMk::select_input(
             self::BIOFUNCTION_LABEL,
             self::BIOFUNCTION_POSTVAR,
             dbFn::selectBiofunctionList($db_conn, $userid),
-            self::BIOFUNCTION_EXP_TBL_COL);
+            self::BIOFUNCTION_EXP_TBL_COL,
+            self::BIOFUNCTION_EXP_TBL_COL
+        );
     }
 
 

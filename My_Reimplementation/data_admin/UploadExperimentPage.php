@@ -21,7 +21,10 @@ class UploadExperimentPage extends DatabaseConnectionPage {
         return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
     }
 
-    /**
+    function insertIntoMaster($db_conn, $name, $description, $userid, $date, $restricted, $count) {
+        DBFunctions::insertIntoExpMasterTbl($db_conn, $name, $description, $userid, $date, $restricted, $count);
+    }
+    /**Assuming only one experiment per file
      * @param $db_conn
      */
     function upload_file($db_conn)
@@ -31,7 +34,7 @@ class UploadExperimentPage extends DatabaseConnectionPage {
             return PageControlFunctions::redirectDueToError("Invalid File Type.  Make sure ");
         }
         $destinationFileName = self::UPLOAD_DIR . $uploadedFileName;
-        if (move_uploaded_file($_FILES[self::FILE_POSTVAR]['tmp_name'], $destinationFileName)) {
+        if ((move_uploaded_file($_FILES[self::FILE_POSTVAR]['tmp_name'], $destinationFileName)) == false) {
             return PageControlFunctions::redirectDueToError("File could not be uploaded to path {$destinationFileName}. Please check with
         PADMA support");
         }
@@ -47,22 +50,24 @@ class UploadExperimentPage extends DatabaseConnectionPage {
         $date = date("m/d/y");
         $userid = $_SESSION[wPg::USERID_SESSVAR];
         $description = "Not Available";
-        while (($line = fgets($fileHandle)) !== false) {
-            if (substr_count($line, ",") != 7) {
-                return PageControlFunctions::redirectDueToError("There must be 8 columns in each line of {$destinationFileName}.  The following
-             line does not: \n'{$line}'' ");
-            }
+        $count = 0;
+        $line = fgets($fileHandle);
+        if ($line != false) {
             list ($prob_id, $exp_name, $catg, $spec, $subj, $reg_val, $open, $hour) =
-                explode($line, ",");
-            if (! dbFn::experimentInDB($db_conn, $exp_name)) {
-                dbFn::insertIntoExpTbl($prob_id, $exp_name, $catg, $spec, $subj, $reg_val, $open, $userid, $date, $restricted, $hour);
-                // AKIRA:  what is this?
-                $recNum = count($prob_id);
-
-                // AKIRA:  	what does this mean:	if($EXPERIMENT_ROWCOUNT==($recNum-2))
-                if (dbFn::okay_to_insert_into_master($db_conn)) {
-                    dbFn::insertIntoExpMasterTbl($db_conn, $exp_name, $description, $userid, $date,
-                        $restricted, $recNum);
+                explode(",", trim($line));
+            if ($exp_name && !dbFn::experimentInDB($db_conn, $exp_name)) {
+                while ($line != false) {
+                    if (substr_count($line, ",") != 7) {
+                        return PageControlFunctions::redirectDueToError("There must be 8 columns in each line of {$destinationFileName}.  The following line does not: \n'{$line}'' ");
+                    }
+                    list ($prob_id, $exp_name, $catg, $spec, $subj, $reg_val, $open, $hour) =
+                        explode(",", trim($line));
+                    dbFn::insertIntoExpTbl($db_conn, $prob_id, $exp_name, $catg, $spec, $subj, $reg_val, $open, $userid, $date, $restricted, $hour);
+                    $count++;
+                    $line = fgets($fileHandle);
+                }
+                if ($count) {
+                    $this->insertIntoMaster($db_conn, $exp_name, $description, $userid, $date, $restricted, $count);
                 }
             }
         }
@@ -71,28 +76,29 @@ class UploadExperimentPage extends DatabaseConnectionPage {
     /**
      *
      */
-    function make_main_frame($title, $userid, $role) {
+    function make_main_content($title, $userid, $role) {
         $returnString = '';
-        if(empty($_FILES) || ($_FILES['size'] < 1) ||
-            empty($_FILES[self::FILE_POSTVAR]) || empty($_FILES[self::FILE_POSTVAR]["name"]) ||
-            ! is_uploaded_file($_FILES[self::FILE_POSTVAR]["name"])) {
-            $actionUrl = $_SERVER['PHP_SELF'];
-
-            $returnString .= <<< EOT
-        <form name="uploadExperimentForm" action="$actionUrl" method="POST" enctype="multipart/form-data">
-            <h1>Load Experiment</h1>
-EOT;
-            wMk::file_input("Upload File", self::FILE_POSTVAR);
-            wMk::submit_button();
-
-            $returnString .= <<< EOT
-            </form>
-EOT;
-
-        }
-        else {
+        if(((empty($_FILES) || empty($_FILES[self::FILE_POSTVAR])
+                || ($_FILES[self::FILE_POSTVAR]['size'] < 1)
+                || empty($_FILES[self::FILE_POSTVAR]["name"])
+                ||! is_uploaded_file($_FILES[self::FILE_POSTVAR]["tmp_name"])))
+            == false ) {
             $this->upload_file($this->db_conn);
+            $returnString .= WidgetMaker::successMessage('uploadSuccess', 'You have successfully uploaded an experiment');
         }
+        $actionUrl = $_SERVER['PHP_SELF'];
+
+        $returnString .=
+
+            <<< EOT
+                <h1>Load Experiment</h1>
+EOT
+
+            . WidgetMaker::start_file_form($actionUrl)
+            . wMk::file_input("Upload File", self::FILE_POSTVAR)
+            . wMk::submit_button()
+            . WidgetMaker::end_form();
+
         return $returnString;
     }
 

@@ -7,12 +7,12 @@ class ManageDataMainPage extends WebPage
         return PageControlFunctions::check_role(WebPage::SUPERVISING_ROLE);
     }
 
-    function make_main_frame($title, $userid, $role)
+    function make_main_content($title, $userid, $role)
     {
         $returnString = '';
         $returnString .= <<< EOT
         <ul class="nav nav-pills nav-stacked">
-            <li> <a href="../webpages/edit_experiment.php">Edit Experiment</a></li>
+            <li> <a href="../webpages/experiment_list.php">Edit Experiment</a></li>
             <li> <a href="../webpages/upload_experiment.php">Upload Experiment</a></li>
             <li> <a href="../webpages/delete_experiment.php">Delete Experiment</a></li>
 

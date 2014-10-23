@@ -7,7 +7,7 @@ class AdvancedSearchPage extends SearchBase {
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }
 
-    function make_main_frame($title, $userid, $role) {
+    function make_main_content($title, $userid, $role) {
         $title = $this->title;
         $db_conn = $this->db_conn;
         $userid = $this->userid;

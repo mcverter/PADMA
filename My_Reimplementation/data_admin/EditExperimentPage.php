@@ -28,6 +28,7 @@ class EditExperimentPage extends DatabaseConnectionPage
             self::EXPERIMENT_SELECT_NAME,
             $this->showExperimentMasterList(),
             self::EXPERIMENT_KEYVAL,
+            self::EXPERIMENT_KEYVAL,
             false);
     }
 
@@ -65,7 +66,7 @@ class EditExperimentPage extends DatabaseConnectionPage
     }
 
 
-    function make_main_frame($title, $userid, $role)
+    function make_main_content($title, $userid, $role)
     {
 
         $actionUrl = $_SERVER['PHP_SELF'];
@@ -75,7 +76,12 @@ class EditExperimentPage extends DatabaseConnectionPage
         <form action=$actionUrl>
 EOT;
 
-        wMk::select_input(self::EXPERIMENT_LABEL, self::EXPERIMENT_SELECT_NAME,$this->showExperimentMasterList(), "EXP_NAME", false);
+        wMk::select_input(self::EXPERIMENT_LABEL,
+            self::EXPERIMENT_SELECT_NAME,
+            $this->showExperimentMasterList(),
+            "EXP_NAME",
+            "EXP_NAME",
+            false);
 
         wMk::submit_button('editDescription', 'Edit Description');
 

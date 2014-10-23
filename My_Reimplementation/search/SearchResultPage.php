@@ -71,7 +71,7 @@ EOT;
         return $returnString;
     }
 
-    function make_main_frame($title, $userid, $role) {
+    function make_main_content($title, $userid, $role) {
         $returnString = $this->print_results() ;
         return $returnString;
     }

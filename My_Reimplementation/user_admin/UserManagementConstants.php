@@ -17,8 +17,7 @@ class UserManagementConstants {
     const RESET_PW_BUTTON_ID = 'resetBtn';
     const DELETE_BUTTON_ID = 'deleteBtn';
     const REACTIVATE_BUTTON_ID = 'reactivateBtn';
+    const ACCESS_RIGHT_BUTTON_ID = 'accessRightBtn';
 
-    const USER_PICKER_CLASS = "UserPicker";
-
-    const CID_HIDDEN_ID = 'cid';
+    const USER_PICKER_ID = "UserPicker";
 }

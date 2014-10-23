@@ -37,7 +37,7 @@ class DeleteReferencePage extends DatabaseConnectionPage {
     /**
      *
      */
-    function make_main_frame($title, $userid, $role) {
+    function make_main_content($title, $userid, $role) {
         $db_conn = $this->db_conn;
 
         $returnString = '';
@@ -66,6 +66,7 @@ EOT;
             self::VERSION_LABEL,
             self::VERSION_SELECT_NAME,
             dbFn::selectVersionList($db_conn),
+            self::VERSION_KEYVAL,
             self::VERSION_KEYVAL,
             false) .
 

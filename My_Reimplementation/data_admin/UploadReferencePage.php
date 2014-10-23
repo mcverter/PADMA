@@ -73,7 +73,7 @@ class UploadReferencePage extends DatabaseConnectionPage {
     /**
      *
      */
-    function make_main_frame($title, $userid, $role) {
+    function make_main_content($title, $userid, $role) {
         $returnString = '';
         if(empty($_FILES) || ($_FILES['size'] < 1) ||
             empty($_FILES[self::FILE_POSTVAR]) || empty($_FILES[self::FILE_POSTVAR]["name"]) ||

@@ -30,7 +30,7 @@ class EditProfilePage extends DatabaseConnectionPage {
         return "Edit Profile";
     }
 
-    function make_main_frame($title, $userid, $role) {
+    function make_main_content($title, $userid, $role) {
 
         $db_conn = $this->db_conn;
         $userid = $this->userid;
@@ -81,8 +81,8 @@ EOT;
             "<hr>\n" .
             wMk::start_form($formAction, 'POST', 'verifyForm') .
             wMk::hidden_input('submitted', 'submitted') .
-            wMk::select_input('Title', 'title', dbFn::selectTitleList($db_conn), 'TITLE', false, $title,
-                '') .
+            wMk::select_input('Title', 'title', dbFn::selectTitleList($db_conn),
+                'TITLE','TITLE', false, $title, '') .
             wMk::text_input('Last Name', self::LNAME_POSTVAR,  $lname, '') .
             wMk::text_input('First Name', self::FNAME_POSTVAR,  $fname, '') .
             wMk::text_input('Middle Initial', self::MNAME_POSTVAR,  $mname, '') .
@@ -91,8 +91,9 @@ EOT;
             wMk::text_input('City:', self::CITY_POSTVAR,  $city, '') .
             wMk::text_input('State:', self::STATE_POSTVAR,  $state, '') .
             wMk::text_input('Zip Code:', self::ZIP_POSTVAR,  $zip, '') .
-            wMk::select_input('Country', self::COUNTRY_POSTVAR, dbFn::selectCountryList($db_conn), 'COUNTRY', false,
-                $country, '') .
+            wMk::select_input('Country', self::COUNTRY_POSTVAR,
+                dbFn::selectCountryList($db_conn), 'COUNTRY', 'COUNTRY',
+                false, $country, '') .
             wMk::text_input('Phone Number', self::PHONE_POSTVAR,  $phone, '') .
             wMk::text_input('Email', self::EMAIL_POSTVAR,  $email, '') .
             wMk::text_input('Industry', self::INDUSTRY_POSTVAR,  $industry, '') .

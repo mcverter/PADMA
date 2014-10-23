@@ -37,7 +37,33 @@ class WidgetMaker extends FormWidget
 
     }
 
-    /**
+static function successMessage($id, $message, $hidden='') {
+    $returnString = <<< EOT
+    <div id="$id" $hidden>
+    <div class="alert alert-success">
+        <span class="close" data-dismiss="alert">&times;</span>
+        <strong>Success!</strong> $message
+    </div>
+    </div>
+EOT;
+    return $returnString;
+}
+
+    static function errorMessage ($id, $message, $hidden='hidden') {
+    $returnString = <<< EOT
+    <div id="$id" $hidden>
+    <div class="alert alert-danger">
+        <span class="close" data-dismiss="alert">&times;</span>
+        <strong>Error!</strong> $message
+    </div>
+    </div>
+EOT;
+        return $returnString;
+
+}
+
+
+/**
      * @param string $name
      * @param string $value
      * @param string $class
@@ -110,8 +136,22 @@ EOT;
      * @param string $onsubmit
      * @return string
      */
+
     static function start_form ($action, $method='POST', $class='', $onsubmit='') {
         $returnString = "\n<form action='$action' method='$method' ";
+        if (! empty($class)) {
+            $returnString .= " class='$class' ";
+        }
+        if (! empty($onsubmit)) {
+            $returnString .= " onsubmit='$onsubmit' ";
+        }
+        $returnString .= " >";
+        return $returnString;
+    }
+
+
+    static function start_file_form ($action, $method='POST', $class='', $onsubmit='') {
+        $returnString = "\n<form enctype='multipart/form-data' action='$action' method='$method' ";
         if (! empty($class)) {
             $returnString .= " class='$class' ";
         }
@@ -150,32 +190,34 @@ EOT;
      * @param $label
      * @param $widget_name
      * @param $db_statement
-     * @param $db_array_key
+     * @param $db_array_shown_key
      * @param bool $multiple
      * @param string $already_selected
      * @param string $class
      * @return string
      */
     static function select_input($label, $widget_name,
-                                $db_statement, $db_array_key,
+                                $db_statement,
+                                $db_value_key, $db_shown_key,
                                 $multiple=true,
                                 $already_selected = '',
                                 $class='') {
         $returnString = "<br>\n";
         $returnString .= "<label for='{$widget_name}'> $label </label>";
-        $returnString .= "<select name='{$widget_name}' class='$class' size=5 ";
+        $returnString .= "<select name='{$widget_name}' id='{$widget_name}' class='$class' size=5 ";
         if ($multiple) {
             $returnString .= " multiple ";
         }
         $returnString .= " > \n";
 
         while (($row = oci_fetch_array($db_statement)) != false) {
-            $rowval = $row[$db_array_key];
+            $rowval = $row[$db_value_key];
+            $rowshown = $row[$db_shown_key];
             $returnString .= "<option value='$rowval' ";
             if ($rowval === $already_selected) {
                 $returnString .= " selected ";
             }
-            $returnString .= "> $rowval </option>\n";
+            $returnString .= "> $rowshown </option>\n";
         }
         $returnString .= "</select>\n";
         $returnString .= "<br>\n";
@@ -197,6 +239,20 @@ EOT;
 
     // SPECIAL USE
 
+    static function access_right_panel($db_conn, $ajax_button) {
+        $returnString = '';
+        $returnString . <<< EOT
+        <div border=1px>
+        <fieldset>
+        <legend> Assign Access Right </legend>
+EOT;
+
+        $returnString .=
+            self::select_input('Access Right', 'accessright', DBFunctions::selectAccessRightList($db_conn),
+                'ACC_RIGHT_ID', 'ACC_RIGHT_DESC', false) .
+            self::button_ajax($ajax_button, "Update Access Right");
+        return $returnString;
+    }
     static function quicksearch_widget() {
 
     }
@@ -222,8 +278,35 @@ EOT;
 
     }
 
+    static function start_horizontal_d_list($label, $widget_name, $class='') {
+        $returnString = '';
+        $returnString .= <<<EOT
+            <label for='$widget_name'> $label </label>
+            <dl id='$widget_name' name='$widget_name' class='dl-horizontal $class '>
+EOT;
+        return $returnString;
+    }
 
-    static function user_pick_widget($label, $widget_name,$db_conn, $class='UserSelect') {
+    static function d_list_entry ($dt, $dd) {
+        $returnString = '';
+        $returnString .= <<<EOT
+
+            <dt>$dt</dt>
+            <dd>$dd</dd>
+
+EOT;
+        return $returnString;
+
+    }
+    static function end_d_list($label, $widget_name, $class='') {
+        $returnString = '';
+        $returnString .= <<<EOT
+            </dl>
+EOT;
+        return $returnString;
+    }
+
+    static function user_pick_widget($label, $widget_name,$db_conn, $class='') {
         $returnString = '';
         $returnString .= <<<EOT
         <br>

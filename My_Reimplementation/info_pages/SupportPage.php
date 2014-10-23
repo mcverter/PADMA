@@ -6,7 +6,7 @@ class SupportPage extends WebPage {
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }
 
-    public function make_main_frame($title, $userid, $role) {
+    public function make_main_content($title, $userid, $role) {
         $returnString = <<<EOT
 
     <div class="central_widget">

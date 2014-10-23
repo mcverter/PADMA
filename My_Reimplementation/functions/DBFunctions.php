@@ -19,7 +19,7 @@ class DBFunctions
 {
 
     const FULLVIEW_TABLE = 'FULL_V';
-
+    const SEARCH_RESULT_LIMIT = 1000;
 
 
 
@@ -78,6 +78,16 @@ EOT;
         $parsed = ociparse($db_conn, $query);
         oci_execute($parsed);
         return $parsed;
+    }
+
+
+    static function experimentInDB($db_conn, $exp_name) {
+
+        $query =   "SELECT  count(*) as TOTAL FROM EXPERIMENT  WHERE EXP_NAME='$exp_name'";
+        $stid  =  self::execute_SELECT_query_and_return($db_conn, $query);
+        $row = oci_fetch_assoc($stid);
+        $count = $row["TOTAL"];
+        return ($count != 0);
     }
 
 // Multiple Categories
@@ -168,25 +178,11 @@ EOT;
     static function selectSearchResult($db_conn, $userid, $constraint) {
         $query = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT,
 GONUMBER, BIOFUNCTION,REGULATIONVALUE,ADDITIONALINFO,HOUR FROM  " . self::FULLVIEW_TABLE . " where  {$constraint}  AND
-RESTRICTED='0' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES,
-        EXPERIMENTSUBJECT,GONUMBER, BIOFUNCTION,REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " .self::FULLVIEW_TABLE . "
-            where  {$constraint} AND RESTRICTED='1' and CREATED_BY='{$userid}' ORDER BY 5,1";
+RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES,
+        EXPERIMENTSUBJECT,GONUMBER, BIOFUNCTION,REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " .self::FULLVIEW_TABLE . " where  {$constraint} AND RESTRICTED='1' and CREATED_BY='{$userid}'  AND rownum <= ". self::SEARCH_RESULT_LIMIT . " ORDER BY 5,1 " ;
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
-    /*
-    function selectRefineSearchResultList($db_conn) {
-        $queryRetrieve = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . "  WHERE RESTRICTED='" .$notRestricted}' $str union SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . "  WHERE RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' $str order by 5,1";
-    }
-
-    function selectRefineSearchResultRefinedList($db_conn) {
-        $queryRetrieve ="SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . "  WHERE RESTRICTED='" .$notRestricted}' $str union SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT, GONUMBER, BIOFUNCTION, REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " . self::FULLVIEW_TABLE . "  WHERE RESTRICTED='" .$restricted}' and CREATED_BY='{$userid}' $str order by 5,1";
-    }
-    */
-    /*
-     *  Data Management
-     */
-//Check if the experimrnt exist into the database
 // expUploader.php:
     /**
      * @param $db_conn
@@ -200,7 +196,6 @@ RESTRICTED='0' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENT
     }
 
 
-//SelectExperiment.php:
     static function selectUnrestrictedExperimentListFromMaster($db_conn)
     {
         $query = "select EXP_NAME from EXP_MASTER where RESTRICTED ='0' order by EXP_NAME";
@@ -214,7 +209,6 @@ RESTRICTED='0' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENT
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
-// EditDescription.php
     static function selectExperimentDescription($db_conn, $name)
     {
         $query = "SELECT EXP_MASTER.* FROM EXP_MASTER WHERE EXP_MASTER.EXP_NAME = '{$name}'";
@@ -242,15 +236,7 @@ RESTRICTED='0' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENT
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
-    static function okay_to_insert_into_master($db_conn)
-    {
 
-    }
-
-    static function experimentInDB($db_conn, $name)
-    {
-
-    }
 
 //insertExperiment.php:
     static function insertIntoExpTbl($db_conn, $prob_id, $exp_name, $catg, $spec, $subj, $reg_val, $open, $userid,
@@ -262,7 +248,7 @@ RESTRICTED='0' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENT
 
     static function insertIntoExpMasterTbl($db_conn, $name, $description, $userid, $date, $restricted, $recNum)
     {
-        $query = "insert into EXP_MASTER VALUES($name, $description, $userid, $date, $restricted, $recNum)";
+        $query = "insert into EXP_MASTER VALUES('$name', '$description', '$userid', '$date', '$restricted', $recNum)";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 
@@ -448,7 +434,7 @@ RESTRICTED='0' UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENT
             "ADD_1=' {$address1}',
 ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$country}'," .
             "PHONE= '{$phone}',EMAIL='{$email}',IND='{$industry}',PROF='{$profession}'," .
-            "UPDATED_BY='{$userid}',UPDATED_ON=SYSDATE WHERE USER_ID='{ $userid }'";
+            "UPDATED_BY='{$userid}',UPDATED_ON=SYSDATE WHERE USER_ID='{$userid}'";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 
