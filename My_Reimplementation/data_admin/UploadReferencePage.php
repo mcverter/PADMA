@@ -26,15 +26,19 @@ class UploadReferencePage extends DatabaseConnectionPage {
     function upload_file($db_conn)
     {
         $version = $_POST['version'];
+        if (DBFunctions::versionInDB($db_conn, $version)) {
+            return "no";
+        }
+
         $userid = $_SESSION[wPg::USERID_SESSVAR];
         $date=date("m/d/y");
 
-        $uploadedFileName = $_FILES['referenceFile']['name'];
+        $uploadedFileName = $_FILES[self::FILE_POSTVAR]['name'];
         if (strtolower(substr($uploadedFileName, -3, 3)) != "csv") {
             return PageControlFunctions::redirectDueToError("Invalid File Type.  Only csv files are accepted");
         }
         $destinationFileName = self::UPLOAD_DIR . $uploadedFileName;
-        if (move_uploaded_file($_FILES['experimentFile']['tmp_name'], $destinationFileName)) {
+        if (move_uploaded_file($_FILES[self::FILE_POSTVAR]['tmp_name'], $destinationFileName) == false) {
             return PageControlFunctions::redirectDueToError("File could not be uploaded to path {$destinationFileName}. Please check with
         PADMA support");
         }
@@ -47,16 +51,29 @@ class UploadReferencePage extends DatabaseConnectionPage {
             return PageControlFunctions::redirectDueToError("Empty File");
         }
         while (($line = fgets($fileHandle)) !== false) {
-            if (substr_count($line, ",") != 4) {
+            if (substr_count($line, ",") < 4) {
                 return PageControlFunctions::redirectDueToError("There must be 5 columns in each line of {$destinationFileName}.  The following line does not:\n'{$line}'' ");
             }
+            $line = trim($line);
+            $commaIdxEnd = strpos($line, ",");
+            $probeid = substr($line, 0, $commaIdxEnd);
+            $commaIdxStart = $commaIdxEnd+1;
+            $commaIdxEnd = strpos($line, ",", $commaIdxStart);
+            $cgname = substr($line, $commaIdxStart, $commaIdxEnd-$commaIdxStart);
+            $commaIdxStart = $commaIdxEnd+1;
+            $commaIdxEnd = strpos($line, ",", $commaIdxStart);
+            $genename = substr($line, $commaIdxStart, $commaIdxEnd-$commaIdxStart);
+            $commaIdxStart = $commaIdxEnd+1;
+            $commaIdxEnd = strpos($line, ",", $commaIdxStart);
+            $flybasenum = substr($line, $commaIdxStart, $commaIdxEnd-$commaIdxStart);
+            $commaIdxStart = $commaIdxEnd+1;
+            $godata = substr($line, $commaIdxStart, strlen($line) -$commaIdxStart);
 
-            list ($probeid, $cgname, $genename, $flybasenum, $godata) =
-                explode($line, ",");
             dbFn::insertReference($db_conn, $probeid, $cgname, $genename, $flybasenum, $version, $userid, $date);
 
             // if godata not empty
             if (preg_match("/\d/", $godata)) {
+                $godata = str_replace("\"", "", $godata);
                 foreach (explode("///", $godata) as $goentry) {
                     $gospecification = explode("//", $goentry);
                     $gonumber = array_shift($gospecification);
@@ -75,24 +92,27 @@ class UploadReferencePage extends DatabaseConnectionPage {
      */
     function make_main_content($title, $userid, $role) {
         $returnString = '';
-        if(empty($_FILES) || ($_FILES['size'] < 1) ||
-            empty($_FILES[self::FILE_POSTVAR]) || empty($_FILES[self::FILE_POSTVAR]["name"]) ||
-            ! is_uploaded_file($_FILES[self::FILE_POSTVAR]["name"])) {
+        if(((empty($_FILES) || empty($_FILES[self::FILE_POSTVAR])
+                || ($_FILES[self::FILE_POSTVAR]['size'] < 1)
+                || empty($_FILES[self::FILE_POSTVAR]["name"])
+                ||! is_uploaded_file($_FILES[self::FILE_POSTVAR]["tmp_name"])))
+            == false ) {
+            $this->upload_file($this->db_conn);
+            $returnString .= WidgetMaker::successMessage('uploadSuccess', 'You have successfully uploaded an Version');
+
+        }
             $actionUrl = $_SERVER['PHP_SELF'];
 
 //        <form name="uploadReferenceForm" action="$actionUrl" method="POST" enctype="multipart/form-data">
 //            <h1>Load Reference Data</h1>
 
-        $returnString .= wMk::start_form($actionUrl, '') .
-            wMk::text_input('Version Number', 'version') .
+        $returnString .=
+            WidgetMaker::start_file_form($actionUrl)
+            . wMk::text_input('Version Number', 'version') .
             wMk::file_input("Upload File", self::FILE_POSTVAR) .
             wMk::submit_button() .
             wMk::end_form();
 
-        }
-        else {
-            $this->upload_file($this->db_conn);
-        }
 
         return $returnString;
     }

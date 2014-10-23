@@ -90,6 +90,16 @@ EOT;
         return ($count != 0);
     }
 
+    static function versionInDB($db_conn, $version_name) {
+
+        $query =   "SELECT  count(*) as TOTAL FROM REFERENCE_MAIN  WHERE VERSION='$version_name'";
+        $stid  =  self::execute_SELECT_query_and_return($db_conn, $query);
+        $row = oci_fetch_assoc($stid);
+        $count = $row["TOTAL"];
+        return ($count != 0);
+    }
+
+
 // Multiple Categories
     /**
      * @param $db_conn

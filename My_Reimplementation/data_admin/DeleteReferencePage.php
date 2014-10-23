@@ -6,7 +6,6 @@ require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
  */
 class DeleteReferencePage extends DatabaseConnectionPage {
     const VERSION_LABEL = "Version to Delete";
-    const VERSION_SELECT_NAME = "Version";
     const VERSION_KEYVAL = "VERSION";
     const VERSION_POSTVAR = "version";
 
@@ -16,8 +15,8 @@ class DeleteReferencePage extends DatabaseConnectionPage {
     }
 
     function make_page_middle($title, $userid, $role){
-    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
-      }
+        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    }
     /**
      *
      */
@@ -26,14 +25,7 @@ class DeleteReferencePage extends DatabaseConnectionPage {
     }
 
 
-    /**
-     *
-     */
-    function make_submit_button()
-    {
-    }
 
-\
     /**
      *
      */
@@ -56,26 +48,18 @@ EOT;
         $returnString .= <<< EOT
 
 	<h2> Select a Version to delete)</h2>
-	<br>
+EOT
+   . WidgetMaker::start_form($actionUrl)
+    .      wMk::select_input(
+                self::VERSION_LABEL,
+                self::VERSION_POSTVAR,
+                dbFn::selectVersionList($db_conn),
+                self::VERSION_KEYVAL,
+                self::VERSION_KEYVAL,
+                false) .
 
-     <form name="deleteVersion" action="$actionUrl" method="post">
-
-EOT;
-        $returnString .=
-        wMk::select_input(
-            self::VERSION_LABEL,
-            self::VERSION_SELECT_NAME,
-            dbFn::selectVersionList($db_conn),
-            self::VERSION_KEYVAL,
-            self::VERSION_KEYVAL,
-            false) .
-
-        wMk::submit_button('deleteBtn', 'Delete', '');
-
-
-        $returnString .= <<< EOT
-        </form>
-EOT;
+            wMk::submit_button('deleteBtn', 'Delete', '')
+            . WidgetMaker::end_form();
 
         return $returnString;
     }
