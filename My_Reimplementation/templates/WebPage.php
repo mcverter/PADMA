@@ -8,9 +8,11 @@ require_once(__DIR__ . "/../components/WidgetMaker.php");
 abstract class WebPage
 {
 
-    protected $title;
     protected $userid;
     protected $role;
+
+    // Overridden in subclass with Late Static Binding
+    const PG_TITLE = '';
 
     const USERID_SESSVAR = 'userid';
     const ROLE_SESSVAR = 'role';
@@ -38,16 +40,6 @@ abstract class WebPage
     }
 
     /**
-     * Returns page title
-     * Used in constructor
-     * Must be overridden
-     *
-     * @return string
-     */
-    abstract function get_title() ;
-
-
-    /**
      * Constructor()
      * $role, $userid initialized from SESSION variables
      * $title initialized in subclass
@@ -57,7 +49,6 @@ abstract class WebPage
         PageControlFunctions::initialize_session();
         $this->userid = isset($_SESSION[self::USERID_SESSVAR]) ? $_SESSION[self::USERID_SESSVAR] : "";
         $this->role = isset($_SESSION[self::ROLE_SESSVAR]) ? $_SESSION[self::ROLE_SESSVAR] : "";
-        $this->title = $this->get_title();
     }
 
     /**

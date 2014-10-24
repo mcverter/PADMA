@@ -5,21 +5,40 @@ require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
 
 class ChangePasswordPage extends DatabaseConnectionPage
 {
+    const PG_TITLE = "Change Password";
 
+    /**
+     * @return bool
+     */
     protected  function isAuthorizedToViewPage() {
         return PageControlFunctions::check_role(WebPage::REGISTERED_ROLE);
     }
 
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
+    function make_page_middle($title, $userid, $role){
+        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    }
 
-  function make_page_middle($title, $userid, $role){
-    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
-      }
+    /**
+     * @param $password
+     */
     function checkPasswordMatch($password)
     {
         dbFn::selectUserByIDAndPW($this->db_conn,
             strtoupper($this->userid), sha1($password));
     }
 
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
     function make_main_content($title, $userid, $role) {
         $userid = $this->userid;
         $db_conn = $this->db_conn;
@@ -41,8 +60,4 @@ class ChangePasswordPage extends DatabaseConnectionPage
         }
         return $returnString;
     }
-    function get_title() {
-        return "Change Password";
-    }
-
 }

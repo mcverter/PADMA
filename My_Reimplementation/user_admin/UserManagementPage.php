@@ -14,15 +14,19 @@ require_once(__DIR__ . '/UserManagementConstants.php');
 class UserManagementPage extends DatabaseConnectionPage {
 
 
+    const PG_TITLE = "User Management";
+
+    /**
+     * @return bool
+     */
     protected  function isAuthorizedToViewPage() {
         return PageControlFunctions::check_role(WebPage::ADMINISTRATOR_ROLE);
     }
 
 
-    function get_title() {
-        return "User Management";
-    }
-
+    /**
+     * @return string
+     */
     function make_js() {
 
         $returnString = parent::make_js();
@@ -110,21 +114,46 @@ class UserManagementPage extends DatabaseConnectionPage {
 EOT;
     return $returnString;
     }
+
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
   function make_page_middle($title, $userid, $role){
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }
+
+    /**
+     * @param $minlength
+     * @param $maxlength
+     */
     function generatePassword($minlength, $maxlength) {
 
     }
 
+    /**
+     * @param $cid
+     */
     function resetPassword($cid) {
         $temppass=$this->generatePassword(6,8);
         dbFn::updateUserPassword($this->db_conn, $cid, sha1($temppass));
     }
+
+    /**
+     * @param $clientid
+     */
     function viewUserDetail($clientid) {
         DBFUnctions::selectUserInfo($this->db_conn, $clientid);
     }
 
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
     function make_main_content($title, $userid, $role) {
         $db_conn = $this->db_conn;
 

@@ -7,24 +7,31 @@ require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
  */
 class UploadExperimentPage extends DatabaseConnectionPage {
 
+    const PG_TITLE =  "Upload Experiment";
 
     const UPLOAD_DIR = "/var/www/html/drosoData/";
     const FILE_POSTVAR = 'experimentFile';
 
+    /**
+     * @return bool
+     */
     protected  function isAuthorizedToViewPage() {
         return PageControlFunctions::check_role(WebPage::SUPERVISING_ROLE);
     }
 
 
-
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
     function make_page_middle($title, $userid, $role) {
         return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
     }
 
-    function insertIntoMaster($db_conn, $name, $description, $userid, $date, $restricted, $count) {
-        DBFunctions::insertIntoExpMasterTbl($db_conn, $name, $description, $userid, $date, $restricted, $count);
-    }
-    /**Assuming only one experiment per file
+    /**
+     * Assuming only one experiment per file
      * @param $db_conn
      */
     function upload_file($db_conn)
@@ -67,7 +74,7 @@ class UploadExperimentPage extends DatabaseConnectionPage {
                     $line = fgets($fileHandle);
                 }
                 if ($count) {
-                    $this->insertIntoMaster($db_conn, $exp_name, $description, $userid, $date, $restricted, $count);
+                    DBFunctions::insertIntoExpMasterTbl($db_conn, $name, $description, $userid, $date, $restricted, $count);
                 }
             }
         }
@@ -84,7 +91,7 @@ class UploadExperimentPage extends DatabaseConnectionPage {
                 ||! is_uploaded_file($_FILES[self::FILE_POSTVAR]["tmp_name"])))
             == false ) {
             $this->upload_file($this->db_conn);
-            $returnString .= WidgetMaker::successMessage('uploadSuccess', 'You have successfully uploaded an experiment');
+            $returnString .= wMk::successMessage('uploadSuccess', 'You have successfully uploaded an experiment');
         }
         $actionUrl = $_SERVER['PHP_SELF'];
 
@@ -94,16 +101,13 @@ class UploadExperimentPage extends DatabaseConnectionPage {
                 <h1>Load Experiment</h1>
 EOT
 
-            . WidgetMaker::start_file_form($actionUrl)
+            . wMk::start_file_form($actionUrl)
             . wMk::file_input("Upload File", self::FILE_POSTVAR)
             . wMk::submit_button()
-            . WidgetMaker::end_form();
+            . wMk::end_form();
 
         return $returnString;
     }
 
-    function get_title() {
-        return "Upload Experiment";
-    }
 }
 

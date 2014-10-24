@@ -2,11 +2,27 @@
 
 require_once(__DIR__ . "/../templates/WebPage.php");
 
-class UploadAgreementPage extends WebPage {
-  function make_page_middle($title, $userid, $role){
-    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
-      }
 
+
+class UploadAgreementPage extends WebPage {
+    const PG_TITLE =  "Upload Agreement";
+
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
+    function make_page_middle($title, $userid, $role){
+        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    }
+
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
     public function make_main_content($title, $userid, $role) {
         $returnString = <<<EOT
 
@@ -46,21 +62,17 @@ class UploadAgreementPage extends WebPage {
     <input type="submit" value="Submit" />
 EOT;
 
-    if (isset($_POST['terms'])) {
-        if ($_POST['terms'] == "agree") header("Location: expLoaderStart.php");
-        else header("Location: DataManagement.php");
-        exit;
-    }
+        if (isset($_POST['terms'])) {
+            if ($_POST['terms'] == "agree") header("Location: expLoaderStart.php");
+            else header("Location: DataManagement.php");
+            exit;
+        }
 
-$returnString .=" </form>";
+        $returnString .=" </form>";
         return $returnString;
 
-}
-
-
-    function get_title() {
-        return "Upload Agreement";
     }
+
 
 }
 

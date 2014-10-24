@@ -12,7 +12,7 @@
  * (5) Widgets for specific pages
  *
  * This class should probably be refactored and simplified and subdivided in a future release.
- * It is a bit crowded now, but works fine for now.
+ * It is a bit crowded, but works fine for now.
  *
  * All functions return a  string which can be concatenated to the output string
  *

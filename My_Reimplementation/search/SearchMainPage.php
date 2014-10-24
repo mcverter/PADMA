@@ -1,9 +1,19 @@
 <?php
 require_once(__DIR__ . "/../templates/WebPage.php");
 
-
+/**
+ * Class SearchMainPage
+ */
 class SearchMainPage extends WebPage{
 
+    const PG_TITLE = "Search Main";
+
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
     function make_main_content($title, $userid, $role)
     {
         $returnString = '';
@@ -17,11 +27,14 @@ EOT;
 
     }
 
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
     function make_page_middle($title, $userid, $role) {
         return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
     }
 
-    function get_title() {
-        return "Search";
-    }
-} 
+}

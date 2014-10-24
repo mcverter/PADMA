@@ -11,8 +11,6 @@
     {
 
         /**
-         * make_footer
-         *
          * Creates the footer navbar plus the copyright notice.
          *
          * @return string

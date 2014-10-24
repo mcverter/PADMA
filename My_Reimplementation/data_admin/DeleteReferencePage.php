@@ -5,29 +5,28 @@ require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
  * Class DeleteReferencePage
  */
 class DeleteReferencePage extends DatabaseConnectionPage {
+
+    const PG_TITLE  = "Delete Reference";
+
     const VERSION_LABEL = "Version to Delete";
     const VERSION_KEYVAL = "VERSION";
     const VERSION_POSTVAR = "version";
 
-
-    function get_title() {
-        return "Delete Reference";
-    }
-
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
     function make_page_middle($title, $userid, $role){
         return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
     }
-    /**
-     *
-     */
-    function showReferenceList() {
-        dbFn::selectVersionList();
-    }
-
-
 
     /**
-     *
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
      */
     function make_main_content($title, $userid, $role) {
         $db_conn = $this->db_conn;
@@ -49,8 +48,8 @@ EOT;
 
 	<h2> Select a Version to delete)</h2>
 EOT
-   . WidgetMaker::start_form($actionUrl)
-    .      wMk::select_input(
+            . wMk::start_form($actionUrl)
+            .      wMk::select_input(
                 self::VERSION_LABEL,
                 self::VERSION_POSTVAR,
                 dbFn::selectVersionList($db_conn),
@@ -59,7 +58,7 @@ EOT
                 false) .
 
             wMk::submit_button('deleteBtn', 'Delete', '')
-            . WidgetMaker::end_form();
+            . wMk::end_form();
 
         return $returnString;
     }

@@ -3,6 +3,10 @@
 require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 class EditProfilePage extends DatabaseConnectionPage {
+
+    const PG_TITLE = "Edit Profile";
+
+
     const TITLE_POSTVAR = 'title';
     const LNAME_POSTVAR = 'lname';
     const FNAME_POSTVAR = 'fname';
@@ -26,9 +30,7 @@ class EditProfilePage extends DatabaseConnectionPage {
     function make_page_middle($title, $userid, $role){
     return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
       }
-    function get_title() {
-        return "Edit Profile";
-    }
+
 
     function make_main_content($title, $userid, $role) {
 

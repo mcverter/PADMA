@@ -6,22 +6,27 @@ class_alias('WidgetMaker', 'wMk');
 
 /**
  * Class DeleteExperimentPage
+ *
+ * Used to Delete an Experiment from the Database
+ *
  */
 class DeleteExperimentPage extends DatabaseConnectionPage
 {
+    const PG_TITLE = "Delete Experiment";
 
     const EXPERIMENT_LABEL = "Experiment to Delete";
     const EXPERIMENT_POSTVAR = "Experiment";
     const EXPERIMENT_KEYVAL = "EXP_NAME";
 
-    function get_title() {
-        return "Delete Experiment";
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
+    function make_page_middle($title, $userid, $role){
+        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
     }
-
-
-  function make_page_middle($title, $userid, $role){
-    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
-      }
 
     /**
      * @throws ErrorException
@@ -41,10 +46,12 @@ class DeleteExperimentPage extends DatabaseConnectionPage
         }
     }
 
-
-
     /**
-     *
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     * @throws ErrorException
      */
     function make_main_content($title, $userid, $role)
     {
@@ -56,7 +63,7 @@ class DeleteExperimentPage extends DatabaseConnectionPage
             $expName = $_POST[self::EXPERIMENT_POSTVAR];
             dbFn::deleteExperiment($db_conn, $expName);
             $message =  "Experiment $expName has been deleted";
-            $returnString .= WidgetMaker::successMessage('success', $message);
+            $returnString .= wMk::successMessage('success', $message);
         }
 
         $actionUrl = $_SERVER['PHP_SELF'];
@@ -65,18 +72,18 @@ class DeleteExperimentPage extends DatabaseConnectionPage
             <h2>Select an Experiment to delete</h2>
 EOT
 
-        . WidgetMaker::start_form($actionUrl)
+            . wMk::start_form($actionUrl)
 
-         . wMk::select_input(
-            self::EXPERIMENT_LABEL,
-            self::EXPERIMENT_POSTVAR,
-            $this->showExperimentList(),
-            self::EXPERIMENT_KEYVAL,
-            self::EXPERIMENT_KEYVAL,
-            false)
+            . wMk::select_input(
+                self::EXPERIMENT_LABEL,
+                self::EXPERIMENT_POSTVAR,
+                $this->showExperimentList(),
+                self::EXPERIMENT_KEYVAL,
+                self::EXPERIMENT_KEYVAL,
+                false)
 
-          .  wMk::submit_button('deleteBtn', 'Delete', '')
-            . WidgetMaker::end_form();
+            .  wMk::submit_button('deleteBtn', 'Delete', '')
+            . wMk::end_form();
 
         return $returnString;
     }

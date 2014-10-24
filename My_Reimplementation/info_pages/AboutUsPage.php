@@ -3,14 +3,24 @@ require_once(__DIR__ . "/../templates/WebPage.php");
 
 class AboutUsPage extends WebPage {
 
-    function get_title() {
-        return "About Us";
+    const PG_TITLE =  "About Us";
+
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
+    function make_page_middle($title, $userid, $role){
+        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
     }
 
-    function make_page_middle($title, $userid, $role){
-    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
-      }
-
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
     public function make_main_content($title, $userid, $role) {
         $returnString = <<<EOT
 

@@ -11,18 +11,32 @@ require_once (__DIR__ . "/SearchBase.php");
 
 class SearchResultPage extends SearchBase {
 
+    const PG_TITLE = "Search Results";
 
     const RESULT_TABLE_ID = 'resultTable';
 
 
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
+    function make_page_middle($title, $userid, $role){
+        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    }
 
-  function make_page_middle($title, $userid, $role){
-    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
-      }
+    /**
+     * @return mixed
+     * @throws ErrorException
+     */
     function search_query() {
         return dbFn::selectSearchResult($this->db_conn, $this->userid, $this->build_constraint(self::$result_cols));
     }
 
+    /**
+     * @return string
+     */
     function print_results () {
         $tableid = self::RESULT_TABLE_ID;
         $returnString = <<< EOT
@@ -55,6 +69,9 @@ EOT;
 
     }
 
+    /**
+     * @return string
+     */
     function export() {
         $queryResult = $this->search_query();
         # file name for download
@@ -71,20 +88,26 @@ EOT;
         return $returnString;
     }
 
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
     function make_main_content($title, $userid, $role) {
         $returnString = $this->print_results() ;
         return $returnString;
     }
-    function get_title() {
-        return "Search Results";
-    }
 
+    /**
+     * @return string
+     */
     function make_js() {
         $returnString = parent::make_js();
         $tableID = self::RESULT_TABLE_ID;
 
 
-$returnString .= <<< EOT
+        $returnString .= <<< EOT
         <!-- DataTables CSS -->
 
 <link rel="stylesheet" type="text/css" href="../css/jquery.dataTables.css">
@@ -111,8 +134,6 @@ $(document).ready( function () {
 }  );
 </script>
 EOT;
-return $returnString;
+        return $returnString;
     }
-
-
 }

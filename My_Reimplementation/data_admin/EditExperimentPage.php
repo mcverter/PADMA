@@ -6,18 +6,23 @@ require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
  */
 class EditExperimentPage extends DatabaseConnectionPage
 {
+    const PG_TITLE =  "Edit Experiment";
+
     const EXPERIMENT_LABEL = "Experiment Name";
     const EXPERIMENT_SELECT_NAME = "Experiment";
     const EXPERIMENT_KEYVAL = "EXP_NAME";
     const EXPNAME_POSTVAR = "expName";
     const DESCRIPTION_SCRIPT = "ReadExperimentDescription.php";
 
-    function get_title() {
-        return "Edit Experiment";
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
+    function make_page_middle($title, $userid, $role){
+        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
     }
-  function make_page_middle($title, $userid, $role){
-    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
-      }
     /**
      * @throws ErrorException
      */
@@ -65,7 +70,13 @@ class EditExperimentPage extends DatabaseConnectionPage
         dbFn::updateExperimentDescription($this->db_conn, $name, $description);
     }
 
-
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     * @throws ErrorException
+     */
     function make_main_content($title, $userid, $role)
     {
 
@@ -85,7 +96,7 @@ EOT;
 
         wMk::submit_button('editDescription', 'Edit Description');
 
-         $returnString .= <<< EOT
+        $returnString .= <<< EOT
         </form>
         <div name="description"> </div>
 EOT;

@@ -20,11 +20,11 @@ class HeaderMaker
      */
     private static function make_login_form() {
         $returnString = '';
-        $returnString .= WidgetMaker::start_form("../functions/AuthorizeUserFunction.php")
-                . WidgetMaker::text_input('User Id', WebPage::USERID_SESSVAR)
-                . WidgetMaker::password_input('Password', WebPage::PASSWORD_POSTVAR)
-                . WidgetMaker::submit_button('submit', 'Sign In', ' btn btn-primary ')
-                . WidgetMaker::end_form();
+        $returnString .= wMk::start_form("../functions/AuthorizeUserFunction.php")
+                . wMk::text_input('User Id', WebPage::USERID_SESSVAR)
+                . wMk::password_input('Password', WebPage::PASSWORD_POSTVAR)
+                . wMk::submit_button('submit', 'Sign In', ' btn btn-primary ')
+                . wMk::end_form();
         return $returnString;
     }
 

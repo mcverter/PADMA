@@ -8,14 +8,23 @@
 require_once(__DIR__ . "/../templates/WebPage.php");
 
 class NewUserTermsPage extends WebPage{
-    function get_title() {
-        return "New User Terms of Agreement";
-    }
+    const PG_TITLE = "New User Terms of Agreement";
 
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     */
     function make_page_middle($title, $userid, $role) {
 
     }
 
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string|void
+     */
     function make_main_content($title, $userid, $role) {
 
         $returnString = '';
@@ -216,7 +225,9 @@ EOT;
 
     }
 
-
+    /**
+     * @return string|void
+     */
     function make_js() {
         $returnString = parent::make_js();
         $returnString .= <<< EOT

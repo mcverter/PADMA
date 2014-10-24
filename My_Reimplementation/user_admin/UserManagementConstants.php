@@ -6,6 +6,9 @@
  * Time: 9:22 AM
  */
 
+/**
+ * Class UserManagementConstants
+ */
 class UserManagementConstants {
     const RESET_USER_PW_COMMAND = 'reset_pw';
     const GET_USER_INFO_COMMAND = 'get_user_info';

@@ -2,14 +2,25 @@
 require_once(__DIR__ . "/../templates/WebPage.php");
 
 class ContactPage extends WebPage {
-  function make_page_middle($title, $userid, $role){
-    return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
-      }
+    const PG_TITLE = "Contact Us";
 
-    function get_title() {
-        return "Contact Us";
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
+    function make_page_middle($title, $userid, $role){
+        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
     }
 
+
+    /**
+     * @param $title
+     * @param $userid
+     * @param $role
+     * @return string
+     */
     public function make_main_content($title, $userid, $role) {
         $returnString = <<<EOT
 

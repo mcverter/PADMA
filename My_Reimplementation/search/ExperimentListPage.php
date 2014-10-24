@@ -4,6 +4,8 @@ require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
 class ExperimentListPage extends DatabaseConnectionPage{
 
+    const PG_TITLE = 'Experiment List';
+
     const EXPERIMENT_SELECT_ID = 'experiments';
     const DESCRIPTION_DIV_ID = 'description_div';
     const DESCRIPTION_TEXTAREA = 'description_ta';
@@ -16,20 +18,17 @@ class ExperimentListPage extends DatabaseConnectionPage{
         return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
     }
 
-    function get_title() {
-
-    }
     function make_main_content($title, $userid, $role) {
         $db_conn = $this->db_conn;
         $userid = $this->userid;
         $returnString = '';
         $description_div = ExperimentListPage::DESCRIPTION_DIV_ID;
-        $returnString .= WidgetMaker::select_input("Experiment List",
-            self::EXPERIMENT_SELECT_ID,
-            DBFunctions::selectAllUnrestrictedExperimentList($db_conn, $userid),
-            'EXP_NAME',
-            'EXP_NAME',
-            false)
+        $returnString .= wMk::select_input("Experiment List",
+                self::EXPERIMENT_SELECT_ID,
+                DBFunctions::selectAllUnrestrictedExperimentList($db_conn, $userid),
+                'EXP_NAME',
+                'EXP_NAME',
+                false)
             . <<< EOT
 
             <br>
@@ -52,8 +51,8 @@ EOT;
                 ExperimentListPage::DESCRIPTION_DIV_ID,
                 ExperimentListPage::DESCRIPTION_TEXTAREA,
                 ExperimentListPage::SHOW_EXPERIMENT_CMD,
-            ExperimentListPage::SAVE_BUTTON_ID,
-            ExperimentListPage::SAVE_DESCRIPTION_CMD);
+                ExperimentListPage::SAVE_BUTTON_ID,
+                ExperimentListPage::SAVE_DESCRIPTION_CMD);
         $returnString .= $returnString .= <<< EOT
 
 <script>
@@ -92,7 +91,7 @@ EOT;
 </script>
 
 EOT
-;
-    return $returnString;
+        ;
+        return $returnString;
     }
 } 

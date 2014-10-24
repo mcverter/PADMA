@@ -1,5 +1,7 @@
 <?php
-
+/***
+ *
+ */
 require_once(__DIR__ . "/../functions/DBFunctions.php");
 require_once(__DIR__ . "/../components/WidgetMaker.php");
 require_once(__DIR__ . "/UserManagementConstants.php");
@@ -11,13 +13,19 @@ $cid = $_POST['cid'];
 $date = dbFn::now();
 $db_conn = dbFn::connect_to_db();
 
-
+/**
+ * @param $db_conn
+ * @param $cid
+ */
 function ajaxReturnUserInfo($db_conn, $cid) {
     $db_result = dbFn::selectProfileInfoByCID($db_conn, $cid);
     $row = oci_fetch_array($db_result);
     echo makeUserInfoWidget($row);
 }
 
+/**
+ *
+ */
 switch($command) {
     case UserManagementConstants::GET_USER_INFO_COMMAND:
         ajaxReturnUserInfo($db_conn, $cid);
@@ -37,7 +45,10 @@ switch($command) {
         break;
 }
 
-
+/**
+ * @param $userRow
+ * @return string
+ */
 function makeUserInfoWidget($userRow) {
 
     global $db_conn;
@@ -54,23 +65,23 @@ function makeUserInfoWidget($userRow) {
         );
     $deleteOutput = $deleteflag == 1 ? "0 - Inactive User" : "1 - Active User";
     $returnString = '';
-    $returnString .= WidgetMaker::start_horizontal_d_list("User Information", "userinfo") .
-        WidgetMaker::d_list_entry("User ID:", $padmaUserId) .
-        WidgetMaker::d_list_entry("Title:",  $title) .
-        WidgetMaker::d_list_entry("Last Name:", $lname) .
-        WidgetMaker::d_list_entry("First Name:",  $fname) .
-        WidgetMaker::d_list_entry("Middle Initial:", $mname) .
-        WidgetMaker::d_list_entry("Address:", $add1) .
-        WidgetMaker::d_list_entry("Address 2:",  $add2) .
-        WidgetMaker::d_list_entry("City:", $city) .
-        WidgetMaker::d_list_entry("State:",  $state) .
-        WidgetMaker::d_list_entry("Zip Code:",  $zip) .
-        WidgetMaker::d_list_entry("Phone:",  $phone) .
-        WidgetMaker::d_list_entry("Email:",  $email ) .
-        WidgetMaker::d_list_entry("Company:",  $industry ) .
-        WidgetMaker::d_list_entry("Profession:",  $profession ) .
-        WidgetMaker::d_list_entry("Access Right:",  $accessRight ) .
-        WidgetMaker::d_list_entry("Delete Flag:",  $deleteOutput);
+    $returnString .= wMk::start_horizontal_d_list("User Information", "userinfo") .
+        wMk::d_list_entry("User ID:", $padmaUserId) .
+        wMk::d_list_entry("Title:",  $title) .
+        wMk::d_list_entry("Last Name:", $lname) .
+        wMk::d_list_entry("First Name:",  $fname) .
+        wMk::d_list_entry("Middle Initial:", $mname) .
+        wMk::d_list_entry("Address:", $add1) .
+        wMk::d_list_entry("Address 2:",  $add2) .
+        wMk::d_list_entry("City:", $city) .
+        wMk::d_list_entry("State:",  $state) .
+        wMk::d_list_entry("Zip Code:",  $zip) .
+        wMk::d_list_entry("Phone:",  $phone) .
+        wMk::d_list_entry("Email:",  $email ) .
+        wMk::d_list_entry("Company:",  $industry ) .
+        wMk::d_list_entry("Profession:",  $profession ) .
+        wMk::d_list_entry("Access Right:",  $accessRight ) .
+        wMk::d_list_entry("Delete Flag:",  $deleteOutput);
     $returnString .=  wMk::access_right_panel($db_conn, UserManagementConstants::ACCESS_RIGHT_BUTTON_ID) .
         '\n<br>\n' .
         wMk::button_ajax(UserManagementConstants::RESET_PW_BUTTON_ID , 'Reset Password') .

@@ -1,4 +1,8 @@
 <?php
+/**
+ *
+ */
+
 
 require_once(__DIR__ . "/../functions/DBFunctions.php");
 require_once(__DIR__ . "/../components/WidgetMaker.php");
@@ -23,10 +27,21 @@ switch($command) {
 }
 
 
-
+/**
+ * @param $db_conn
+ * @param $experimentid
+ * @param $newDescription
+ */
 function update_experiment_description($db_conn, $experimentid, $newDescription){
     DBFunctions::updateExperimentDescription($db_conn, $experimentid, $newDescription);
 }
+
+/**
+ * @param $db_conn
+ * @param $experimentid
+ * @param $role
+ * @return string
+ */
 function get_experiment_description($db_conn, $experimentid, $role ){
     $returnString = '';
     $db_statement = DBFunctions::selectExperimentDescription($db_conn, $experimentid);
@@ -41,7 +56,7 @@ function get_experiment_description($db_conn, $experimentid, $role ){
             $description
         </textarea>
 EOT
-            . WidgetMaker::button_ajax(ExperimentListPage::SAVE_BUTTON_ID, "Update Description");
+            . wMk::button_ajax(ExperimentListPage::SAVE_BUTTON_ID, "Update Description");
 
     }
     else {

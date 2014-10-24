@@ -1,6 +1,9 @@
 <?php
 require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
+/**
+ * Class SearchBase
+ */
 abstract class SearchBase extends DatabaseConnectionPage
 {
 
@@ -80,6 +83,9 @@ abstract class SearchBase extends DatabaseConnectionPage
     const ADDITIONALINFO_HEADING = "Fold Induction";
     const HOUR_HEADING = "Hour";
 
+    /**
+     * @var array
+     */
 
     static $result_cols = array (
         array (

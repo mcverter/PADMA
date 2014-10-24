@@ -7,6 +7,8 @@ require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
  */
 class UploadReferencePage extends DatabaseConnectionPage {
 
+    const PG_TITLE =  "Upload Version";
+
     const FILE_POSTVAR = 'referenceFile';
     const UPLOAD_DIR = "/var/www/html/drosoReference/";
 
@@ -98,7 +100,7 @@ class UploadReferencePage extends DatabaseConnectionPage {
                 ||! is_uploaded_file($_FILES[self::FILE_POSTVAR]["tmp_name"])))
             == false ) {
             $this->upload_file($this->db_conn);
-            $returnString .= WidgetMaker::successMessage('uploadSuccess', 'You have successfully uploaded an Version');
+            $returnString .= wMk::successMessage('uploadSuccess', 'You have successfully uploaded an Version');
 
         }
             $actionUrl = $_SERVER['PHP_SELF'];
@@ -107,7 +109,7 @@ class UploadReferencePage extends DatabaseConnectionPage {
 //            <h1>Load Reference Data</h1>
 
         $returnString .=
-            WidgetMaker::start_file_form($actionUrl)
+            wMk::start_file_form($actionUrl)
             . wMk::text_input('Version Number', 'version') .
             wMk::file_input("Upload File", self::FILE_POSTVAR) .
             wMk::submit_button() .
@@ -115,10 +117,6 @@ class UploadReferencePage extends DatabaseConnectionPage {
 
 
         return $returnString;
-    }
-
-    function get_title() {
-        return "Upload Version";
     }
 
 }
