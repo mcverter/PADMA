@@ -2,43 +2,40 @@
 
 /**
  * Class WidgetMaker
+ *
+ * General purpose class for creating all HTML display components,
+ * including
+ * (1)  form inputs,
+ * (2) lists,
+ * (3) bootstrap alert messages.
+ * (4) AJAX Buttons
+ * (5) Widgets for specific pages
+ *
+ * This class should probably be refactored and simplified and subdivided in a future release.
+ * It is a bit crowded now, but works fine for now.
+ *
+ * All functions return a  string which can be concatenated to the output string
+ *
+ * Class is aliased as "wMk"
  */
 
-class FormWidget {
-    protected $id_name;
-    protected $value;
-    protected $attrs;
-    protected $input_tag;
-
-     function FormWidget($id_name, $value, $attrs, $input_tag='input') {
-        $this->id_name = $id_name;
-        $this->value = $value;
-        $this->$attrs = $attrs;
-        $this->input_tag = $input_tag;
-    }
-
-     function toString() {
-        return "< $this->input_tag $this->id_name $this->value $this->attrs >" ;
-    }
-
-};
-
-class WidgetMaker extends FormWidget
+class WidgetMaker
 {
+    /***************************
+     * BOOTSTRAP ALERTS
+     ***************************/
 
-
-    // GENERAL PURPOSE WIDGETS
-
-    static function hidden_input($name, $value) {
-        $returnString = "\n<input type='hidden' name='$name' value='$value' />\n";
-        return $returnString;
-    }
-    static function navigation_button() {
-
-    }
-
-static function successMessage($id, $message, $hidden='') {
-    $returnString = <<< EOT
+    /**
+     * Creates a Message indicating successful completion of task
+     *
+     * @param string $id: Element Name and ID
+     * @param string $message:  Feedback Message.
+     * @param string $hidden:  Controls visibility of message.
+     *
+     * @return string:  HTML for widget
+     */
+    static function successMessage($id, $message, $hidden='') {
+        return <<< EOT
     <div id="$id" $hidden>
     <div class="alert alert-success">
         <span class="close" data-dismiss="alert">&times;</span>
@@ -46,11 +43,19 @@ static function successMessage($id, $message, $hidden='') {
     </div>
     </div>
 EOT;
-    return $returnString;
-}
+    }
 
+    /**
+     * Creates a Message indicating an Error
+     *
+     * @param string $id: Element Name and ID
+     * @param string $message:  Feedback Message.
+     * @param string $hidden:  Controls visibility of message.
+     *
+     * @return string:  HTML for widget
+     */
     static function errorMessage ($id, $message, $hidden='hidden') {
-    $returnString = <<< EOT
+            return <<< EOT
     <div id="$id" $hidden>
     <div class="alert alert-danger">
         <span class="close" data-dismiss="alert">&times;</span>
@@ -58,153 +63,237 @@ EOT;
     </div>
     </div>
 EOT;
-        return $returnString;
-
-}
-
-
-/**
-     * @param string $name
-     * @param string $value
-     * @param string $class
-     * @param string $onclick
-     * @return string
-     */
-    static function submit_button($name='', $value='Submit', $class='') {
-        $returnString = "\n<input type='submit' name='$name' value='$value' class='$class' />\n";
-        return $returnString;
     }
 
+
+
+    /****************************
+     * LISTS
+     ****************************/
 
     /**
-     * @param string $name
-     * @param string $value
-     * @param string $class
-     * @param string $onclick
-     * @return string
+     * Begins a horizontal Definition List
+     *
+     * @param string $label : Label for List
+     * @param string $name: Name and ID
+     * @param string string $class: CSS Class
+     * @return string: HTML for list
      */
-    static function general_button($name='', $value='Submit', $class='', $onclick='') {
-        $returnString = "\n<input type='button' name='$name' value='$value' class='$class'
-onclick='$onclick' />\n";
-        return $returnString;
-    }
-
-static function text_area($label, $widget_name, $default_text='', $class='')  {
-    $returnString = <<< EOT
-        <br>
-      <label for='$widget_name'> $label </label>
-      <textarea name='$widget_name'class='$class'  />
-         $default_text
-      </textarea>
-     <br>
+    static function start_horizontal_d_list($label, $name, $class='') {
+        return <<<EOT
+            <label for='$name'> $label </label>
+            <dl id='$name' name='$name' class='dl-horizontal $class '>
 EOT;
-
-}
+    }
 
     /**
-     * @param $label
-     * @param $widget_name
-     * @param string $default_text
-     * @param string $class
-     * @return string
+     * Creates an entry for a Definition List
+     *
+     * @param string $dt:  Term
+     * @param string $dd:  Definition
+     * @return string:  HTML for Defnition Entry
      */
-    static function text_input($label, $widget_name, $default_text='', $class='') {
-        $returnString = <<< EOT
-    <br>
-      <label for='$widget_name'> $label </label>
-      <input name='$widget_name' type='text' class='$class' value='$default_text' />
-     <br>
+    static function d_list_entry ($dt, $dd) {
+        return <<<EOT
+            <dt>$dt</dt>
+            <dd>$dd</dd>
 EOT;
-        return $returnString;
     }
-
-
-    static function password_input($label, $widget_name, $class='') {
-        $returnString = <<< EOT
-    <br>
-      <label for='$widget_name'> $label </label>
-      <input name='$widget_name' type='passwword' class='$class'  />
-     <br>
-EOT;
-        return $returnString;
-    }
-
 
     /**
-     * @param $action
-     * @param string $class
-     * @param string $onsubmit
-     * @return string
+     * Ends Defintion List
+     * @return string:  HTML for ending definition List
      */
-
-    static function start_form ($action, $method='POST', $class='', $onsubmit='') {
-        $returnString = "\n<form action='$action' method='$method' ";
-        if (! empty($class)) {
-            $returnString .= " class='$class' ";
-        }
-        if (! empty($onsubmit)) {
-            $returnString .= " onsubmit='$onsubmit' ";
-        }
-        $returnString .= " >";
-        return $returnString;
+    static function end_d_list() {
+        return  <<<EOT
+            </dl>
+EOT;
     }
 
+    /****************************
+     * FORMS
+     ****************************/
 
-    static function start_file_form ($action, $method='POST', $class='', $onsubmit='') {
-        $returnString = "\n<form enctype='multipart/form-data' action='$action' method='$method' ";
-        if (! empty($class)) {
-            $returnString .= " class='$class' ";
-        }
-        if (! empty($onsubmit)) {
-            $returnString .= " onsubmit='$onsubmit' ";
-        }
-        $returnString .= " >";
-        return $returnString;
+    /**
+     * Starts an HTML form
+     *
+     * @param string $action:  Action performed by form
+     * @param string $class: CSS class
+     * @param string $onsubmit:  Javascript to perform on Form Submission
+     * @param string $method:  method used by form
+     * @param string $name:  Name and ID of form
+     * @return string:  HTML for starting a form
+     */
+    static function start_form ($action, $method='POST', $name='', $class='', $onsubmit='') {
+        return <<<EOT
+        <form action='$action' method='$method' name='$name'
+        id='$name'  class='$class' onsubmit='$onsubmit' >\n";
+EOT;
     }
 
     /**
-     * @return string
+     *
+     * Starts a form that can be used for uploading a file.
+     *
+     * @param string $action:  Action performed by form
+     * @param string $class: CSS class
+     * @param string $onsubmit:  Javascript to perform on Form Submission
+     * @param string $method:  method used by form
+     * @param string $name:  Name and ID of form
+     *
+     * @return string:  HTML for starting a file-uploading form
+     */
+    static function start_file_form ($action, $method='POST', $name='', $class='', $onsubmit='') {
+        return <<<EOT
+        <form action='$action' enctype='multipart/form-data' method='$method' name='$name'
+        id='$name'  class='$class' onsubmit='$onsubmit' >\n";
+EOT;
+    }
+
+
+    /**
+     * Terminates HTML Form
+     *
+     * @return string: HTML for completing Form
      */
     static function end_form() {
-        $returnString = "\n</form>\n";
-        return $returnString;
+        return <<<EOT
+        </form>
+EOT;
+    }
+
+
+
+
+    /**
+     * Creates a hidden input value
+     * @param string $name: Name of input
+     * @param string $value: value of input
+     * @return string:  HTML string
+     */
+    static function hidden_input($name, $value) {
+        return <<<EOT
+        <input type='hidden' name='$name' value='$value' />
+EOT;
+    }
+
+
+
+    /**
+     * Creates a Submit button for a form.
+     * 
+     * @param string $name:  Button name and ID
+     * @param string $value:  Displayed value of Button
+     * @param string $class:  CSS class
+     * 
+     * @return string: HTML for element
+     */
+    static function submit_button($name='', $value='Submit', $class='') {
+        return <<<EOT
+        <input type='submit' name='$name' value='$value' class='$class' />
+EOT;
+    }
+
+
+    /**
+     * Creates a text area
+     *
+     * @param string $label: Label for element
+     * @param string $name:  Name and ID
+     * @param string $default_text: Displayed Text
+     * @param integer $cols:  width
+     * @param integer $rows: height
+     * @param string $class: CSS class
+     * @return string:  HTML for Element
+     */
+    static function text_area($label, $name, $default_text='',  $cols=20, $rows=5, $class='')  {
+        return <<< EOT
+        <br>
+        <label for='$name'> $label </label>
+        <textarea name='$name' class='$class'  />
+         $default_text
+        </textarea>
+        <br>
+EOT;
     }
 
     /**
-     * @param $label
-     * @param $widget_name
-     * @param string $class
-     * @return string
+     * Creates a text input box
+     *
+     * @param string $label:  Label for element
+     * @param string $name:  Name and ID of element
+     * @param string $default_text: Default text
+     * @param string $class:  CSS Class
+     * @return string:  HTML for element
      */
-    static function file_input($label, $widget_name, $class='') {
-        $returnString = <<< EOT
+    static function text_input($label, $name, $default_text='', $class='') {
+        return <<< EOT
     <br>
-      <label for='$widget_name'> $label </label>
-      <input name='$widget_name' type='file' class='$class' />
+      <label for='$name'> $label </label>
+      <input name='$name' id='$name' type='text' class='$class' value='$default_text' />
      <br>
 EOT;
-        return $returnString;
     }
 
     /**
-     * @param $label
-     * @param $widget_name
-     * @param $db_statement
-     * @param $db_array_shown_key
-     * @param bool $multiple
-     * @param string $already_selected
-     * @param string $class
-     * @return string
+     * Creates a password input box
+     *
+     * @param string $label: Label for Element
+     * @param string $name:  Name and ID of element
+     * @param string $class:  CSS class
+     * @return string:  HTML for element
      */
-    static function select_input($label, $widget_name,
-                                $db_statement,
-                                $db_value_key, $db_shown_key,
-                                $multiple=true,
-                                $already_selected = '',
-                                $class='') {
+    static function password_input($label, $name, $class='') {
+        return <<< EOT
+    <br>
+      <label for='$name'> $label </label>
+      <input name='$name' id='$name' type='passwword' class='$class'  />
+     <br>
+EOT;
+    }
+
+
+    /**
+     *  Creates an input for uploading a file
+     *
+     * @param string $label:  Label for Input
+     * @param string $name:  Name and ID
+     * @param string $class : CSS class
+     * @return string :  HTML for Element
+     */
+    static function file_input($label, $name, $class='') {
+        return <<< EOT
+    <br>
+      <label for='$name'> $label </label>
+      <input name='$name' type='file' class='$class' />
+     <br>
+EOT;
+    }
+
+    /**
+     * Creates a select form input
+     * @param string $label:  Label for input
+     * @param string $name:  Name and ID
+     * @param resource $db_statement:  Database SELECT used to populate HTML options
+     * @param $db_value_key:  Option value
+     * @param $db_shown_key:  Option displayed text
+     * @param bool $multiple: Whether to allow multiple selections
+     * @param string $already_selected:  Already selected option
+     * @param integer $size:   Number of rows to show
+     * @param string $class:  CSS class
+     *
+     * @return string:  HTML for Element
+     */
+    static function select_input($label, $name,
+                                 $db_statement,
+                                 $db_value_key, $db_shown_key,
+                                 $multiple=true,
+                                 $already_selected = '',
+                                 $size=5,
+                                 $class='') {
         $returnString = "<br>\n";
-        $returnString .= "<label for='{$widget_name}'> $label </label>";
-        $returnString .= "<select name='{$widget_name}' id='{$widget_name}' class='$class' size=5 ";
+        $returnString .= "<label for='{$name}'> $label </label>";
+        $returnString .= "<select name='{$name}' id='{$name}' class='$class' size=$size ";
         if ($multiple) {
             $returnString .= " multiple ";
         }
@@ -224,21 +313,34 @@ EOT;
         return $returnString;
     }
 
+    /****************************
+     * AJAX
+     ****************************/
 
+    /***
+     * Creates a Button that is used to trigger an AJAX action
+     * @param string $id: ID of button
+     * @param string $buttontext: Displayed Text
+     *
+     * @return string: HTML for element
+     */
     static function button_ajax($id, $buttontext) {
-        $returnString = <<< EOT
+        return <<< EOT
 	    <input type='button' id='{$id}' value='{$buttontext}'/>
 EOT;
-        return $returnString;
-
-
     }
 
 
+    /****************************
+     * SPECIAL USAGE
+     ****************************/
 
-
-    // SPECIAL USE
-
+    /**
+     * Used on User Management Page to assign Access Right to Users
+     * @param $db_conn
+     * @param $ajax_button
+     * @return string
+     */
     static function access_right_panel($db_conn, $ajax_button) {
         $returnString = '';
         $returnString . <<< EOT
@@ -253,65 +355,22 @@ EOT;
             self::button_ajax($ajax_button, "Update Access Right");
         return $returnString;
     }
-    static function quicksearch_widget() {
 
-    }
-
-    const ID_COL = "C_ID";
-    const FNAME_COL = "FNAME";
-    const LNAME_COL = "LNAME";
-
-    static function old_user_pick_widget($label, $widget_name, $db_statement,$class='UserSelect') {
-        $returnString = "<br>\n" .
-             "<label for='{$widget_name}'> $label </label>\n " .
-            "<select name='{$widget_name}'
- id='{$widget_name}' class='$class'  > \n";
-
-        while (($row = oci_fetch_array($db_statement)) != false) {
-            $value = $row[self::ID_COL];
-            $text = $row[self::LNAME_COL] . ", " . $row[self::FNAME_COL];
-            $returnString .= "<option value='$value' > $text </option>\n";
-        }
-        $returnString .= "</select>\n";
-        $returnString .= "<br>\n";
-        return $returnString;
-
-    }
-
-    static function start_horizontal_d_list($label, $widget_name, $class='') {
-        $returnString = '';
-        $returnString .= <<<EOT
-            <label for='$widget_name'> $label </label>
-            <dl id='$widget_name' name='$widget_name' class='dl-horizontal $class '>
-EOT;
-        return $returnString;
-    }
-
-    static function d_list_entry ($dt, $dd) {
-        $returnString = '';
-        $returnString .= <<<EOT
-
-            <dt>$dt</dt>
-            <dd>$dd</dd>
-
-EOT;
-        return $returnString;
-
-    }
-    static function end_d_list($label, $widget_name, $class='') {
-        $returnString = '';
-        $returnString .= <<<EOT
-            </dl>
-EOT;
-        return $returnString;
-    }
-
-    static function user_pick_widget($label, $widget_name,$db_conn, $class='') {
+    /**
+     * Used on User Management Page to display list of New and Existing Users
+     *
+     * @param $label
+     * @param $name
+     * @param $db_conn
+     * @param string $class
+     * @return string
+     */
+    static function user_pick_widget($label, $name,$db_conn, $class='') {
         $returnString = '';
         $returnString .= <<<EOT
         <br>
-        <label for='{$widget_name}'> $label </label>
-        <select name='{$widget_name}' id='{$widget_name}' class='$class' size=5>
+        <label for='{$name}'> $label </label>
+        <select name='{$name}' id='{$name}' class='$class' size=5>
             <option disabled>-- EXISTING USERS --</option>
             <option disabled>--------------------</option>
 EOT;
@@ -343,9 +402,7 @@ EOT;
 
 EOT;
         return $returnString;
-
     }
-
 }
 
 

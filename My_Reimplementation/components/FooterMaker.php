@@ -2,11 +2,19 @@
 
 /**
  * Class FooterMaker
+ *
+ * Creates the page footer.
+ * Consisting of a bottom navbar with the copyright below
+ *
  */
     class FooterMaker
     {
 
         /**
+         * make_footer
+         *
+         * Creates the footer navbar plus the copyright notice.
+         *
          * @return string
          */
         static function make_footer()

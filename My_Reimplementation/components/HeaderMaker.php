@@ -2,9 +2,22 @@
 
 require_once(__DIR__ . "/../components/WidgetMaker.php");
 
+
+/**
+ * Class HeaderMaker
+ *
+ * Creates the top navbar.
+ * THe options available on the navbar will vary according to the user $role
+ */
+
 class HeaderMaker
 {
 
+    /**
+     * Creates the login dropdown form on the navbar
+     *
+     * @return string
+     */
     private static function make_login_form() {
         $returnString = '';
         $returnString .= WidgetMaker::start_form("../functions/AuthorizeUserFunction.php")
@@ -12,14 +25,22 @@ class HeaderMaker
                 . WidgetMaker::password_input('Password', WebPage::PASSWORD_POSTVAR)
                 . WidgetMaker::submit_button('submit', 'Sign In', ' btn btn-primary ')
                 . WidgetMaker::end_form();
-/*
-                <input id="user_remember_me" style="float: left; margin-right: 10px;" type="checkbox" name="user[remember_me]" value="1" />
-                <label class="string optional" for="user_remember_me"> Remember me</label>
-*/
         return $returnString;
     }
 
     /**
+     * Creates the header navbar
+     *
+     * In all cases, a user will be able to search the database
+     *
+     * The navbar will appear differently, depending upon the user's $role
+     * (1) Not logged in:  User can login or register
+     * (2) General User:  User can edit her own profile
+     * (3) Researcher:  User can also Manage Data
+     * (4) Administrator:  User can also Manage User accounts
+     *
+     *@param $userid:  Id of logged in user
+     *@param $role:  Role of logged in user
      * @return string
      */
     static function make_header($userid, $role)
@@ -35,8 +56,6 @@ class HeaderMaker
                 <img src="../images/PadmaPix/Padma238w150h.jpg"  alt="CCNY PADMA Logo" >
             </a>
         </div>
-
-
         <div class="">
             <ul class="nav navbar-nav">
 
@@ -91,31 +110,6 @@ EOT;
 </ul>
 EOT;
         }
-
-        /**
-         *
-         * $(function() {
-        // Setup drop down menu
-        $('.dropdown-toggle').dropdown();
-
-        // Fix input element click problem
-        $('.dropdown input, .dropdown label').click(function(e) {
-        e.stopPropagation();
-        });
-        });
-         *
-         *  <!-- The drop down menu -->
-        <ul class="nav pull-right">
-        <li><a href="/users/sign_up">Sign Up</a></li>
-        <li class="divider-vertical"></li>
-        <li class="dropdown">
-        <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
-        <div class="dropdown-menu" style="padding: 15px; padding-bottom: 0px;">
-        <!-- Login form here -->
-        </div>
-        </li>
-        </ul>
-         */
 
         $returnString .= <<<EOT
         </ul>
