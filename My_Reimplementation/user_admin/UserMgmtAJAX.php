@@ -19,7 +19,7 @@ $db_conn = dbFn::connect_to_db();
  */
 function ajaxReturnUserInfo($db_conn, $cid) {
     $db_result = dbFn::selectProfileInfoByCID($db_conn, $cid);
-    $row = oci_fetch_array($db_result);
+    $row = oci_fetch_assoc($db_result);
     echo makeUserInfoWidget($row);
 }
 

@@ -33,7 +33,7 @@ switch($command) {
  * @param $newDescription
  */
 function update_experiment_description($db_conn, $experimentid, $newDescription){
-    DBFunctions::updateExperimentDescription($db_conn, $experimentid, $newDescription);
+    dbFn::updateExperimentDescription($db_conn, $experimentid, $newDescription);
 }
 
 /**
@@ -44,10 +44,10 @@ function update_experiment_description($db_conn, $experimentid, $newDescription)
  */
 function get_experiment_description($db_conn, $experimentid, $role ){
     $returnString = '';
-    $db_statement = DBFunctions::selectExperimentDescription($db_conn, $experimentid);
-    $row = oci_fetch_array($db_statement);
+    $db_statement = dbFn::selectExperimentDescription($db_conn, $experimentid);
+    $row = oci_fetch_assoc($db_statement);
     $description = $row['EXP_DESC'];
-    if ($role === WebPage::ADMINISTRATOR_ROLE || $role === WebPage::RESEARCHER_ROLE) {
+    if ($role === pgFn::ADMINISTRATOR_ROLE || $role === pgFn::RESEARCHER_ROLE) {
         $textarea_id = ExperimentListPage::DESCRIPTION_TEXTAREA;
         $returnString .= <<<EOT
 

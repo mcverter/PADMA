@@ -2,26 +2,37 @@
 
 require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
 
-
+/**
+ * Class ChangePasswordPage
+ */
 class ChangePasswordPage extends DatabaseConnectionPage
 {
     const PG_TITLE = "Change Password";
 
     /**
+     * @Override
+     *
+     * Only a Registered User may change their Password
+     *
      * @return bool
      */
     protected  function isAuthorizedToViewPage() {
-        return PageControlFunctions::check_role(WebPage::REGISTERED_ROLE);
+        return PageControlFunctionsAndConsts::check_role(pgFn::REGISTERED_ROLE);
     }
 
     /**
-     * @param $title
-     * @param $userid
-     * @param $role
-     * @return string
+     * @Override
+     *
+     * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    function make_page_middle($title, $userid, $role){
-        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+
+    function make_page_middle($userid, $role){
+        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
     }
 
     /**
@@ -34,12 +45,11 @@ class ChangePasswordPage extends DatabaseConnectionPage
     }
 
     /**
-     * @param $title
      * @param $userid
      * @param $role
      * @return string
      */
-    function make_main_content($title, $userid, $role) {
+    function make_main_content($userid, $role) {
         $userid = $this->userid;
         $db_conn = $this->db_conn;
 

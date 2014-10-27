@@ -7,25 +7,31 @@
  */
 require_once(__DIR__ . "/../templates/WebPage.php");
 
+/**
+ * Class NewUserTermsPage
+ */
 class NewUserTermsPage extends WebPage{
     const PG_TITLE = "New User Terms of Agreement";
 
     /**
-     * @param $title
-     * @param $userid
-     * @param $role
+     * @Override
+ * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    function make_page_middle($title, $userid, $role) {
+    function make_page_middle($userid, $role) {
 
     }
 
     /**
-     * @param $title
      * @param $userid
      * @param $role
      * @return string|void
      */
-    function make_main_content($title, $userid, $role) {
+    function make_main_content($userid, $role) {
 
         $returnString = '';
         $returnString .= <<<EOT

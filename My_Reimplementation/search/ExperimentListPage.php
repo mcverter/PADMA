@@ -2,6 +2,9 @@
 
 require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 
+/**
+ * Class ExperimentListPage
+ */
 class ExperimentListPage extends DatabaseConnectionPage{
 
     const PG_TITLE = 'Experiment List';
@@ -14,20 +17,34 @@ class ExperimentListPage extends DatabaseConnectionPage{
     const SHOW_EXPERIMENT_CMD = 'showExp';
     const SAVE_DESCRIPTION_CMD = 'saveDesc';
 
-    function make_page_middle($title, $userid, $role) {
-        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    /**
+     * @Override
+ * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
+     */
+    function make_page_middle($userid, $role) {
+        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
     }
 
-    function make_main_content($title, $userid, $role) {
+    /**
+     * @param $userid
+     * @param $role
+     * @return string
+     */
+    function make_main_content($userid, $role) {
         $db_conn = $this->db_conn;
         $userid = $this->userid;
         $returnString = '';
         $description_div = ExperimentListPage::DESCRIPTION_DIV_ID;
         $returnString .= wMk::select_input("Experiment List",
                 self::EXPERIMENT_SELECT_ID,
-                DBFunctions::selectAllUnrestrictedExperimentList($db_conn, $userid),
-                'EXP_NAME',
-                'EXP_NAME',
+                dbFn::selectAllUnrestrictedExperimentList($db_conn, $userid),
+                dbFn::EXP_NAME_COL,
+                dbFn::EXP_NAME_COL,
                 false)
             . <<< EOT
 
@@ -42,6 +59,9 @@ EOT;
         return $returnString;
     }
 
+    /**
+     * @return string
+     */
     function make_js() {
         $returnString = parent::make_js();
         $role = $this->role;

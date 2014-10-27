@@ -1,10 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: oracle
- * Date: 10/10/14
- * Time: 9:22 AM
- */
 
 /**
  * Class UserManagementConstants

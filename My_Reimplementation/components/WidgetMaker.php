@@ -76,7 +76,7 @@ EOT;
      *
      * @param string $label : Label for List
      * @param string $name: Name and ID
-     * @param string string $class: CSS Class
+     * @param string $class: CSS Class
      * @return string: HTML for list
      */
     static function start_horizontal_d_list($label, $name, $class='') {
@@ -210,7 +210,7 @@ EOT;
         return <<< EOT
         <br>
         <label for='$name'> $label </label>
-        <textarea name='$name' class='$class'  />
+        <textarea name='$name' class='$class' rows=$rows cols=$cols />
          $default_text
         </textarea>
         <br>
@@ -299,7 +299,7 @@ EOT;
         }
         $returnString .= " > \n";
 
-        while (($row = oci_fetch_array($db_statement)) != false) {
+        while (($row = oci_fetch_assoc($db_statement)) != false) {
             $rowval = $row[$db_value_key];
             $rowshown = $row[$db_shown_key];
             $returnString .= "<option value='$rowval' ";
@@ -350,7 +350,7 @@ EOT;
 EOT;
 
         $returnString .=
-            self::select_input('Access Right', 'accessright', DBFunctions::selectAccessRightList($db_conn),
+            self::select_input('Access Right', 'accessright', dbFn::selectAccessRightList($db_conn),
                 'ACC_RIGHT_ID', 'ACC_RIGHT_DESC', false) .
             self::button_ajax($ajax_button, "Update Access Right");
         return $returnString;
@@ -375,10 +375,10 @@ EOT;
             <option disabled>--------------------</option>
 EOT;
 
-        $existing_user_statement = DBFunctions::selectExistingUserList($db_conn);
-        while (($row = oci_fetch_array($existing_user_statement)) != false) {
-            $value = $row[self::ID_COL];
-            $text = $row[self::LNAME_COL] . ", " . $row[self::FNAME_COL];
+        $existing_user_statement = dbFn::selectExistingUserList($db_conn);
+        while (($row = oci_fetch_assoc($existing_user_statement)) != false) {
+            $value = $row[dbFn::C_ID_COL];
+            $text = $row[dbFn::LNAME_COL] . ", " . $row[dbFn::FNAME_COL];
             $returnString .= "<option value='$value' > $text </option>\n";
         }
         $returnString .= <<<EOT
@@ -388,10 +388,10 @@ EOT;
             <option disabled>--------------------</option>
 
 EOT;
-        $new_user_statement = DBFunctions::selectNewUserList($db_conn);
-        while (($row = oci_fetch_array($new_user_statement)) != false) {
-            $value = $row[self::ID_COL];
-            $text = $row[self::LNAME_COL] . ", " . $row[self::FNAME_COL];
+        $new_user_statement = dbFn::selectNewUserList($db_conn);
+        while (($row = oci_fetch_assoc($new_user_statement)) != false) {
+            $value = $row[dbFn::C_ID_COL];
+            $text = $row[dbFn::LNAME_COL] . ", " . $row[dbFn::FNAME_COL];
             $returnString .= "<option value='$value' > $text </option>\n";
         }
 

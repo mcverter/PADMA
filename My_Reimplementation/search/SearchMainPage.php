@@ -9,12 +9,11 @@ class SearchMainPage extends WebPage{
     const PG_TITLE = "Search Main";
 
     /**
-     * @param $title
      * @param $userid
      * @param $role
      * @return string
      */
-    function make_main_content($title, $userid, $role)
+    function make_main_content($userid, $role)
     {
         $returnString = '';
         $returnString .= <<< EOT
@@ -28,13 +27,16 @@ EOT;
     }
 
     /**
-     * @param $title
-     * @param $userid
-     * @param $role
-     * @return string
+     * @Override
+ * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    function make_page_middle($title, $userid, $role) {
-        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    function make_page_middle($userid, $role) {
+        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
     }
 
 }

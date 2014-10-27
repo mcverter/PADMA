@@ -1,8 +1,6 @@
 <?php
 
 require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
-class_alias('DBFunctions', 'dbFn');
-class_alias('WidgetMaker', 'wMk');
 
 /**
  * Class DeleteExperimentPage
@@ -16,20 +14,22 @@ class DeleteExperimentPage extends DatabaseConnectionPage
 
     const EXPERIMENT_LABEL = "Experiment to Delete";
     const EXPERIMENT_POSTVAR = "Experiment";
-    const EXPERIMENT_KEYVAL = "EXP_NAME";
 
     /**
-     * @param $title
-     * @param $userid
-     * @param $role
-     * @return string
+     * @Override
+     * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    function make_page_middle($title, $userid, $role){
-        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    function make_page_middle($userid, $role){
+        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
     }
 
     /**
-     * @throws ErrorException
+     *
      */
     function showExperimentList()
     {
@@ -47,13 +47,17 @@ class DeleteExperimentPage extends DatabaseConnectionPage
     }
 
     /**
-     * @param $title
-     * @param $userid
-     * @param $role
-     * @return string
-     * @throws ErrorException
+     * @Override
+     *
+     * Shows the main functional content block of the page
+     * Shows list of Experiments which may be deleted.
+     * If EXPERIMENT_POSTVAR is set, that experiment will be deleted
+     *
+     * @param $userid:  Logged in User
+     * @param $role:  User's Role
+     * @return string: HTML for page
      */
-    function make_main_content($title, $userid, $role)
+    function make_main_content($userid, $role)
     {
         $returnString = '';
         if (isset ($_POST[self::EXPERIMENT_POSTVAR]) &&
@@ -78,8 +82,8 @@ EOT
                 self::EXPERIMENT_LABEL,
                 self::EXPERIMENT_POSTVAR,
                 $this->showExperimentList(),
-                self::EXPERIMENT_KEYVAL,
-                self::EXPERIMENT_KEYVAL,
+                dbFn::EXP_NAME_COL,
+                dbFn::EXP_NAME_COL,
                 false)
 
             .  wMk::submit_button('deleteBtn', 'Delete', '')

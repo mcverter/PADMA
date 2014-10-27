@@ -1,30 +1,35 @@
 <?php
 require_once(__DIR__ . "/SearchBase.php");
 
+/**
+ * Class AdvancedSearchPage
+ */
 class AdvancedSearchPage extends SearchBase {
 
     const PG_TITLE = "Advanced Search";
 
     /**
-     * @param $title
-     * @param $userid
-     * @param $role
-     * @return string
+     * @Override
+ * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    function make_page_middle($title, $userid, $role){
-        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    function make_page_middle($userid, $role){
+        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
     }
 
     /**
-     * @param $title
      * @param $userid
      * @param $role
      * @return string
      */
-    function make_main_content($title, $userid, $role) {
-        $title = $this->title;
+    function make_main_content($userid, $role) {
         $db_conn = $this->db_conn;
         $userid = $this->userid;
+        $title = static::PG_TITLE;
         $returnString = <<<EOT
     <h2>{$title}</h2>
     <br>

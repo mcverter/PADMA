@@ -1,27 +1,32 @@
 <?php
 require_once(__DIR__ . "/../templates/WebPage.php");
 
+/**
+ * Class ContactPage
+ */
 class ContactPage extends WebPage {
     const PG_TITLE = "Contact Us";
 
     /**
-     * @param $title
-     * @param $userid
-     * @param $role
-     * @return string
+     * @Override
+ * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    function make_page_middle($title, $userid, $role){
-        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    function make_page_middle($userid, $role){
+        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
     }
 
 
     /**
-     * @param $title
      * @param $userid
      * @param $role
      * @return string
      */
-    public function make_main_content($title, $userid, $role) {
+    public function make_main_content($userid, $role) {
         $returnString = <<<EOT
 
     <div class="centered_form">

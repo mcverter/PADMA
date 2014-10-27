@@ -12,13 +12,24 @@ class UploadReferencePage extends DatabaseConnectionPage {
     const FILE_POSTVAR = 'referenceFile';
     const UPLOAD_DIR = "/var/www/html/drosoReference/";
 
+    /**
+     * @return bool
+     */
     protected  function isAuthorizedToViewPage() {
-        return PageControlFunctions::check_role(WebPage::SUPERVISING_ROLE);
+        return PageControlFunctionsAndConsts::check_role(pgFn::SUPERVISING_ROLE);
     }
 
-
-    function make_page_middle($title, $userid, $role) {
-        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    /**
+     * @Override
+ * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
+     */
+    function make_page_middle($userid, $role) {
+        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
     }
 
 
@@ -28,7 +39,7 @@ class UploadReferencePage extends DatabaseConnectionPage {
     function upload_file($db_conn)
     {
         $version = $_POST['version'];
-        if (DBFunctions::versionInDB($db_conn, $version)) {
+        if (dbFn::versionInDB($db_conn, $version)) {
             return "no";
         }
 
@@ -37,24 +48,24 @@ class UploadReferencePage extends DatabaseConnectionPage {
 
         $uploadedFileName = $_FILES[self::FILE_POSTVAR]['name'];
         if (strtolower(substr($uploadedFileName, -3, 3)) != "csv") {
-            return PageControlFunctions::redirectDueToError("Invalid File Type.  Only csv files are accepted");
+            return PageControlFunctionsAndConsts::redirectDueToError("Invalid File Type.  Only csv files are accepted");
         }
         $destinationFileName = self::UPLOAD_DIR . $uploadedFileName;
         if (move_uploaded_file($_FILES[self::FILE_POSTVAR]['tmp_name'], $destinationFileName) == false) {
-            return PageControlFunctions::redirectDueToError("File could not be uploaded to path {$destinationFileName}. Please check with
+            return PageControlFunctionsAndConsts::redirectDueToError("File could not be uploaded to path {$destinationFileName}. Please check with
         PADMA support");
         }
 
         if (!($fileHandle = fopen($destinationFileName, "rb"))) {
-            return PageControlFunctions::redirectDueToError("Could not open uploaded file {$destinationFileName}.  Please report error to support");
+            return PageControlFunctionsAndConsts::redirectDueToError("Could not open uploaded file {$destinationFileName}.  Please report error to support");
         }
         // first line is header
         if (! fgets($fileHandle)) {
-            return PageControlFunctions::redirectDueToError("Empty File");
+            return PageControlFunctionsAndConsts::redirectDueToError("Empty File");
         }
         while (($line = fgets($fileHandle)) !== false) {
             if (substr_count($line, ",") < 4) {
-                return PageControlFunctions::redirectDueToError("There must be 5 columns in each line of {$destinationFileName}.  The following line does not:\n'{$line}'' ");
+                return PageControlFunctionsAndConsts::redirectDueToError("There must be 5 columns in each line of {$destinationFileName}.  The following line does not:\n'{$line}'' ");
             }
             $line = trim($line);
             $commaIdxEnd = strpos($line, ",");
@@ -90,9 +101,18 @@ class UploadReferencePage extends DatabaseConnectionPage {
 
 
     /**
+     * @Override
+     * Shows the main functional content block of the page
+     * Shows an File Input widget allowing user to upload File.
+     * If $_FILES is set, the input file will be processed
+     * and a success message will be displayed
+     * If any error occurs, an error message will be displayed upon the page.
      *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    function make_main_content($title, $userid, $role) {
+    function make_main_content($userid, $role) {
         $returnString = '';
         if(((empty($_FILES) || empty($_FILES[self::FILE_POSTVAR])
                 || ($_FILES[self::FILE_POSTVAR]['size'] < 1)

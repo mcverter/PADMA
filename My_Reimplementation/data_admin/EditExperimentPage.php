@@ -9,19 +9,22 @@ class EditExperimentPage extends DatabaseConnectionPage
     const PG_TITLE =  "Edit Experiment";
 
     const EXPERIMENT_LABEL = "Experiment Name";
-    const EXPERIMENT_SELECT_NAME = "Experiment";
-    const EXPERIMENT_KEYVAL = "EXP_NAME";
-    const EXPNAME_POSTVAR = "expName";
+    const EXPNAME_POSTVAR = "Experiment";
+
     const DESCRIPTION_SCRIPT = "ReadExperimentDescription.php";
 
     /**
-     * @param $title
-     * @param $userid
-     * @param $role
-     * @return string
+     * @Override
+     * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    function make_page_middle($title, $userid, $role){
-        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+
+    function make_page_middle($userid, $role){
+        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
     }
     /**
      * @throws ErrorException
@@ -30,10 +33,10 @@ class EditExperimentPage extends DatabaseConnectionPage
     {
         wMk::select_input(
             self::EXPERIMENT_LABEL,
-            self::EXPERIMENT_SELECT_NAME,
+            self::EXPNAME_POSTVAR,
             $this->showExperimentMasterList(),
-            self::EXPERIMENT_KEYVAL,
-            self::EXPERIMENT_KEYVAL,
+            dbFn::EXP_NAME_COL,
+            dbFn::EXP_NAME_COL,
             false);
     }
 
@@ -71,13 +74,14 @@ class EditExperimentPage extends DatabaseConnectionPage
     }
 
     /**
-     * @param $title
-     * @param $userid
-     * @param $role
-     * @return string
-     * @throws ErrorException
+     * @Override
+     * Shows the main functional content block of the page
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    function make_main_content($title, $userid, $role)
+    function make_main_content($userid, $role)
     {
 
         $actionUrl = $_SERVER['PHP_SELF'];
@@ -88,10 +92,10 @@ class EditExperimentPage extends DatabaseConnectionPage
 EOT;
 
         wMk::select_input(self::EXPERIMENT_LABEL,
-            self::EXPERIMENT_SELECT_NAME,
+            self::EXPNAME_POSTVAR,
             $this->showExperimentMasterList(),
-            "EXP_NAME",
-            "EXP_NAME",
+            dbFn::EXP_NAME_COL,
+            dbFn::EXP_NAME_COL,
             false);
 
         wMk::submit_button('editDescription', 'Edit Description');
@@ -104,10 +108,13 @@ EOT;
         return $returnString;
     }
 
+    /**
+     * @return string
+     */
     function make_js() {
 
         $returnString = parent::make_js();
-        $experiment_select_name = self::EXPERIMENT_SELECT_NAME;
+        $EXPNAME_POSTVAR = self::EXPNAME_POSTVAR;
         $description_script = self::DESCRIPTION_SCRIPT;
         $description_area = '';
 
@@ -123,7 +130,7 @@ EOT;
 <script type="text/javascript">
     $(document).ready(function(event) {
         event.preventDefault();
-        $('#$experiment_select_name').change(function() {
+        $('#$EXPNAME_POSTVAR').change(function() {
             var experimentData = {expName : $(this).name }
             $.post('$description_script', experimentData, function(data) {
                 $('#$description_area').html($innerHTML});

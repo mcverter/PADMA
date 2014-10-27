@@ -1,10 +1,15 @@
 <?php
-
+/**
+ * Script Used to verify Login
+ *
+ * If Username and Password match, SESSION $role and $userid are set
+ * Otherwise, user is redirected to index.php and error message is displayed
+ */
 require_once( __DIR__ . "/../functions/DBFunctions.php");
 require_once(__DIR__ . "/../templates/WebPage.php");
 
-$userid = $_POST[WebPage::USERID_SESSVAR];
-$password = $_POST[WebPage::PASSWORD_POSTVAR];
+$userid = $_POST[pgFn::USERID_SESSVAR];
+$password = $_POST[pgFn::PASSWORD_POSTVAR];
 $role = '';
 
 $db_conn = dbFn::connect_to_db();
@@ -19,15 +24,15 @@ oci_bind_by_name($stored_proc_statement,":PARAM_ROLE",$role,30);
 $execute=oci_execute($stored_proc_statement);
 
 
-if ($role === WebPage::RESEARCHER_ROLE ||
-    $role === WebPage::ADMINISTRATOR_ROLE ||
-    $role === WebPage::USER_ROLE) {
+if ($role === pgFn::RESEARCHER_ROLE ||
+    $role === pgFn::ADMINISTRATOR_ROLE ||
+    $role === pgFn::USER_ROLE) {
     session_start();
-    $_SESSION[WebPage::ROLE_SESSVAR]=$role;
-    $_SESSION[WebPage::USERID_SESSVAR]=$userid;
+    $_SESSION[pgFn::ROLE_SESSVAR]=$role;
+    $_SESSION[pgFn::USERID_SESSVAR]=$userid;
 }
 else {
-    $_SESSION[WebPage::ROLE_SESSVAR]=WebPage::NOTAUTHORIZED_ROLE;
+    $_SESSION[pgFn::ROLE_SESSVAR]=pgFn::NOTAUTHORIZED_ROLE;
 }
 
 header('Location: ../webpages/index.php');

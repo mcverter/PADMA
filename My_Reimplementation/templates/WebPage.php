@@ -1,10 +1,13 @@
 <?php
 
-require_once(__DIR__ . "/../functions/PageControlFunctions.php");
+require_once(__DIR__ . "/../functions/PageControlFunctionsAndConsts.php");
 require_once(__DIR__ . "/../components/HeaderMaker.php");
 require_once(__DIR__ . "/../components/FooterMaker.php");
 require_once(__DIR__ . "/../components/WidgetMaker.php");
 
+/**
+ * Class WebPage
+ */
 abstract class WebPage
 {
 
@@ -13,20 +16,6 @@ abstract class WebPage
 
     // Overridden in subclass with Late Static Binding
     const PG_TITLE = '';
-
-    const USERID_SESSVAR = 'userid';
-    const ROLE_SESSVAR = 'role';
-    const PASSWORD_POSTVAR = 'password';
-
-    const ADMINISTRATOR_ROLE = 'Administrator';
-    const RESEARCHER_ROLE = 'Researcher';
-    const USER_ROLE = 'GeneralUser';
-    const NOTAUTHORIZED_ROLE = 'NOTAUTHORIZED';
-    const REGISTERED_ROLE = 'AnyUser';
-    const SUPERVISING_ROLE = 'Supervising';
-
-    const JS_DIR = "../js/";
-
 
     /**
      * Checks whether the current user has a $role to view page
@@ -46,20 +35,35 @@ abstract class WebPage
      */
     public function __construct()
     {
-        PageControlFunctions::initialize_session();
-        $this->userid = isset($_SESSION[self::USERID_SESSVAR]) ? $_SESSION[self::USERID_SESSVAR] : "";
-        $this->role = isset($_SESSION[self::ROLE_SESSVAR]) ? $_SESSION[self::ROLE_SESSVAR] : "";
+        PageControlFunctionsAndConsts::initialize_session();
+        $this->userid = isset($_SESSION[pgFn::USERID_SESSVAR]) ? $_SESSION[pgFn::USERID_SESSVAR] : "";
+        $this->role = isset($_SESSION[pgFn::ROLE_SESSVAR]) ? $_SESSION[pgFn::ROLE_SESSVAR] : "";
     }
 
     /**
-     * Prints out the WebPage.
-     * The function is final
+     * @Abstract
+     * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * Abstract Function
      * Sublasses modify the display by redefining the functions contained within, particularly make_content() as well as make_js(), where needed.
      *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    abstract function make_page_middle($title, $userid, $role);
 
-    function make_image_content_columns ($title, $userid, $role,  $imgOrientation, $imgWidth) {
+
+    abstract function make_page_middle($userid, $role);
+
+    /**
+     * @param $userid
+     * @param $role
+     * @param $imgOrientation
+     * @param $imgWidth
+     * @return string
+     */
+    function make_image_content_columns ($userid, $role,  $imgOrientation, $imgWidth) {
         $reflectionClass = new ReflectionClass($this);
         $filename = $reflectionClass->getFileName();
 
@@ -81,7 +85,7 @@ abstract class WebPage
         <div class="col-md-{$remainingWidth}">
 EOT;
 
-                $returnString .= $this->make_main_content($title, $userid, $role);
+                $returnString .= $this->make_main_content($userid, $role);
 
                 $returnString .= <<< EOT
         </div>
@@ -97,7 +101,7 @@ EOT;
         <div class="col-md-{$remainingWidth}">
 EOT;
 
-                $returnString .= $this->make_main_content($title, $userid, $role);
+                $returnString .= $this->make_main_content($userid, $role);
 
                 $returnString .= <<< EOT
         </div>
@@ -111,12 +115,12 @@ EOT;
             }
             // Bad value for orientation
             else {
-                $returnString .= $this->make_main_content($title, $userid, $role);
+                $returnString .= $this->make_main_content($userid, $role);
             }
         }
         // No value for orientation or image
         else {
-            $returnString .= $this->make_main_content($title, $userid, $role);
+            $returnString .= $this->make_main_content($userid, $role);
         }
         return $returnString;
     }
@@ -125,13 +129,11 @@ EOT;
     public final function display_page()
     {
         if ($this->isAuthorizedToViewPage()) {
-
-            $title = $this->title;
             $role = $this->role;
             $userid = $this->userid;
 
-            $displayString = $this->make_page_top($title, $userid, $role)
-                . $this->make_page_middle($title, $userid, $role)
+            $displayString = $this->make_page_top($userid, $role)
+                . $this->make_page_middle($userid, $role)
                 . $this->make_page_bottom();
 
             echo $displayString;
@@ -145,13 +147,13 @@ EOT;
      * Function is final.
      * Subclasses can override this by overriding make_css
      *
-     * @param $title
      * @param $userid
      * @param $role
      * @return string
      */
-    final protected function  make_page_top($title, $userid, $role)
+    final protected function  make_page_top($userid, $role)
     {
+        $title = static::PG_TITLE;
         $returnString = <<< EOT
 <!DOCTYPE html>
 <html>
@@ -176,6 +178,11 @@ EOT;
     <body>
 EOT;
         $returnString .= HeaderMaker::make_header($userid, $role);
+        $returnString .= <<< EOT
+    <div class="main container">
+        <h1> $title </h1>
+EOT;
+
         return $returnString;
     }
 
@@ -197,16 +204,16 @@ EOT;
 
 
     /**
-     * Returns string containing the main content block
-     * Abstract method.
+     * @Abstract
      * Must be overridden by subclass
      *
-     * @param $title
-     * @param $userid
-     * @param $role
-     * @return string
+     * Makes the main functional content block of the page
+     *
+     * @param $userid:  Logged in User
+     * @param $role:  User's Role
+     * @return string: HTML for page
      */
-    abstract protected function make_main_content($title, $userid, $role);
+    abstract protected function make_main_content($userid, $role);
 
     /**
      * Prints the footer , the js, and closes the page.
@@ -217,13 +224,16 @@ EOT;
      */
     final protected function make_page_bottom()
     {
-        $returnString = FooterMaker::make_footer();
-        $returnString .= <<< EOT
+        $returnString = FooterMaker::make_footer()
+            . <<< EOT
+        </div> <!-- end main container div -->
+EOT
+        .    $this->make_js()
+
+        . <<< EOT
+
     </body>
-EOT;
-        $returnString .= $this->make_js();
-        $returnString .= <<< EOT
-    </html>
+  </html>
 EOT;
 
         return $returnString;
@@ -246,21 +256,6 @@ EOT;
      <!-- Include all compiled plugins (below), or include individual files as needed -->
      <script src="../js/bootstrap.min.js"></script>
 EOT;
-/*        $reflectionClass = new ReflectionClass($this);
-        $filename = self::JS_DIR .
-            preg_replace("/php/", "js.php",
-                basename($reflectionClass->getFileName()));
-        if (file_exists($filename)) {
-            $returnString .= include($filename);
-                //eval(file_get_contents($filename));
-  //          ob_start();
-  //          echo "moo";
-//            $returnString .= ob_get_clean();
-//            $quack = ob_end_clean();
-
-//            $returnString .= "\n<script src='{$filename}'></script>\n"; //file_get_contents($filename);
-        }
-*/
         return $returnString;
     }
 

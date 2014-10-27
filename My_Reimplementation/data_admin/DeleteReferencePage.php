@@ -9,26 +9,34 @@ class DeleteReferencePage extends DatabaseConnectionPage {
     const PG_TITLE  = "Delete Reference";
 
     const VERSION_LABEL = "Version to Delete";
-    const VERSION_KEYVAL = "VERSION";
     const VERSION_POSTVAR = "version";
 
     /**
-     * @param $title
-     * @param $userid
-     * @param $role
-     * @return string
+ * @Override
+ * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    function make_page_middle($title, $userid, $role){
-        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+
+    function make_page_middle($userid, $role){
+        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
     }
 
     /**
-     * @param $title
-     * @param $userid
-     * @param $role
-     * @return string
+     * @Override
+     * Shows the main functional content block of the page
+     *
+     * Shows a list of Reference Versions which may be deleted
+     * If VERSION_POSTVAR is set, that version is deleted
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    function make_main_content($title, $userid, $role) {
+    function make_main_content($userid, $role) {
         $db_conn = $this->db_conn;
 
         $returnString = '';
@@ -53,8 +61,8 @@ EOT
                 self::VERSION_LABEL,
                 self::VERSION_POSTVAR,
                 dbFn::selectVersionList($db_conn),
-                self::VERSION_KEYVAL,
-                self::VERSION_KEYVAL,
+                dbFn::VERSION_COL,
+                dbFn::VERSION_COL,
                 false) .
 
             wMk::submit_button('deleteBtn', 'Delete', '')

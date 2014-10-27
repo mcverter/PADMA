@@ -1,7 +1,10 @@
 <?php
-require_once("WebPage.php");
-require_once(__DIR__ . "/../functions/DBFunctions.php");
+require_once(__DIR__ . "/../templates/WebPage.php");
+require_once(__DIR__ . "/../functions/DBFunctionsAndConsts.php");
 
+/**
+ * Class DatabaseConnectionPage
+ */
 abstract class DatabaseConnectionPage extends WebPage {
     protected $db_conn;
 
@@ -9,6 +12,9 @@ abstract class DatabaseConnectionPage extends WebPage {
     const DB_PASS = "drosopivot";
     const DB_DATABASE = "//127.0.0.1/ORATIKI";
 
+    /**
+     *
+     */
     function __construct()
     {
         parent::__construct();
@@ -18,10 +24,12 @@ abstract class DatabaseConnectionPage extends WebPage {
 
     }
 
+    /**
+     *
+     */
     function __destruct() {
         $db_conn = $this->db_conn;
         oci_close($db_conn);
     }
-
 }
 

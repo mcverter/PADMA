@@ -1,29 +1,27 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: root
- * Date: 10/2/14
- * Time: 10:03 AM
- */
-
 
 require_once (__DIR__ . "/SearchBase.php");
 
+/**
+ * Class SearchResultPage
+ */
 class SearchResultPage extends SearchBase {
 
     const PG_TITLE = "Search Results";
 
     const RESULT_TABLE_ID = 'resultTable';
 
-
     /**
-     * @param $title
-     * @param $userid
-     * @param $role
-     * @return string
+     * @Override
+ * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
      */
-    function make_page_middle($title, $userid, $role){
-        return $this->make_image_content_columns ($title, $userid, $role, 'R', 8) ;
+    function make_page_middle($userid, $role){
+        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
     }
 
     /**
@@ -53,7 +51,7 @@ EOT;
 EOT;
         $query_result = $this->search_query();
 
-        while (($row = oci_fetch_array($query_result)) != false) {
+        while (($row = oci_fetch_assoc($query_result)) != false) {
             $returnString .= "\n <tr> ";
             foreach ( self::$result_cols as $col) {
                 $returnString .= "\n <td> " . $row[$col['col']] . " </td> ";
@@ -79,22 +77,21 @@ EOT;
 
         header("Content-Disposition: attachment; filename=\"$filename\"");
         header("Content-Type: application/vnd.ms-excel");
-        $headerrow = oci_fetch_array($queryResult, OCI_ASSOC);
+        $headerrow = oci_fetch_assoc($queryResult, OCI_ASSOC);
         $returnString = implode("\t", array_keys($headerrow)) . "\n";
 
-        while (false !== ($bodyrow = oci_fetch_array($queryResult, OCI_ASSOC))) {
+        while (false !== ($bodyrow = oci_fetch_assoc($queryResult, OCI_ASSOC))) {
             $returnString .= rtrim(implode("\t", array_values( preg_replace("/\t/", "\\t", $bodyrow)))) . "\n";
         }
         return $returnString;
     }
 
     /**
-     * @param $title
      * @param $userid
      * @param $role
      * @return string
      */
-    function make_main_content($title, $userid, $role) {
+    function make_main_content($userid, $role) {
         $returnString = $this->print_results() ;
         return $returnString;
     }

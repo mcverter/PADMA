@@ -7,7 +7,7 @@ require_once(__DIR__ . "/../components/WidgetMaker.php");
  * Class HeaderMaker
  *
  * Creates the top navbar.
- * THe options available on the navbar will vary according to the user $role
+ * The options available on the navbar will vary according to the user $role
  */
 
 class HeaderMaker
@@ -16,13 +16,13 @@ class HeaderMaker
     /**
      * Creates the login dropdown form on the navbar
      *
-     * @return string
+     * @return string:  HTML for Login Foirm
      */
     private static function make_login_form() {
         $returnString = '';
         $returnString .= wMk::start_form("../functions/AuthorizeUserFunction.php")
-                . wMk::text_input('User Id', WebPage::USERID_SESSVAR)
-                . wMk::password_input('Password', WebPage::PASSWORD_POSTVAR)
+                . wMk::text_input('User Id', pgFn::USERID_SESSVAR)
+                . wMk::password_input('Password', pgFn::PASSWORD_POSTVAR)
                 . wMk::submit_button('submit', 'Sign In', ' btn btn-primary ')
                 . wMk::end_form();
         return $returnString;
@@ -39,8 +39,8 @@ class HeaderMaker
      * (3) Researcher:  User can also Manage Data
      * (4) Administrator:  User can also Manage User accounts
      *
-     *@param $userid:  Id of logged in user
-     *@param $role:  Role of logged in user
+     * @param $userid:  Id of logged in user
+     * @param $role:  Role of logged in user
      * @return string
      */
     static function make_header($userid, $role)
@@ -66,17 +66,17 @@ class HeaderMaker
 
 EOT;
 
-        if ($role == WebPage::ADMINISTRATOR_ROLE ||
-            $role == WebPage::RESEARCHER_ROLE ||
-            $role == WebPage::USER_ROLE) {
-            if ($role == WebPage::RESEARCHER_ROLE ||
-                $role == WebPage::ADMINISTRATOR_ROLE) {
+        if ($role == pgFn::ADMINISTRATOR_ROLE ||
+            $role == pgFn::RESEARCHER_ROLE ||
+            $role == pgFn::USER_ROLE) {
+            if ($role == pgFn::RESEARCHER_ROLE ||
+                $role == pgFn::ADMINISTRATOR_ROLE) {
             $returnString .= <<<EOT
         <li><a href="../webpages/manage_data_main.php" title="Manage Data">Manage Data </a></li>
 
 EOT;
      }
-            if ($role == WebPage::ADMINISTRATOR_ROLE) {
+            if ($role == pgFn::ADMINISTRATOR_ROLE) {
                 $returnString .= <<<EOT
         <li><a href="../webpages/manage_users.php" title="User Management">User Setup</a></li>
 
@@ -116,7 +116,6 @@ EOT;
     </div>
   </div>
 </nav>
-<div class="main container">
 EOT;
 
         return $returnString;
