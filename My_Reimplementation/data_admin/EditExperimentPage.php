@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
+require_once("../templates/DatabaseConnectionPage.php");
 
 /**
  * Class EditExperimentPage
@@ -7,10 +7,7 @@ require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 class EditExperimentPage extends DatabaseConnectionPage
 {
     const PG_TITLE =  "Edit Experiment";
-
     const EXPERIMENT_LABEL = "Experiment Name";
-    const EXPNAME_POSTVAR = "Experiment";
-
     const DESCRIPTION_SCRIPT = "ReadExperimentDescription.php";
 
     /**
@@ -33,7 +30,7 @@ class EditExperimentPage extends DatabaseConnectionPage
     {
         wMk::select_input(
             self::EXPERIMENT_LABEL,
-            self::EXPNAME_POSTVAR,
+                    DBFunctionsAndConsts::EXP_NAME_COL,
             $this->showExperimentMasterList(),
             dbFn::EXP_NAME_COL,
             dbFn::EXP_NAME_COL,
@@ -92,7 +89,7 @@ class EditExperimentPage extends DatabaseConnectionPage
 EOT;
 
         wMk::select_input(self::EXPERIMENT_LABEL,
-            self::EXPNAME_POSTVAR,
+                    DBFunctionsAndConsts::EXP_NAME_COL,
             $this->showExperimentMasterList(),
             dbFn::EXP_NAME_COL,
             dbFn::EXP_NAME_COL,
@@ -114,7 +111,7 @@ EOT;
     function make_js() {
 
         $returnString = parent::make_js();
-        $EXPNAME_POSTVAR = self::EXPNAME_POSTVAR;
+        $EXPNAME_POSTVAR =         DBFunctionsAndConsts::EXP_NAME_COL;
         $description_script = self::DESCRIPTION_SCRIPT;
         $description_area = '';
 

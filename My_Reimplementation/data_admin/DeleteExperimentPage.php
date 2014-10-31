@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
+require_once("../templates/DatabaseConnectionPage.php");
 
 /**
  * Class DeleteExperimentPage
@@ -11,9 +11,7 @@ require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
 class DeleteExperimentPage extends DatabaseConnectionPage
 {
     const PG_TITLE = "Delete Experiment";
-
     const EXPERIMENT_LABEL = "Experiment to Delete";
-    const EXPERIMENT_POSTVAR = "Experiment";
 
     /**
      * @Override
@@ -37,9 +35,10 @@ class DeleteExperimentPage extends DatabaseConnectionPage
         $role = $this->role;
         $userid = $this->userid;
 
-        if ($role == wPg::ADMINISTRATOR_ROLE) {
+
+        if ($role == PageControlFunctionsAndConsts::ADMINISTRATOR_ROLE) {
             return dbFn::selectAllUnrestrictedExperimentList($db_conn, $userid);
-        } else if ($role == wPg::RESEARCHER_ROLE) {
+        } else if ($role == PageControlFunctionsAndConsts::RESEARCHER_ROLE) {
             return dbFn::selectUserRestrictedExperimentList($db_conn, $userid);
         } else {
             throw new ErrorException();
@@ -60,11 +59,11 @@ class DeleteExperimentPage extends DatabaseConnectionPage
     function make_main_content($userid, $role)
     {
         $returnString = '';
-        if (isset ($_POST[self::EXPERIMENT_POSTVAR]) &&
-            !empty ($_POST[self::EXPERIMENT_POSTVAR])
+        if (isset ($_POST[DBFunctionsAndConsts::EXP_NAME_COL]) &&
+            !empty ($_POST[DBFunctionsAndConsts::EXP_NAME_COL])
         ) {
             $db_conn = $this->db_conn;
-            $expName = $_POST[self::EXPERIMENT_POSTVAR];
+            $expName = $_POST[DBFunctionsAndConsts::EXP_NAME_COL];
             dbFn::deleteExperiment($db_conn, $expName);
             $message =  "Experiment $expName has been deleted";
             $returnString .= wMk::successMessage('success', $message);
@@ -80,7 +79,7 @@ EOT
 
             . wMk::select_input(
                 self::EXPERIMENT_LABEL,
-                self::EXPERIMENT_POSTVAR,
+                DBFunctionsAndConsts::EXP_NAME_COL,
                 $this->showExperimentList(),
                 dbFn::EXP_NAME_COL,
                 dbFn::EXP_NAME_COL,

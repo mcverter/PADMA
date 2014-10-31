@@ -1,9 +1,9 @@
 <?php
 
-require_once(__DIR__ . "/../functions/PageControlFunctionsAndConsts.php");
-require_once(__DIR__ . "/../components/HeaderMaker.php");
-require_once(__DIR__ . "/../components/FooterMaker.php");
-require_once(__DIR__ . "/../components/WidgetMaker.php");
+require_once("../functions/PageControlFunctionsAndConsts.php");
+require_once("../components/HeaderMaker.php");
+require_once("../components/FooterMaker.php");
+require_once("../components/WidgetMaker.php");
 
 /**
  * Class WebPage
@@ -63,7 +63,8 @@ abstract class WebPage
      * @param $imgWidth
      * @return string
      */
-    function make_image_content_columns ($userid, $role,  $imgOrientation, $imgWidth) {
+    function make_image_content_columns ($userid, $role,  $imgOrientation, $imgWidth='')
+    {
         $reflectionClass = new ReflectionClass($this);
         $filename = $reflectionClass->getFileName();
 
@@ -75,35 +76,68 @@ abstract class WebPage
         $image_path = $image_dir . $image_name;
         error_log($image_path);
         $remainingWidth = 12 - $imgWidth;
-        if ( $imgOrientation && $imgWidth) {
-            if ($imgOrientation === 'R') {
+        if (!$imgOrientation || !$imgWidth) {
+            $returnString .= $this->make_main_content($userid, $role);
+        } else {
 
-                $returnString .= <<< EOT
+            switch ($imgOrientation) {
+                case 'N':
+                    $returnString .= $this->make_main_content($userid, $role);
+                    break;
+                case 'FL':
+                    $returnString .= <<< EOT
+        <div class="media">
+            <a class="media-left" href="#">
+                <img class="media-left" alt="Padma Image" height={$imgWidth} width={$imgWidth} src="{$image_path}">
+            </a>
+            <div class="media=body">
+EOT;
+                    $returnString .= $this->make_main_content($userid, $role);
+                    $returnString .= <<< EOT
+            </div>
+        </div>
+EOT;
+                    break;
+                case 'FR':
+                    $returnString .= <<< EOT
+        <div class="media">
+            <div class="media=body">
+EOT;
+                    $returnString .= $this->make_main_content($userid, $role);
+                    $returnString .= <<< EOT
+            </div>
+            <a class="media-right" href="#">
+                <img class="media-left" alt="Padma Image" height={$imgWidth} width={$imgWidth} src="{$image_path}">
+            </a>
+        </div>
+EOT;
+
+                case 'R':
+                    $returnString .= <<< EOT
 
     <div class="row">
         <div class="col-md-{$imgWidth}"><img height="100%" width="100%" src="{$image_path}"></div>
         <div class="col-md-{$remainingWidth}">
 EOT;
 
-                $returnString .= $this->make_main_content($userid, $role);
+                    $returnString .= $this->make_main_content($userid, $role);
 
-                $returnString .= <<< EOT
+                    $returnString .= <<< EOT
         </div>
     </div>
 EOT;
+                    break;
+                case 'L':
 
-            }
-            elseif ($imgOrientation === 'L') {
-
-                $returnString .= <<< EOT
+                    $returnString .= <<< EOT
 
     <div class="row">
         <div class="col-md-{$remainingWidth}">
 EOT;
 
-                $returnString .= $this->make_main_content($userid, $role);
+                    $returnString .= $this->make_main_content($userid, $role);
 
-                $returnString .= <<< EOT
+                    $returnString .= <<< EOT
         </div>
         <div class="col-md-{$imgWidth}">
             <img height="100%" width="100%" src="{$image_path}">
@@ -111,22 +145,18 @@ EOT;
     </div>
 EOT;
 
-
+                    $returnString .= $this->make_main_content($userid, $role);
+                    break;
+                default:
+                    $returnString .= $this->make_main_content($userid, $role);
+                    break;
             }
-            // Bad value for orientation
-            else {
-                $returnString .= $this->make_main_content($userid, $role);
-            }
-        }
-        // No value for orientation or image
-        else {
-            $returnString .= $this->make_main_content($userid, $role);
         }
         return $returnString;
     }
 
 
-    public final function display_page()
+    public function display_page()
     {
         if ($this->isAuthorizedToViewPage()) {
             $role = $this->role;
@@ -224,13 +254,13 @@ EOT;
      */
     final protected function make_page_bottom()
     {
-        $returnString = FooterMaker::make_footer()
-            . <<< EOT
+        $returnString = <<< EOT
         </div> <!-- end main container div -->
 EOT
-        .    $this->make_js()
+            . FooterMaker::make_footer()
+            .    $this->make_js()
 
-        . <<< EOT
+            . <<< EOT
 
     </body>
   </html>

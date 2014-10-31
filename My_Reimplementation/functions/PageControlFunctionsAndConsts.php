@@ -5,6 +5,8 @@
  */
 class PageControlFunctionsAndConsts
 {
+    const PADMA_EMAIL = 'padma.ccny@gmail.com';
+
     const USERID_SESSVAR = 'userid';
     const ROLE_SESSVAR = 'role';
     const PASSWORD_POSTVAR = 'password';
@@ -18,14 +20,28 @@ class PageControlFunctionsAndConsts
     const NOTAUTHORIZED_ROLE = 'NOTAUTHORIZED';
     const SUPERVISING_ROLE = 'Supervising';
     const REGISTERED_ROLE = 'Registered';
-    
+    const NO_ROLE = '';
+
     /**
      * @param $errorMsg
      */
     static function redirectDueToError($errorMsg)
     {
-
+        require_once('../templates/ErrorPage.php');
+        $errorPage = new ErrorPage($errorMsg);
+        $errorPage->display_page();
     }
+
+    /**
+     * @param $errorMsg
+     */
+    static function redirectDueToSuccess($successMsg)
+    {
+        require_once('../templates/SuccessPage.php');
+        $successPage = new SuccessPage($successMsg);
+        $successPage->display_page();
+    }
+
 
     /**
      * @param $string
@@ -61,13 +77,23 @@ class PageControlFunctionsAndConsts
      */
     static function check_role($roletype)
     {
-        if (!isset($_SESSION["role"])) {
+        if (!isset($_SESSION["role"]) &&
+           $roletype !== self::NO_ROLE) {
             header("location: index.php");
             return false;
         }
         else {
             $role = $_SESSION[self::ROLE_SESSVAR];
             switch ($roletype) {
+                case self::NO_ROLE:
+                    if ($role ==self::ADMINISTRATOR_ROLE ||
+                    $role === self::USER_ROLE ||
+                    $role === self::RESEARCHER_ROLE ||
+                    $role == self::NOTAUTHORIZED_ROLE){
+                        header("location: index.php");
+                        return false;
+                    }
+                    break;
                 case self::ADMINISTRATOR_ROLE:
                     if ($role != self::ADMINISTRATOR_ROLE) {
                         header("location: index.php");

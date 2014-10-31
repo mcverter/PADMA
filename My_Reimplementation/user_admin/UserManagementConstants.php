@@ -9,6 +9,7 @@ class UserManagementConstants {
     const REACTIVATE_USER_COMMAND = 'reactivate_user';
     const DELETE_USER_COMMAND = 'delete_user';
     const CHANGE_RIGHT_COMMAND = 'update_right';
+    const CHECK_PASSWORD_MATCH_COMMAND = 'check_password_match';
 
 
     const RESET_PW_BUTTON_ID = 'resetBtn';

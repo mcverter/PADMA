@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ .   "/../data_admin/DeleteExperimentPage.php");
+require_once("../data_admin/DeleteExperimentPage.php");
 $p = new DeleteExperimentPage();
 $p->display_page();
 

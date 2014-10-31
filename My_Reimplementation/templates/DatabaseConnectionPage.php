@@ -1,6 +1,6 @@
 <?php
-require_once(__DIR__ . "/../templates/WebPage.php");
-require_once(__DIR__ . "/../functions/DBFunctionsAndConsts.php");
+require_once("../templates/WebPage.php");
+require_once("../functions/DBFunctionsAndConsts.php");
 
 /**
  * Class DatabaseConnectionPage
@@ -21,9 +21,13 @@ abstract class DatabaseConnectionPage extends WebPage {
         if ($this->db_conn == null) {
             $this->db_conn = dbFn::connect_to_db();
         }
-
     }
 
+    function display_page() {
+        if ($this->db_conn) {
+            parent::display_page();
+        }
+    }
     /**
      *
      */

@@ -67,7 +67,8 @@ class DBFunctionsAndConsts
     const PASSWORD_COL = 'PASSWORD';
     const LAST_LOGIN_COL = 'LAST_LOGIN';
     const TOTAL_LOGIN_COL = 'TOTAL_LOGIN';
-    const COUNTRY_COL = 'COUNTRY';
+    const COUNTRYNAME_COL = 'COUNTRY';
+    const COUNTRYID_COL = 'COUNTRYID';
     const DATE_APPLIED_COL = 'DATE_APPLIED';
 
     // Many columns are different in Full View
@@ -82,6 +83,11 @@ class DBFunctionsAndConsts
     const FULL_VIEW_ADDITIONALINFO = "ADDITIONALINFO";
 
 
+    const DEFAULT_TIME_ZONE = 'America/New_York';
+    const DATE_TIME_FORMAT = "m/d/y";
+    const DATE_TIME_APPLIED_FORMAT = "d-M-y";
+
+
     const TIME_LIMIT = 6000;
     const SEARCH_RESULT_LIMIT = 1000;
 
@@ -94,7 +100,8 @@ class DBFunctionsAndConsts
         $db_PASS = "drosopivot";
         $db_DB = "//127.0.0.1/ORATIKI";
 
-        set_time_limit(6000);
+        set_time_limit(self::TIME_LIMIT);
+
         $db_conn = oci_connect($db_UN, $db_PASS, $db_DB);
         if (!$db_conn) {
             self::db_conn_failure(oci_error());
@@ -108,14 +115,17 @@ class DBFunctionsAndConsts
      */
     static function db_conn_failure($err)
     {
-        $error_message = htmlentities($err['message']);
-        $returnString = <<<EOT
+        $oci_error_message = htmlentities($err['message']);
+        $error_message = <<<EOT
+    <br>
+    $oci_error_message
+     <br>
+     Error connecting to Database, Please try back later.
+     <br>
 
-      $error_message
-    <br>ERROR: Connecting to Database, Please try back later<br>;
-    <a title='logout' href='oniondex.php'>Click Here</a> to go back to home page
 EOT;
-        return $returnString;
+
+        PageControlFunctionsAndConsts::redirectDueToError($error_message);
     }
 
 
@@ -123,7 +133,22 @@ EOT;
      * @return bool|string
      */
     static function now() {
-        return date("m/d/y");
+        if (! date_default_timezone_get()) {
+            date_default_timezone_set(self::DEFAULT_TIME_ZONE);
+        }
+        return date(self::DATE_TIME_FORMAT);
+    }
+
+
+
+    /**
+     * @return bool|string
+     */
+    static function now_applied() {
+        if (! date_default_timezone_get()) {
+            date_default_timezone_set(self::DEFAULT_TIME_ZONE);
+        }
+        return date(self::DATE_TIME_APPLIED_FORMAT);
     }
 
     /**
@@ -677,22 +702,12 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
         $query = "INSERT INTO CLIENT (C_ID,TITLE,LNAME,MNAME,FNAME,ADD_1,ADD_2,CITY,STATE,ZIP,COUNTRY," .
             "PHONE,EMAIL,IND,PROF,USER_ID,PASSWORD," .
             "DATE_APPLIED,TOTAL_LOGIN,ACC_RIGHT_ID,DEL_FLAG) " .
-            "VALUES(NULL,$title,$lname, $mname, $fname, " .
-            " $address1,$address2, $city, $state, $zip, $country," .
-            "$phone, $email, $industry, $profession, $userid, $password,$date,0,0,0)";
+            "VALUES(CLIENT_ID.NEXTVAL,'$title', '$lname', '$mname', '$fname', " .
+            "'$address1', '$address2', '$city', '$state', '$zip', '$country'," .
+            "'$phone', '$email', '$industry', '$profession', '$userid', '$password', '$date',0,0,0)";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 
-    /**
-     * @param $db_conn
-     * @param $userid
-     * @param $password
-     */
-    static function selectUserByIDAndPW($db_conn, $userid, $password)
-    {
-        $query = "select USER_ID from CLIENT WHERE USER_ID = '{$userid}' and PASSWORD='{$password}'";
-        return self::execute_SELECT_query_and_return($db_conn, $query);
-    }
 
     /**
      * @param $db_conn
@@ -709,10 +724,31 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
      * @param $db_conn
      * @param $modifiedID
      */
-    static function selectUserIdFromModifiedUserId($db_conn, $modifiedID)
+    static function selectTotalUserId($db_conn, $userid)
     {
-        $query = "select USER_ID from CLIENT WHERE USER_ID = '{$modifiedID}'";
-        return self::execute_SELECT_query_and_return($db_conn, $query);
+        $userid = strtoupper(trim($userid));
+        $query = "select COUNT(*) AS TOTAL from CLIENT WHERE USER_ID = '{$userid}'";
+
+        $db_statement = self::execute_SELECT_query_and_return($db_conn, $query);
+        $row = oci_fetch_assoc($db_statement);
+
+        return $row["TOTAL"];
+        }
+
+
+    /**
+     * @param $db_conn
+     * @param $userid
+     * @param $password
+     */
+    static function selectTotalUserIDAndPW($db_conn, $userid, $password)
+    {
+        $userid = strtoupper(trim($userid));
+        $password = sha1($password);
+        $query = "select count(*) as TOTAL from CLIENT WHERE USER_ID = '{$userid}' and PASSWORD='{$password}'";
+        $db_statement = self::execute_SELECT_query_and_return($db_conn, $query);
+        $row = oci_fetch_assoc($db_statement);
+        return $row["TOTAL"];
     }
 
     /**

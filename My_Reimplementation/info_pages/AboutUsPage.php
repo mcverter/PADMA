@@ -1,6 +1,5 @@
 <?php
-$moogah = __DIR__ . "/../templates/WebPage.php";
-include_once(__DIR__ . "/../templates/WebPage.php");
+require_once("../templates/WebPage.php");
 
 /**
  * Class AboutUsPage

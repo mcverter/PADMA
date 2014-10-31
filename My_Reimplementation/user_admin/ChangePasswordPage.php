@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
+require_once('../templates/DatabaseConnectionPage.php');
 
 /**
  * Class ChangePasswordPage
@@ -8,13 +8,60 @@ require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
 class ChangePasswordPage extends DatabaseConnectionPage
 {
     const PG_TITLE = "Change Password";
+    const OLD_PASS_POSTVAR = 'oldpass';
+    const NEW_PASS_POSTVAR = 'newpass';
+
+    /**
+     * @Override
+     *
+     * Makes the main functional content block of the page
+     * If there is a post:
+     * If the old password does not match, redirect to Error Page
+     * Otherwise, change the password and redirect to Success Page
+     *
+     * If no post:
+     *  Show change password form
+     *
+     * @param $userid:  Logged in User
+     * @param $role:  User's Role
+     * @return string: HTML for page
+     */
+    function make_main_content($userid, $role) {
+        $userid = $this->userid;
+        $db_conn = $this->db_conn;
+
+        $returnString = '';
+
+        if (!empty($_POST) && !empty($_POST[self::OLD_PASS_POSTVAR]) && !empty($_POST[self::NEW_PASS_POSTVAR])) {
+
+            if (DBFunctionsAndConsts::selectTotalUserIDAndPW($db_conn, $userid, $_POST[self::OLD_PASS_POSTVAR])
+                < 1) {
+                $returnString .= PageControlFunctionsAndConsts::redirectDueToError("The User ID and Password did not match.  Could not update password");
+            }
+            else {
+                dbFn::updateUserPassword($db_conn, strtoupper($userid), sha1($_POST[self::NEW_PASS_POSTVAR]));
+                $returnString .= PageControlFunctionsAndConsts::redirectDueToSuccess("Password successfully updated.");
+            }
+        }
+        else {
+            $actionUrl = $_SERVER['PHP_SELF'];
+            $returnString .= "User Id : $userid" .
+                wMk::start_form($actionUrl, 'POST', 'changePassForm',  ' form-horizontal ', '', ' data-parsley-validate ') .
+                wMk::text_input('Old Password', self::OLD_PASS_POSTVAR, '', '', ' data-parsley-required ') .
+                wMk::text_input('New Password', self::NEW_PASS_POSTVAR, '', '', ' data-parsley-required ') .
+                wMk::text_input('Confirm Password', 'confirm' . self::NEW_PASS_POSTVAR, '', '', ' data-parsley-required data-parsley-equalto="#' . self::NEW_PASS_POSTVAR .'" ') .
+                wMk::end_form();
+        }
+        return $returnString;
+    }
+
 
     /**
      * @Override
      *
      * Only a Registered User may change their Password
      *
-     * @return bool
+     * @return bool: Whether user is authroized
      */
     protected  function isAuthorizedToViewPage() {
         return PageControlFunctionsAndConsts::check_role(pgFn::REGISTERED_ROLE);
@@ -32,42 +79,7 @@ class ChangePasswordPage extends DatabaseConnectionPage
      */
 
     function make_page_middle($userid, $role){
-        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
+        return $this->make_image_content_columns ($userid, $role, 'R', 4) ;
     }
 
-    /**
-     * @param $password
-     */
-    function checkPasswordMatch($password)
-    {
-        dbFn::selectUserByIDAndPW($this->db_conn,
-            strtoupper($this->userid), sha1($password));
-    }
-
-    /**
-     * @param $userid
-     * @param $role
-     * @return string
-     */
-    function make_main_content($userid, $role) {
-        $userid = $this->userid;
-        $db_conn = $this->db_conn;
-
-        $returnString = '';
-
-        if ($_POST['submitted']) {
-            $newpass = $_POST['newpass'];
-            dbFn::updateUserPassword($db_conn, strtoupper($userid), sha1($newpass));
-        }
-        else {
-            $actionUrl = $_SERVER['PHP_SELF'];
-            $returnString .= "User Id : $userid" .
-                wMk::start_form($actionUrl, 'gform') .
-                wMk::text_input('Old Password', 'oldpass', '') .
-                wMk::text_input('New Password', 'newpass', '', 'password') .
-                wMk::text_input('Confirm Password', 'confirmpass', '', 'confirmpass') .
-                wMk::end_form();
-        }
-        return $returnString;
-    }
 }

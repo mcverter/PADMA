@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../templates/WebPage.php");
+require_once("../templates/WebPage.php");
 
 /**
  * Class ContactPage
@@ -7,9 +7,14 @@ require_once(__DIR__ . "/../templates/WebPage.php");
 class ContactPage extends WebPage {
     const PG_TITLE = "Contact Us";
 
+    const NAME_POSTVAR = 'name';
+    const EMAIL_POSTVAR = 'email';
+    const SUBJECT_POSTVAR = 'subj';
+    const MESSAGE_POSTVAR = 'msg';
+
     /**
      * @Override
- * Determine formatting of Main Page Image relative to
+     * Determine formatting of Main Page Image relative to
      *     Page Logical Content
      *
      * @param $userid : Logged in User
@@ -26,28 +31,43 @@ class ContactPage extends WebPage {
      * @param $role
      * @return string
      */
-    public function make_main_content($userid, $role) {
-        $returnString = <<<EOT
+    public function make_main_content($userid, $role)
+    {
+        $actionUrl = $_SERVER['PHP_SELF'];
+        $returnString = '';
+        if (!empty($_POST)) {
+            $from_header =  'From: ' . $_POST[self::NAME_POSTVAR] . '<' . $_POST[self::EMAIL_POSTVAR] . '>\r\n';
+            mail(PageControlFunctionsAndConsts::PADMA_EMAIL, $_POST[self::SUBJECT_POSTVAR], $_POST[self::MESSAGE_POSTVAR], $from_header);
+            $returnString .= WidgetMaker::successMessage('success', 'Your message has been sent to the Padma Administrators!');
+        } else {
+            $returnString .= <<< EOT
 
-    <div class="centered_form">
-      <p class="instructions">&nbsp;&nbsp;Send your inquiry or problem &#8212; we will respond you!
-      </p>
-      <form action="FormToEmail.php" method="post">
-	<fieldset>
-	  <label for="name"> Your Name</label>
-	  <input type="text" size="30" id="name"><br>
-	  <label for="email">Email address</label>
-	  <input type="text" size="30" id="email"><br>
-	  <label for="comments"> Comments</label>
-	  <textarea id="comments" rows="6" cols="50"></textarea><br>
-	</fieldset>
+        Please send us your comments we will get back to you shortly
 
-	<input type="submit" value="Send">
-      </form>
-    </div>
 EOT;
+
+            $returnString .= WidgetMaker::start_form($actionUrl, 'POST', 'mailForm', ' form-horizontal ', '', ' data-parsley-validate ' )
+                . WidgetMaker::text_input('Name', self::NAME_POSTVAR, '', '', ' data-parsley-required ')
+                . WidgetMaker::text_input('Email', self::EMAIL_POSTVAR, '', '',  " data-parsley-required data-parsley-type='email'	")
+                . WidgetMaker::text_input('Subject', self::SUBJECT_POSTVAR, '', '', ' data-parsley-required ')
+                . WidgetMaker::text_area('Message', self::MESSAGE_POSTVAR, '', 50, 10, '', ' data-parsley-required ')
+                . WidgetMaker::submit_button('submit', 'Send Email')
+                . WidgetMaker::end_form();
+        }
         return $returnString;
+
     }
+
+    function make_js() {
+        return parent::make_js() .
+        <<< EOT
+
+        <script src="../js/parsley.js"></script>
+
+EOT;
+    }
+
+
 }
 
 

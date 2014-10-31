@@ -19,7 +19,7 @@
         {
 
             $returnString = <<< EOT
-</div>
+
 <nav class="navbar navbar-default nav-justified navbar-inverse" role="navigation">
     <div class="container-fluid">
 

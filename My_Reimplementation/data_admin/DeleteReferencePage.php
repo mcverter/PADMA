@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
+require_once("../templates/DatabaseConnectionPage.php");
 
 /**
  * Class DeleteReferencePage
@@ -9,8 +9,7 @@ class DeleteReferencePage extends DatabaseConnectionPage {
     const PG_TITLE  = "Delete Reference";
 
     const VERSION_LABEL = "Version to Delete";
-    const VERSION_POSTVAR = "version";
-
+ 
     /**
  * @Override
  * Determine formatting of Main Page Image relative to
@@ -40,10 +39,10 @@ class DeleteReferencePage extends DatabaseConnectionPage {
         $db_conn = $this->db_conn;
 
         $returnString = '';
-        if (isset ($_POST[self::VERSION_POSTVAR]) &&
-            !empty ($_POST[self::VERSION_POSTVAR])
+        if (isset ($_POST[DBFunctionsAndConsts::VERSION_COL]) &&
+            !empty ($_POST[DBFunctionsAndConsts::VERSION_COL])
         ) {
-            $versionPost = $_POST[self::VERSION_POSTVAR];
+            $versionPost = $_POST[DBFunctionsAndConsts::VERSION_COL];
             dbFn::deleteReference($db_conn, $versionPost);
             $returnString .= <<< EOT
             <h2> Version $versionPost has been deleted </h2>
@@ -59,7 +58,7 @@ EOT
             . wMk::start_form($actionUrl)
             .      wMk::select_input(
                 self::VERSION_LABEL,
-                self::VERSION_POSTVAR,
+                DBFunctionsAndConsts::VERSION_COL,
                 dbFn::selectVersionList($db_conn),
                 dbFn::VERSION_COL,
                 dbFn::VERSION_COL,

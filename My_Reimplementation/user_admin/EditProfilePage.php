@@ -1,77 +1,46 @@
 <?php
 
-require_once(__DIR__ . "/../templates/DatabaseConnectionPage.php");
+require_once("../templates/DatabaseConnectionPage.php");
 
 /**
  * Class EditProfilePage
+ *
+ * This page allows A User to Edit her profile information
  */
 class EditProfilePage extends DatabaseConnectionPage {
 
     const PG_TITLE = "Edit Profile";
 
-
-    const TITLE_POSTVAR = 'title';
-    const LNAME_POSTVAR = 'lname';
-    const FNAME_POSTVAR = 'fname';
-    const MNAME_POSTVAR = 'mname';
-    const ADDRESS1_POSTVAR = 'address1';
-    const ADDRESS2_POSTVAR = 'address2';
-    const CITY_POSTVAR = 'city';
-    const STATE_POSTVAR = 'state';
-    const ZIP_POSTVAR = 'zip';
-    const COUNTRY_POSTVAR = 'country';
-    const PHONE_POSTVAR = 'phone';
-    const EMAIL_POSTVAR = 'email';
-    const INDUSTRY_POSTVAR = 'industry';
-    const PROFESSION_POSTVAR = 'profession';
-
-    /**
-     * @return bool
-     */
-    protected  function isAuthorizedToViewPage() {
-        return PageControlFunctionsAndConsts::check_role(pgFn::REGISTERED_ROLE);
-    }
-
-    /**
-     * @Override
-     * Determine formatting of Main Page Image relative to
-     *     Page Logical Content
-     *
-     * @param $userid : Logged in User
-     * @param $role : Role of Logged in User
-     * @return string : HTML for middle of Page
-     */
-
-
-    function make_page_middle($userid, $role){
-        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
-    }
-
     /**
      * Displays editable Profile Information with SUBMIT button
-     * If "submitted" POSTVAR is set, profile is updated
+     * If the page has already been submitted, a Databaase update is executed.
      *
-     * @param $userid
-     * @param $role
-     * @return string
+     * @param $userid:  Logged in User
+     * @param $role:  User's Role
+     * @return string: HTML for main Content
      */
     function make_main_content($userid, $role) {
 
         $db_conn = $this->db_conn;
         $userid = $this->userid;
-        if (isset ($_POST['submitted']) &&
-            ($_POST['submitted']) === 'submitted') {
+        if (!empty($_POST)) {
             list($title, $lname, $fname, $mname,
                 $address1, $address2, $city, $state, $zip, $country,
                 $phone, $email, $industry, $profession) =
-                array( $_POST[self::TITLE_POSTVAR], $_POST[self::LNAME_POSTVAR],
-                    $_POST[self::FNAME_POSTVAR], $_POST[self::MNAME_POSTVAR],
-                    $_POST[self::ADDRESS1_POSTVAR],
-                    $_POST[self::ADDRESS2_POSTVAR], $_POST[self::CITY_POSTVAR],
-                    $_POST[self::STATE_POSTVAR], $_POST[self::ZIP_POSTVAR],
-                    $_POST[self::COUNTRY_POSTVAR], $_POST[self::PHONE_POSTVAR],
-                    $_POST[self::EMAIL_POSTVAR], $_POST[self::INDUSTRY_POSTVAR],
-                    $_POST[self::PROFESSION_POSTVAR] ) ;
+                array( $_POST[DBFunctionsAndConsts::TITLE_COL],
+                    $_POST[DBFunctionsAndConsts::LNAME_COL],
+                    $_POST[DBFunctionsAndConsts::FNAME_COL],
+                    $_POST[DBFunctionsAndConsts::MNAME_COL],
+                    $_POST[DBFunctionsAndConsts::ADD_1_COL],
+                    $_POST[DBFunctionsAndConsts::ADD_2_COL],
+                    $_POST[DBFunctionsAndConsts::CITY_COL],
+                    $_POST[DBFunctionsAndConsts::STATE_COL],
+                    $_POST[DBFunctionsAndConsts::ZIP_COL],
+                    $_POST[DBFunctionsAndConsts::COUNTRYID_COL],
+                    $_POST[DBFunctionsAndConsts::PHONE_COL],
+                    $_POST[DBFunctionsAndConsts::EMAIL_COL],
+                    $_POST[DBFunctionsAndConsts::IND_COL],
+                    $_POST[DBFunctionsAndConsts::PROF_COL] ) ;
 
             $updated_by = $this->userid;
             $updated_on = dbFn::now();
@@ -104,26 +73,55 @@ EOT;
         $returnString .= "<h2> Your current profile </h2> \n" .
             "<p> Last updated by $updated_by  on $updated_on </p>" .
             "<hr>\n" .
-            wMk::start_form($formAction, 'POST', 'verifyForm') .
-            wMk::hidden_input('submitted', 'submitted') .
-            wMk::select_input('Title', 'title', dbFn::selectTitleList($db_conn),
-                dbFn::TITLE_COL, dbFn::TITLE_COL, false, $title, '') .
-            wMk::text_input('Last Name', self::LNAME_POSTVAR,  $lname, '') .
-            wMk::text_input('First Name', self::FNAME_POSTVAR,  $fname, '') .
-            wMk::text_input('Middle Initial', self::MNAME_POSTVAR,  $mname, '') .
-            wMk::text_input('Address:', self::ADDRESS1_POSTVAR,  $address1, '') .
-            wMk::text_input('Address 2:', self::ADDRESS2_POSTVAR,  $address2, '') .
-            wMk::text_input('City:', self::CITY_POSTVAR,  $city, '') .
-            wMk::text_input('State:', self::STATE_POSTVAR,  $state, '') .
-            wMk::text_input('Zip Code:', self::ZIP_POSTVAR,  $zip, '') .
-            wMk::select_input('Country', self::COUNTRY_POSTVAR,
-                dbFn::selectCountryList($db_conn), dbFn::COUNTRY_COL, dbFn::COUNTRY_COL,
-                false, $country, '') .
-            wMk::text_input('Phone Number', self::PHONE_POSTVAR,  $phone, '') .
-            wMk::text_input('Email', self::EMAIL_POSTVAR,  $email, '') .
-            wMk::text_input('Industry', self::INDUSTRY_POSTVAR,  $industry, '') .
-            wMk::text_input('Profession', self::PROFESSION_POSTVAR,  $profession, '') .
+            wMk::start_form($formAction, 'POST', 'verifyForm', ' form-horizontal ', '', ' data-parsley-validate ') .
+            wMk::select_input('Title', DBFunctionsAndConsts::TITLE_COL,
+                dbFn::selectTitleList($db_conn),
+                dbFn::TITLE_COL, dbFn::TITLE_COL, false, $title, 5, '', ' data-parsley-required ') .
+            wMk::text_input('Last Name', DBFunctionsAndConsts::LNAME_COL,  $lname, '', '', ' data-parsley-required ') .
+            wMk::text_input('First Name', DBFunctionsAndConsts::FNAME_COL,  $fname,'', '', ' data-parsley-required ') .
+            wMk::text_input('Middle Initial', DBFunctionsAndConsts::MNAME_COL,  $mname, '', '', ' data-parsley-required ') .
+            wMk::text_input('Address:', DBFunctionsAndConsts::ADD_1_COL,  $address1, '', '', ' data-parsley-required ') .
+            wMk::text_input('Address 2:', DBFunctionsAndConsts::ADD_2_COL,  $address2, '', '', ' data-parsley-required ') .
+            wMk::text_input('City:', DBFunctionsAndConsts::CITY_COL,  $city, '', '', ' data-parsley-required ') .
+            wMk::text_input('State:', DBFunctionsAndConsts::STATE_COL,  $state, '', '', ' data-parsley-required ') .
+            wMk::text_input('Zip Code:', DBFunctionsAndConsts::ZIP_COL,  $zip, '', '', ' data-parsley-required ') .
+            wMk::select_input('Country',
+                DBFunctionsAndConsts::COUNTRYID_COL,
+                dbFn::selectCountryList($db_conn),
+                DBFunctionsAndConsts::COUNTRYID_COL,
+                DBFunctionsAndConsts::COUNTRYNAME_COL,
+                false,
+                $country,
+                '',5, '', ' data-parsley-required ') .
+            wMk::text_input('Phone Number', DBFunctionsAndConsts::PHONE_COL,  $phone, '', '', ' data-parsley-required ') .
+            wMk::text_input('Email', DBFunctionsAndConsts::EMAIL_COL,  $email, '', '', ' data-parsley-required ') .
+            wMk::text_input('Industry', DBFunctionsAndConsts::IND_COL,  $industry, '', '', ' data-parsley-required ') .
+            wMk::text_input('Profession', DBFunctionsAndConsts::PROF_COL,  $profession, '', '', ' data-parsley-required ') .
             wMk::submit_button('submit', 'Update Profile');
         return $returnString;
     }
+
+    /**
+     * Checks to make sure Registered User is accessing page
+     *
+     * @return bool: Whether user has rights to view page
+     */
+    protected  function isAuthorizedToViewPage() {
+        return PageControlFunctionsAndConsts::check_role(pgFn::REGISTERED_ROLE);
+    }
+
+    /**
+     * @Override
+     * Determine formatting of Main Page Image relative to
+     *     Page Logical Content
+     *
+     * @param $userid : Logged in User
+     * @param $role : Role of Logged in User
+     * @return string : HTML for middle of Page
+     */
+    function make_page_middle($userid, $role){
+        return $this->make_image_content_columns ($userid, $role, 'N', 8) ;
+    }
+
+
 }

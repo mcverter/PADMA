@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/SearchBase.php");
+require_once("SearchBase.php");
 
 /**
  * Class QuickSearchPage

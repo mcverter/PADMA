@@ -2,9 +2,9 @@
 /***
  *
  */
-require_once(__DIR__ . "/../functions/DBFunctions.php");
-require_once(__DIR__ . "/../components/WidgetMaker.php");
-require_once(__DIR__ . "/UserManagementConstants.php");
+require_once("../functions/DBFunctionsAndConsts.php");
+require_once("../components/WidgetMaker.php");
+require_once("UserManagementConstants.php");
 
 $command = $_POST['command'];
 $adminID = $_POST['adminID'];
@@ -27,6 +27,12 @@ function ajaxReturnUserInfo($db_conn, $cid) {
  *
  */
 switch($command) {
+    case UserManagementConstants::CHECK_PASSWORD_MATCH:
+        $userid = $_POST[DBFunctionsAndConsts::USER_ID_COL];
+        $password = $_POST[DBFunctionsAndConsts::PASSWORD_COL];
+        $stid = DBFunctionsAndConsts::selectUserByIDAndPW($db_conn, $userid, $password);
+        echo (oci_num_rows($stid));
+        break;
     case UserManagementConstants::GET_USER_INFO_COMMAND:
         ajaxReturnUserInfo($db_conn, $cid);
         break;

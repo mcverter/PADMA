@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
+require_once('../templates/DatabaseConnectionPage.php');
 
 /**
  * Class UploadExperimentPage

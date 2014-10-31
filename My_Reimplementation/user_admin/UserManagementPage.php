@@ -1,7 +1,7 @@
 <?php
 
-require_once(__DIR__ . '/../templates/DatabaseConnectionPage.php');
-require_once(__DIR__ . '/UserManagementConstants.php');
+require_once('../templates/DatabaseConnectionPage.php');
+require_once('UserManagementConstants.php');
 
 /**
  * Class UserManagementPage

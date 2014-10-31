@@ -1,5 +1,5 @@
 <?php
-require_once(__DIR__ . "/SearchBase.php");
+require_once("SearchBase.php");
 
 /**
  * Class AdvancedSearchPage
@@ -36,7 +36,7 @@ class AdvancedSearchPage extends SearchBase {
 EOT;
 
 
-        $returnString .= wMk::start_form('search_result.php', 'POST') .
+        $returnString .= wMk::start_form('search_result.php', 'POST', ' form-horizontal ') .
             $this->make_probeid_text_input() .
             $this->make_cgnumber_text_input() .
             $this->make_flybasenumber_text_input() .

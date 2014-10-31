@@ -1,21 +1,31 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: oracle
- * Date: 10/21/14
- * Time: 8:56 PM
- */
-require_once(__DIR__ . "/../templates/WebPage.php");
+require_once("../templates/WebPage.php");
 
 /**
  * Class NewUserTermsPage
+ *
+ * Presents the Terms of Agreement Page for a user wishing to
+ * regsiter as a member of the PADMA community
  */
 class NewUserTermsPage extends WebPage{
     const PG_TITLE = "New User Terms of Agreement";
+    const AGREEMENT_RADIO_ID = "terms";
+    const ERROR_MSG_ID = "mustAgreeMsg";
+    const AGREE_VALUE = "Agree";
+    const DISAGREE_VALUE = "Disagree";
+    const AGREEMENT_FORM_ID = "UserAgreementForm";
+    /**
+     * Only an unregisterd user will be allowed to view this page.
+     *
+     * @return bool: Whether user has permissions to view page
+     */
+    function isAuthorizedToViewPage() {
+        return PageControlFunctionsAndConsts::check_role(pgFn::NO_ROLE);
+    }
 
     /**
      * @Override
- * Determine formatting of Main Page Image relative to
+     * Determine formatting of Main Page Image relative to
      *     Page Logical Content
      *
      * @param $userid : Logged in User
@@ -23,13 +33,18 @@ class NewUserTermsPage extends WebPage{
      * @return string : HTML for middle of Page
      */
     function make_page_middle($userid, $role) {
+        return $this->make_image_content_columns ($userid, $role,'N') ;
 
     }
-
     /**
-     * @param $userid
-     * @param $role
-     * @return string|void
+     * @Override
+     *
+     * Shows the terms of Usage and a radio button box
+     *  for the user to register her agreement
+     *
+     * @param $userid:  Logged in User
+     * @param $role:  User's Role
+     * @return string: HTML for page
      */
     function make_main_content($userid, $role) {
 
@@ -41,7 +56,7 @@ class NewUserTermsPage extends WebPage{
     INCLUDING THE PATHOGEN ASSOCIATED DROSOPHILA MICROARRAY (PADMA) DATABASE (the "Site").
 </p>
 <hr>
-<b>Terms of Use</b>
+<h2>Terms of Use</h2>
 <hr>
 
 <p>
@@ -61,20 +76,20 @@ class NewUserTermsPage extends WebPage{
     indicates your acceptance of such changes.
 </p>
 <hr>
-<b>Registration</b>
+<h2>Registration</h2>
 
 <p>
     You must register in order to use the Site.  During the registration
     process, you will be asked to provide information about yourself.  We
     assume that the information you provide on your registration is
     accurate and complete, and it is your responsibility to promptly
-    notify us of any changes.  When registering, you must select a USER ID
-    and PASSWORD.  You are solely responsible for keeping your PASSWORD
+    notify us of any changes.  When registering, you must select a <em>USER ID</em>
+    and <em>PASSWORD</em>.  You are solely responsible for keeping your PASSWORD
     confidential.  You must notify us immediately of any known or
     suspected unauthorized use of your PASSWORD.
 </p>
 <hr>
-<b>Approved Use</b>
+<h2>Approved Use</h2>
 <p>
     Subject to its acceptance of your registration and its written notice to you
     of such acceptance, CUNY hereby grants you a nonexclusive,
@@ -98,7 +113,7 @@ class NewUserTermsPage extends WebPage{
 </ol>
 
 <hr>
-<b>Intellectual Property and Ownership Notice</b>
+<h2>Intellectual Property and Ownership Notice</h2>
 <p>
     We assert no claim of copyright in, or other ownership rights to,
     individual datasets incorporated into or used in connection with the Site,
@@ -116,7 +131,7 @@ class NewUserTermsPage extends WebPage{
     or otherwise using any Content without the express written consent of CUNY.
 </p>
 <hr>
-<b>Accuracy and Data Integrity</b>
+<h2>Accuracy and Data Integrity</h2>
 <p>
     While we attempt to ensure the integrity and accuracy of the Site,
     we do not guarantee correctness or accuracy of such contents.
@@ -130,7 +145,7 @@ class NewUserTermsPage extends WebPage{
 <hr>
 
 
-<b>Disclaimer and Limitation of Liability</b><hr>
+<h2>Disclaimer and Limitation of Liability</h2><hr>
 <p>
     You hereby agree not to hold CUNY, its affiliates, and their respective officers,
     directors, employees, agents, and representatives liable for any services delivered
@@ -167,7 +182,7 @@ class NewUserTermsPage extends WebPage{
     FOR ACCESSING THIS SITE, IF ANY.
 </p>
 <hr>
-<b>Indemnification</b>
+<h2>Indemnification</h2>
 <hr>
 <p>
     You agree to indemnify, defend and hold harmless, CUNY its affiliates,
@@ -182,7 +197,7 @@ class NewUserTermsPage extends WebPage{
     In any event, you agree not to settle any such matter without the prior written consent from CUNY.
 </p>
 <hr>
-<b>Jurisdiction</b><hr>
+<h2>Jurisdiction</h2><hr>
 <p>
     These Terms of Use and all matters or issues collateral
     thereto will be governed by, construed and enforced
@@ -190,7 +205,7 @@ class NewUserTermsPage extends WebPage{
 </p>
 
 <hr>
-<b>Addressing Correspondence</b>
+<h2>Addressing Correspondence</h2>
 <hr>
 <p>
     Please send all notices and other correspondence
@@ -218,30 +233,46 @@ OR
     United States of America<br>
     Attn: PADMA Database<br>
 </address>
-
-<div>
-<INPUT TYPE=RADIO NAME="terms" VALUE="agree" id="terms" >Agree
-<INPUT TYPE=RADIO NAME="terms" VALUE="disagree" id="terms" CHECKED>Disagree
-</div>
-
-<INPUT TYPE=SUBMIT VALUE="submit" onsubmit="checkAgreement()">
-
 EOT;
+        $actionUrl = "../webpages/registration.php";
+        $returnString  .= WidgetMaker::errorMessage(self::ERROR_MSG_ID, "You must agree to the Terms in order to become a PADMA User")
+            . WidgetMaker::start_form($actionUrl, "POST", self::AGREEMENT_FORM_ID)
+            . WidgetMaker::radio_input(self::AGREE_VALUE, self::AGREEMENT_RADIO_ID, self::AGREE_VALUE, '')
+            . WidgetMaker::radio_input(self::DISAGREE_VALUE, self::AGREEMENT_RADIO_ID, self::DISAGREE_VALUE, "checked")
+            . WidgetMaker::submit_button("submit", "I Agree")
+            . WidgetMaker::end_form();
 
+        return $returnString;
 
     }
 
     /**
-     * @return string|void
+     * Adds a jquery validation to the AgreementForm.
+     * If the "AGREE" radio button is not clicked,
+     *  an error message will be displayed and the form will not be submitted
+     *
      */
     function make_js() {
         $returnString = parent::make_js();
+        list ($agree_val, $error_msg, $agree_radio, $agreement_form) =
+            array(self::AGREE_VALUE, self::ERROR_MSG_ID,
+                self::AGREEMENT_RADIO_ID, self::AGREEMENT_FORM_ID);
         $returnString .= <<< EOT
-        <script>
-        </script>
+
+<script>
+    $(document).ready(function() {
+        $('#$error_msg').hide();
+        $('#$agreement_form').submit(function checkAgreement(event) {
+            if ($('#$agree_radio:checked').val() !== '$agree_val') {
+                $('#$error_msg').show();
+                event.preventDefault();
+            }
+        });
+    });
+</script>
 
 EOT;
-
+        return $returnString;
     }
 }
 

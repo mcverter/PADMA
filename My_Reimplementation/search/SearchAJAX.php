@@ -4,9 +4,9 @@
  */
 
 
-require_once(__DIR__ . "/../functions/DBFunctions.php");
-require_once(__DIR__ . "/../components/WidgetMaker.php");
-require_once(__DIR__ . "/ExperimentListPage.php");
+require_once("../functions/DBFunctionsAndConsts.php");
+require_once("../components/WidgetMaker.php");
+require_once("ExperimentListPage.php");
 
 $date = dbFn::now();
 $db_conn = dbFn::connect_to_db();

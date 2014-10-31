@@ -1,6 +1,6 @@
 <?php
 
-require_once(__DIR__ . "/../components/WidgetMaker.php");
+require_once("../components/WidgetMaker.php");
 
 
 /**
@@ -52,11 +52,17 @@ class HeaderMaker
     <div class="container-fluid">
         <!-- Brand and toggle get grouped for better mobile display -->
         <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
             <a class="navbar-brand" href="#">
                 <img src="../images/PadmaPix/Padma238w150h.jpg"  alt="CCNY PADMA Logo" >
             </a>
         </div>
-        <div class="">
+    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
 
                 <li> <a href="../webpages/index.php"> Main Page </a></li>
@@ -96,7 +102,7 @@ EOT;
             $returnString .= <<<EOT
 </ul>
 <ul class="nav navbar-nav navbar-right">
-    <li><a href="/users/sign_up">Sign Up</a></li>
+    <li><a href="../webpages/new_user_terms.php">Sign Up</a></li>
     <li class="divider-vertical"></li>
     <li class="dropdown">
         <a class="dropdown-toggle" href="#" data-toggle="dropdown">Sign In <strong class="caret"></strong></a>
@@ -107,7 +113,7 @@ EOT;
             $returnString .= <<<EOT
         </div>
     </li>
-</ul>
+
 EOT;
         }
 

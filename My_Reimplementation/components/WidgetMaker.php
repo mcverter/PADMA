@@ -54,9 +54,9 @@ EOT;
      *
      * @return string:  HTML for widget
      */
-    static function errorMessage ($id, $message, $hidden='hidden') {
+    static function errorMessage ($id, $message) {
             return <<< EOT
-    <div id="$id" $hidden>
+    <div id="$id" >
     <div class="alert alert-danger">
         <span class="close" data-dismiss="alert">&times;</span>
         <strong>Error!</strong> $message
@@ -124,11 +124,22 @@ EOT;
      * @param string $name:  Name and ID of form
      * @return string:  HTML for starting a form
      */
-    static function start_form ($action, $method='POST', $name='', $class='', $onsubmit='') {
-        return <<<EOT
-        <form action='$action' method='$method' name='$name'
-        id='$name'  class='$class' onsubmit='$onsubmit' >\n";
+    static function start_form ($action, $method='POST', $name='form', $class='', $onsubmit='', $attrs='') {
+        $returnString =<<< EOT
+
+        <form action='$action' method='$method' $attrs name='$name' id='$name'
 EOT;
+        if ($class) {
+            $returnString .= " class='$class' ";
+        }
+        if ($onsubmit) {
+            $returnString .= " onsubmit='$onsubmit' ";
+        }
+        $returnString .=<<< EOT
+        >
+
+EOT;
+        return $returnString;
     }
 
     /**
@@ -145,8 +156,9 @@ EOT;
      */
     static function start_file_form ($action, $method='POST', $name='', $class='', $onsubmit='') {
         return <<<EOT
-        <form action='$action' enctype='multipart/form-data' method='$method' name='$name'
-        id='$name'  class='$class' onsubmit='$onsubmit' >\n";
+
+        <form action='$action' enctype='multipart/form-data' method='$method' name='$name id='$name'  class='$class' onsubmit='$onsubmit' >
+
 EOT;
     }
 
@@ -158,7 +170,9 @@ EOT;
      */
     static function end_form() {
         return <<<EOT
+
         </form>
+
 EOT;
     }
 
@@ -173,7 +187,9 @@ EOT;
      */
     static function hidden_input($name, $value) {
         return <<<EOT
+
         <input type='hidden' name='$name' value='$value' />
+
 EOT;
     }
 
@@ -190,10 +206,14 @@ EOT;
      */
     static function submit_button($name='', $value='Submit', $class='') {
         return <<<EOT
-        <input type='submit' name='$name' value='$value' class='$class' />
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-10">
+      <button type="submit" name='$name' class=" $class btn btn-default">$value</button>
+    </div>
+  </div>
+
 EOT;
     }
-
 
     /**
      * Creates a text area
@@ -206,11 +226,11 @@ EOT;
      * @param string $class: CSS class
      * @return string:  HTML for Element
      */
-    static function text_area($label, $name, $default_text='',  $cols=20, $rows=5, $class='')  {
+    static function text_area($label, $name, $default_text='',  $cols=20, $rows=5, $class='', $attrs='')  {
         return <<< EOT
         <br>
         <label for='$name'> $label </label>
-        <textarea name='$name' class='$class' rows=$rows cols=$cols />
+        <textarea name='$name' id='$name' class='$class' rows=$rows cols=$cols $attrs >
          $default_text
         </textarea>
         <br>
@@ -226,12 +246,16 @@ EOT;
      * @param string $class:  CSS Class
      * @return string:  HTML for element
      */
-    static function text_input($label, $name, $default_text='', $class='') {
+    static function text_input($label, $name, $default_text='', $class='', $attrs='') {
         return <<< EOT
-    <br>
-      <label for='$name'> $label </label>
-      <input name='$name' id='$name' type='text' class='$class' value='$default_text' />
-     <br>
+
+        <div class="form-group">
+            <label for="$name" class="col-sm-2  col-sm-offset-1 control-label">$label</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control $class" id="$name" name="$name" $attrs value="$default_text">
+            </div>
+        </div>
+
 EOT;
     }
 
@@ -243,15 +267,28 @@ EOT;
      * @param string $class:  CSS class
      * @return string:  HTML for element
      */
-    static function password_input($label, $name, $class='') {
+    static function password_input($label, $name, $class='', $attrs='' ) {
         return <<< EOT
-    <br>
-      <label for='$name'> $label </label>
-      <input name='$name' id='$name' type='passwword' class='$class'  />
-     <br>
+
+      <div class="form-group">
+            <label for="$name" class="col-sm-2  col-sm-offset-1 control-label">$label</label>
+            <div class="col-sm-8">
+                <input type="password" class="form-control $class" id="$name" name="$name" $attrs >
+            </div>
+        </div>
+
 EOT;
     }
 
+    static function radio_input($label, $name, $value, $checked='', $class='', $attrs='') {
+        return <<< EOT
+
+    <label class="radio-inline">
+        <input type="radio" name="$name" id="$name" value="$value" $checked class='$class'> $label
+    </label>
+
+EOT;
+    }
 
     /**
      *  Creates an input for uploading a file
@@ -263,10 +300,12 @@ EOT;
      */
     static function file_input($label, $name, $class='') {
         return <<< EOT
+
     <br>
       <label for='$name'> $label </label>
       <input name='$name' type='file' class='$class' />
      <br>
+
 EOT;
     }
 
@@ -290,10 +329,16 @@ EOT;
                                  $multiple=true,
                                  $already_selected = '',
                                  $size=5,
-                                 $class='') {
-        $returnString = "<br>\n";
-        $returnString .= "<label for='{$name}'> $label </label>";
-        $returnString .= "<select name='{$name}' id='{$name}' class='$class' size=$size ";
+                                 $class='',
+                                 $attrs='') {
+        $returnString = <<< EOT
+
+      <div class="form-group">
+            <label for="$name" class="col-sm-2  col-sm-offset-1 control-label">$label</label>
+            <div class="col-sm-8">
+EOT;
+
+        $returnString .= "<select name='{$name}' id='{$name}' $attrs class='form-control $class' size=$size ";
         if ($multiple) {
             $returnString .= " multiple ";
         }
@@ -308,8 +353,12 @@ EOT;
             }
             $returnString .= "> $rowshown </option>\n";
         }
-        $returnString .= "</select>\n";
-        $returnString .= "<br>\n";
+        $returnString .= <<<EOT
+                </select>
+            </div>
+        </div>
+
+EOT;
         return $returnString;
     }
 
