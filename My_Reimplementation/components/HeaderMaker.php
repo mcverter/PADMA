@@ -20,7 +20,7 @@ class HeaderMaker
      */
     private static function make_login_form() {
         $returnString = '';
-        $returnString .= wMk::start_form("../functions/AuthorizeUserFunction.php")
+        $returnString .= wMk::start_form("../functions/AuthorizeUserFunction.php", 'POST', 'loginForm', 'form-horizontal',  '', ' role="form" ')
                 . wMk::text_input('User Id', pgFn::USERID_SESSVAR)
                 . wMk::password_input('Password', pgFn::PASSWORD_POSTVAR)
                 . wMk::submit_button('submit', 'Sign In', ' btn btn-primary ')

@@ -8,3 +8,7 @@
 body {
     background-color: #B7EDE8 !important;
 }
+
+.dropdown-menu {
+    width: 500px !important;
+}

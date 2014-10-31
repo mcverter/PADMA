@@ -629,7 +629,12 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
     static function selectProfileInfoByUserID($db_conn, $userid)
     {
         $userid = strtoupper($userid);
-        $query = "select title,fname,lname,mname,add_1,add_2,city,state,zip,country,phone,email,ind,prof,updated_by, updated_on from client where user_id = '{$userid}'";
+        $query = "select " . self::TITLE_COL ."," . self::FNAME_COL .",". self::LNAME_COL .",".
+            self::MNAME_COL .",". self::ADD_1_COL .",". self::ADD_2_COL .",". self::CITY_COL .",".
+            self::STATE_COL .",". self::ZIP_COL .",". self::COUNTRYNAME_COL .",". self::PHONE_COL .",".
+            self::EMAIL_COL .",". self::IND_COL .",". self::PROF_COL .",".
+            self::UPDATED_BY_COL .",". self::UPDATED_ON_COL .
+            " from client where user_id = '{$userid}'";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 

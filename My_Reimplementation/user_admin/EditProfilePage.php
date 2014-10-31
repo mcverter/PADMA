@@ -52,7 +52,7 @@ class EditProfilePage extends DatabaseConnectionPage {
             list($title, $fname, $lname, $mname,
                 $address1, $address2, $city, $state, $zip, $country,
                 $phone, $email, $industry, $profession, $updated_by, $updated_on) =
-                oci_fetch_assoc(dbFn::selectProfileInfoByUserID($db_conn, $userid));
+                oci_fetch_array(dbFn::selectProfileInfoByUserID($db_conn, $userid), OCI_NUM);
         }
         $returnString = <<< EOT
     <h2> Profile Information </h2>
@@ -122,6 +122,4 @@ EOT;
     function make_page_middle($userid, $role){
         return $this->make_image_content_columns ($userid, $role, 'N', 8) ;
     }
-
-
 }
