@@ -309,6 +309,24 @@ EOT;
 EOT;
     }
 
+    static function  start_fieldset($legend) {
+        return <<< EOT
+
+        <fieldset>
+            <legend> $legend </legend>
+EOT;
+
+    }
+
+    static function end_fieldset() {
+        return <<< EOT
+
+        </fieldset>
+
+EOT;
+
+    }
+
     /**
      * Creates a select form input
      * @param string $label:  Label for input
@@ -384,26 +402,6 @@ EOT;
      * SPECIAL USAGE
      ****************************/
 
-    /**
-     * Used on User Management Page to assign Access Right to Users
-     * @param $db_conn
-     * @param $ajax_button
-     * @return string
-     */
-    static function access_right_panel($db_conn, $ajax_button) {
-        $returnString = '';
-        $returnString . <<< EOT
-        <div border=1px>
-        <fieldset>
-        <legend> Assign Access Right </legend>
-EOT;
-
-        $returnString .=
-            self::select_input('Access Right', 'accessright', dbFn::selectAccessRightList($db_conn),
-                'ACC_RIGHT_ID', 'ACC_RIGHT_DESC', false) .
-            self::button_ajax($ajax_button, "Update Access Right");
-        return $returnString;
-    }
 
     /**
      * Used on User Management Page to display list of New and Existing Users

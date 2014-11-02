@@ -6,7 +6,7 @@
 class PageControlFunctionsAndConsts
 {
     const PADMA_EMAIL = 'padma.ccny@gmail.com';
-
+    const PADMA_URL = '';
     const USERID_SESSVAR = 'userid';
     const ROLE_SESSVAR = 'role';
     const PASSWORD_POSTVAR = 'password';
@@ -32,6 +32,9 @@ class PageControlFunctionsAndConsts
         $errorPage->display_page();
     }
 
+    static function randomPassword ($length=10) {
+            return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*|"), 0, $length);
+    }
     /**
      * @param $errorMsg
      */

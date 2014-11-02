@@ -26,6 +26,8 @@ class DBFunctionsAndConsts
     const REFERENCE_BIO_TBL = 'REFERENCE_BIO';
     const CLIENT_TBL = 'CLIENT';
 
+    const RIGHT_ALIAS = 'RIGHT';
+
     const EXP_NAME_COL = "EXP_NAME";
     const PROB_ID_COL  = "PROB_ID";
     const CATG_COL = 'CATG';
@@ -714,14 +716,21 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
     }
 
 
+    static function updatePasswordByUserID($db_conn, $userid, $password) {
+        $password = sha1($password);
+        $userid = strtoupper($userid);
+        $query = "update CLIENT set PASSWORD= '{$password}' WHERE USER_ID = '{$userid}'";
+        self::execute_NON_SELECT_query($db_conn, $query);
+    }
     /**
      * @param $db_conn
      * @param $userid
      * @param $password
      */
-    static function updateUserPassword($db_conn, $userid, $password)
+    static function updatePasswordByCID($db_conn, $cid, $password)
     {
-        $query = "update CLIENT set PASSWORD= '{$password}' WHERE USER_ID = '{$userid}'";
+        $password = sha1($password);
+        $query = "update CLIENT set PASSWORD= '{$password}' WHERE C_ID = $cid";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 
@@ -738,7 +747,7 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
         $row = oci_fetch_assoc($db_statement);
 
         return $row["TOTAL"];
-        }
+    }
 
 
     /**
@@ -766,6 +775,10 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
+    static function selectEmailFromCID($db_conn, $cid) {
+        $query = "select EMAIL from CLIENT WHERE C_ID=$cid";
+        return self::execute_SELECT_query_and_return($db_conn, $query);
+    }
     /**
      * @param $db_conn
      * @param $cid
@@ -773,9 +786,9 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
      * @param $createdby
      * @param $date
      */
-    static function updateUserRight($db_conn, $cid, $accessright, $createdby, $date)
+    static function updateUserRight($db_conn, $cid, $accessright, $updatedby, $date)
     {
-        $query = "UPDATE CLIENT SET ACC_RIGHT_ID='$accessright', CREATED_BY='$createdby',created_on='$date' WHERE C_ID='$cid'";
+        $query = "UPDATE CLIENT SET ACC_RIGHT_ID='$accessright', UPDATED_BY='$updatedby',updated_on='$date' WHERE C_ID='$cid'";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -787,7 +800,7 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
      */
     static function deleteUser($db_conn, $cid, $updatedby, $date)
     {
-        $query = "UPDATE CLIENT SET DEL_FLAG='1', UPDATED_BY=$updatedby,UPDATED_ON=$date WHERE C_ID=$cid";
+        $query = "UPDATE CLIENT SET DEL_FLAG='1', UPDATED_BY='$updatedby',UPDATED_ON='$date' WHERE C_ID=$cid";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 
@@ -799,7 +812,7 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
      */
     static function updateUserActivation($db_conn, $cid, $updatedby, $date)
     {
-        $query = "UPDATE CLIENT SET DEL_FLAG='0', UPDATED_BY=$updatedby,UPDATED_ON=$date WHERE C_ID=$cid";
+        $query = "UPDATE CLIENT SET DEL_FLAG='0', UPDATED_BY='$updatedby',UPDATED_ON='$date' WHERE C_ID=$cid";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 
