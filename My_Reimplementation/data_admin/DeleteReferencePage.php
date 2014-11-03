@@ -49,13 +49,11 @@ class DeleteReferencePage extends DatabaseConnectionPage {
 EOT;
         }
 
-        $actionUrl = $_SERVER['PHP_SELF'];
-
         $returnString .= <<< EOT
 
 	<h2> Select a Version to delete)</h2>
 EOT
-            . wMk::start_form($actionUrl)
+            . wMk::start_form($_SERVER['PHP_SELF'])
             .      wMk::select_input(
                 self::VERSION_LABEL,
                 DBFunctionsAndConsts::VERSION_COL,

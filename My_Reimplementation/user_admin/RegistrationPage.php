@@ -34,8 +34,10 @@ class RegistrationPage extends DatabaseConnectionPage {
         }
         $referrer_parts = parse_url($_SERVER['HTTP_REFERER']);
         if (($_SERVER['HTTP_HOST'] !== $referrer_parts['host']) ||
+            (($referrer_parts['path'] !==$_SERVER['PHP_SELF']) &&
                 ($referrer_parts['path'] !==
-                    dirname(dirname($_SERVER['PHP_SELF'])) . "/webpages/new_user_terms.php")) {
+                    dirname(dirname($_SERVER['PHP_SELF'])) .
+                    "/webpages/new_user_terms.php"))) {
             return false;
         }
         return true;
@@ -71,46 +73,71 @@ class RegistrationPage extends DatabaseConnectionPage {
      * @return string: HTML for page
      */
 
-    function make_main_content($userid, $role) {
-        if (! $this->check_referrer()){
+    function make_main_content($userid, $role)
+    {
+        if (!$this->check_referrer()) {
             return PageControlFunctionsAndConsts::redirectDueToError("You must agree to the terms of service before you complete the registration");
         }
         $db_conn = $this->db_conn;
         $returnString = '';
-        $returnString .= <<< EOT
+        if (isset($_POST[DBFunctionsAndConsts::PASSWORD_COL]) &&
+            isset($_POST[DBFunctionsAndConsts::USER_ID_COL])) {
+            DBFunctionsAndConsts::insertUserProfile(
+                $db_conn,
+                $_POST[DBFunctionsAndConsts::TITLE_COL],
+                $_POST[DBFunctionsAndConsts::LNAME_COL],
+                $_POST[DBFunctionsAndConsts::MNAME_COL],
+                $_POST[DBFunctionsAndConsts::FNAME_COL],
+                $_POST[DBFunctionsAndConsts::ADD_1_COL],
+                $_POST[DBFunctionsAndConsts::ADD_2_COL],
+                $_POST[DBFunctionsAndConsts::CITY_COL],
+                $_POST[DBFunctionsAndConsts::STATE_COL],
+                $_POST[DBFunctionsAndConsts::ZIP_COL],
+                $_POST[DBFunctionsAndConsts::COUNTRYNAME_COL],
+                $_POST[DBFunctionsAndConsts::PHONE_COL],
+                $_POST[DBFunctionsAndConsts::EMAIL_COL],
+                $_POST[DBFunctionsAndConsts::IND_COL],
+                $_POST[DBFunctionsAndConsts::PROF_COL],
+                strtoupper($_POST[DBFunctionsAndConsts::USER_ID_COL]),
+                sha1($_POST[DBFunctionsAndConsts::PASSWORD_COL]),
+                DBFunctionsAndConsts::now_applied());
+            $returnString .= PageControlFunctionsAndConsts::redirectDueToSuccess("You have successfully registered for PADMA.  "
+                . "<br >An administrator will email you when your registration is complete.");
+
+        } else {
+            $returnString .= <<< EOT
 Welcome to PADMA Database. Just select an UserID and Password, answer a few simple questions.
 We will send you an e-mail when your account setup is complete
 
 EOT;
 
-        $password_col = DBFunctionsAndConsts::PASSWORD_COL;
-        $returnString .=
-            WidgetMaker::start_form('../functions/RegisterUserFunction.php', 'POST', 'registerForm', ' form-horizontal ', '', ' data-parsley-validate ' ) .
-            WidgetMaker::text_input("User ID *:", DBFunctionsAndConsts::USER_ID_COL, '', '', ' data-parsley-required data-parsley-trigger="keyup" data-parsley-trigger="blur" data-parsley-trigger="change"  autocomplete=off data-parsley-remote="../user_admin/CheckUniqueUsernameAJAX.php" data-parsley-remote-message="That User ID already exists"	data-parsley-minlength="5" ') .
-            WidgetMaker::password_input("Password *:", $password_col , '', " data-parsley-required autocomplete=off  data-parsley-minlength='6'	 ") .
-            WidgetMaker::password_input("Confirm Password *:", 'passConfirm ', '', " data-parsley-required data-parsley-equalto='#$password_col'	 ") .
-            WidgetMaker::select_input("Title *:",DBFunctionsAndConsts::TITLE_COL,DBFunctionsAndConsts::selectTitleList($db_conn), DBFunctionsAndConsts::TITLE_COL, DBFunctionsAndConsts::TITLE_COL, false, '', 3, '', 'data-parsley-required') .
-            WidgetMaker::text_input("Last Name *:", DBFunctionsAndConsts::LNAME_COL,'' , '','data-parsley-required') .
-            WidgetMaker::text_input("First Name *:", DBFunctionsAndConsts::FNAME_COL, '', '', 'data-parsley-required') .
-            WidgetMaker::text_input("Middle Initial (optional):", DBFunctionsAndConsts::MNAME_COL) .
-            WidgetMaker::text_input("Address *:", DBFunctionsAndConsts::ADD_1_COL,'', '', ' data-parsley-required') .
-            WidgetMaker::text_input("Address (optional):", DBFunctionsAndConsts::ADD_2_COL) .
-            WidgetMaker::text_input("City *:", DBFunctionsAndConsts::CITY_COL, '', '', ' data-parsley-required') .
-            WidgetMaker::text_input("State *:", DBFunctionsAndConsts::STATE_COL, '', '', 'data-parsley-required') .
-            WidgetMaker::text_input("Zip Code *:", DBFunctionsAndConsts::ZIP_COL, '', '', " data-parsley-required data-parsley-minlength='5'	 ") .
-            WidgetMaker::select_input("Country *:", DBFunctionsAndConsts::COUNTRYNAME_COL, DBFunctionsAndConsts::selectCountryList($db_conn),DBFunctionsAndConsts::COUNTRYID_COL, DBFunctionsAndConsts::COUNTRYNAME_COL, false, '',5, '', ' data-parsley-required ' ) .
-            WidgetMaker::text_input("Phone Number *:", DBFunctionsAndConsts::PHONE_COL, '', '', 'data-parsley-required') .
-            WidgetMaker::text_input("EMail Address *:", DBFunctionsAndConsts::EMAIL_COL, '', '', " data-parsley-required data-parsley-type='email'	") .
-            WidgetMaker::text_input("Industry *:", DBFunctionsAndConsts::IND_COL,'', '', 'data-parsley-required') .
-            WidgetMaker::text_input("Profession *:", DBFunctionsAndConsts::PROF_COL, '', '', 'data-parsley-required') .
-            WidgetMaker::submit_button("submit", "Register New User") .
-            WidgetMaker::end_form()
-        ;
+            $password_col = DBFunctionsAndConsts::PASSWORD_COL;
 
-
+            $returnString .=
+                WidgetMaker::start_form($_SERVER['PHP_SELF'], 'POST', 'registerForm', ' form-horizontal ', '', ' data-parsley-validate ') .
+                WidgetMaker::text_input("User ID *:", DBFunctionsAndConsts::USER_ID_COL, '', '', ' data-parsley-required data-parsley-trigger="keyup" data-parsley-trigger="blur" data-parsley-trigger="change"  autocomplete=off data-parsley-remote="../user_admin/CheckUniqueUsernameAJAX.php" data-parsley-remote-message="That User ID already exists"	data-parsley-minlength="5" ') .
+                WidgetMaker::password_input("Password *:", $password_col, '', " data-parsley-required autocomplete=off  data-parsley-minlength='6'	 ") .
+                WidgetMaker::password_input("Confirm Password *:", 'passConfirm ', '', " data-parsley-required data-parsley-equalto='#$password_col'	 ") .
+                WidgetMaker::select_input("Title *:", DBFunctionsAndConsts::TITLE_COL, DBFunctionsAndConsts::selectTitleList($db_conn), DBFunctionsAndConsts::TITLE_COL, DBFunctionsAndConsts::TITLE_COL, false, '', 3, '', 'data-parsley-required') .
+                WidgetMaker::text_input("Last Name *:", DBFunctionsAndConsts::LNAME_COL, '', '', 'data-parsley-required') .
+                WidgetMaker::text_input("First Name *:", DBFunctionsAndConsts::FNAME_COL, '', '', 'data-parsley-required') .
+                WidgetMaker::text_input("Middle Initial (optional):", DBFunctionsAndConsts::MNAME_COL) .
+                WidgetMaker::text_input("Address *:", DBFunctionsAndConsts::ADD_1_COL, '', '', ' data-parsley-required') .
+                WidgetMaker::text_input("Address (optional):", DBFunctionsAndConsts::ADD_2_COL) .
+                WidgetMaker::text_input("City *:", DBFunctionsAndConsts::CITY_COL, '', '', ' data-parsley-required') .
+                WidgetMaker::text_input("State *:", DBFunctionsAndConsts::STATE_COL, '', '', 'data-parsley-required') .
+                WidgetMaker::text_input("Zip Code *:", DBFunctionsAndConsts::ZIP_COL, '', '', " data-parsley-required data-parsley-minlength='5'	 ") .
+                WidgetMaker::select_input("Country *:", DBFunctionsAndConsts::COUNTRYNAME_COL, DBFunctionsAndConsts::selectCountryList($db_conn), DBFunctionsAndConsts::COUNTRYID_COL, DBFunctionsAndConsts::COUNTRYNAME_COL, false, '', 5, '', ' data-parsley-required ') .
+                WidgetMaker::text_input("Phone Number *:", DBFunctionsAndConsts::PHONE_COL, '', '', 'data-parsley-required') .
+                WidgetMaker::text_input("EMail Address *:", DBFunctionsAndConsts::EMAIL_COL, '', '', " data-parsley-required data-parsley-type='email'	") .
+                WidgetMaker::text_input("Industry *:", DBFunctionsAndConsts::IND_COL, '', '', 'data-parsley-required') .
+                WidgetMaker::text_input("Profession *:", DBFunctionsAndConsts::PROF_COL, '', '', 'data-parsley-required') .
+                WidgetMaker::submit_button("submit", "Register New User") .
+                WidgetMaker::end_form();
+        }
         return $returnString;
-
     }
+
     function make_page_middle($userid, $role) {
         return $this->make_image_content_columns ($userid, $role, 'O', 8) ;
     }
@@ -122,7 +149,7 @@ EOT;
     function make_js() {
         $userid = DBFunctionsAndConsts::USER_ID_COL;
         return parent::make_js() .
-            <<< EOT
+        <<< EOT
 
         <script src="../js/parsley.remote.js"></script>`
         <script src="../js/parsley.js"></script>

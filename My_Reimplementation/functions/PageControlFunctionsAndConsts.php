@@ -87,7 +87,10 @@ class PageControlFunctionsAndConsts
             return false;
         }
         else {
-            $role = $_SESSION[self::ROLE_SESSVAR];
+            if (isset($_SESSION[self::ROLE_SESSVAR])) {
+                $role = $_SESSION[self::ROLE_SESSVAR];
+            }
+            else $role = '';
             switch ($roletype) {
                 case self::NO_ROLE:
                     if ($role ==self::ADMINISTRATOR_ROLE ||

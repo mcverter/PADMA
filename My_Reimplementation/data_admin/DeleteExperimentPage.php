@@ -69,13 +69,11 @@ class DeleteExperimentPage extends DatabaseConnectionPage
             $returnString .= wMk::successMessage('success', $message);
         }
 
-        $actionUrl = $_SERVER['PHP_SELF'];
-
         $returnString .=<<< EOT
             <h2>Select an Experiment to delete</h2>
 EOT
 
-            . wMk::start_form($actionUrl)
+            . wMk::start_form($_SERVER['PHP_SELF'])
 
             . wMk::select_input(
                 "Experiment to Delete",

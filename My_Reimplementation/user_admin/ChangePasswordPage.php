@@ -44,9 +44,8 @@ class ChangePasswordPage extends DatabaseConnectionPage
             }
         }
         else {
-            $actionUrl = $_SERVER['PHP_SELF'];
             $returnString .= "User Id : $userid" .
-                wMk::start_form($actionUrl, 'POST', 'changePassForm',  ' form-horizontal ', '', ' data-parsley-validate ') .
+                wMk::start_form($_SERVER['PHP_SELF'], 'POST', 'changePassForm',  ' form-horizontal ', '', ' data-parsley-validate ') .
                 wMk::text_input('Old Password', self::OLD_PASS_POSTVAR, '', '', ' data-parsley-required ') .
                 wMk::text_input('New Password', self::NEW_PASS_POSTVAR, '', '', ' data-parsley-required ') .
                 wMk::text_input('Confirm Password', 'confirm' . self::NEW_PASS_POSTVAR, '', '', ' data-parsley-required data-parsley-equalto="#' . self::NEW_PASS_POSTVAR .'" ') .

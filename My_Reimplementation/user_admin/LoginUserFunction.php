@@ -30,9 +30,10 @@ if ($role === pgFn::RESEARCHER_ROLE ||
     session_start();
     $_SESSION[pgFn::ROLE_SESSVAR]=$role;
     $_SESSION[pgFn::USERID_SESSVAR]=$userid;
+    header('Location: ../webpages/index.php');
 }
 else {
-    $_SESSION[pgFn::ROLE_SESSVAR]=pgFn::NOTAUTHORIZED_ROLE;
+    $_SESSION[pgFn::ROLE_SESSVAR]= null;
+    PageControlFunctionsAndConsts::redirectDueToError("We could not find your Username / Password combination in our records");
 }
 
-header('Location: ../webpages/index.php');

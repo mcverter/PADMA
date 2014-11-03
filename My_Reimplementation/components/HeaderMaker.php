@@ -20,7 +20,7 @@ class HeaderMaker
      */
     private static function make_login_form() {
         $returnString = '';
-        $returnString .= wMk::start_form("../functions/AuthorizeUserFunction.php", 'POST', 'loginForm', 'form-horizontal',  '', ' role="form" ')
+        $returnString .= wMk::start_form("../user_admin/LoginUserFunction.php", 'POST', 'loginForm', 'form-horizontal',  '', ' role="form" ')
                 . wMk::text_input('User Id', pgFn::USERID_SESSVAR)
                 . wMk::password_input('Password', pgFn::PASSWORD_POSTVAR)
                 . wMk::submit_button('submit', 'Sign In', ' btn btn-primary ')
@@ -95,7 +95,7 @@ EOT;
 
             <li><a href="../webpages/edit_profile.php" title="Edit Profile">Edit Profile</a></li>
             <li style="color:red;" > Welcome $formatted_userid </li>
-            <li><a href="../functions/LogoutUserFunction.php" title="Logout">Log Out</a></li>
+            <li><a href="../user_admin/LogoutUserFunction.php" title="Logout">Log Out</a></li>
 
 EOT;
         } else {

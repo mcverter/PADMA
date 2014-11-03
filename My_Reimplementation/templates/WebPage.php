@@ -74,12 +74,10 @@ abstract class WebPage
         $image_name = preg_replace('/php/', 'jpg', basename($filename));
         $image_dir = "../images/PadmaPix/";
         $image_path = $image_dir . $image_name;
-        error_log($image_path);
         $remainingWidth = 12 - $imgWidth;
         if (!$imgOrientation || !$imgWidth) {
             $returnString .= $this->make_main_content($userid, $role);
         } else {
-
             switch ($imgOrientation) {
                 case 'N':
                     $returnString .= $this->make_main_content($userid, $role);
@@ -111,7 +109,7 @@ EOT;
             </a>
         </div>
 EOT;
-
+                    break;
                 case 'R':
                     $returnString .= <<< EOT
 
@@ -145,7 +143,6 @@ EOT;
     </div>
 EOT;
 
-                    $returnString .= $this->make_main_content($userid, $role);
                     break;
                 default:
                     $returnString .= $this->make_main_content($userid, $role);
