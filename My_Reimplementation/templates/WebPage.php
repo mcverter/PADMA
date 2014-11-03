@@ -76,11 +76,13 @@ abstract class WebPage
         $image_path = $image_dir . $image_name;
         $remainingWidth = 12 - $imgWidth;
         if (!$imgOrientation || !$imgWidth) {
-            $returnString .= $this->make_main_content($userid, $role);
+            $returnString .= "<h1> " . self::PG_TITLE . " </h1> \n" .
+                $this->make_main_content($userid, $role);
         } else {
             switch ($imgOrientation) {
                 case 'N':
-                    $returnString .= $this->make_main_content($userid, $role);
+                    $returnString .=  "<h1> " . self::PG_TITLE . " </h1> \n" .
+                         $this->make_main_content($userid, $role);
                     break;
                 case 'FL':
                     $returnString .= <<< EOT
@@ -90,7 +92,8 @@ abstract class WebPage
             </a>
             <div class="media=body">
 EOT;
-                    $returnString .= $this->make_main_content($userid, $role);
+                    $returnString .= "<h1> " . self::PG_TITLE . " </h1> \n" .
+                        $this->make_main_content($userid, $role);
                     $returnString .= <<< EOT
             </div>
         </div>
@@ -101,7 +104,8 @@ EOT;
         <div class="media">
             <div class="media=body">
 EOT;
-                    $returnString .= $this->make_main_content($userid, $role);
+                    $returnString .= "<h1> " . self::PG_TITLE . " </h1> \n" .
+                        $this->make_main_content($userid, $role);
                     $returnString .= <<< EOT
             </div>
             <a class="media-right" href="#">
@@ -118,7 +122,8 @@ EOT;
         <div class="col-md-{$remainingWidth}">
 EOT;
 
-                    $returnString .= $this->make_main_content($userid, $role);
+                    $returnString .= "<h1> " . static::PG_TITLE . " </h1> \n" .
+                        $this->make_main_content($userid, $role);
 
                     $returnString .= <<< EOT
         </div>
@@ -133,7 +138,8 @@ EOT;
         <div class="col-md-{$remainingWidth}">
 EOT;
 
-                    $returnString .= $this->make_main_content($userid, $role);
+                    $returnString .= "<h1> " . self::PG_TITLE . " </h1> \n" .
+                        $this->make_main_content($userid, $role);
 
                     $returnString .= <<< EOT
         </div>
@@ -145,7 +151,8 @@ EOT;
 
                     break;
                 default:
-                    $returnString .= $this->make_main_content($userid, $role);
+                    $returnString .= "<h1> " . self::PG_TITLE . " </h1> \n" .
+                        $this->make_main_content($userid, $role);
                     break;
             }
         }
@@ -207,7 +214,6 @@ EOT;
         $returnString .= HeaderMaker::make_header($userid, $role);
         $returnString .= <<< EOT
     <div class="main container">
-        <h1> $title </h1>
 EOT;
 
         return $returnString;
