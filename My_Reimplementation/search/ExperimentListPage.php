@@ -9,7 +9,6 @@ class ExperimentListPage extends DatabaseConnectionPage{
 
     const PG_TITLE = 'Experiment List';
 
-    const EXPERIMENT_SELECT_ID = 'experiments';
     const DESCRIPTION_DIV_ID = 'description_div';
     const DESCRIPTION_TEXTAREA = 'description_ta';
 

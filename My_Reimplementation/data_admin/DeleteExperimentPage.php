@@ -11,7 +11,7 @@ require_once("../templates/DatabaseConnectionPage.php");
 class DeleteExperimentPage extends DatabaseConnectionPage
 {
     const PG_TITLE = "Delete Experiment";
-    const EXPERIMENT_LABEL = "Experiment to Delete";
+    const DESCRIPTION_DIV = 'expDesc';
 
     /**
      * @Override
@@ -78,19 +78,52 @@ EOT
             . wMk::start_form($actionUrl)
 
             . wMk::select_input(
-                self::EXPERIMENT_LABEL,
+                "Experiment to Delete",
                 DBFunctionsAndConsts::EXP_NAME_COL,
                 $this->showExperimentList(),
                 dbFn::EXP_NAME_COL,
                 dbFn::EXP_NAME_COL,
-                false)
+                false).
+                '<div> '. self::DESCRIPTION_DIV . '</div>'
 
             .  wMk::submit_button('deleteBtn', 'Delete', '')
-            . wMk::end_form();
+                . wMk::end_form();
 
         return $returnString;
     }
+
+
+    function make_js() {
+        $returnString = parent::make_js();
+        $role = $this->role;
+        list ($description_div, $experiment_select, $show_experiment_cmd) =
+            array (self::DESCRIPTION_DIV,
+                DBFunctionsAndConsts::EXP_NAME_COL,
+            PageControlFunctionsAndConsts::SHOW_DESCRIPTION_COMMAND);
+        $returnString .= $returnString .= <<< EOT
+        <script>
+        $(document).ready( function () {
+            $(document).on("change", '#$experiment_select' ,function() {
+                var selected = this.value;
+                $.ajax({
+                url: '../search/SearchAJAX.php',
+                type: 'POST',
+                datype: "html",
+                data : {
+                    experimentid : selected, command: '$show_experiment_cmd', role: '$role'
+                 },
+                success: function(experimentDesc) {
+                    console.log(experimentDesc);
+                    $('#$description_div').html(experimentDesc);
+                }
+            });
+        });
+    }
+EOT;
+
 }
+
+
 
 
 

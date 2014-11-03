@@ -6,7 +6,6 @@
 
 require_once("../functions/DBFunctionsAndConsts.php");
 require_once("../components/WidgetMaker.php");
-require_once("ExperimentListPage.php");
 
 $date = dbFn::now();
 $db_conn = dbFn::connect_to_db();

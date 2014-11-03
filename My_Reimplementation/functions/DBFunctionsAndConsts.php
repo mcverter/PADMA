@@ -89,6 +89,7 @@ class DBFunctionsAndConsts
     const DATE_TIME_FORMAT = "m/d/y";
     const DATE_TIME_APPLIED_FORMAT = "d-M-y";
 
+    const POST_MULTIPLE = '[]';
 
     const TIME_LIMIT = 6000;
     const SEARCH_RESULT_LIMIT = 1000;

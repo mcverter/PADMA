@@ -22,6 +22,7 @@ class PageControlFunctionsAndConsts
     const REGISTERED_ROLE = 'Registered';
     const NO_ROLE = '';
 
+    const SHOW_DESCRIPTION_COMMAND = "showDescription";
     /**
      * @param $errorMsg
      */
