@@ -3,6 +3,8 @@ require_once("../templates/WebPage.php");
 
 /**
  * Class ManageDataMainPage
+ *
+ * Shows the Menu for managing data
  */
 class ManageDataMainPage extends WebPage
 {
@@ -10,7 +12,9 @@ class ManageDataMainPage extends WebPage
     const PG_TITLE = "Manage Data";
 
     /**
-     * @return bool
+     * Only Researchers and Administrators are allowed to Edit Experiments
+     *
+     * @return bool:  Whether user is allowed to view page
      */
     protected  function isAuthorizedToViewPage() {
         return PageControlFunctionsAndConsts::check_role(pgFn::SUPERVISING_ROLE);
@@ -19,6 +23,9 @@ class ManageDataMainPage extends WebPage
     /**
      * @Override
      * Shows the main functional content block of the page
+     *
+     * Researchers and Admins can Edit, Delete, and Upload Experiments
+     * Only Admins can Upload or Delete Reference Versions
      *
      * @param $userid : Logged in User
      * @param $role : Role of Logged in User
@@ -29,7 +36,7 @@ class ManageDataMainPage extends WebPage
         $returnString = '';
         $returnString .= <<< EOT
         <ul class="nav nav-pills nav-stacked">
-            <li> <a href="../webpages/experiment_list.php">Edit Experiment</a></li>
+            <li> <a href="../webpages/edit_experiment.php">Edit Experiment</a></li>
             <li> <a href="../webpages/upload_experiment.php">Upload Experiment</a></li>
             <li> <a href="../webpages/delete_experiment.php">Delete Experiment</a></li>
 EOT;
@@ -47,7 +54,7 @@ EOT;
 
     /**
      * @Override
- * Determine formatting of Main Page Image relative to
+     * Determine formatting of Main Page Image relative to
      *     Page Logical Content
      *
      * @param $userid : Logged in User
@@ -56,10 +63,8 @@ EOT;
      */
 
     function make_page_middle($userid, $role) {
-        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
+        return $this->make_image_content_columns ($userid, $role, 'R', 4) ;
     }
-
-
 }
 
 

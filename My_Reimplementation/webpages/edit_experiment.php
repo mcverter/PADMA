@@ -1,7 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: oracle
- * Date: 10/27/14
- * Time: 8:50 AM
- */ 
+require_once("../data_admin/EditExperimentPage.php");
+$p = new EditExperimentPage();
+$p->display_page();

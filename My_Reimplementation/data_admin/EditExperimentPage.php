@@ -3,12 +3,23 @@ require_once("../templates/DatabaseConnectionPage.php");
 
 /**
  * Class EditExperimentPage
+ *
+ * Creates a page in which Administrators and Researchers
+ *  may Edit the Descriptions of Experiments in the Database
  */
 class EditExperimentPage extends DatabaseConnectionPage
 {
     const PG_TITLE =  "Edit Experiment";
-    const EXPERIMENT_LABEL = "Experiment Name";
-    const DESCRIPTION_SCRIPT = "ReadExperimentDescription.php";
+    const DESCRIPTION_DIV = "desc_div";
+
+    /**
+     * Only Researchers and Administrators are allowed to Edit Experiments
+     *
+     * @return bool:  Whether user is allowed to view page
+     */
+    protected  function isAuthorizedToViewPage() {
+        return PageControlFunctionsAndConsts::check_role(pgFn::SUPERVISING_ROLE);
+    }
 
     /**
      * @Override
@@ -21,58 +32,39 @@ class EditExperimentPage extends DatabaseConnectionPage
      */
 
     function make_page_middle($userid, $role){
-        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
-    }
-    /**
-     * @throws ErrorException
-     */
-    function make_experiment_select()
-    {
-        wMk::select_input(
-            self::EXPERIMENT_LABEL,
-                    DBFunctionsAndConsts::EXP_NAME_COL,
-            $this->showExperimentMasterList(),
-            dbFn::EXP_NAME_COL,
-            dbFn::EXP_NAME_COL,
-            false);
+        return $this->make_image_content_columns ($userid, $role, 'R', 4) ;
     }
 
     /**
-     * @throws ErrorException
+     *
+     * In comparison with an ADMINISTRATOR, a RESEARCHERS
+     *    only has authority to edit a limited set of experiments
+     *
+     * This function returns the appropriate list according to
+     *   the users ROLE.
+     *
      */
-    function showExperimentMasterList()
+    function selectExperimentMasterList()
     {
-        $role = $this->$role;
+        $role = $this->role;
 
-        if ($role == wPg::ADMINISTRATOR_ROLE) {
+        if ($role == PageControlFunctionsAndConsts::ADMINISTRATOR_ROLE) {
             return dbFn::selectUnrestrictedExperimentListFromMaster($this->db_conn);
-        } elseif ($role == wPg::RESEARCHER_ROLE) {
+        } elseif ($role == PageControlFunctionsAndConsts::RESEARCHER_ROLE) {
             return dbFn::selectRestrictedExperimentListFromMaster($this->db_conn, $this->userid);
-        } else {
-            throw new ErrorException();
         }
-    }
-
-    /**
-     * @param $name
-     */
-    function showExperimentDescription($name)
-    {
-        dbFn::selectExperimentDescription($this->db_conn, $name);
-    }
-
-    /**
-     * @param $name
-     * @param $description
-     */
-    function changeExperimentDescription($name, $description)
-    {
-        dbFn::updateExperimentDescription($this->db_conn, $name, $description);
     }
 
     /**
      * @Override
      * Shows the main functional content block of the page
+     *
+     * If the form been posted, the description is updated
+     *    and a confirmation message is printed
+     *
+     * A select widget displays the experiments
+     * A div is used to present the descriptions
+     *
      *
      * @param $userid : Logged in User
      * @param $role : Role of Logged in User
@@ -80,63 +72,80 @@ class EditExperimentPage extends DatabaseConnectionPage
      */
     function make_main_content($userid, $role)
     {
+        $db_conn = $this->db_conn;
 
-        $actionUrl = $_SERVER['PHP_SELF'];
+        $returnString = '';
 
-        $returnString = <<< EOT
-        <h2> Edit Description </h2>
-        <form action=$actionUrl>
-EOT;
+        if (isset($_POST[DBFunctionsAndConsts::EXP_NAME_COL]) &&
+            isset($_POST[DBFunctionsAndConsts::EXP_DESC_COL])) {
+            $exp_name = $_POST[DBFunctionsAndConsts::EXP_NAME_COL];
+            $exp_desc = $_POST[DBFunctionsAndConsts::EXP_DESC_COL];
+            DBFunctionsAndConsts::updateExperimentDescription($db_conn, $exp_name, $exp_desc);
+            $returnString .= wMk::successMessage('success',
+                "Description of $exp_name has been updated");
+        }
 
-        wMk::select_input(self::EXPERIMENT_LABEL,
-                    DBFunctionsAndConsts::EXP_NAME_COL,
-            $this->showExperimentMasterList(),
-            dbFn::EXP_NAME_COL,
-            dbFn::EXP_NAME_COL,
-            false);
+        $returnString .= WidgetMaker::start_form($_SERVER['PHP_SELF'])
+            . wMk::select_input("Experiment Name",
+                DBFunctionsAndConsts::EXP_NAME_COL,
+                $this->selectExperimentMasterList(),
+                dbFn::EXP_NAME_COL,
+                dbFn::EXP_NAME_COL,
+                false)
+        ;
 
-        wMk::submit_button('editDescription', 'Edit Description');
+        $desc_div = self::DESCRIPTION_DIV;
 
         $returnString .= <<< EOT
-        </form>
-        <div name="description"> </div>
+
+        <div id="$desc_div"></div>
 EOT;
 
+        $returnString .=  wMk::submit_button('editDescription', 'Edit Description') .
+            WidgetMaker::end_form();
         return $returnString;
     }
 
+
     /**
-     * @return string
+     * Creates the page's javascript
+     *
+     * Creates an AJAX callback for the description to
+     *  show up in a TEXTAREA within the Description DIV
+     *  when an experiment is selected
+     *
+     * @return string:  Javascript for file
      */
     function make_js() {
-
         $returnString = parent::make_js();
-        $EXPNAME_POSTVAR =         DBFunctionsAndConsts::EXP_NAME_COL;
-        $description_script = self::DESCRIPTION_SCRIPT;
-        $description_area = '';
-
-        $innerHTML =
-            wMk::start_form($_SERVER['PHP_SELF']) .
-            wMk::text_area() .
-            wMk::submit_button() .
-            wMk::end_form();
-
-        $returnString .= <<< EOT
-
-<script type="text/javascript" src="../js/jquery.js"></script>
-<script type="text/javascript">
-    $(document).ready(function(event) {
-        event.preventDefault();
-        $('#$EXPNAME_POSTVAR').change(function() {
-            var experimentData = {expName : $(this).name }
-            $.post('$description_script', experimentData, function(data) {
-                $('#$description_area').html($innerHTML});
+        list ($description_div, $experiment_select,
+            $description_textarea) =
+            array(self::DESCRIPTION_DIV,
+                DBFunctionsAndConsts::EXP_NAME_COL,
+                DBFunctionsAndConsts::EXP_DESC_COL);
+        $returnString .= $returnString .= <<< EOT
+<script>
+    $(document).ready( function () {
+        $(document).on("change", '#$experiment_select' ,function() {
+            var selected = this.value;
+            $.ajax({
+                url: '../data_admin/ExperimentDescriptionAJAX.php',
+                type: 'POST',
+                datype: "html",
+                data : {
+                    experimentid : selected
+                },
+                success: function(experimentDesc) {
+                    var html_txt = "<br><br><hr><br><br> <h5> Description of " +  selected + "</h5><br><textarea id='$description_textarea' cols=50 rows=5 name='$description_textarea'>" + experimentDesc + "</textarea>";
+                    $('#$description_div').html(html_txt);
+                }
             });
         });
     });
 </script>
 EOT;
         return $returnString;
-
     }
 }
+
+

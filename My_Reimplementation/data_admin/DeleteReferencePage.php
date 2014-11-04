@@ -3,16 +3,26 @@ require_once("../templates/DatabaseConnectionPage.php");
 
 /**
  * Class DeleteReferencePage
+ *
+ * Creates a page for Adminsitrators to delete Reference Versions
  */
 class DeleteReferencePage extends DatabaseConnectionPage {
 
     const PG_TITLE  = "Delete Reference";
 
-    const VERSION_LABEL = "Version to Delete";
- 
+
     /**
- * @Override
- * Determine formatting of Main Page Image relative to
+     * Only Administrators are allowed to Delete Versions
+     *
+     * @return bool:  Whether user is allowed to view page
+     */
+    protected  function isAuthorizedToViewPage() {
+        return PageControlFunctionsAndConsts::check_role(PageControlFunctionsAndConsts::ADMINISTRATOR_ROLE);
+    }
+
+    /**
+     * @Override
+     * Determine formatting of Main Page Image relative to
      *     Page Logical Content
      *
      * @param $userid : Logged in User
@@ -21,7 +31,7 @@ class DeleteReferencePage extends DatabaseConnectionPage {
      */
 
     function make_page_middle($userid, $role){
-        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
+        return $this->make_image_content_columns ($userid, $role, 'L', 4) ;
     }
 
     /**
@@ -44,18 +54,17 @@ class DeleteReferencePage extends DatabaseConnectionPage {
         ) {
             $versionPost = $_POST[DBFunctionsAndConsts::VERSION_COL];
             dbFn::deleteReference($db_conn, $versionPost);
-            $returnString .= <<< EOT
-            <h2> Version $versionPost has been deleted </h2>
-EOT;
+            $returnString .= wMk::successMessage('success',
+                "Version $versionPost has been deleted");
         }
 
         $returnString .= <<< EOT
 
-	<h2> Select a Version to delete)</h2>
+	<h2> Select a Version to delete</h2>
 EOT
             . wMk::start_form($_SERVER['PHP_SELF'])
-            .      wMk::select_input(
-                self::VERSION_LABEL,
+            . wMk::select_input(
+                "Version",
                 DBFunctionsAndConsts::VERSION_COL,
                 dbFn::selectVersionList($db_conn),
                 dbFn::VERSION_COL,

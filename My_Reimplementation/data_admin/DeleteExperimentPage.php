@@ -13,6 +13,17 @@ class DeleteExperimentPage extends DatabaseConnectionPage
     const PG_TITLE = "Delete Experiment";
     const DESCRIPTION_DIV = 'expDesc';
 
+
+
+    /**
+     * Only Researchers and Administrators are allowed to Delete Experiments
+     *
+     * @return bool:  Whether user is allowed to view page
+     */
+    protected  function isAuthorizedToViewPage() {
+        return PageControlFunctionsAndConsts::check_role(pgFn::SUPERVISING_ROLE);
+    }
+
     /**
      * @Override
      * Determine formatting of Main Page Image relative to
@@ -22,14 +33,21 @@ class DeleteExperimentPage extends DatabaseConnectionPage
      * @param $role : Role of Logged in User
      * @return string : HTML for middle of Page
      */
-    function make_page_middle($userid, $role){
-        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
+    function make_page_middle($userid, $role)
+    {
+        return $this->make_image_content_columns($userid, $role, 'R', 4);
     }
 
     /**
      *
+     * In comparison with an ADMINISTRATOR, a RESEARCHERS
+     *    only has authority to delete a limited set of experiments
+     *
+     * This function returns the appropriate list according to
+     *   the users ROLE.
+     *
      */
-    function showExperimentList()
+    function selectExperimentList()
     {
         $db_conn = $this->db_conn;
         $role = $this->role;
@@ -40,8 +58,6 @@ class DeleteExperimentPage extends DatabaseConnectionPage
             return dbFn::selectAllUnrestrictedExperimentList($db_conn, $userid);
         } else if ($role == PageControlFunctionsAndConsts::RESEARCHER_ROLE) {
             return dbFn::selectUserRestrictedExperimentList($db_conn, $userid);
-        } else {
-            throw new ErrorException();
         }
     }
 
@@ -52,8 +68,8 @@ class DeleteExperimentPage extends DatabaseConnectionPage
      * Shows list of Experiments which may be deleted.
      * If EXPERIMENT_POSTVAR is set, that experiment will be deleted
      *
-     * @param $userid:  Logged in User
-     * @param $role:  User's Role
+     * @param $userid :  Logged in User
+     * @param $role :  User's Role
      * @return string: HTML for page
      */
     function make_main_content($userid, $role)
@@ -65,60 +81,67 @@ class DeleteExperimentPage extends DatabaseConnectionPage
             $db_conn = $this->db_conn;
             $expName = $_POST[DBFunctionsAndConsts::EXP_NAME_COL];
             dbFn::deleteExperiment($db_conn, $expName);
-            $message =  "Experiment $expName has been deleted";
-            $returnString .= wMk::successMessage('success', $message);
+            $returnString .= wMk::successMessage('success',
+                "Experiment $expName has been deleted");
         }
 
-        $returnString .=<<< EOT
+        $returnString .= <<< EOT
             <h2>Select an Experiment to delete</h2>
 EOT
 
             . wMk::start_form($_SERVER['PHP_SELF'])
-
             . wMk::select_input(
-                "Experiment to Delete",
+                "Experiment",
                 DBFunctionsAndConsts::EXP_NAME_COL,
-                $this->showExperimentList(),
+                $this->selectExperimentList(),
                 dbFn::EXP_NAME_COL,
                 dbFn::EXP_NAME_COL,
-                false).
-                '<div> '. self::DESCRIPTION_DIV . '</div>'
-
-            .  wMk::submit_button('deleteBtn', 'Delete', '')
-                . wMk::end_form();
-
+                false) .
+            '<div id="' . self::DESCRIPTION_DIV . '"></div>'
+            . wMk::submit_button('deleteBtn', 'Delete', '')
+            . wMk::end_form();
         return $returnString;
     }
 
-
-    function make_js() {
+    /**
+     * Creates the page's javascript
+     *
+     * Creates an AJAX callback for the description to
+     *  show up in the Description DIV when an experiment
+     *  is selected
+     *
+     * @return string:  Javascript for file
+     */
+    function make_js()
+    {
         $returnString = parent::make_js();
-        $role = $this->role;
-        list ($description_div, $experiment_select, $show_experiment_cmd) =
-            array (self::DESCRIPTION_DIV,
-                DBFunctionsAndConsts::EXP_NAME_COL,
-            PageControlFunctionsAndConsts::SHOW_DESCRIPTION_COMMAND);
+        list ($description_div, $experiment_select) =
+            array(self::DESCRIPTION_DIV,
+                DBFunctionsAndConsts::EXP_NAME_COL);
         $returnString .= $returnString .= <<< EOT
-        <script>
-        $(document).ready( function () {
-            $(document).on("change", '#$experiment_select' ,function() {
-                var selected = this.value;
-                $.ajax({
-                url: '../search/SearchAJAX.php',
+<script>
+    $(document).ready( function () {
+        $(document).on("change", '#$experiment_select' ,function() {
+            var selected = this.value;
+            $.ajax({
+                url: '../data_admin/ExperimentDescriptionAJAX.php',
                 type: 'POST',
                 datype: "html",
                 data : {
-                    experimentid : selected, command: '$show_experiment_cmd', role: '$role'
-                 },
+                    experimentid : selected
+                },
                 success: function(experimentDesc) {
                     console.log(experimentDesc);
-                    $('#$description_div').html(experimentDesc);
+                    var html_txt = "<br><br> <h4> Description of " +  selected + "</h4>" + "<div>" + experimentDesc + "</div>";
+                    $('#$description_div').html(html_txt);
                 }
             });
         });
-    }
+    });
+</script>
 EOT;
-
+        return $returnString;
+    }
 }
 
 
