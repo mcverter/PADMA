@@ -34,7 +34,7 @@ class UploadAgreementPage extends WebPage {
      */
 
     function make_page_middle($userid, $role){
-        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
+        return $this->make_image_content_columns ($userid, $role, 'R', 3) ;
     }
 
     /**
