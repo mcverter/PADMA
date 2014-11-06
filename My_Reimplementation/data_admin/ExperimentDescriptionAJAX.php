@@ -4,7 +4,7 @@
  */
 
 
-require_once("../functions/DBFunctionsAndConsts.php");
+require_once("../functions_and_consts/DBFunctionsAndConsts.php");
 
 $db_conn = dbFn::connect_to_db();
 $experimentid = $_POST['experimentid'];

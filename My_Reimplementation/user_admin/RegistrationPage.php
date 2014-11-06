@@ -138,13 +138,17 @@ EOT;
         return $returnString;
     }
 
+    /**
+     * @param $userid
+     * @param $role
+     * @return string
+     */
     function make_page_middle($userid, $role) {
         return $this->make_image_content_columns ($userid, $role, 'O', 8) ;
     }
 
-    /*
-     * <input name="q" type="text" data-parsley-remote data-parsley-remote-validator='mycustom' value="foo" />
-
+    /**
+     *
      */
     function make_js() {
         $userid = DBFunctionsAndConsts::USER_ID_COL;

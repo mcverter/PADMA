@@ -15,13 +15,14 @@ class NewUserTermsPage extends WebPage{
     const DISAGREE_VALUE = "Disagree";
     const AGREEMENT_FORM_ID = "UserAgreementForm";
     /**
-     * Only an unregisterd user will be allowed to view this page.
+     * Only Researchers and Administrators are allowed to Upload Experiments
      *
-     * @return bool: Whether user has permissions to view page
+     * @return bool:  Whether user is allowed to view page
      */
-    function isAuthorizedToViewPage() {
-        return PageControlFunctionsAndConsts::check_role(pgFn::NO_ROLE);
+    protected  function isAuthorizedToViewPage() {
+        return PageControlFunctionsAndConsts::check_role(pgFn::SUPERVISING_ROLE);
     }
+
 
     /**
      * @Override

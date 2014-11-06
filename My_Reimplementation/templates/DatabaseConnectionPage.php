@@ -1,6 +1,6 @@
 <?php
 require_once("../templates/WebPage.php");
-require_once("../functions/DBFunctionsAndConsts.php");
+require_once("../functions_and_consts/DBFunctionsAndConsts.php");
 
 /**
  * Class DatabaseConnectionPage

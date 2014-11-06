@@ -37,7 +37,7 @@ class ManageDataMainPage extends WebPage
         $returnString .= <<< EOT
         <ul class="nav nav-pills nav-stacked">
             <li> <a href="../webpages/edit_experiment.php">Edit Experiment</a></li>
-            <li> <a href="../webpages/upload_experiment.php">Upload Experiment</a></li>
+            <li> <a href="../webpages/upload_agreement.php">Upload Experiment</a></li>
             <li> <a href="../webpages/delete_experiment.php">Delete Experiment</a></li>
 EOT;
         if ($role === pgFn::ADMINISTRATOR_ROLE) {

@@ -1,6 +1,6 @@
 <?php
 
-require_once("../functions/PageControlFunctionsAndConsts.php");
+require_once("../functions_and_consts/PageControlFunctionsAndConsts.php");
 require_once("../components/HeaderMaker.php");
 require_once("../components/FooterMaker.php");
 require_once("../components/WidgetMaker.php");
@@ -288,6 +288,8 @@ EOT;
      <script src="../js/jquery.js"></script>
      <!-- Include all compiled plugins (below), or include individual files as needed -->
      <script src="../js/bootstrap.min.js"></script>
+     <script src="../js/parsley.js"></script>
+
 EOT;
         return $returnString;
     }

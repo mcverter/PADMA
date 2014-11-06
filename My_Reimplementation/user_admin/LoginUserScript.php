@@ -5,7 +5,7 @@
  * If Username and Password match, SESSION $role and $userid are set
  * Otherwise, user is redirected to index.php and error message is displayed
  */
-require_once("../functions/DBFunctionsAndConsts.php");
+require_once("../functions_and_consts/DBFunctionsAndConsts.php");
 require_once("../templates/WebPage.php");
 
 $userid = $_POST[pgFn::USERID_SESSVAR];

@@ -57,17 +57,6 @@ EOT;
         return $returnString;
 
     }
-
-    function make_js() {
-        return parent::make_js() .
-        <<< EOT
-
-        <script src="../js/parsley.js"></script>
-
-EOT;
-    }
-
-
 }
 
 

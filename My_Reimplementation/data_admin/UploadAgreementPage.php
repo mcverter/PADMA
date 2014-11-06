@@ -8,9 +8,24 @@ require_once("../templates/WebPage.php");
 class UploadAgreementPage extends WebPage {
     const PG_TITLE =  "Upload Agreement";
 
+    const AGREEMENT_RADIO_ID = "terms";
+    const ERROR_MSG_ID = "mustAgreeMsg";
+    const AGREE_VALUE = "Agree";
+    const DISAGREE_VALUE = "Disagree";
+    const AGREEMENT_FORM_ID = "UserAgreementForm";
+
+    /**
+     * Only Researchers and Administrators are allowed to Upload Experiments
+     *
+     * @return bool:  Whether user is allowed to view page
+     */
+    protected  function isAuthorizedToViewPage() {
+        return PageControlFunctionsAndConsts::check_role(pgFn::SUPERVISING_ROLE);
+    }
+
     /**
      * @Override
- * Determine formatting of Main Page Image relative to
+     * Determine formatting of Main Page Image relative to
      *     Page Logical Content
      *
      * @param $userid : Logged in User
@@ -64,27 +79,47 @@ class UploadAgreementPage extends WebPage {
         option will limit the access of the uploaded Dataset only to your account, whereas the global
         option will allow the access for anyone registered to and active in the PADMA system. </p>
 </div>
-
-
-<form class="central_widget"  action="uploadagreement.php" method="post">
-
-    <label> <input type="radio" name="terms" value="agree" />Agree</label>
-    <label> <input type="radio" name="terms" value="disagree" checked />Disagree</label>
-    <input type="submit" value="Submit" />
 EOT;
+        $actionUrl = "../webpages/upload_experiment.php";
+        $returnString  .= WidgetMaker::errorMessage(self::ERROR_MSG_ID, "You must agree to the Terms in order to upload an experiment")
+            . WidgetMaker::start_form($actionUrl, "POST", self::AGREEMENT_FORM_ID)
+            . WidgetMaker::radio_input(self::AGREE_VALUE, self::AGREEMENT_RADIO_ID, self::AGREE_VALUE, '')
+            . WidgetMaker::radio_input(self::DISAGREE_VALUE, self::AGREEMENT_RADIO_ID, self::DISAGREE_VALUE, "checked")
+            . WidgetMaker::submit_button("submit", "I Agree")
+            . WidgetMaker::end_form();
 
-        if (isset($_POST['terms'])) {
-            if ($_POST['terms'] == "agree") header("Location: expLoaderStart.php");
-            else header("Location: DataManagement.php");
-            exit;
-        }
-
-        $returnString .=" </form>";
         return $returnString;
-
     }
 
 
+    /**
+     * Adds a jquery validation to the AgreementForm.
+     * If the "AGREE" radio button is not clicked,
+     *  an error message will be displayed and the form will not be submitted
+     *
+     */
+    function make_js() {
+        $returnString = parent::make_js();
+        list ($agree_val, $error_msg, $agree_radio, $agreement_form) =
+            array(self::AGREE_VALUE, self::ERROR_MSG_ID,
+                self::AGREEMENT_RADIO_ID, self::AGREEMENT_FORM_ID);
+        $returnString .= <<< EOT
+
+<script>
+    $(document).ready(function() {
+        $('#$error_msg').hide();
+        $('#$agreement_form').submit(function checkAgreement(event) {
+            if ($('#$agree_radio:checked').val() !== '$agree_val') {
+                $('#$error_msg').show();
+                event.preventDefault();
+            }
+        });
+    });
+</script>
+
+EOT;
+        return $returnString;
+    }
 }
 
 

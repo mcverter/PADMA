@@ -154,10 +154,10 @@ EOT;
      *
      * @return string:  HTML for starting a file-uploading form
      */
-    static function start_file_form ($action, $method='POST', $name='', $class='', $onsubmit='') {
+    static function start_file_form ($action, $method='POST', $name='', $class='', $attrs='') {
         return <<<EOT
 
-        <form action='$action' enctype='multipart/form-data' method='$method' name='$name id='$name'  class='$class' onsubmit='$onsubmit' >
+        <form action='$action' enctype='multipart/form-data' method='$method' name='$name' id='$name'  class='$class' $attrs >
 
 EOT;
     }
@@ -298,12 +298,12 @@ EOT;
      * @param string $class : CSS class
      * @return string :  HTML for Element
      */
-    static function file_input($label, $name, $class='') {
+    static function file_input($label, $name, $class='', $attrs='') {
         return <<< EOT
 
     <br>
       <label for='$name'> $label </label>
-      <input name='$name' type='file' class='$class' />
+      <input name='$name' type='file' class='$class' $attrs />
      <br>
 
 EOT;
