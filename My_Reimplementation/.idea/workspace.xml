@@ -30,108 +30,61 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="DBFunctionsAndConsts.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/functions_and_consts/DBFunctionsAndConsts.php">
+      <file leaf-file-name="AboutUsPage.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/info_pages/AboutUsPage.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-1.8522727" vertical-offset="17800" max-vertical-offset="22425">
-              <caret line="781" column="7" selection-start-line="781" selection-start-column="7" selection-end-line="781" selection-end-column="7" />
-              <folding>
-                <element signature="e#6#719#0#PHP" expanded="true" />
-                <marker date="1415381825753" expanded="true" signature="8623:8717" placeholder="select disti..self_EXPERIMENT_TBL..." />
-                <marker date="1415381825753" expanded="true" signature="8623:8856" placeholder="select disti..." />
-                <marker date="1415381825753" expanded="true" signature="8724:8845" placeholder="select disti..self_EXPERIMENT_TBL..." />
-                <marker date="1415381825753" expanded="true" signature="9263:9357" placeholder="select disti..self_EXPERIMENT_TBL..." />
-                <marker date="1415381825753" expanded="true" signature="9263:9496" placeholder="select disti..." />
-                <marker date="1415381825753" expanded="true" signature="9364:9485" placeholder="select disti..self_EXPERIMENT_TBL..." />
-                <marker date="1415381825753" expanded="true" signature="16557:16655" placeholder="SELECT EXP_M..self_EXP_MASTER_TBL..." />
-                <marker date="1415381825753" expanded="true" signature="17894:18072" placeholder="insert into ..." />
-                <marker date="1415381825753" expanded="true" signature="18673:18796" placeholder="insert into ..." />
-                <marker date="1415381825753" expanded="true" signature="19387:19535" placeholder="insert into ..." />
-                <marker date="1415381825753" expanded="true" signature="20038:20154" placeholder="insert into ..." />
-                <marker date="1415381825753" expanded="true" signature="20656:20777" placeholder="insert into ..." />
-                <marker date="1415381825753" expanded="true" signature="21901:21966" placeholder="delete from ..." />
-                <marker date="1415381825753" expanded="true" signature="22283:22355" placeholder="delete from ..." />
-                <marker date="1415381825753" expanded="true" signature="23125:23214" placeholder="delete from ..." />
-                <marker date="1415381825753" expanded="true" signature="23530:23617" placeholder="delete from ..." />
-                <marker date="1415381825753" expanded="true" signature="23935:24023" placeholder="delete from ..." />
-                <marker date="1415381825753" expanded="true" signature="25915:25948" placeholder="select disti..client..." />
-                <marker date="1415381825753" expanded="true" signature="26296:26362" placeholder="select disti..country..." />
-                <marker date="1415381825753" expanded="true" signature="26680:26753" placeholder="select c_id,..client..." />
-                <marker date="1415381825753" expanded="true" signature="27077:27150" placeholder="select c_id,..client..." />
-                <marker date="1415381825753" expanded="true" signature="27489:27565" placeholder="select ACC_R..self_ACCESS_RIGHT_COL..." />
-                <marker date="1415381825753" expanded="true" signature="28828:29015" placeholder="SELECT CLIEN..." />
-                <marker date="1415381825753" expanded="true" signature="31507:31995" placeholder="INSERT INTO ..." />
-                <marker date="1415381825753" expanded="true" signature="33340:33394" placeholder="select EMAIL..self_CLIENT_TBL..." />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="ErrorPage.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/ErrorPage.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-3.6875" vertical-offset="940" max-vertical-offset="1472">
-              <caret line="46" column="29" selection-start-line="46" selection-start-column="29" selection-end-line="46" selection-end-column="29" />
+            <state vertical-scroll-proportion="-2.15625" vertical-offset="23" max-vertical-offset="4048">
+              <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="DeleteExperimentPage.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data_admin/DeleteExperimentPage.php">
+      <file leaf-file-name="ContactPage.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/info_pages/ContactPage.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-7.6875" vertical-offset="1180" max-vertical-offset="3680">
-              <caret line="62" column="9" selection-start-line="62" selection-start-column="9" selection-end-line="62" selection-end-column="9" />
+            <state vertical-scroll-proportion="-0.71875" vertical-offset="1265" max-vertical-offset="1886">
+              <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UploadReferencePage.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data_admin/UploadReferencePage.php">
+      <file leaf-file-name="DocumentPage.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/info_pages/DocumentPage.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.03125" vertical-offset="874" max-vertical-offset="3404">
-              <caret line="45" column="5" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
+            <state vertical-scroll-proportion="-0.71875" vertical-offset="69" max-vertical-offset="1679">
+              <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="UploadExperimentPage.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/data_admin/UploadExperimentPage.php">
+      <file leaf-file-name="FaqPage.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/info_pages/FaqPage.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="0.28395063" vertical-offset="0" max-vertical-offset="3703">
-              <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+            <state vertical-scroll-proportion="-0.71875" vertical-offset="92" max-vertical-offset="4508">
+              <caret line="5" column="3" selection-start-line="0" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="EditExperimentPage.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/data_admin/EditExperimentPage.php">
+      <file leaf-file-name="IndexPage.php" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/info_pages/IndexPage.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.71875" vertical-offset="897" max-vertical-offset="3657">
-              <caret line="40" column="9" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="9" />
+            <state vertical-scroll-proportion="-0.71875" vertical-offset="161" max-vertical-offset="1242">
+              <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="SuccessPage.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/SuccessPage.php">
+      <file leaf-file-name="SupportPage.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/info_pages/SupportPage.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-9.71875" vertical-offset="793" max-vertical-offset="1357">
-              <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="WebPage.php" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/templates/WebPage.php">
-          <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-4.3125" vertical-offset="0" max-vertical-offset="8556">
-              <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
+            <state vertical-scroll-proportion="0.518797" vertical-offset="1127" max-vertical-offset="1702">
+              <caret line="61" column="7" selection-start-line="61" selection-start-column="7" selection-end-line="61" selection-end-column="7" />
               <folding />
             </state>
           </provider>
@@ -171,7 +124,6 @@
         <option value="$PROJECT_DIR$/data_admin/EditExperimentBackup.php" />
         <option value="$PROJECT_DIR$/webpages/edit_experiment.php" />
         <option value="$PROJECT_DIR$/data_admin/DeleteReferencePage.php" />
-        <option value="$PROJECT_DIR$/user_admin/RegistrationPage.php" />
         <option value="$PROJECT_DIR$/webpages/upload_agreement.php" />
         <option value="$PROJECT_DIR$/data_admin/ManageDataMainPage.php" />
         <option value="$PROJECT_DIR$/data_admin/UploadAgreementPage.php" />
@@ -189,15 +141,16 @@
         <option value="$PROJECT_DIR$/components/WidgetMaker.php" />
         <option value="$PROJECT_DIR$/components/HeaderMaker.php" />
         <option value="$PROJECT_DIR$/templates/WebPage.php" />
-        <option value="$PROJECT_DIR$/user_admin/ChangePasswordPage.php" />
         <option value="$PROJECT_DIR$/templates/SuccessPage.php" />
         <option value="$PROJECT_DIR$/templates/DatabaseConnectionPage.php" />
         <option value="$PROJECT_DIR$/templates/ErrorPage.php" />
-        <option value="$PROJECT_DIR$/data_admin/EditExperimentPage.php" />
-        <option value="$PROJECT_DIR$/data_admin/DeleteExperimentPage.php" />
         <option value="$PROJECT_DIR$/data_admin/UploadReferencePage.php" />
         <option value="$PROJECT_DIR$/functions_and_consts/DBFunctionsAndConsts.php" />
+        <option value="$PROJECT_DIR$/user_admin/ChangePasswordPage.php" />
+        <option value="$PROJECT_DIR$/user_admin/RegistrationPage.php" />
         <option value="$PROJECT_DIR$/data_admin/UploadExperimentPage.php" />
+        <option value="$PROJECT_DIR$/data_admin/EditExperimentPage.php" />
+        <option value="$PROJECT_DIR$/data_admin/DeleteExperimentPage.php" />
       </list>
     </option>
   </component>
@@ -325,6 +278,48 @@
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
             </PATH_ELEMENT>
           </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My_Reimplementation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My_Reimplementation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="info_pages" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My_Reimplementation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My_Reimplementation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="functions_and_consts" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My_Reimplementation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="My_Reimplementation" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="data_admin" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+            </PATH_ELEMENT>
+          </PATH>
         </subPane>
       </pane>
       <pane id="Scope" />
@@ -401,14 +396,14 @@
     <servers />
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="0" width="1366" height="720" extended-state="7" />
-    <editor active="false" />
+    <frame x="0" y="0" width="1366" height="720" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Database" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.34437087" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.2897351" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.26821193" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="true" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
@@ -416,7 +411,7 @@
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Application Servers" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.15153733" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
-      <window_info id="Inspection" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.397351" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4271523" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
@@ -467,7 +462,7 @@
       <breakpoints>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/user_admin/RegistrationPage.php</url>
-          <line>107</line>
+          <line>106</line>
           <option name="timeStamp" value="14" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -477,7 +472,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/functions_and_consts/DBFunctionsAndConsts.php</url>
-          <line>879</line>
+          <line>880</line>
           <option name="timeStamp" value="19" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -492,7 +487,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/functions_and_consts/DBFunctionsAndConsts.php</url>
-          <line>798</line>
+          <line>799</line>
           <option name="timeStamp" value="38" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -547,7 +542,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/data_admin/UploadReferencePage.php</url>
-          <line>67</line>
+          <line>69</line>
           <option name="timeStamp" value="76" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
@@ -557,17 +552,17 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/data_admin/UploadExperimentPage.php</url>
-          <line>152</line>
+          <line>154</line>
           <option name="timeStamp" value="88" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/data_admin/UploadExperimentPage.php</url>
-          <line>126</line>
+          <line>128</line>
           <option name="timeStamp" value="89" />
         </line-breakpoint>
         <line-breakpoint enabled="true" type="php">
           <url>file://$PROJECT_DIR$/data_admin/UploadExperimentPage.php</url>
-          <line>106</line>
+          <line>108</line>
           <option name="timeStamp" value="90" />
         </line-breakpoint>
       </breakpoints>
@@ -738,38 +733,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/info_pages/DocumentPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.875" vertical-offset="0" max-vertical-offset="1679">
-          <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/info_pages/FaqPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.59375" vertical-offset="0" max-vertical-offset="4508">
-          <caret line="5" column="3" selection-start-line="0" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/info_pages/IndexPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.71875" vertical-offset="161" max-vertical-offset="1242">
-          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/info_pages/SupportPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.21875" vertical-offset="1231" max-vertical-offset="1771">
-          <caret line="58" column="10" selection-start-line="58" selection-start-column="10" selection-end-line="58" selection-end-column="10" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/data_admin/ExperimentDescriptionAJAX.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.5962963" vertical-offset="0" max-vertical-offset="540">
@@ -778,26 +741,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/info_pages/ContactPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-8.21875" vertical-offset="1025" max-vertical-offset="2070">
-          <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/user_admin/NewUserTermsPage.php">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-4.59375" vertical-offset="1118" max-vertical-offset="6555">
           <caret line="55" column="63" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="63" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/info_pages/AboutUsPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-2.15625" vertical-offset="23" max-vertical-offset="4048">
-          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
           <folding />
         </state>
       </provider>
@@ -838,14 +785,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.124060154" vertical-offset="2027" max-vertical-offset="2990">
           <caret line="91" column="38" selection-start-line="91" selection-start-column="38" selection-end-line="91" selection-end-column="38" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/user_admin/RegistrationPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.082706764" vertical-offset="2923" max-vertical-offset="4071">
-          <caret line="129" column="117" selection-start-line="129" selection-start-column="117" selection-end-line="129" selection-end-column="117" />
           <folding />
         </state>
       </provider>
@@ -892,17 +831,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/user_admin/ChangePasswordPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.3026316" vertical-offset="1472" max-vertical-offset="2024">
-          <caret line="71" column="23" selection-start-line="71" selection-start-column="23" selection-end-line="71" selection-end-column="23" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/templates/SuccessPage.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-9.71875" vertical-offset="793" max-vertical-offset="1357">
+        <state vertical-scroll-proportion="0.58458644" vertical-offset="793" max-vertical-offset="1357">
           <caret line="48" column="0" selection-start-line="48" selection-start-column="0" selection-end-line="48" selection-end-column="0" />
           <folding />
         </state>
@@ -910,7 +841,7 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/WebPage.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-4.3125" vertical-offset="0" max-vertical-offset="8556">
+        <state vertical-scroll-proportion="0.2593985" vertical-offset="0" max-vertical-offset="8556">
           <caret line="6" column="0" selection-start-line="6" selection-start-column="0" selection-end-line="6" selection-end-column="0" />
           <folding />
         </state>
@@ -926,75 +857,139 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/templates/ErrorPage.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-3.6875" vertical-offset="940" max-vertical-offset="1472">
+        <state vertical-scroll-proportion="0.23137255" vertical-offset="940" max-vertical-offset="1472">
           <caret line="46" column="29" selection-start-line="46" selection-start-column="29" selection-end-line="46" selection-end-column="29" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data_admin/EditExperimentPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.71875" vertical-offset="897" max-vertical-offset="3657">
-          <caret line="40" column="9" selection-start-line="40" selection-start-column="9" selection-end-line="40" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/data_admin/DeleteExperimentPage.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-7.6875" vertical-offset="1180" max-vertical-offset="3680">
-          <caret line="62" column="9" selection-start-line="62" selection-start-column="9" selection-end-line="62" selection-end-column="9" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data_admin/UploadReferencePage.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-5.03125" vertical-offset="874" max-vertical-offset="3404">
-          <caret line="45" column="5" selection-start-line="45" selection-start-column="5" selection-end-line="45" selection-end-column="5" />
+        <state vertical-scroll-proportion="0.56766915" vertical-offset="871" max-vertical-offset="3473">
+          <caret line="51" column="19" selection-start-line="51" selection-start-column="19" selection-end-line="51" selection-end-column="19" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/functions_and_consts/DBFunctionsAndConsts.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-1.8522727" vertical-offset="17800" max-vertical-offset="22425">
-          <caret line="781" column="7" selection-start-line="781" selection-start-column="7" selection-end-line="781" selection-end-column="7" />
+        <state vertical-scroll-proportion="-0.7386364" vertical-offset="5110" max-vertical-offset="22448">
+          <caret line="225" column="22" selection-start-line="225" selection-start-column="22" selection-end-line="225" selection-end-column="22" />
           <folding>
             <element signature="e#6#719#0#PHP" expanded="true" />
-            <marker date="1415381825753" expanded="true" signature="8623:8717" placeholder="select disti..self_EXPERIMENT_TBL..." />
-            <marker date="1415381825753" expanded="true" signature="8623:8856" placeholder="select disti..." />
-            <marker date="1415381825753" expanded="true" signature="8724:8845" placeholder="select disti..self_EXPERIMENT_TBL..." />
-            <marker date="1415381825753" expanded="true" signature="9263:9357" placeholder="select disti..self_EXPERIMENT_TBL..." />
-            <marker date="1415381825753" expanded="true" signature="9263:9496" placeholder="select disti..." />
-            <marker date="1415381825753" expanded="true" signature="9364:9485" placeholder="select disti..self_EXPERIMENT_TBL..." />
-            <marker date="1415381825753" expanded="true" signature="16557:16655" placeholder="SELECT EXP_M..self_EXP_MASTER_TBL..." />
-            <marker date="1415381825753" expanded="true" signature="17894:18072" placeholder="insert into ..." />
-            <marker date="1415381825753" expanded="true" signature="18673:18796" placeholder="insert into ..." />
-            <marker date="1415381825753" expanded="true" signature="19387:19535" placeholder="insert into ..." />
-            <marker date="1415381825753" expanded="true" signature="20038:20154" placeholder="insert into ..." />
-            <marker date="1415381825753" expanded="true" signature="20656:20777" placeholder="insert into ..." />
-            <marker date="1415381825753" expanded="true" signature="21901:21966" placeholder="delete from ..." />
-            <marker date="1415381825753" expanded="true" signature="22283:22355" placeholder="delete from ..." />
-            <marker date="1415381825753" expanded="true" signature="23125:23214" placeholder="delete from ..." />
-            <marker date="1415381825753" expanded="true" signature="23530:23617" placeholder="delete from ..." />
-            <marker date="1415381825753" expanded="true" signature="23935:24023" placeholder="delete from ..." />
-            <marker date="1415381825753" expanded="true" signature="25915:25948" placeholder="select disti..client..." />
-            <marker date="1415381825753" expanded="true" signature="26296:26362" placeholder="select disti..country..." />
-            <marker date="1415381825753" expanded="true" signature="26680:26753" placeholder="select c_id,..client..." />
-            <marker date="1415381825753" expanded="true" signature="27077:27150" placeholder="select c_id,..client..." />
-            <marker date="1415381825753" expanded="true" signature="27489:27565" placeholder="select ACC_R..self_ACCESS_RIGHT_COL..." />
-            <marker date="1415381825753" expanded="true" signature="28828:29015" placeholder="SELECT CLIEN..." />
-            <marker date="1415381825753" expanded="true" signature="31507:31995" placeholder="INSERT INTO ..." />
-            <marker date="1415381825753" expanded="true" signature="33340:33394" placeholder="select EMAIL..self_CLIENT_TBL..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="select disti..self_EXPERIMENT_TBL..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="select disti..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="select disti..self_EXPERIMENT_TBL..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="select disti..self_EXPERIMENT_TBL..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="select disti..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="select disti..self_EXPERIMENT_TBL..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="SELECT EXP_M..self_EXP_MASTER_TBL..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="insert into ..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="delete from ..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="delete from ..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="delete from ..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="delete from ..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="delete from ..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="select disti..client..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="select disti..country..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="select c_id,..client..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="select c_id,..client..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="select ACC_R..self_ACCESS_RIGHT_COL..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="SELECT CLIEN..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="INSERT INTO ..." />
+            <marker date="1415384260970" expanded="true" signature="-1:-1" placeholder="select EMAIL..self_CLIENT_TBL..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user_admin/RegistrationPage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.27058825" vertical-offset="2254" max-vertical-offset="4048">
+          <caret line="104" column="94" selection-start-line="104" selection-start-column="94" selection-end-line="104" selection-end-column="94" />
+          <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/data_admin/UploadExperimentPage.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.28395063" vertical-offset="0" max-vertical-offset="3703">
-          <caret line="3" column="0" selection-start-line="3" selection-start-column="0" selection-end-line="3" selection-end-column="0" />
+        <state vertical-scroll-proportion="0.2851485" vertical-offset="2892" max-vertical-offset="3749">
+          <caret line="132" column="15" selection-start-line="132" selection-start-column="15" selection-end-line="132" selection-end-column="15" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_admin/EditExperimentPage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.04323308" vertical-offset="1012" max-vertical-offset="3680">
+          <caret line="45" column="23" selection-start-line="45" selection-start-column="23" selection-end-line="45" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/data_admin/DeleteExperimentPage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.17843138" vertical-offset="898" max-vertical-offset="3680">
+          <caret line="43" column="67" selection-start-line="43" selection-start-column="67" selection-end-line="43" selection-end-column="67" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/user_admin/ChangePasswordPage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.3156863" vertical-offset="828" max-vertical-offset="2024">
+          <caret line="43" column="7" selection-start-line="43" selection-start-column="7" selection-end-line="43" selection-end-column="7" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/info_pages/AboutUsPage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-2.15625" vertical-offset="23" max-vertical-offset="4048">
+          <caret line="4" column="20" selection-start-line="4" selection-start-column="20" selection-end-line="4" selection-end-column="20" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/info_pages/ContactPage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.71875" vertical-offset="1265" max-vertical-offset="1886">
+          <caret line="56" column="29" selection-start-line="56" selection-start-column="29" selection-end-line="56" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/info_pages/DocumentPage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.71875" vertical-offset="69" max-vertical-offset="1679">
+          <caret line="4" column="21" selection-start-line="4" selection-start-column="21" selection-end-line="4" selection-end-column="21" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/info_pages/FaqPage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.71875" vertical-offset="92" max-vertical-offset="4508">
+          <caret line="5" column="3" selection-start-line="0" selection-start-column="0" selection-end-line="190" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/info_pages/IndexPage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="-0.71875" vertical-offset="161" max-vertical-offset="1242">
+          <caret line="8" column="0" selection-start-line="8" selection-start-column="0" selection-end-line="8" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/info_pages/SupportPage.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.518797" vertical-offset="1127" max-vertical-offset="1702">
+          <caret line="61" column="7" selection-start-line="61" selection-start-column="7" selection-end-line="61" selection-end-column="7" />
           <folding />
         </state>
       </provider>

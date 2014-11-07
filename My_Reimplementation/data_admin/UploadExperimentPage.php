@@ -75,7 +75,8 @@ class UploadExperimentPage extends DatabaseConnectionPage {
                 self::FILE_POSTVAR,
                 PageControlFunctionsAndConsts::BASE_UPLOAD_DIR . self::UPLOAD_SUBDIR,
                 $errmsg)) == null) {
-            return PageControlFunctionsAndConsts::redirectDueToError($errmsg);
+            PageControlFunctionsAndConsts::redirectDueToError($errmsg);
+            return;
         }
 
         $db_conn = $this->db_conn;
@@ -94,7 +95,8 @@ class UploadExperimentPage extends DatabaseConnectionPage {
                 // Insert into EXPERIMENT table
                 while ($line != false) {
                     if (substr_count($line, ",") != 7) {
-                        return PageControlFunctionsAndConsts::redirectDueToError("There must be 8 columns in each line of the input file.  The following line does not: \n'{$line}'' ");
+                        PageControlFunctionsAndConsts::redirectDueToError("There must be 8 columns in each line of the input file.  The following line does not: \n'{$line}'' ");
+                        return;
                     }
                     list ($prob_id, $exp_name, $catg, $spec, $subj, $reg_val, $open, $hour) =
                         explode(",", trim($line));
@@ -125,7 +127,7 @@ class UploadExperimentPage extends DatabaseConnectionPage {
 
     function make_main_content($userid, $role) {
         if (!$this->check_referrer()) {
-            return PageControlFunctionsAndConsts::redirectDueToError("You must agree to the terms of service before you complete the registration");
+             PageControlFunctionsAndConsts::redirectDueToError("You must agree to the terms of service before you complete the registration");
         }
 
         $returnString = '';

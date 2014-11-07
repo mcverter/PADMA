@@ -76,7 +76,7 @@ class RegistrationPage extends DatabaseConnectionPage {
     function make_main_content($userid, $role)
     {
         if (!$this->check_referrer()) {
-            return PageControlFunctionsAndConsts::redirectDueToError("You must agree to the terms of service before you complete the registration");
+            PageControlFunctionsAndConsts::redirectDueToError("You must agree to the terms of service before you complete the registration");
         }
         $db_conn = $this->db_conn;
         $returnString = '';
@@ -101,9 +101,8 @@ class RegistrationPage extends DatabaseConnectionPage {
                 strtoupper($_POST[DBFunctionsAndConsts::USER_ID_COL]),
                 sha1($_POST[DBFunctionsAndConsts::PASSWORD_COL]),
                 DBFunctionsAndConsts::now_applied());
-            $returnString .= PageControlFunctionsAndConsts::redirectDueToSuccess("You have successfully registered for PADMA.  "
+            PageControlFunctionsAndConsts::redirectDueToSuccess("You have successfully registered for PADMA.  "
                 . "<br >An administrator will email you when your registration is complete.");
-
         } else {
             $returnString .= <<< EOT
 Welcome to PADMA Database. Just select an UserID and Password, answer a few simple questions.

@@ -43,6 +43,7 @@ class EditExperimentPage extends DatabaseConnectionPage
      * This function returns the appropriate list according to
      *   the users ROLE.
      *
+     * @return resource
      */
     function selectExperimentMasterList()
     {
@@ -53,7 +54,7 @@ class EditExperimentPage extends DatabaseConnectionPage
         } elseif ($role == PageControlFunctionsAndConsts::RESEARCHER_ROLE) {
             return DBFunctionsAndConsts::selectRestrictedExperimentListFromMaster($this->db_conn, $this->userid);
         } else {
-            return PageControlFunctionsAndConsts::redirectDueToError("Page accessed by user who is neither Admin nor Researcher");
+             PageControlFunctionsAndConsts::redirectDueToError("Page accessed by user who is neither Admin nor Researcher");
         }
     }
 

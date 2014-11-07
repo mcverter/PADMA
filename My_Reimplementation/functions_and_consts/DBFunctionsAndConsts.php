@@ -164,7 +164,8 @@ class DBFunctionsAndConsts
      <br>
 
 EOT;
-        return PageControlFunctionsAndConsts::redirectDueToError($error_message);
+        PageControlFunctionsAndConsts::redirectDueToError($error_message);
+        return;
     }
 
 
@@ -208,7 +209,7 @@ EOT;
      */
     private static function execute_NON_SELECT_query($db_conn, $query)
     {
-        $parsed = ociparse($db_conn, $query);
+        $parsed = oci_parse($db_conn, $query);
         oci_execute($parsed);
     }
 
@@ -222,7 +223,7 @@ EOT;
      */
     private static function execute_SELECT_query_and_return($db_conn, $query)
     {
-        $parsed = ociparse($db_conn, $query);
+        $parsed = oci_parse($db_conn, $query);
         oci_execute($parsed);
         return $parsed;
     }

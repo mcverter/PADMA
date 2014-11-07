@@ -47,8 +47,9 @@ class UploadReferencePage extends DatabaseConnectionPage {
         $db_conn = $this->db_conn;
         $version = $_POST['version'];
         if (DBFunctionsAndConsts::isVersionInDB($db_conn, $version)) {
-            return PageControlFunctionsAndConsts::redirectDueToError(
+             PageControlFunctionsAndConsts::redirectDueToError(
                 "Version already exists in the database");
+            return;
         }
 
         $errmsg = '';
@@ -56,7 +57,8 @@ class UploadReferencePage extends DatabaseConnectionPage {
                 self::FILE_POSTVAR,
                 PageControlFunctionsAndConsts::BASE_UPLOAD_DIR . self::UPLOAD_SUBDIR,
                 $errmsg)) == null) {
-            return PageControlFunctionsAndConsts::redirectDueToError($errmsg);
+            PageControlFunctionsAndConsts::redirectDueToError($errmsg);
+            return;
         }
 
         $userid = $_SESSION[PageControlFunctionsAndConsts::USERID_SESSVAR];
@@ -67,7 +69,8 @@ class UploadReferencePage extends DatabaseConnectionPage {
 
         while (($line = fgets($filehandle)) !== false) {
             if (substr_count($line, ",") < 4) {
-                return PageControlFunctionsAndConsts::redirectDueToError("There must be 5 columns in each line of the uploaded file.  The following line does not:\n'{$line}'' ");
+                PageControlFunctionsAndConsts::redirectDueToError("There must be 5 columns in each line of the uploaded file.  The following line does not:\n'{$line}'' ");
+                return;
             }
             $line = trim($line);
             $line = str_replace("\"", '', $line);

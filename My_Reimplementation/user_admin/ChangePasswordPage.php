@@ -35,11 +35,11 @@ class ChangePasswordPage extends DatabaseConnectionPage
         if (!empty($_POST) && !empty($_POST[self::OLD_PASS_POSTVAR]) && !empty($_POST[self::NEW_PASS_POSTVAR])) {
 
             if (! DBFunctionsAndConsts::isUserInDB_ByIDAndPW($db_conn, $userid, $_POST[self::OLD_PASS_POSTVAR])) {
-                $returnString .= PageControlFunctionsAndConsts::redirectDueToError("The User ID and Password did not match.  Could not update password");
+                PageControlFunctionsAndConsts::redirectDueToError("The User ID and Password did not match.  Could not update password");
             }
             else {
                 DBFunctionsAndConsts::updatePasswordByUserID($db_conn, $userid, $_POST[self::NEW_PASS_POSTVAR]);
-                $returnString .= PageControlFunctionsAndConsts::redirectDueToSuccess("Password successfully updated.");
+                 PageControlFunctionsAndConsts::redirectDueToSuccess("Password successfully updated.");
             }
         }
         else {
