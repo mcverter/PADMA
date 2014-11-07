@@ -1,0 +1,4 @@
+1,Administrator
+2,Researcher
+3,GeneralUser
+0,NotInitialized

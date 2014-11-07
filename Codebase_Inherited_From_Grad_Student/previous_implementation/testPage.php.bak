@@ -1,0 +1,48 @@
+<html> 
+<head> 
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8"> 
+<title>Upload file</title> 
+</head>  
+ <body> 
+ <?php
+		session_start();
+
+		//get session variabe
+		$db_UN = "drosophilarc1";           //username
+		$db_PASS= "drosopivot";           //password
+		$db_DB= "//127.0.0.1/XE";      //database name
+		//include the header page
+		include("utility.php");
+		
+		//connection to the database
+		$db_conn = ocilogon($db_UN, $db_PASS, $db_DB);
+		if (! $db_conn)
+		  {
+				$e = oci_error(); 		
+				echo "<font color='red'>";
+				print htmlentities($e['message']);
+				echo "<br>ERROR: Connecting to Database, Please try back later<br>";
+				echo "</font>";
+				echo "<a title='logout' href='index.php'>Click Here</a> to go back to home page";
+				exit;
+
+		  }
+	?>
+
+ <?php
+	$cmdstr = "select *  from client";
+	$parsed = ociparse($db_conn, $cmdstr);
+	ociexecute($parsed);	
+	$total = ocifetchstatement($parsed, $results);
+
+	for ($i = 0; $i < $total; $i++) {
+      foreach ($results as $data) {
+         echo "$data[$i],";
+      }
+      echo "<br>";
+   }
+
+
+?>
+</body> 
+</html>
