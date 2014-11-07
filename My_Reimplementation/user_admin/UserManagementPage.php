@@ -44,7 +44,7 @@ class UserManagementPage extends DatabaseConnectionPage {
      * @return bool: Whether user has rights to view page
      */
     protected  function isAuthorizedToViewPage() {
-        return PageControlFunctionsAndConsts::check_role(pgFn::ADMINISTRATOR_ROLE);
+        return PageControlFunctionsAndConsts::check_role(PageControlFunctionsAndConsts::ADMINISTRATOR_ROLE);
     }
 
     /**
@@ -211,7 +211,7 @@ EOT;
 
         $returnString = '';
         $returnString .=
-            wMk::user_pick_widget('PADMA Users',
+            WidgetMaker::user_pick_widget('PADMA Users',
                 self::USER_PICKER_ID, $db_conn) .
             "<div id='" . self::USER_RESULT_DIV . "'></div>" .
             '<br><br>' .

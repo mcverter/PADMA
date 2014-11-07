@@ -53,8 +53,8 @@ class DeleteReferencePage extends DatabaseConnectionPage {
             !empty ($_POST[DBFunctionsAndConsts::VERSION_COL])
         ) {
             $versionPost = $_POST[DBFunctionsAndConsts::VERSION_COL];
-            dbFn::deleteReference($db_conn, $versionPost);
-            $returnString .= wMk::successMessage('success',
+            DBFunctionsAndConsts::deleteReference($db_conn, $versionPost);
+            $returnString .= WidgetMaker::successMessage('success',
                 "Version $versionPost has been deleted");
         }
 
@@ -62,17 +62,17 @@ class DeleteReferencePage extends DatabaseConnectionPage {
 
 	<h2> Select a Version to delete</h2>
 EOT
-            . wMk::start_form($_SERVER['PHP_SELF'])
-            . wMk::select_input(
+            . WidgetMaker::start_form($_SERVER['PHP_SELF'])
+            . WidgetMaker::select_input(
                 "Version",
                 DBFunctionsAndConsts::VERSION_COL,
-                dbFn::selectVersionList($db_conn),
-                dbFn::VERSION_COL,
-                dbFn::VERSION_COL,
+                DBFunctionsAndConsts::selectVersionList($db_conn),
+                DBFunctionsAndConsts::VERSION_COL,
+                DBFunctionsAndConsts::VERSION_COL,
                 false) .
 
-            wMk::submit_button('deleteBtn', 'Delete', '')
-            . wMk::end_form();
+            WidgetMaker::submit_button('deleteBtn', 'Delete', '')
+            . WidgetMaker::end_form();
 
         return $returnString;
     }

@@ -2,76 +2,51 @@
 
 /**
  * Class PageControlFunctions
+ *
+ * This class contains functions and constants that
+ *    are used throughout throughout the application
+ *    Rather than spreading constants throughout the various
+ *    subdirectories, they are being centralized in this
+ *    directory.
+ *
+ * The functions and constants here are those needed for
+ *    non-database work.
+ *
+ * This class is aliased as "pgFn"
  */
 class PageControlFunctionsAndConsts
 {
     const PADMA_EMAIL = 'padma.ccny@gmail.com';
-    const PADMA_URL = '';
+    const PADMA_URL = 'http://padmadatabase.org';
+
+    // for storing userid and role across session
     const USERID_SESSVAR = 'userid';
     const ROLE_SESSVAR = 'role';
-    const PASSWORD_POSTVAR = 'password';
 
+    // Possible values of $_SESSION[ROLE_SESSVAR]
     const ADMINISTRATOR_ROLE = 'Administrator';
     const RESEARCHER_ROLE = 'Researcher';
     const USER_ROLE = 'GeneralUser';
     const NOTINITIALIZED_ROLE = 'NotInitialized';
 
 
+    // Used as parameters for isAuthorizedToViewPage()
     const NOTAUTHORIZED_ROLE = 'NOTAUTHORIZED';
     const SUPERVISING_ROLE = 'Supervising';
     const REGISTERED_ROLE = 'Registered';
     const NO_ROLE = '';
 
+    // Password shared between HeaderMaker
+    //   and LoginUserScript
+    const PASSWORD_POSTVAR = 'password';
 
+    // Used for file upload scripts in data_admin
     const BASE_UPLOAD_DIR = "/var/www/html/";
-
     const MAX_FILE_SIZE = 5000000;
 
-    const SHOW_DESCRIPTION_COMMAND = "showDescription";
-    /**
-     * @param $errorMsg
-     */
-    static function redirectDueToError($errorMsg)
-    {
-        require_once('../templates/ErrorPage.php');
-        $errorPage = new ErrorPage($errorMsg);
-        $errorPage->display_page();
-    }
-
-    static function randomPassword ($length=10) {
-        return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*|"), 0, $length);
-    }
-    /**
-     * @param $errorMsg
-     */
-    static function redirectDueToSuccess($successMsg)
-    {
-        require_once('../templates/SuccessPage.php');
-        $successPage = new SuccessPage($successMsg);
-        $successPage->display_page();
-    }
-
 
     /**
-     * @param $string
-     * @return mixed
-     */
-    static function escape_space($string)
-    {
-        return str_replace(' ', '^', $string);
-    }
-
-    /**
-     * @param $string
-     * @return mixed
-     */
-    static function unescape_space($string)
-    {
-        return str_replace('^', ' ', $string);
-    }
-
-    /**
-     *
+     * Initializes session for each page
      */
     static function initialize_session()
     {
@@ -80,25 +55,19 @@ class PageControlFunctionsAndConsts
         }
     }
 
-    static function exit_on_warning() {
-        function errHandle($errNo, $errStr, $errFile, $errLine) {
-            $msg = "$errStr in $errFile on line $errLine";
-            if ($errNo == E_NOTICE || $errNo == E_WARNING) {
-                throw new ErrorException($msg, $errNo);
-            } else {
-                echo $msg;
-            }
-        }
-        set_error_handler('errHandle');
-    }
 
     /**
-     * @param $roletype
-     * @return bool
+     * Checks to see whether User is allowed to
+     *   view webpage based on Page restrictions
+     *   and current user's ROLE
+     *
+     * @param $roletype: Type of role(s) permitted to view page
+     *
+     * @return bool: Whether current user is allowed to view page
      */
     static function check_role($roletype)
     {
-        if (!isset($_SESSION["role"]) &&
+        if (!isset($_SESSION[self::ROLE_SESSVAR]) &&
             $roletype !== self::NO_ROLE) {
             header("location: index.php");
             return false;
@@ -144,6 +113,82 @@ class PageControlFunctionsAndConsts
         return true;
     }
 
+
+    /**
+     * When a significant error occurs,
+     *
+     * Prints out a Webpage containing
+     *   nothing but an Error Message
+     *   and a link back to the Homepage
+     *
+     * @param $errorMsg string:  Message to be printed
+     * @return void
+     *    but display_page() takes over printing
+     */
+    static function redirectDueToError($errorMsg)
+    {
+        require_once('../templates/ErrorPage.php');
+        $errorPage = new ErrorPage($errorMsg);
+        $errorPage->display_page();
+    }
+
+    /**
+     * When a significant success occurs,
+     *
+     * Prints out a Webpage containing
+     *   nothing but a Success Message
+     *   and a link back to the Homepage
+     *
+     * @param $successMsg string:  Message to be printed
+     * @return void
+     *    but display_page() takes over printing
+     */
+    static function redirectDueToSuccess($successMsg)
+    {
+        require_once('../templates/SuccessPage.php');
+        $successPage = new SuccessPage($successMsg);
+        $successPage->display_page();
+    }
+
+
+    /**
+     * DEBUG METHOD FOR USE IN DEVELOPMENT
+     * NEVER USE IN PRODUCTION
+     *
+     * This will cause the application to exit on a warning or notice
+     *
+     * Call at the top of the xxPage.php file, after
+     *    require_once(WebPage.php) or require_once(DatabasePage.php)
+     *    but before class definition
+     */
+    static function exit_on_warning_or_notice() {
+        function errHandle($errNo, $errStr, $errFile, $errLine) {
+            $msg = "$errStr in $errFile on line $errLine";
+            if ($errNo == E_NOTICE || $errNo == E_WARNING) {
+                throw new ErrorException($msg, $errNo);
+            } else {
+                echo $msg;
+            }
+        }
+        set_error_handler('errHandle');
+    }
+
+    /**
+     * This is used in user_admin for uploading files
+     * It checks through various possible error conditions.
+     * If it finds them, it returns null and sets the $errmsg.
+     *
+     * Otherwise it returns a filehandle
+     *
+     * Perhaps this function should be in data_admin dir?
+     *
+     * @param $postvar : POST parameter for file
+     * @param $destdir : Destination directory
+     * @param $errmsg : Error message is set and
+     *     returned by reference if there is an error
+     *
+     * @return null|resource: returns null on error or file handle
+     */
     static function openUploadedCSVFile($postvar, $destdir, &$errmsg) {
         $posted_file = $_FILES[$postvar];
 

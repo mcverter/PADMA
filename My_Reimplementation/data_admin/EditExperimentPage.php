@@ -18,7 +18,7 @@ class EditExperimentPage extends DatabaseConnectionPage
      * @return bool:  Whether user is allowed to view page
      */
     protected  function isAuthorizedToViewPage() {
-        return PageControlFunctionsAndConsts::check_role(pgFn::SUPERVISING_ROLE);
+        return PageControlFunctionsAndConsts::check_role(PageControlFunctionsAndConsts::SUPERVISING_ROLE);
     }
 
     /**
@@ -49,9 +49,11 @@ class EditExperimentPage extends DatabaseConnectionPage
         $role = $this->role;
 
         if ($role == PageControlFunctionsAndConsts::ADMINISTRATOR_ROLE) {
-            return dbFn::selectUnrestrictedExperimentListFromMaster($this->db_conn);
+            return DBFunctionsAndConsts::selectUnrestrictedExperimentListFromMaster($this->db_conn);
         } elseif ($role == PageControlFunctionsAndConsts::RESEARCHER_ROLE) {
-            return dbFn::selectRestrictedExperimentListFromMaster($this->db_conn, $this->userid);
+            return DBFunctionsAndConsts::selectRestrictedExperimentListFromMaster($this->db_conn, $this->userid);
+        } else {
+            return PageControlFunctionsAndConsts::redirectDueToError("Page accessed by user who is neither Admin nor Researcher");
         }
     }
 
@@ -81,16 +83,16 @@ class EditExperimentPage extends DatabaseConnectionPage
             $exp_name = $_POST[DBFunctionsAndConsts::EXP_NAME_COL];
             $exp_desc = $_POST[DBFunctionsAndConsts::EXP_DESC_COL];
             DBFunctionsAndConsts::updateExperimentDescription($db_conn, $exp_name, $exp_desc);
-            $returnString .= wMk::successMessage('success',
+            $returnString .= WidgetMaker::successMessage('success',
                 "Description of $exp_name has been updated");
         }
 
         $returnString .= WidgetMaker::start_form($_SERVER['PHP_SELF'])
-            . wMk::select_input("Experiment Name",
+            . WidgetMaker::select_input("Experiment Name",
                 DBFunctionsAndConsts::EXP_NAME_COL,
                 $this->selectExperimentMasterList(),
-                dbFn::EXP_NAME_COL,
-                dbFn::EXP_NAME_COL,
+                DBFunctionsAndConsts::EXP_NAME_COL,
+                DBFunctionsAndConsts::EXP_NAME_COL,
                 false)
         ;
 
@@ -101,7 +103,7 @@ class EditExperimentPage extends DatabaseConnectionPage
         <div id="$desc_div"></div>
 EOT;
 
-        $returnString .=  wMk::submit_button('editDescription', 'Edit Description') .
+        $returnString .=  WidgetMaker::submit_button('editDescription', 'Edit Description') .
             WidgetMaker::end_form();
         return $returnString;
     }

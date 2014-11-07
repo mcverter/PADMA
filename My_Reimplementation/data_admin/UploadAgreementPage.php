@@ -20,7 +20,7 @@ class UploadAgreementPage extends WebPage {
      * @return bool:  Whether user is allowed to view page
      */
     protected  function isAuthorizedToViewPage() {
-        return PageControlFunctionsAndConsts::check_role(pgFn::SUPERVISING_ROLE);
+        return PageControlFunctionsAndConsts::check_role(PageControlFunctionsAndConsts::SUPERVISING_ROLE);
     }
 
     /**

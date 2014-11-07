@@ -22,7 +22,7 @@ class ContactPage extends WebPage {
      * @return string : HTML for middle of Page
      */
     function make_page_middle($userid, $role){
-        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
+        return $this->make_image_content_columns ($userid, $role, 'L', 4) ;
     }
 
 
@@ -55,7 +55,6 @@ EOT;
                 . WidgetMaker::end_form();
         }
         return $returnString;
-
     }
 }
 

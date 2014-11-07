@@ -40,11 +40,11 @@ class ExperimentListPage extends DatabaseConnectionPage{
         $userid = $this->userid;
         $description_div = self::DESCRIPTION_DIV_ID;
 
-        $returnString = wMk::select_input("Experiment List",
+        $returnString = WidgetMaker::select_input("Experiment List",
                 self::EXPERIMENT_SELECT_ID,
-                dbFn::selectAllUnrestrictedExperimentList($db_conn, $userid),
-                dbFn::EXP_NAME_COL,
-                dbFn::EXP_NAME_COL,
+                DBFunctionsAndConsts::selectAllUnrestrictedExperimentList($db_conn, $userid),
+                DBFunctionsAndConsts::EXP_NAME_COL,
+                DBFunctionsAndConsts::EXP_NAME_COL,
                 false)
             . <<< EOT
 

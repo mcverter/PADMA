@@ -49,7 +49,7 @@ class RegistrationPage extends DatabaseConnectionPage {
      * @return bool:  Whether User is allowed to see page
      */
     function isAuthorizedToViewPage() {
-        return PageControlFunctionsAndConsts::check_role(pgFn::NO_ROLE);
+        return PageControlFunctionsAndConsts::check_role(PageControlFunctionsAndConsts::NO_ROLE);
     }
 
     /**

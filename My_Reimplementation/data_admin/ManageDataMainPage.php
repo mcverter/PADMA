@@ -17,7 +17,7 @@ class ManageDataMainPage extends WebPage
      * @return bool:  Whether user is allowed to view page
      */
     protected  function isAuthorizedToViewPage() {
-        return PageControlFunctionsAndConsts::check_role(pgFn::SUPERVISING_ROLE);
+        return PageControlFunctionsAndConsts::check_role(PageControlFunctionsAndConsts::SUPERVISING_ROLE);
     }
 
     /**
@@ -40,7 +40,7 @@ class ManageDataMainPage extends WebPage
             <li> <a href="../webpages/upload_agreement.php">Upload Experiment</a></li>
             <li> <a href="../webpages/delete_experiment.php">Delete Experiment</a></li>
 EOT;
-        if ($role === pgFn::ADMINISTRATOR_ROLE) {
+        if ($role === PageControlFunctionsAndConsts::ADMINISTRATOR_ROLE) {
             $returnString .= <<< EOT
             <li> <a href="../webpages/upload_reference.php">Upload Reference</a></li>
             <li> <a href="../webpages/delete_reference.php">Delete Reference</a></li>

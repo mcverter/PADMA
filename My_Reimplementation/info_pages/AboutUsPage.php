@@ -10,7 +10,7 @@ class AboutUsPage extends WebPage {
 
     /**
      * @Override
- * Determine formatting of Main Page Image relative to
+     * Determine formatting of Main Page Image relative to
      *     Page Logical Content
      *
      * @param $userid : Logged in User

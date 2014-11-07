@@ -16,7 +16,7 @@ $adminID = $_POST['adminID'];
 $cid = $_POST['cid'];
 
 $date = DBFunctionsAndConsts::now_applied();
-$db_conn = dbFn::connect_to_db();
+$db_conn = DBFunctionsAndConsts::connect_to_db();
 
 
 /**
@@ -33,19 +33,19 @@ switch($command) {
         break;
     case UserManagementPage::CHANGE_RIGHT_COMMAND:
         $accessRight = $_POST['accessRight'];
-        dbFn::updateUserRight($db_conn, $cid, $accessRight, $adminID, $date);
+        DBFunctionsAndConsts::updateUserRight($db_conn, $cid, $accessRight, $adminID, $date);
         ajaxReturnUserInfo($db_conn, $cid);
         break;
     case UserManagementPage::DELETE_USER_COMMAND:
-        dbFn::deleteUser($db_conn, $cid, $adminID, $date);
+        DBFunctionsAndConsts::deleteUser($db_conn, $cid, $adminID, $date);
         ajaxReturnUserInfo($db_conn, $cid);
         break;
     case UserManagementPage::REACTIVATE_USER_COMMAND:
-        dbFn::updateUserActivation($db_conn, $cid, $adminID, $date);
+        DBFunctionsAndConsts::updateUserActivation($db_conn, $cid, $adminID, $date);
         ajaxReturnUserInfo($db_conn, $cid);
         break;
     case UserManagementPage::RESET_USER_PW_COMMAND:
-        $randomPassword = PageControlFunctionsAndConsts::randomPassword();
+        $randomPassword = randomPassword();
         $row = oci_fetch_assoc(DBFunctionsAndConsts::selectEmailFromCID($db_conn, $cid));
         $email = $row[DBFunctionsAndConsts::EMAIL_COL];
         if ($email) {
@@ -66,10 +66,12 @@ switch($command) {
  * @param $cid:  Currently selected user
  */
 function ajaxReturnUserInfo($db_conn, $cid) {
-    $db_result = dbFn::selectProfileInfoByCID($db_conn, $cid);
+    $db_result = DBFunctionsAndConsts::selectProfileInfoByCID($db_conn, $cid);
     $row = oci_fetch_assoc($db_result);
     echo makeUserInfoWidget($row);
 }
+
+
 
 
 
@@ -104,30 +106,30 @@ function makeUserInfoWidget($userRow) {
     $returnString = '';
 
     // User Information
-    $returnString .= wMk::start_horizontal_d_list("User Information", "userinfo") .
-        wMk::d_list_entry("User ID:", $padmaUserId) .
-        wMk::d_list_entry("Title:",  $title) .
-        wMk::d_list_entry("Last Name:", $lname) .
-        wMk::d_list_entry("First Name:",  $fname) .
-        wMk::d_list_entry("Middle Initial:", $mname) .
-        wMk::d_list_entry("Address:", $add1) .
-        wMk::d_list_entry("Address 2:",  $add2) .
-        wMk::d_list_entry("City:", $city) .
-        wMk::d_list_entry("State:",  $state) .
-        wMk::d_list_entry("Zip Code:",  $zip) .
-        wMk::d_list_entry("Phone:",  $phone) .
-        wMk::d_list_entry("Email:",  $email ) .
-        wMk::d_list_entry("Company:",  $industry ) .
-        wMk::d_list_entry("Profession:",  $profession ) .
-        wMk::d_list_entry("Access Right:",  $accessRight ) .
-        wMk::d_list_entry("Delete Flag:",  $deleteOutput) .
+    $returnString .= WidgetMaker::start_horizontal_d_list("User Information", "userinfo") .
+        WidgetMaker::d_list_entry("User ID:", $padmaUserId) .
+        WidgetMaker::d_list_entry("Title:",  $title) .
+        WidgetMaker::d_list_entry("Last Name:", $lname) .
+        WidgetMaker::d_list_entry("First Name:",  $fname) .
+        WidgetMaker::d_list_entry("Middle Initial:", $mname) .
+        WidgetMaker::d_list_entry("Address:", $add1) .
+        WidgetMaker::d_list_entry("Address 2:",  $add2) .
+        WidgetMaker::d_list_entry("City:", $city) .
+        WidgetMaker::d_list_entry("State:",  $state) .
+        WidgetMaker::d_list_entry("Zip Code:",  $zip) .
+        WidgetMaker::d_list_entry("Phone:",  $phone) .
+        WidgetMaker::d_list_entry("Email:",  $email ) .
+        WidgetMaker::d_list_entry("Company:",  $industry ) .
+        WidgetMaker::d_list_entry("Profession:",  $profession ) .
+        WidgetMaker::d_list_entry("Access Right:",  $accessRight ) .
+        WidgetMaker::d_list_entry("Delete Flag:",  $deleteOutput) .
 
     "<br><br>";
 
     // Buttons for Modifying Users
     $returnString .=
         WidgetMaker::start_fieldset("Modify Access Right") .
-        WidgetMaker::select_input('Access Right', DBFunctionsAndConsts::ACC_RIGHT_ID_COL, dbFn::selectAccessRightList($db_conn),
+        WidgetMaker::select_input('Access Right', DBFunctionsAndConsts::ACC_RIGHT_ID_COL, DBFunctionsAndConsts::selectAccessRightList($db_conn),
             'ACC_RIGHT_ID', 'ACC_RIGHT_DESC', false) .
         WidgetMaker::button_ajax(UserManagementPage::ACCESS_RIGHT_BUTTON_ID, "Update Access Right") .
         WidgetMaker::end_fieldset();
@@ -135,21 +137,31 @@ function makeUserInfoWidget($userRow) {
     // Delete and Reactivate are opposites
     if ($deleteflag) {
         $returnString .= WidgetMaker::start_fieldset("Reactivate User") .
-            wMk::button_ajax(UserManagementPage::REACTIVATE_BUTTON_ID, 'Reactivate '. $padmaUserId) .
+            WidgetMaker::button_ajax(UserManagementPage::REACTIVATE_BUTTON_ID, 'Reactivate '. $padmaUserId) .
             WidgetMaker::end_fieldset();
     }
     else {
         $returnString .= WidgetMaker::start_fieldset("Delete User") .
-            wMk::button_ajax(UserManagementPage::DELETE_BUTTON_ID, 'Delete ' . $padmaUserId) .
+            WidgetMaker::button_ajax(UserManagementPage::DELETE_BUTTON_ID, 'Delete ' . $padmaUserId) .
             WidgetMaker::end_fieldset();
     }
-
     // Add last Button
     $returnString .= WidgetMaker::start_fieldset("Reset Password") .
-        wMk::button_ajax(UserManagementPage::RESET_PW_BUTTON_ID , 'Reset Password for '. $padmaUserId ) .
+        WidgetMaker::button_ajax(UserManagementPage::RESET_PW_BUTTON_ID , 'Reset Password for '. $padmaUserId ) .
         WidgetMaker::end_fieldset();
 
     return $returnString;
-
 }
+
+
+/**
+ * Generates a Random Password String
+ *
+ * @param int $length: length of password
+ * @return string:  Password string
+ */
+function randomPassword ($length=10) {
+    return substr(str_shuffle("0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ!@#$%^&*|"), 0, $length);
+}
+
 

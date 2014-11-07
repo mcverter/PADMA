@@ -42,21 +42,21 @@ class AdvancedSearchPage extends  DatabaseConnectionPage
             WidgetMaker::select_input(
                 "Experiment Name:",
                 DBFunctionsAndConsts::EXP_NAME_COL . DBFunctionsAndConsts::POST_MULTIPLE,
-                dbFn::selectAllUnrestrictedExperimentList($db_conn, $userid),
-                dbFn::EXP_NAME_COL,
-                dbFn::EXP_NAME_COL) .
+                DBFunctionsAndConsts::selectAllUnrestrictedExperimentList($db_conn, $userid),
+                DBFunctionsAndConsts::EXP_NAME_COL,
+                DBFunctionsAndConsts::EXP_NAME_COL) .
             WidgetMaker::select_input(
                 "Category:",
                 DBFunctionsAndConsts::CATG_COL . DBFunctionsAndConsts::POST_MULTIPLE,
-                dbFn::selectCategoryList($db_conn, $userid),
-                dbFn::CATG_COL,
-                dbFn::CATG_COL) .
+                DBFunctionsAndConsts::selectCategoryList($db_conn, $userid),
+                DBFunctionsAndConsts::CATG_COL,
+                DBFunctionsAndConsts::CATG_COL) .
             WidgetMaker::select_input(
                 "Species:",
                 DBFunctionsAndConsts::SPEC_COL . DBFunctionsAndConsts::POST_MULTIPLE,
-                dbFn::selectSpeciesList($db_conn, $userid),
-                dbFn::SPEC_COL,
-                dbFn::SPEC_COL) .
+                DBFunctionsAndConsts::selectSpeciesList($db_conn, $userid),
+                DBFunctionsAndConsts::SPEC_COL,
+                DBFunctionsAndConsts::SPEC_COL) .
             WidgetMaker::select_input(
                 "Subject:",
                 DBFunctionsAndConsts::SUBJ_COL . DBFunctionsAndConsts::POST_MULTIPLE,
@@ -66,15 +66,15 @@ class AdvancedSearchPage extends  DatabaseConnectionPage
             WidgetMaker::select_input(
                 "BioFunction:",
                 DBFunctionsAndConsts::BIOFUNCTION_COL . DBFunctionsAndConsts::POST_MULTIPLE,
-                dbFn::selectBiofunctionList($db_conn, $userid),
-                dbFn::BIOFUNCTION_COL,
-                dbFn::BIOFUNCTION_COL) .
+                DBFunctionsAndConsts::selectBiofunctionList($db_conn, $userid),
+                DBFunctionsAndConsts::BIOFUNCTION_COL,
+                DBFunctionsAndConsts::BIOFUNCTION_COL) .
             WidgetMaker::select_input(
                 "Regulation Value:",
                 DBFunctionsAndConsts::REG_VAL_COL . DBFunctionsAndConsts::POST_MULTIPLE,
-                dbFn::selectRegValList($db_conn, $userid),
-                dbFn::REG_VAL_COL,
-                dbFn::REG_VAL_COL) .
+                DBFunctionsAndConsts::selectRegValList($db_conn, $userid),
+                DBFunctionsAndConsts::REG_VAL_COL,
+                DBFunctionsAndConsts::REG_VAL_COL) .
             WidgetMaker::submit_button('submit', 'Search') .
             WidgetMaker::end_form();
 

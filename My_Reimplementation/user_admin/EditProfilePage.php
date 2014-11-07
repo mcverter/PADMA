@@ -43,8 +43,8 @@ class EditProfilePage extends DatabaseConnectionPage {
                     $_POST[DBFunctionsAndConsts::PROF_COL] ) ;
 
             $updated_by = $this->userid;
-            $updated_on = dbFn::now();
-            dbFn::updateUserProfile($db_conn, $title, $lname, $fname, $mname,
+            $updated_on = DBFunctionsAndConsts::now();
+            DBFunctionsAndConsts::updateUserProfile($db_conn, $title, $lname, $fname, $mname,
                 $address1, $address2, $city, $state, $zip, $country,
                 $phone, $email, $industry, $profession, $userid);
         }
@@ -52,7 +52,7 @@ class EditProfilePage extends DatabaseConnectionPage {
             list($title, $fname, $lname, $mname,
                 $address1, $address2, $city, $state, $zip, $country,
                 $phone, $email, $industry, $profession, $updated_by, $updated_on) =
-                oci_fetch_array(dbFn::selectProfileInfoByUserID($db_conn, $userid), OCI_NUM);
+                oci_fetch_array(DBFunctionsAndConsts::selectProfileInfoByUserID($db_conn, $userid), OCI_NUM);
         }
         $returnString = <<< EOT
     <h2> Profile Information </h2>
@@ -73,31 +73,31 @@ EOT;
         $returnString .= "<h2> Your current profile </h2> \n" .
             "<p> Last updated by $updated_by  on $updated_on </p>" .
             "<hr>\n" .
-            wMk::start_form($formAction, 'POST', 'verifyForm', ' form-horizontal ', '', ' data-parsley-validate ') .
-            wMk::select_input('Title', DBFunctionsAndConsts::TITLE_COL,
-                dbFn::selectTitleList($db_conn),
-                dbFn::TITLE_COL, dbFn::TITLE_COL, false, $title, 5, '', ' data-parsley-required ') .
-            wMk::text_input('Last Name', DBFunctionsAndConsts::LNAME_COL,  $lname, '', '', ' data-parsley-required ') .
-            wMk::text_input('First Name', DBFunctionsAndConsts::FNAME_COL,  $fname,'', '', ' data-parsley-required ') .
-            wMk::text_input('Middle Initial', DBFunctionsAndConsts::MNAME_COL,  $mname, '', '', ' data-parsley-required ') .
-            wMk::text_input('Address:', DBFunctionsAndConsts::ADD_1_COL,  $address1, '', '', ' data-parsley-required ') .
-            wMk::text_input('Address 2:', DBFunctionsAndConsts::ADD_2_COL,  $address2, '', '', ' data-parsley-required ') .
-            wMk::text_input('City:', DBFunctionsAndConsts::CITY_COL,  $city, '', '', ' data-parsley-required ') .
-            wMk::text_input('State:', DBFunctionsAndConsts::STATE_COL,  $state, '', '', ' data-parsley-required ') .
-            wMk::text_input('Zip Code:', DBFunctionsAndConsts::ZIP_COL,  $zip, '', '', ' data-parsley-required ') .
-            wMk::select_input('Country',
+            WidgetMaker::start_form($formAction, 'POST', 'verifyForm', ' form-horizontal ', '', ' data-parsley-validate ') .
+            WidgetMaker::select_input('Title', DBFunctionsAndConsts::TITLE_COL,
+                DBFunctionsAndConsts::selectTitleList($db_conn),
+                DBFunctionsAndConsts::TITLE_COL, DBFunctionsAndConsts::TITLE_COL, false, $title, 5, '', ' data-parsley-required ') .
+            WidgetMaker::text_input('Last Name', DBFunctionsAndConsts::LNAME_COL,  $lname, '', '', ' data-parsley-required ') .
+            WidgetMaker::text_input('First Name', DBFunctionsAndConsts::FNAME_COL,  $fname,'', '', ' data-parsley-required ') .
+            WidgetMaker::text_input('Middle Initial', DBFunctionsAndConsts::MNAME_COL,  $mname, '', '', ' data-parsley-required ') .
+            WidgetMaker::text_input('Address:', DBFunctionsAndConsts::ADD_1_COL,  $address1, '', '', ' data-parsley-required ') .
+            WidgetMaker::text_input('Address 2:', DBFunctionsAndConsts::ADD_2_COL,  $address2, '', '', ' data-parsley-required ') .
+            WidgetMaker::text_input('City:', DBFunctionsAndConsts::CITY_COL,  $city, '', '', ' data-parsley-required ') .
+            WidgetMaker::text_input('State:', DBFunctionsAndConsts::STATE_COL,  $state, '', '', ' data-parsley-required ') .
+            WidgetMaker::text_input('Zip Code:', DBFunctionsAndConsts::ZIP_COL,  $zip, '', '', ' data-parsley-required ') .
+            WidgetMaker::select_input('Country',
                 DBFunctionsAndConsts::COUNTRYID_COL,
-                dbFn::selectCountryList($db_conn),
+                DBFunctionsAndConsts::selectCountryList($db_conn),
                 DBFunctionsAndConsts::COUNTRYID_COL,
                 DBFunctionsAndConsts::COUNTRYNAME_COL,
                 false,
                 $country,
                 '',5, '', ' data-parsley-required ') .
-            wMk::text_input('Phone Number', DBFunctionsAndConsts::PHONE_COL,  $phone, '', '', ' data-parsley-required ') .
-            wMk::text_input('Email', DBFunctionsAndConsts::EMAIL_COL,  $email, '', '', ' data-parsley-required ') .
-            wMk::text_input('Industry', DBFunctionsAndConsts::IND_COL,  $industry, '', '', ' data-parsley-required ') .
-            wMk::text_input('Profession', DBFunctionsAndConsts::PROF_COL,  $profession, '', '', ' data-parsley-required ') .
-            wMk::submit_button('submit', 'Update Profile');
+            WidgetMaker::text_input('Phone Number', DBFunctionsAndConsts::PHONE_COL,  $phone, '', '', ' data-parsley-required ') .
+            WidgetMaker::text_input('Email', DBFunctionsAndConsts::EMAIL_COL,  $email, '', '', ' data-parsley-required ') .
+            WidgetMaker::text_input('Industry', DBFunctionsAndConsts::IND_COL,  $industry, '', '', ' data-parsley-required ') .
+            WidgetMaker::text_input('Profession', DBFunctionsAndConsts::PROF_COL,  $profession, '', '', ' data-parsley-required ') .
+            WidgetMaker::submit_button('submit', 'Update Profile');
         return $returnString;
     }
 
@@ -107,7 +107,7 @@ EOT;
      * @return bool: Whether user has rights to view page
      */
     protected  function isAuthorizedToViewPage() {
-        return PageControlFunctionsAndConsts::check_role(pgFn::REGISTERED_ROLE);
+        return PageControlFunctionsAndConsts::check_role(PageControlFunctionsAndConsts::REGISTERED_ROLE);
     }
 
     /**

@@ -20,11 +20,11 @@ class HeaderMaker
      */
     private static function make_login_form() {
         $returnString = '';
-        $returnString .= wMk::start_form("../user_admin/LoginUserScript.php", 'POST', 'loginForm', 'form-horizontal',  '', ' role="form" ')
-                . wMk::text_input('User Id', pgFn::USERID_SESSVAR)
-                . wMk::password_input('Password', pgFn::PASSWORD_POSTVAR)
-                . wMk::submit_button('submit', 'Sign In', ' btn btn-primary ')
-                . wMk::end_form();
+        $returnString .= WidgetMaker::start_form("../user_admin/LoginUserScript.php", 'POST', 'loginForm', 'form-horizontal',  '', ' role="form" ')
+                . WidgetMaker::text_input('User Id', PageControlFunctionsAndConsts::USERID_SESSVAR)
+                . WidgetMaker::password_input('Password', PageControlFunctionsAndConsts::PASSWORD_POSTVAR)
+                . WidgetMaker::submit_button('submit', 'Sign In', ' btn btn-primary ')
+                . WidgetMaker::end_form();
         return $returnString;
     }
 
@@ -72,17 +72,17 @@ class HeaderMaker
 
 EOT;
 
-        if ($role == pgFn::ADMINISTRATOR_ROLE ||
-            $role == pgFn::RESEARCHER_ROLE ||
-            $role == pgFn::USER_ROLE) {
-            if ($role == pgFn::RESEARCHER_ROLE ||
-                $role == pgFn::ADMINISTRATOR_ROLE) {
+        if ($role == PageControlFunctionsAndConsts::ADMINISTRATOR_ROLE ||
+            $role == PageControlFunctionsAndConsts::RESEARCHER_ROLE ||
+            $role == PageControlFunctionsAndConsts::USER_ROLE) {
+            if ($role == PageControlFunctionsAndConsts::RESEARCHER_ROLE ||
+                $role == PageControlFunctionsAndConsts::ADMINISTRATOR_ROLE) {
             $returnString .= <<<EOT
         <li><a href="../webpages/manage_data_main.php" title="Manage Data">Manage Data </a></li>
 
 EOT;
      }
-            if ($role == pgFn::ADMINISTRATOR_ROLE) {
+            if ($role == PageControlFunctionsAndConsts::ADMINISTRATOR_ROLE) {
                 $returnString .= <<<EOT
         <li><a href="../webpages/manage_users.php" title="User Management">User Setup</a></li>
 

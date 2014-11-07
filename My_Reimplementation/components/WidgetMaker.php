@@ -50,7 +50,6 @@ EOT;
      *
      * @param string $id: Element Name and ID
      * @param string $message:  Feedback Message.
-     * @param string $hidden:  Controls visibility of message.
      *
      * @return string:  HTML for widget
      */
@@ -148,7 +147,6 @@ EOT;
      *
      * @param string $action:  Action performed by form
      * @param string $class: CSS class
-     * @param string $onsubmit:  Javascript to perform on Form Submission
      * @param string $method:  method used by form
      * @param string $name:  Name and ID of form
      *
@@ -284,7 +282,7 @@ EOT;
         return <<< EOT
 
     <label class="radio-inline">
-        <input type="radio" name="$name" id="$name" value="$value" $checked class='$class'> $label
+        <input type="radio" name="$name" id="$name" value="$value" $checked class='$class' $attrs> $label
     </label>
 
 EOT;
@@ -422,10 +420,10 @@ EOT;
             <option disabled>--------------------</option>
 EOT;
 
-        $existing_user_statement = dbFn::selectExistingUserList($db_conn);
+        $existing_user_statement = DBFunctionsAndConsts::selectExistingUserList($db_conn);
         while (($row = oci_fetch_assoc($existing_user_statement)) != false) {
-            $value = $row[dbFn::C_ID_COL];
-            $text = $row[dbFn::LNAME_COL] . ", " . $row[dbFn::FNAME_COL];
+            $value = $row[DBFunctionsAndConsts::C_ID_COL];
+            $text = $row[DBFunctionsAndConsts::LNAME_COL] . ", " . $row[DBFunctionsAndConsts::FNAME_COL];
             $returnString .= "<option value='$value' > $text </option>\n";
         }
         $returnString .= <<<EOT
@@ -435,10 +433,10 @@ EOT;
             <option disabled>--------------------</option>
 
 EOT;
-        $new_user_statement = dbFn::selectNewUserList($db_conn);
+        $new_user_statement = DBFunctionsAndConsts::selectNewUserList($db_conn);
         while (($row = oci_fetch_assoc($new_user_statement)) != false) {
-            $value = $row[dbFn::C_ID_COL];
-            $text = $row[dbFn::LNAME_COL] . ", " . $row[dbFn::FNAME_COL];
+            $value = $row[DBFunctionsAndConsts::C_ID_COL];
+            $text = $row[DBFunctionsAndConsts::LNAME_COL] . ", " . $row[DBFunctionsAndConsts::FNAME_COL];
             $returnString .= "<option value='$value' > $text </option>\n";
         }
 

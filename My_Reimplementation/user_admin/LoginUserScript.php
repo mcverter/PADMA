@@ -8,11 +8,11 @@
 require_once("../functions_and_consts/DBFunctionsAndConsts.php");
 require_once("../templates/WebPage.php");
 
-$userid = $_POST[pgFn::USERID_SESSVAR];
-$password = $_POST[pgFn::PASSWORD_POSTVAR];
+$userid = $_POST[PageControlFunctionsAndConsts::USERID_SESSVAR];
+$password = $_POST[PageControlFunctionsAndConsts::PASSWORD_POSTVAR];
 $role = '';
 
-$db_conn = dbFn::connect_to_db();
+$db_conn = DBFunctionsAndConsts::connect_to_db();
 $stored_proc_statement = 'BEGIN LOGIN(:PARAM_USERNAME,:PARAM_PASSWORD,:PARAM_ROLE); END;';
 $stored_proc_statement = oci_parse($db_conn,$stored_proc_statement);
 
@@ -24,16 +24,16 @@ oci_bind_by_name($stored_proc_statement,":PARAM_ROLE",$role,30);
 $execute=oci_execute($stored_proc_statement);
 
 
-if ($role === pgFn::RESEARCHER_ROLE ||
-    $role === pgFn::ADMINISTRATOR_ROLE ||
-    $role === pgFn::USER_ROLE) {
+if ($role === PageControlFunctionsAndConsts::RESEARCHER_ROLE ||
+    $role === PageControlFunctionsAndConsts::ADMINISTRATOR_ROLE ||
+    $role === PageControlFunctionsAndConsts::USER_ROLE) {
     session_start();
-    $_SESSION[pgFn::ROLE_SESSVAR]=$role;
-    $_SESSION[pgFn::USERID_SESSVAR]=$userid;
+    $_SESSION[PageControlFunctionsAndConsts::ROLE_SESSVAR]=$role;
+    $_SESSION[PageControlFunctionsAndConsts::USERID_SESSVAR]=$userid;
     header('Location: ../webpages/index.php');
 }
 else {
-    $_SESSION[pgFn::ROLE_SESSVAR]= null;
+    $_SESSION[PageControlFunctionsAndConsts::ROLE_SESSVAR]= null;
     PageControlFunctionsAndConsts::redirectDueToError("We could not find your Username / Password combination in our records");
 }
 

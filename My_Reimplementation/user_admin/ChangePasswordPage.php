@@ -34,22 +34,21 @@ class ChangePasswordPage extends DatabaseConnectionPage
 
         if (!empty($_POST) && !empty($_POST[self::OLD_PASS_POSTVAR]) && !empty($_POST[self::NEW_PASS_POSTVAR])) {
 
-            if (DBFunctionsAndConsts::selectTotalUserIDAndPW($db_conn, $userid, $_POST[self::OLD_PASS_POSTVAR])
-                < 1) {
+            if (! DBFunctionsAndConsts::isUserInDB_ByIDAndPW($db_conn, $userid, $_POST[self::OLD_PASS_POSTVAR])) {
                 $returnString .= PageControlFunctionsAndConsts::redirectDueToError("The User ID and Password did not match.  Could not update password");
             }
             else {
-                dbFn::updatePasswordByUserID($db_conn, $userid, $_POST[self::NEW_PASS_POSTVAR]);
+                DBFunctionsAndConsts::updatePasswordByUserID($db_conn, $userid, $_POST[self::NEW_PASS_POSTVAR]);
                 $returnString .= PageControlFunctionsAndConsts::redirectDueToSuccess("Password successfully updated.");
             }
         }
         else {
             $returnString .= "User Id : $userid" .
-                wMk::start_form($_SERVER['PHP_SELF'], 'POST', 'changePassForm',  ' form-horizontal ', '', ' data-parsley-validate ') .
-                wMk::text_input('Old Password', self::OLD_PASS_POSTVAR, '', '', ' data-parsley-required ') .
-                wMk::text_input('New Password', self::NEW_PASS_POSTVAR, '', '', ' data-parsley-required ') .
-                wMk::text_input('Confirm Password', 'confirm' . self::NEW_PASS_POSTVAR, '', '', ' data-parsley-required data-parsley-equalto="#' . self::NEW_PASS_POSTVAR .'" ') .
-                wMk::end_form();
+                WidgetMaker::start_form($_SERVER['PHP_SELF'], 'POST', 'changePassForm',  ' form-horizontal ', '', ' data-parsley-validate ') .
+                WidgetMaker::text_input('Old Password', self::OLD_PASS_POSTVAR, '', '', ' data-parsley-required ') .
+                WidgetMaker::text_input('New Password', self::NEW_PASS_POSTVAR, '', '', ' data-parsley-required ') .
+                WidgetMaker::text_input('Confirm Password', 'confirm' . self::NEW_PASS_POSTVAR, '', '', ' data-parsley-required data-parsley-equalto="#' . self::NEW_PASS_POSTVAR .'" ') .
+                WidgetMaker::end_form();
         }
         return $returnString;
     }
@@ -63,7 +62,7 @@ class ChangePasswordPage extends DatabaseConnectionPage
      * @return bool: Whether user is authroized
      */
     protected  function isAuthorizedToViewPage() {
-        return PageControlFunctionsAndConsts::check_role(pgFn::REGISTERED_ROLE);
+        return PageControlFunctionsAndConsts::check_role(PageControlFunctionsAndConsts::REGISTERED_ROLE);
     }
 
     /**
@@ -76,7 +75,6 @@ class ChangePasswordPage extends DatabaseConnectionPage
      * @param $role : Role of Logged in User
      * @return string : HTML for middle of Page
      */
-
     function make_page_middle($userid, $role){
         return $this->make_image_content_columns ($userid, $role, 'R', 4) ;
     }

@@ -21,7 +21,7 @@ class DeleteExperimentPage extends DatabaseConnectionPage
      * @return bool:  Whether user is allowed to view page
      */
     protected  function isAuthorizedToViewPage() {
-        return PageControlFunctionsAndConsts::check_role(pgFn::SUPERVISING_ROLE);
+        return PageControlFunctionsAndConsts::check_role(PageControlFunctionsAndConsts::SUPERVISING_ROLE);
     }
 
     /**
@@ -55,9 +55,11 @@ class DeleteExperimentPage extends DatabaseConnectionPage
 
 
         if ($role == PageControlFunctionsAndConsts::ADMINISTRATOR_ROLE) {
-            return dbFn::selectAllUnrestrictedExperimentList($db_conn, $userid);
+            return DBFunctionsAndConsts::selectAllUnrestrictedExperimentList($db_conn, $userid);
         } else if ($role == PageControlFunctionsAndConsts::RESEARCHER_ROLE) {
-            return dbFn::selectUserRestrictedExperimentList($db_conn, $userid);
+            return DBFunctionsAndConsts::selectUserRestrictedExperimentList($db_conn, $userid);
+        } else {
+            return PageControlFunctionsAndConsts::redirectDueToError("Page accessed by user who is neither Admin nor Researcher");
         }
     }
 
@@ -80,8 +82,8 @@ class DeleteExperimentPage extends DatabaseConnectionPage
         ) {
             $db_conn = $this->db_conn;
             $expName = $_POST[DBFunctionsAndConsts::EXP_NAME_COL];
-            dbFn::deleteExperiment($db_conn, $expName);
-            $returnString .= wMk::successMessage('success',
+            DBFunctionsAndConsts::deleteExperiment($db_conn, $expName);
+            $returnString .= WidgetMaker::successMessage('success',
                 "Experiment $expName has been deleted");
         }
 
@@ -89,17 +91,17 @@ class DeleteExperimentPage extends DatabaseConnectionPage
             <h2>Select an Experiment to delete</h2>
 EOT
 
-            . wMk::start_form($_SERVER['PHP_SELF'])
-            . wMk::select_input(
+            . WidgetMaker::start_form($_SERVER['PHP_SELF'])
+            . WidgetMaker::select_input(
                 "Experiment",
                 DBFunctionsAndConsts::EXP_NAME_COL,
                 $this->selectExperimentList(),
-                dbFn::EXP_NAME_COL,
-                dbFn::EXP_NAME_COL,
+                DBFunctionsAndConsts::EXP_NAME_COL,
+                DBFunctionsAndConsts::EXP_NAME_COL,
                 false) .
             '<div id="' . self::DESCRIPTION_DIV . '"></div>'
-            . wMk::submit_button('deleteBtn', 'Delete', '')
-            . wMk::end_form();
+            . WidgetMaker::submit_button('deleteBtn', 'Delete', '')
+            . WidgetMaker::end_form();
         return $returnString;
     }
 

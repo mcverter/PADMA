@@ -26,12 +26,7 @@ class IndexPage extends WebPage {
      * @return string
      */
     public function make_main_content($userid, $role) {
-        //unathenticate user when log out
-        if ((isset($_GET['logout']) &&
-            $_GET['logout'] == 'true')) {
-            $_SESSION[wPg::ROLE_SESSVAR]="NOTAUTHORIZED";
-            unset($_SESSION[wPg::USERID_SESSVAR]);
-        }
+
         $returnString = <<<EOT
     <div class="central_widget">
       <p>

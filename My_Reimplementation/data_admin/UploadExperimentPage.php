@@ -1,7 +1,6 @@
 <?php
 
 require_once('../templates/DatabaseConnectionPage.php');
-PageControlFunctionsAndConsts::exit_on_warning();
 
 /**
  * Class UploadReferencePage
@@ -44,7 +43,7 @@ class UploadExperimentPage extends DatabaseConnectionPage {
      * @return bool:  Whether user is allowed to view page
      */
     protected  function isAuthorizedToViewPage() {
-        return PageControlFunctionsAndConsts::check_role(pgFn::SUPERVISING_ROLE);
+        return PageControlFunctionsAndConsts::check_role(PageControlFunctionsAndConsts::SUPERVISING_ROLE);
     }
 
     /**
@@ -90,23 +89,23 @@ class UploadExperimentPage extends DatabaseConnectionPage {
         if ($line != false) {
             list ($prob_id, $exp_name, $catg, $spec, $subj, $reg_val, $open, $hour) =
                 explode(",", trim($line));
-            if ($exp_name && !dbFn::experimentInDB($db_conn, $exp_name)) {
+            if ($exp_name && !DBFunctionsAndConsts::isExperimentInDB($db_conn, $exp_name)) {
 
                 // Insert into EXPERIMENT table
                 while ($line != false) {
                     if (substr_count($line, ",") != 7) {
-                        return PageControlFunctionsAndConsts::redirectDueToError("There must be 8 columns in each line of {$destinationFileName}.  The following line does not: \n'{$line}'' ");
+                        return PageControlFunctionsAndConsts::redirectDueToError("There must be 8 columns in each line of the input file.  The following line does not: \n'{$line}'' ");
                     }
                     list ($prob_id, $exp_name, $catg, $spec, $subj, $reg_val, $open, $hour) =
                         explode(",", trim($line));
-                    dbFn::insertIntoExpTbl($db_conn, $prob_id, $exp_name, $catg, $spec, $subj, $reg_val, $open, $userid, $date, $restricted, $hour);
+                    DBFunctionsAndConsts::insertIntoExpTbl($db_conn, $prob_id, $exp_name, $catg, $spec, $subj, $reg_val, $open, $userid, $date, $restricted, $hour);
                     $count++;
                     $line = fgets($filehandle);
                 }
 
                 // insert into EXPERIMENT_MASTER table
                 if ($count) {
-                    dbFn::insertIntoExpMasterTbl($db_conn, $exp_name, $description, $userid, $date, $restricted, $count);
+                    DBFunctionsAndConsts::insertIntoExpMasterTbl($db_conn, $exp_name, $description, $userid, $date, $restricted, $count);
                 }
             }
         }
@@ -138,17 +137,17 @@ class UploadExperimentPage extends DatabaseConnectionPage {
                 ||! is_uploaded_file($_FILES[self::FILE_POSTVAR]["tmp_name"])))
             == false ) {
             $this->upload_file();
-            $returnString .= wMk::successMessage('uploadSuccess', 'You have successfully uploaded an experiment');
+            $returnString .= WidgetMaker::successMessage('uploadSuccess', 'You have successfully uploaded an experiment');
         }
 
 
-        $returnString .= wMk::start_file_form($_SERVER['PHP_SELF'],  'POST', 'uploadForm', 'form-horizontal',' data-parsley-validate ')
-            . wMk::file_input("Upload File", self::FILE_POSTVAR, '',  " data-parsley-required ")
+        $returnString .= WidgetMaker::start_file_form($_SERVER['PHP_SELF'],  'POST', 'uploadForm', 'form-horizontal',' data-parsley-validate ')
+            . WidgetMaker::file_input("Upload File", self::FILE_POSTVAR, '',  " data-parsley-required ")
             . "<br><h4>Publish?<h4><br>"
             . WidgetMaker::radio_input(self::YES_VALUE, self::PUBLISH_RADIO_ID, self::YES_VALUE, '')
             . WidgetMaker::radio_input(self::NO_VALUE, self::PUBLISH_RADIO_ID, self::NO_VALUE, "checked")
-            . wMk::submit_button()
-            . wMk::end_form();
+            . WidgetMaker::submit_button()
+            . WidgetMaker::end_form();
 
         return $returnString;
     }

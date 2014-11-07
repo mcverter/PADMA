@@ -7,6 +7,17 @@ require_once("../components/WidgetMaker.php");
 
 /**
  * Class WebPage
+ *
+ * This is the base class for the contents of all
+ *  User-Displayable Webpages.
+ *
+ * Any class whose name ends with "Page.php"
+ *   inherits from this.
+ *
+ * Files in the /webpages/ directory load Page.php files
+ *
+ * Other types of Files are "Script.php" and "AJAX.php"
+ *
  */
 abstract class WebPage
 {
@@ -16,6 +27,53 @@ abstract class WebPage
 
     // Overridden in subclass with Late Static Binding
     const PG_TITLE = '';
+
+    /**
+     * Constructor()
+     * $role, $userid initialized from SESSION variables
+     */
+    public function __construct()
+    {
+        PageControlFunctionsAndConsts::initialize_session();
+        $this->userid = isset($_SESSION[PageControlFunctionsAndConsts::USERID_SESSVAR]) ? $_SESSION[PageControlFunctionsAndConsts::USERID_SESSVAR] : "";
+        $this->role = isset($_SESSION[PageControlFunctionsAndConsts::ROLE_SESSVAR]) ? $_SESSION[PageControlFunctionsAndConsts::ROLE_SESSVAR] : "";
+    }
+
+    /**
+     * This is the primary interface to the page.
+     * Each file in the /webpages/ directory instantiates
+     *   a memeber of the corresponding Page.php class
+     *   and then calls display_page on it.
+     *
+     * Display page checks to see whether page access
+     *   is legitimate.
+     * Then it creates the top, middle, and bottom of the page.
+     * Then this string is echoed out
+     *
+     * Note that each step of this process involves the
+     *   creation and appending of the $returnString variable
+     * At no point should there be any calls to
+     *   echo() or print() until the entire string is built.
+     *
+     *
+     */
+    public function display_page()
+    {
+        if ($this->isAuthorizedToViewPage()) {
+            $role = $this->role;
+            $userid = $this->userid;
+
+            $displayString = $this->make_page_top($userid, $role)
+                . $this->make_page_middle($userid, $role)
+                . $this->make_page_bottom();
+
+            echo $displayString;
+
+        }
+        $this->cleanup();
+    }
+
+
 
     /**
      * Checks whether the current user has a $role to view page
@@ -29,16 +87,32 @@ abstract class WebPage
     }
 
     /**
-     * Constructor()
-     * $role, $userid initialized from SESSION variables
-     * $title initialized in subclass
+     * In the future
+     * It might be useful to have a check_referrer() funciton
+     *   to make sure that requests are coming from the appropriate
+     *   place, and to do checks of CSRF tokens, etc.
+     *
+     * Currently, check_refferer functions are being used to make
+     *   sure that Agreement Forms are properly signed
+     *
+     * Nothing is yet implemented for the general case.
+     * This is added to the file as a reminder to reconsider this.
+     *
      */
-    public function __construct()
-    {
-        PageControlFunctionsAndConsts::initialize_session();
-        $this->userid = isset($_SESSION[pgFn::USERID_SESSVAR]) ? $_SESSION[pgFn::USERID_SESSVAR] : "";
-        $this->role = isset($_SESSION[pgFn::ROLE_SESSVAR]) ? $_SESSION[pgFn::ROLE_SESSVAR] : "";
-    }
+    function check_referrer(){}
+
+    /**
+     * @Abstract
+     * Must be overridden by subclass
+     *
+     * Makes the main functional content block of the page
+     *
+     * @param $userid:  Logged in User
+     * @param $role:  User's Role
+     * @return string: HTML for page
+     */
+    abstract protected function make_main_content($userid, $role);
+
 
     /**
      * @Abstract
@@ -46,21 +120,36 @@ abstract class WebPage
      *     Page Logical Content
      *
      * Abstract Function
-     * Sublasses modify the display by redefining the functions contained within, particularly make_content() as well as make_js(), where needed.
-     *
+     * This function is used to provide parameters to
+     *   make_image_content_columns(), below
+      *
      * @param $userid : Logged in User
      * @param $role : Role of Logged in User
      * @return string : HTML for middle of Page
      */
-
-
-    abstract function make_page_middle($userid, $role);
+     abstract function make_page_middle($userid, $role);
 
     /**
-     * @param $userid
-     * @param $role
-     * @param $imgOrientation
-     * @param $imgWidth
+     * This is a lazy way to add minimal design to pages.
+     * Each webpage has a single correponding image in the
+     *    /images/PadmaPix directory.
+     * This function determines the way that image is oriented
+     *    relative to the main logical content
+     *
+     * So far, there are five options:
+     * (1) No image
+     * (2) Right Column Image
+     * (3) Left Column Image
+     * (4) Right Floated Image
+     * (5) Left Floated Image
+     *
+     * @param $userid : Id of User
+     * @param $role : User Role
+     * @param $imgOrientation : Either "N" for no orientation, "R" for Right Column,
+     *     "L" for Left COlumn, "RF" for Right Float, "LF" for Left Float
+     * @param $imgWidth : number of columns for "R" or "L" or
+     *        pixel width for "RF" or "LF"
+     *
      * @return string
      */
     function make_image_content_columns ($userid, $role,  $imgOrientation, $imgWidth='')
@@ -160,21 +249,6 @@ EOT;
     }
 
 
-    public function display_page()
-    {
-        if ($this->isAuthorizedToViewPage()) {
-            $role = $this->role;
-            $userid = $this->userid;
-
-            $displayString = $this->make_page_top($userid, $role)
-                . $this->make_page_middle($userid, $role)
-                . $this->make_page_bottom();
-
-            echo $displayString;
-
-        }
-        $this->cleanup();
-    }
 
     /**
      * Prints out the leading HTML, the css, and the Header.
@@ -234,19 +308,6 @@ EOT;
 EOT;
         return $returnString;
     }
-
-
-    /**
-     * @Abstract
-     * Must be overridden by subclass
-     *
-     * Makes the main functional content block of the page
-     *
-     * @param $userid:  Logged in User
-     * @param $role:  User's Role
-     * @return string: HTML for page
-     */
-    abstract protected function make_main_content($userid, $role);
 
     /**
      * Prints the footer , the js, and closes the page.

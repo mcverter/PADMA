@@ -45,43 +45,43 @@ class SearchResultPage extends DatabaseConnectionPage
      *
      */
     static $result_cols = array(
-        array('col' => dbFn::FULL_VIEW_PROBE_ID,
+        array('col' => DBFunctionsAndConsts::FULL_VIEW_PROBE_ID,
             'type' => self::STRING_TYPE,
             'postvar' => DBFunctionsAndConsts::PROB_ID_COL,
             'heading' => "Probe ID"),
-        array('col' => dbFn::FULL_VIEW_CGNUMBER,
+        array('col' => DBFunctionsAndConsts::FULL_VIEW_CGNUMBER,
             'type' => self::STRING_TYPE,
             'postvar' => DBFunctionsAndConsts::CGNUMBER_COL,
             'heading' => "CG Number"),
-        array('col' => dbFn::GENENAME_COL,
+        array('col' => DBFunctionsAndConsts::GENENAME_COL,
             'type' => self::ARRAY_TYPE,
             'postvar' => DBFunctionsAndConsts::GENENAME_COL,
             'heading' => "Gene Name"),
-        array('col' => dbFn::FULL_VIEW_FBNUM,
+        array('col' => DBFunctionsAndConsts::FULL_VIEW_FBNUM,
             'type' => self::STRING_TYPE,
             'postvar' => DBFunctionsAndConsts::FBGNNUMBER_COL,
             'heading' => "FlyBase Number"),
-        array('col' => dbFn::BIOFUNCTION_COL,
+        array('col' => DBFunctionsAndConsts::BIOFUNCTION_COL,
             'type' => self::ARRAY_TYPE,
             'postvar' => DBFunctionsAndConsts::BIOFUNCTION_COL,
             'heading' => "Bio Function"),
-        array('col' => dbFn::GONUMBER_COL,
+        array('col' => DBFunctionsAndConsts::GONUMBER_COL,
             'type' => self::STRING_TYPE,
             'postvar' => DBFunctionsAndConsts::GONUMBER_COL,
             'heading' => "GO Number"),
-        array('col' => dbFn::FULL_VIEW_NAME,
+        array('col' => DBFunctionsAndConsts::FULL_VIEW_NAME,
             'type' => self::ARRAY_TYPE,
             'postvar' => DBFunctionsAndConsts::EXP_NAME_COL,
             'heading' => "Experiment Name"),
-        array('col' => dbFn::FULL_VIEW_CATG,
+        array('col' => DBFunctionsAndConsts::FULL_VIEW_CATG,
             'type' => self::ARRAY_TYPE,
             'postvar' => DBFunctionsAndConsts::CATG_COL,
             'heading' => "Active Category"),
-        array('col' => dbFn::FULL_VIEW_SPEC,
+        array('col' => DBFunctionsAndConsts::FULL_VIEW_SPEC,
             'type' => self::ARRAY_TYPE,
             'postvar' => DBFunctionsAndConsts::SPEC_COL,
             'heading' => "Active Species"),
-        array('col' => dbFn::FULL_VIEW_SUBJ,
+        array('col' => DBFunctionsAndConsts::FULL_VIEW_SUBJ,
             'type' => self::ARRAY_TYPE,
             'postvar' => DBFunctionsAndConsts::SUBJ_COL,
             'heading' => "Experiment Subject"),
@@ -125,7 +125,7 @@ EOT;
         </thead>
         <tbody>
 EOT;
-        $query_result = dbFn::selectSearchResult($this->db_conn, $this->userid,
+        $query_result = DBFunctionsAndConsts::selectSearchResult($this->db_conn, $this->userid,
             $this->build_constraint(self::$result_cols));
 
         // Print each row of the table based on each DB row
@@ -188,9 +188,9 @@ EOT;
      * @return string: Comma separated, quoted list for DB query
      */
     static private function extract_csv_from_array($arr) {
-        $csv = " '" . PageControlFunctionsAndConsts::unescape_space(array_pop($arr)) . "'";
+        $csv = " '" . array_pop($arr) . "'";
         foreach ($arr as $v) {
-            $csv .= " , '" . PageControlFunctionsAndConsts::unescape_space($v) . "' ";
+            $csv .= " , '" . $v . "' ";
         }
         return $csv;
     }
@@ -205,6 +205,8 @@ EOT;
     static private function extract_csv_from_string($str) {
         return self::extract_csv_from_array(explode(',', $str));
     }
+
+
 
 
     /**

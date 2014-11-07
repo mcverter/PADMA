@@ -46,7 +46,7 @@ class UploadReferencePage extends DatabaseConnectionPage {
     {
         $db_conn = $this->db_conn;
         $version = $_POST['version'];
-        if (dbFn::versionInDB($db_conn, $version)) {
+        if (DBFunctionsAndConsts::isVersionInDB($db_conn, $version)) {
             return PageControlFunctionsAndConsts::redirectDueToError(
                 "Version already exists in the database");
         }
@@ -86,7 +86,7 @@ class UploadReferencePage extends DatabaseConnectionPage {
             $commaIdxStart = $commaIdxEnd+1;
             $godata = substr($line, $commaIdxStart, strlen($line) -$commaIdxStart);
 
-            dbFn::insertReference($db_conn, $probeid, $cgname, $genename, $flybasenum, $version, $userid, $date);
+            DBFunctionsAndConsts::insertReference($db_conn, $probeid, $cgname, $genename, $flybasenum, $version, $userid, $date);
 
             // if godata not empty
             if (preg_match("/\d/", $godata)) {
@@ -94,9 +94,9 @@ class UploadReferencePage extends DatabaseConnectionPage {
                 foreach (explode("///", $godata) as $goentry) {
                     $gospecification = explode("//", $goentry);
                     $gonumber = array_shift($gospecification);
-                    dbFn::insertReferenceGo($db_conn, $probeid, $gonumber, $version, $userid, $date);
+                    DBFunctionsAndConsts::insertReferenceGo($db_conn, $probeid, $gonumber, $version, $userid, $date);
                     foreach ($gospecification as $description) {
-                        dbFn::insertReferenceBio($db_conn, $gonumber, $description, $version, $userid, $date);
+                        DBFunctionsAndConsts::insertReferenceBio($db_conn, $gonumber, $description, $version, $userid, $date);
                     }
                 }
             }
@@ -126,15 +126,15 @@ class UploadReferencePage extends DatabaseConnectionPage {
                 ||! is_uploaded_file($_FILES[self::FILE_POSTVAR]["tmp_name"])))
             == false ) {
             $this->upload_file();
-            $returnString .= wMk::successMessage('uploadSuccess', 'You have successfully uploaded an Version');
+            $returnString .= WidgetMaker::successMessage('uploadSuccess', 'You have successfully uploaded an Version');
         }
 
         $returnString .=
-            wMk::start_file_form($_SERVER['PHP_SELF'], 'POST', 'uploadForm', 'form-horizontal', ' data-parsley-validate ') .
-            wMk::text_input('Version Number', 'version', '', '', " data-parsley-required" ) .
-            wMk::file_input("           ", self::FILE_POSTVAR, '', " data-parsley-required") .
-            wMk::submit_button() .
-            wMk::end_form();
+            WidgetMaker::start_file_form($_SERVER['PHP_SELF'], 'POST', 'uploadForm', 'form-horizontal', ' data-parsley-validate ') .
+            WidgetMaker::text_input('Version Number', 'version', '', '', " data-parsley-required" ) .
+            WidgetMaker::file_input("           ", self::FILE_POSTVAR, '', " data-parsley-required") .
+            WidgetMaker::submit_button() .
+            WidgetMaker::end_form();
         return $returnString;
     }
 }

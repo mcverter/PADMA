@@ -10,7 +10,7 @@ class SupportPage extends WebPage {
 
     /**
      * @Override
- * Determine formatting of Main Page Image relative to
+     * Determine formatting of Main Page Image relative to
      *     Page Logical Content
      *
      * @param $userid : Logged in User
@@ -18,7 +18,7 @@ class SupportPage extends WebPage {
      * @return string : HTML for middle of Page
      */
     function make_page_middle($userid, $role){
-        return $this->make_image_content_columns ($userid, $role, 'R', 8) ;
+        return $this->make_image_content_columns ($userid, $role, 'R', 4) ;
     }
 
     /**
