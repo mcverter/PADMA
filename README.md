@@ -22,3 +22,7 @@ to do with the skill of the previous designer than the requirements of the task.
 
 Due to the nature of this task, this repository includes both the original codebase and the redesign.
 
+Design Goals and Strategy
+=========================
+
+Because my own involvement will end soon, my primary design goal has been to create something that is easy for a future designer to fix and update.  To that end, I have always chosen to make code clarity to be the paramount virtue.  
