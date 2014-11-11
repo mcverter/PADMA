@@ -162,6 +162,15 @@ class PageControlFunctionsAndConsts
      *    but before class definition
      */
     static function exit_on_warning_or_notice() {
+        /**
+         * Exists on error or warning
+         *
+         * @param $errNo
+         * @param $errStr
+         * @param $errFile
+         * @param $errLine
+         * @throws ErrorException
+         */
         function errHandle($errNo, $errStr, $errFile, $errLine) {
             $msg = "$errStr in $errFile on line $errLine";
             if ($errNo == E_NOTICE || $errNo == E_WARNING) {

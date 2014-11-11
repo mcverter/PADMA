@@ -258,7 +258,7 @@ EOT;
      */
     static function selectCategoryList($db_conn, $userid)
     {
-        $query = "select distinct " . self::CATG_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='0'	UNION select distinct " . self::CATG_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='1' AND	CREATED_BY='{$userid}' order by 1";
+        $query = "select distinct " . self::CATG_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='0'	UNION select distinct " . self::CATG_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='1' AND	" . self::CREATED_BY_COL . "='{$userid}' order by 1";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -272,7 +272,7 @@ EOT;
      */
     static function selectSpeciesList($db_conn, $userid)
     {
-        $query = "select distinct SPEC from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='0'	UNION select distinct SPEC from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='1' AND	CREATED_BY='{$userid}' order by 1";
+        $query = "select distinct " . self::SPEC_COL . "= from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='0'	UNION select distinct " . self::SPEC_COL . "= from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='1' AND	" . self::CREATED_BY_COL . "='{$userid}' order by 1";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -286,7 +286,7 @@ EOT;
      */
     static function selectSubjectList($db_conn, $userid)
     {
-        $query = "select distinct SUBJ from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='0'	UNION select distinct SUBJ from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='1' AND	CREATED_BY='{$userid}' order by 1";
+        $query = "select distinct " . self::SUBJ_COL . "= from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='0'	UNION select distinct " . self::SUBJ_COL . "= from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='1' AND	" . self::CREATED_BY_COL . "='{$userid}' order by 1";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -300,7 +300,7 @@ EOT;
      */
     static function selectRegValList($db_conn, $userid)
     {
-        $query = "select distinct " . self::REG_VAL_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='0'	UNION select distinct " . self::REG_VAL_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='1' AND	CREATED_BY='{$userid}' order by 1";
+        $query = "select distinct " . self::REG_VAL_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='0'	UNION select distinct " . self::REG_VAL_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='1' AND	" . self::CREATED_BY_COL . "='{$userid}' order by 1";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -333,10 +333,9 @@ EOT;
      */
 
     static function selectSearchResult($db_conn, $userid, $constraint) {
-        $query = "SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES, EXPERIMENTSUBJECT,
-GONUMBER, " . self::BIOFUNCTION_COL . ",REGULATIONVALUE,ADDITIONALINFO,HOUR FROM  " . self::FULLVIEW_TBL . " where  {$constraint}  AND
-RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROBEID, CGNUMBER, GENENAME, FBCGNUMBER, EXPERIMENTNAME, ACTIVECATEGORY, ACTIVESPECIES,
-        EXPERIMENTSUBJECT,GONUMBER, " . self::BIOFUNCTION_COL . ",REGULATIONVALUE,ADDITIONALINFO,HOUR FROM " .self::FULLVIEW_TBL . " where  {$constraint} AND RESTRICTED='1' and CREATED_BY='{$userid}'  AND rownum <= ". self::SEARCH_RESULT_LIMIT . " ORDER BY 5,1 " ;
+        $query = "SELECT " . self::FULL_VIEW_PROBE_ID . "," . self::FULL_VIEW_CGNUMBER . "," . self::GENENAME_COL . "," . self::FULL_VIEW_FBNUM . "," . self::FULL_VIEW_NAME . "," . self::FULL_VIEW_CATG . "," . self::FULL_VIEW_SPEC . "," . self::FULL_VIEW_SUBJ . ", GONUMBER , " . self::BIOFUNCTION_COL . "," . self::FULL_VIEW_REG_VAL . "," . self::FULL_VIEW_ADDITIONALINFO . ", HOUR FROM  " . self::FULLVIEW_TBL . " where  {$constraint}  AND
+RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT " . self::FULL_VIEW_PROBE_ID . "," . self::FULL_VIEW_CGNUMBER . "," . self::GENENAME_COL . "," . self::FULL_VIEW_FBNUM . "," . self::FULL_VIEW_NAME . "," . self::FULL_VIEW_CATG . "," . self::FULL_VIEW_SPEC . ",
+        " . self::FULL_VIEW_SUBJ . ",GONUMBER , " . self::BIOFUNCTION_COL . "," . self::FULL_VIEW_REG_VAL . "," . self::FULL_VIEW_ADDITIONALINFO . ", HOUR FROM " .self::FULLVIEW_TBL . " where  {$constraint} AND RESTRICTED='1' and " . self::CREATED_BY_COL . "= '{$userid}'  AND rownum <= ". self::SEARCH_RESULT_LIMIT . " ORDER BY 5,1 " ;
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -358,7 +357,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      */
     static function selectAllUnrestrictedExperimentList($db_conn, $userid)
     {
-        $query = "select distinct " . self::EXP_NAME_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='0' UNION select distinct " . self::EXP_NAME_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='1' AND CREATED_BY='{$userid}' order by 1";
+        $query = "select distinct " . self::EXP_NAME_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='0' UNION select distinct " . self::EXP_NAME_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='1' AND " . self::CREATED_BY_COL . "= '{$userid}' order by 1";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -379,7 +378,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      */
     static function isExperimentInDB($db_conn, $exp_name) {
 
-        $query =   "SELECT  count(*) as " . self::TOTAL_ALIAS . " FROM " . self::EXPERIMENT_TBL . "  WHERE EXP_NAME='$exp_name'";
+        $query =   "SELECT  count(*) as " . self::TOTAL_ALIAS . " FROM " . self::EXPERIMENT_TBL . "  WHERE " . self::EXP_NAME_COL . "= '$exp_name'";
         $stid  =  self::execute_SELECT_query_and_return($db_conn, $query);
         $row = oci_fetch_assoc($stid);
         $count = $row[self::TOTAL_ALIAS];
@@ -415,7 +414,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      */
     static function selectUserRestrictedExperimentList($db_conn, $userid)
     {
-        $query = "select distinct " . self::EXP_NAME_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='1' AND CREATED_BY='" . $userid . "' order by EXP_NAME";
+        $query = "select distinct " . self::EXP_NAME_COL . " from " . self::EXPERIMENT_TBL . " where " . self::RESTRICTED_COL . " ='1' AND " . self::CREATED_BY_COL . "= '" . $userid . "' order by " . self::EXP_NAME_COL;
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -430,7 +429,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      */
     static function selectUnrestrictedExperimentListFromMaster($db_conn)
     {
-        $query = "select " . self::EXP_NAME_COL . " from EXP_MASTER where " . self::RESTRICTED_COL . " ='0' order by EXP_NAME";
+        $query = "select " . self::EXP_NAME_COL . " from " . self::EXPERIMENT_MASTER_TBL . "= where " . self::RESTRICTED_COL . " ='0' order by " . self::EXP_NAME_COL;
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -445,7 +444,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      */
     static function selectRestrictedExperimentListFromMaster($db_conn, $userid)
     {
-        $query = "select " . self::EXP_NAME_COL . " from " . self::EXPERIMENT_MASTER_TBL . " where " . self::RESTRICTED_COL . " ='0' and CREATED_BY='{$userid}' order by EXP_NAME";
+        $query = "select " . self::EXP_NAME_COL . " from " . self::EXPERIMENT_MASTER_TBL . " where " . self::RESTRICTED_COL . " ='0' and " . self::CREATED_BY_COL . "= '{$userid}' order by " . self::EXP_NAME_COL;
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -460,7 +459,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      */
     static function selectExperimentDescription($db_conn, $name)
     {
-        $query = "SELECT EXP_MASTER.* FROM " . self::EXPERIMENT_MASTER_TBL . " WHERE EXP_MASTER.EXP_NAME = '{$name}'";
+        $query = "SELECT * FROM " . self::EXPERIMENT_MASTER_TBL . " WHERE EXP_NAME = '{$name}'";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -599,7 +598,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      */
     static function deleteExpFromExpTbl($db_conn, $name)
     {
-        $query = "delete from " . self::EXPERIMENT_TBL . " where EXP_NAME='{$name}'";
+        $query = "delete from " . self::EXPERIMENT_TBL . " where " . self::EXP_NAME_COL . "= '{$name}'";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 
@@ -611,7 +610,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      */
     static function deleteExpFromExMasterTbl($db_conn, $name)
     {
-        $query = "delete from " . self::EXPERIMENT_MASTER_TBL . " where EXP_NAME='{$name}'";
+        $query = "delete from " . self::EXPERIMENT_MASTER_TBL . " where " . self::EXP_NAME_COL . "= '{$name}'";
         self::execute_NON_SELECT_query($db_conn, $query);
 
     }
@@ -684,7 +683,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      static function isUserInDB_byID($db_conn, $userid)
     {
         $userid = strtoupper(trim($userid));
-        $query = "select COUNT(*) AS " . self::TOTAL_ALIAS . " from " . self::CLIENT_TBL . " WHERE USER_ID = '{$userid}'";
+        $query = "select COUNT(*) AS " . self::TOTAL_ALIAS . " from " . self::CLIENT_TBL . " WHERE " . self::USER_ID_COL . " = '{$userid}'";
 
         $db_statement = self::execute_SELECT_query_and_return($db_conn, $query);
         $row = oci_fetch_assoc($db_statement);
@@ -706,7 +705,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
     {
         $userid = strtoupper(trim($userid));
         $password = sha1($password);
-        $query = "select count(*) as " . self::TOTAL_ALIAS . " from " . self::CLIENT_TBL . " WHERE USER_ID = '{$userid}' and PASSWORD='{$password}'";
+        $query = "select count(*) as " . self::TOTAL_ALIAS . " from " . self::CLIENT_TBL . " WHERE " . self::USER_ID_COL . " = '{$userid}' and " . self::PASSWORD_COL . "='{$password}'";
         $db_statement = self::execute_SELECT_query_and_return($db_conn, $query);
         $row = oci_fetch_assoc($db_statement);
 
@@ -723,7 +722,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      * @return resource: Handle to Results
      */
     static function selectTitleList($db_conn) {
-        $query = "select distinct title from client";
+        $query = "select distinct" . self::TITLE_COL . "from" . self::CLIENT_TBL . "";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -737,7 +736,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      */
     static function selectCountryList($db_conn)
     {
-        $query = "select distinct country, countryid from country order by countryid";
+        $query = "select distinct" . self::COUNTRYNAME_COL . ", countryid from country order by countryid ";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -750,7 +749,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      */
     static function selectNewUserList($db_conn)
     {
-        $query = "select c_id,fname,lname from client where ACC_RIGHT_ID = 0 order by lname ";
+        $query = "select" . self::C_ID_COL . "," . self::FNAME_COL . "," . self::LNAME_COL . "from" . self::CLIENT_TBL . "where ACC_RIGHT_ID = 0 order by" . self::LNAME_COL . "";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -763,7 +762,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
      */
     static function selectExistingUserList($db_conn)
     {
-        $query = "select c_id,fname,lname from client where ACC_RIGHT_ID > 0 order by lname ";
+        $query = "select" . self::C_ID_COL . "," . self::FNAME_COL . "," . self::LNAME_COL . "from" . self::CLIENT_TBL . "where ACC_RIGHT_ID > 0 order by" . self::LNAME_COL . "";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -796,7 +795,7 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
             self::STATE_COL .",". self::ZIP_COL .",". self::COUNTRYNAME_COL .",". self::PHONE_COL .",".
             self::EMAIL_COL .",". self::IND_COL .",". self::PROF_COL .",".
             self::UPDATED_BY_COL .",". self::UPDATED_ON_COL .
-            " from client where user_id = '{$userid}'";
+            " from" . self::CLIENT_TBL . "where " . self::USER_ID_COL . " = '{$userid}'";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -840,11 +839,11 @@ RESTRICTED='0' AND rownum <= ". self::SEARCH_RESULT_LIMIT . " UNION SELECT  PROB
     {
         $email = strtoupper($email);
         $userid = strtoupper($userid);
-        $query = "update " . self::CLIENT_TBL . " set TITLE='{$title}',LNAME='{$lname}',FNAME='{$fname}',MNAME='{$mname}'," .
-            "ADD_1=' {$address1}',
-ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$country}'," .
-            "PHONE= '{$phone}',EMAIL='{$email}',IND='{$industry}',PROF='{$profession}'," .
-            "UPDATED_BY='{$userid}',UPDATED_ON=SYSDATE WHERE USER_ID='{$userid}'";
+        $query = "update " . self::CLIENT_TBL . " set " . self::TITLE_COL . "='{$title}'," . self::LNAME_COL . "='{$lname}'," . self::FNAME_COL . "='{$fname}'," . self::MNAME_COL . "='{$mname}',"
+             . self::ADD_1_COL . "=' {$address1}',
+" . self::ADD_2_COL . "='{$address2}'," . self::CITY_COL . "='{$city}'," . self::STATE_COL . "= '{$state}'," . self::ZIP_COL . "='{$zip}'," . self::COUNTRYID_COL . "='{$country}',"
+             . self::PHONE_COL . "= '{$phone}'," . self::EMAIL_COL . "='{$email}'," . self::IND_COL . "='{$industry}'," . self::PROF_COL . "='{$profession}',"
+             . self::UPDATED_BY_COL . "='{$userid}'," . self::UPDATED_ON_COL . "=SYSDATE WHERE USER_ID='{$userid}'";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 
@@ -866,15 +865,18 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
      * @param $email : Email
      * @param $industry : Industry
      * @param $profession : Profession
+     * @param $password
+     * @param $date
+     *
      * @param $userid : Id of User
      */
     static function insertUserProfile($db_conn, $title, $lname, $mname, $fname,
                                       $address1, $address2, $city, $state, $zip, $country,
                                       $phone, $email, $industry, $profession, $userid, $password, $date)
     {
-        $query = "INSERT INTO " . self::CLIENT_TBL . " (C_ID,TITLE,LNAME,MNAME,FNAME,ADD_1,ADD_2,CITY,STATE,ZIP,COUNTRY," .
-            "PHONE,EMAIL,IND,PROF,USER_ID,PASSWORD," .
-            "DATE_APPLIED,TOTAL_LOGIN,ACC_RIGHT_ID,DEL_FLAG) " .
+        $query = "INSERT INTO " . self::CLIENT_TBL . " (" . self::C_ID_COL . "," . self::TITLE_COL . "," . self::LNAME_COL . ", MNAME ," . self::FNAME_COL . "," . self::ADD_1_COL . "," . self::ADD_2_COL . "," . self::CITY_COL . "," . self::STATE_COL . "," . self::ZIP_COL . "," . self::COUNTRYNAME_COL . "," .
+            "" . self::PHONE_COL . "," . self::EMAIL_COL . "," . self::IND_COL . "," . self::PROF_COL . "," . self::USER_ID_COL . "," . self::PASSWORD_COL . "," .
+            " DATE_APPLIED , TOTAL_LOGIN , ACC_RIGHT_ID , DEL_FLAG ) " .
             "VALUES(CLIENT_ID.NEXTVAL,'$title', '$lname', '$mname', '$fname', " .
             "'$address1', '$address2', '$city', '$state', '$zip', '$country'," .
             "'$phone', '$email', '$industry', '$profession', '$userid', '$password', '$date',0,0,0)";
@@ -891,7 +893,7 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
     static function updatePasswordByUserID($db_conn, $userid, $password) {
         $password = sha1($password);
         $userid = strtoupper($userid);
-        $query = "update " . self::CLIENT_TBL . " set PASSWORD= '{$password}' WHERE USER_ID = '{$userid}'";
+        $query = "update " . self::CLIENT_TBL . " set " . self::PASSWORD_COL . "= '{$password}' WHERE " . self::USER_ID_COL . " = '{$userid}'";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
     /**
@@ -904,7 +906,7 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
     static function updatePasswordByCID($db_conn, $cid, $password)
     {
         $password = sha1($password);
-        $query = "update " . self::CLIENT_TBL . " set PASSWORD= '{$password}' WHERE C_ID = $cid";
+        $query = "update " . self::CLIENT_TBL . " set " . self::PASSWORD_COL . "= '{$password}' WHERE" . self::C_ID_COL . "= $cid";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 
@@ -918,7 +920,7 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
      * @return resource:  Handle to results
      */
     static function selectEmailFromCID($db_conn, $cid) {
-        $query = "select EMAIL from " . self::CLIENT_TBL . " WHERE C_ID=$cid";
+        $query = "select " . self::EMAIL_COL . " from " . self::CLIENT_TBL . " WHERE " . self::C_ID_COL . "=$cid";
         return self::execute_SELECT_query_and_return($db_conn, $query);
     }
 
@@ -932,7 +934,7 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
      */
     static function updateUserRight($db_conn, $cid, $accessright, $updatedby, $date)
     {
-        $query = "UPDATE " . self::CLIENT_TBL . " SET ACC_RIGHT_ID='$accessright', UPDATED_BY='$updatedby',updated_on='$date' WHERE C_ID='$cid'";
+        $query = "UPDATE " . self::CLIENT_TBL . " SET ACC_RIGHT_ID='$accessright', " . self::UPDATED_BY_COL . "='$updatedby'," . self::UPDATED_ON_COL . "='$date' WHERE " . self::C_ID_COL . "='$cid'";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 
@@ -948,7 +950,7 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
      */
     static function deleteUser($db_conn, $cid, $updatedby, $date)
     {
-        $query = "UPDATE " . self::CLIENT_TBL . " SET DEL_FLAG='1', UPDATED_BY='$updatedby',UPDATED_ON='$date' WHERE C_ID=$cid";
+        $query = "UPDATE " . self::CLIENT_TBL . " SET " . self::DEL_FLAG_COL . "='1', " . self::UPDATED_BY_COL . "='$updatedby'," . self::UPDATED_ON_COL . "='$date' WHERE " . self::C_ID_COL . "=$cid";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 
@@ -962,7 +964,7 @@ ADD_2='{$address2}',CITY='{$city}',STATE= '{$state}',ZIP ='{$zip}',COUNTRY='{$co
      */
     static function updateUserActivation($db_conn, $cid, $updatedby, $date)
     {
-        $query = "UPDATE " . self::CLIENT_TBL . " SET DEL_FLAG='0', UPDATED_BY='$updatedby',UPDATED_ON='$date' WHERE C_ID=$cid";
+        $query = "UPDATE " . self::CLIENT_TBL . " SET " . self::DEL_FLAG_COL . "='0', " . self::UPDATED_BY_COL . "='$updatedby'," . self::UPDATED_ON_COL . "='$date' WHERE " . self::C_ID_COL . "=$cid";
         self::execute_NON_SELECT_query($db_conn, $query);
     }
 

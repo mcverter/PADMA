@@ -45,7 +45,7 @@ class DeleteExperimentPage extends DatabaseConnectionPage
      *
      * This function returns the appropriate list according to
      *   the users ROLE.
-     * @return resource
+     * @return resource|void
      */
     function selectExperimentList()
     {
@@ -60,6 +60,7 @@ class DeleteExperimentPage extends DatabaseConnectionPage
             return DBFunctionsAndConsts::selectUserRestrictedExperimentList($db_conn, $userid);
         } else {
              PageControlFunctionsAndConsts::redirectDueToError("Page accessed by user who is neither Admin nor Researcher");
+            return;
         }
     }
 

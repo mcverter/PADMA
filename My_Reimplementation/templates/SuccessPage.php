@@ -1,15 +1,14 @@
 <?php
 
+require_once("../templates/WebPage.php");
+
 /**
  * This class is used to override the printing of a page
  *   when a significant success occurs.
  * Rather than outputting the normal page, this prints out
  *   a page containing nothing but the header,
  *   the success message, and the footer.
- *
  */
-require_once("../templates/WebPage.php");
-
 class SuccessPage extends WebPage {
     private $success_message;
 
@@ -47,6 +46,11 @@ class SuccessPage extends WebPage {
         return $returnString;
     }
 
+    /**
+     * Success Message initialized in constructor
+     *
+     * @param $msg
+     */
     function __construct($msg) {
         parent::__construct();
         $this->success_message = $msg;

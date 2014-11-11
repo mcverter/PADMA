@@ -1,5 +1,21 @@
 <?php
 require_once("../templates/DatabaseConnectionPage.php");
+
+/**
+ * Class AdvancedSearchPage
+ * Provides a FULL SEARCH of all the columns of the FULL_VIEW view.
+ *
+ * Note that certain search dimensions are implemented as
+ *   SELECT INPUTs and others as TEXT INPUTs
+ *
+ * The previous iteration of PADMA offered three different
+ *   versions of search.  It was unclear what the rationale was
+ *   for making this decision.
+ *
+ * It would not be hard to replicate this design, but we will
+ *   are holding off on this implementation until end users
+ *   communicate their requirements better
+ */
 class AdvancedSearchPage extends  DatabaseConnectionPage
 {
     const PG_TITLE = "Advanced Search";

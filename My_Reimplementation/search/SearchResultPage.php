@@ -108,6 +108,8 @@ class SearchResultPage extends DatabaseConnectionPage
      *   into a Database query and prints out a formatted table
      *   for viewing the results.
      *
+     * @param $userid
+     * @param $role
      * @return string
      */
     function make_main_content($userid, $role)

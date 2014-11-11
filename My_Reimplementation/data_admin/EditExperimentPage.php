@@ -55,6 +55,7 @@ class EditExperimentPage extends DatabaseConnectionPage
             return DBFunctionsAndConsts::selectRestrictedExperimentListFromMaster($this->db_conn, $this->userid);
         } else {
              PageControlFunctionsAndConsts::redirectDueToError("Page accessed by user who is neither Admin nor Researcher");
+            return;
         }
     }
 

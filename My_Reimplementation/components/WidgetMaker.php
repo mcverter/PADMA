@@ -121,6 +121,8 @@ EOT;
      * @param string $onsubmit:  Javascript to perform on Form Submission
      * @param string $method:  method used by form
      * @param string $name:  Name and ID of form
+     * @param string $attrs:
+     *
      * @return string:  HTML for starting a form
      */
     static function start_form ($action, $method='POST', $name='form', $class='', $onsubmit='', $attrs='') {
@@ -149,6 +151,7 @@ EOT;
      * @param string $class: CSS class
      * @param string $method:  method used by form
      * @param string $name:  Name and ID of form
+     * @param string $attrs: Additional Attributes
      *
      * @return string:  HTML for starting a file-uploading form
      */
@@ -222,6 +225,8 @@ EOT;
      * @param integer $cols:  width
      * @param integer $rows: height
      * @param string $class: CSS class
+     * @param string $attrs: Additional Attributes
+     *
      * @return string:  HTML for Element
      */
     static function text_area($label, $name, $default_text='',  $cols=20, $rows=5, $class='', $attrs='')  {
@@ -242,6 +247,8 @@ EOT;
      * @param string $name:  Name and ID of element
      * @param string $default_text: Default text
      * @param string $class:  CSS Class
+     * @param string $attrs: Additional Attributes
+     *
      * @return string:  HTML for element
      */
     static function text_input($label, $name, $default_text='', $class='', $attrs='') {
@@ -263,6 +270,8 @@ EOT;
      * @param string $label: Label for Element
      * @param string $name:  Name and ID of element
      * @param string $class:  CSS class
+     * @param string $attrs: Additional Attributes
+     *
      * @return string:  HTML for element
      */
     static function password_input($label, $name, $class='', $attrs='' ) {
@@ -278,6 +287,16 @@ EOT;
 EOT;
     }
 
+    /**
+     * @param $label
+     * @param $name
+     * @param $value
+     * @param string $checked
+     * @param string $class
+     * @param string $attrs: Additional Attributes
+     *
+     * @return string
+     */
     static function radio_input($label, $name, $value, $checked='', $class='', $attrs='') {
         return <<< EOT
 
@@ -294,6 +313,8 @@ EOT;
      * @param string $label:  Label for Input
      * @param string $name:  Name and ID
      * @param string $class : CSS class
+     * @param string $attrs: Extra Attributes
+     *
      * @return string :  HTML for Element
      */
     static function file_input($label, $name, $class='', $attrs='') {
@@ -307,6 +328,14 @@ EOT;
 EOT;
     }
 
+    /**
+     * For making a fieldset.
+     * This marks off a div region, enclosed in a border, with a title
+     *
+     * @param $legend:  Title for the fieldset div
+     *
+     * @return string : HTML for fieldset
+     */
     static function  start_fieldset($legend) {
         return <<< EOT
 
@@ -316,6 +345,11 @@ EOT;
 
     }
 
+    /**
+     * Ends fieldset
+     *
+     * @return string: HTML for fieldset
+     */
     static function end_fieldset() {
         return <<< EOT
 
@@ -336,6 +370,7 @@ EOT;
      * @param string $already_selected:  Already selected option
      * @param integer $size:   Number of rows to show
      * @param string $class:  CSS class
+     * @param string $attrs: Additional Attributes
      *
      * @return string:  HTML for Element
      */
