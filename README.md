@@ -44,8 +44,22 @@ File Naming Conventions
 *  *Script.php:  A standalone CGI script for processing POST data.  Not a class.
 *  *AJAX.php:  A standalone script for processing AJAX data.   Not a class.
 *  *FunctionsAndConsts:  A class which contains a library of static constants and functions
+*  *Maker.php:  Generates the string for an HTML component
 
 Directory Structure
 ===================
 
-Th
+
+components	
+css	
+data_admin	
+extensions	
+fonts
+functions_and_consts	
+info_pages
+js	
+search	
+templates	
+user_admin
+webpages	
+.gitignore
