@@ -25,7 +25,7 @@ Due to the nature of this task, this repository includes both the original codeb
 Design Goals and Strategy
 =========================
 
-Because my own involvement will end soon, my primary design goal has been to create something that is easy for a future designer to fix and update.  To that end, I have always chosen to make code clarity to be the paramount virtue, which sometimes leads the code to be a bit verbose and open to optimization.  
+Because my own involvement will end soon, my primary design goal has been to create something that will be easy for a future designer to fix and update.  To that end, I have always chosen to make code clarity to be the paramount virtue, even at the cost of verbosity and minor inefficiency.  
 
 To reduce the risk of sloppy syntax and spelling errors, I have chosen throughout to 
 * Always use static constants rather than using plaintext strings
