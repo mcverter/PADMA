@@ -25,10 +25,19 @@ Due to the nature of this task, this repository includes both the original codeb
 Design Goals and Strategy
 =========================
 
-Because my own involvement will end soon, my primary design goal has been to create something that is easy for a future designer to fix and update.  To that end, I have always chosen to make code clarity to be the paramount virtue, which sometimes leads the code to be a bit verbose.  
+Because my own involvement will end soon, my primary design goal has been to create something that is easy for a future designer to fix and update.  To that end, I have always chosen to make code clarity to be the paramount virtue, which sometimes leads the code to be a bit verbose and open to optimization.  
 
 To reduce the risk of sloppy syntax and spelling errors, I have chosen throughout to 
 * Always use static constants rather than using plaintext strings
 * Always use static PHP methods to create HTML strings rather than writing raw HTML.
 
 For all pages in the site, the return string is built in a modular manner: First the Head Section, then the Top Nav, then the Middle, then the Bottom Nav, then the Javascript, then the closing HTML.  Only after the entire string is build will the result be echoed.
+
+
+This code was written to be compatible with the minimum possible settings of the end-user's server, so make the transfer between the old PHP codebase to the new codebase would be as painless as possible.  It therefore is compliant PHP 5.3.x, and makes no usage of any of the contemporary frameworks for modularizing code.
+
+
+
+Code Structure
+==============
+
