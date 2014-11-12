@@ -37,7 +37,15 @@ For all pages in the site, the return string is built in a modular manner: First
 This code was written to be compatible with the minimum possible settings of the end-user's server, so make the transfer between the old PHP codebase to the new codebase would be as painless as possible.  It therefore is compliant PHP 5.3.x, and makes no usage of any of the contemporary frameworks for modularizing code.
 
 
+File Naming Conventions
+=======================
 
-Code Structure
-==============
+*  *Page.php:  Extends WebPage.php.  A Class which is used to display a Webpage
+*  *Script.php:  A standalone CGI script for processing POST data.  Not a class.
+*  *AJAX.php:  A standalone script for processing AJAX data.   Not a class.
+*  *FunctionsAndConsts:  A class which contains a library of static constants and functions
 
+Directory Structure
+===================
+
+Th
