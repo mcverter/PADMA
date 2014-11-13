@@ -56,9 +56,9 @@ Directory Structure
 * extensions	: Files for Datatables.js
 * fonts : Files for Bootstrap
 * functions_and_consts	: Contains *FunctionsAndConsts classes, which contain static functions and static constants that are used throughout the application
-* info_pages: 
-* js	
-* search	
+* info_pages:  Contain purely informational *Pages about the PADMA Project.  They directly extend the WebPage class, but not the DatabasePage class, because they have no perform no CRUD tasks.
+* js	: jquery.js, bootstrap.js, datatables.js, parsely.js
+* search	: For searching the FULL_VIEW view in the Database.  Only Advanced Search is currently implemented, which allows for a  search of all columns of the database.  QuickSearch and RefinedSearch are not implemented in the current version.  
 * templates	
 * user_admin
 * webpages	
