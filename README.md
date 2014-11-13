@@ -50,15 +50,15 @@ Directory Structure
 ===================
 
 
-components: Contains *Maker classes, which generate HTML using static functions
-css	: Bootstrap and custom css
-data_admin	: Classes and Scripts for Administering Data (Experiments and Versions) on the site
-extensions	: Files for Datatables.js
-fonts : Files for Bootstrap
-functions_and_consts	: Contains *FunctionsAndConsts classes, which contain static functions and static constants that are used throughout the application
-info_pages
-js	
-search	
-templates	
-user_admin
-webpages	
+* components: Contains *Maker classes, which generate HTML, including HeaderMaker, FooterMaker, using static functions
+* css	: Bootstrap and custom css
+* data_admin	: Classes and Scripts for Administering Data (Experiments and Versions) on the site
+* extensions	: Files for Datatables.js
+* fonts : Files for Bootstrap
+* functions_and_consts	: Contains *FunctionsAndConsts classes, which contain static functions and static constants that are used throughout the application
+* info_pages: 
+* js	
+* search	
+* templates	
+* user_admin
+* webpages	
