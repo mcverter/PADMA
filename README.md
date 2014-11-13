@@ -50,15 +50,16 @@ Directory Structure
 ===================
 
 
-* components: Contains *Maker classes, which generate HTML, including HeaderMaker, FooterMaker, using static functions
-* css	: Bootstrap and custom css
-* data_admin	: Classes and Scripts for Administering Data (Experiments and Versions) on the site
-* extensions	: Files for Datatables.js
-* fonts : Files for Bootstrap
-* functions_and_consts	: Contains *FunctionsAndConsts classes, which contain static functions and static constants that are used throughout the application
-* info_pages:  Contain purely informational *Pages about the PADMA Project.  They directly extend the WebPage class, but not the DatabasePage class, because they have no perform no CRUD tasks.
-* js	: jquery.js, bootstrap.js, datatables.js, parsely.js
-* search	: For searching the FULL_VIEW view in the Database.  Only Advanced Search is currently implemented, which allows for a  search of all columns of the database.  QuickSearch and RefinedSearch are not implemented in the current version.  
-* templates	
-* user_admin
-* webpages	
+* /components/ Contains *Maker classes, which generate HTML, including HeaderMaker, FooterMaker, using static functions
+* /css/ Bootstrap and custom css
+* /data_admin/ Classes, Scripts and AJAX files for Administering Data (Experiments and Versions) on the site
+* /extensions/ Files for Datatables.js
+* /fonts/ Files for Bootstrap
+* /functions_and_consts/ Contains *FunctionsAndConsts classes, which contain static functions and static constants that are used throughout the application
+* /info_pages/  Contain purely informational *Pages about the PADMA Project.  They directly extend the WebPage class, but not the DatabasePage class, because they have no perform no CRUD tasks.
+* /js/ jquery.js, bootstrap.js, datatables.js, parsely.js
+* /public/ alias of /webpages/
+* /search/ For searching the FULL_VIEW view in the Database.  Only Advanced Search is currently implemented, which allows for a  search of all columns of the database.  QuickSearch and RefinedSearch are not implemented in the current version.  
+* /page_templates/  Contains base pages of all Pages: (1) WebPage for the creation of all HTML for each Page echoed from the server, and (2) DatabasePage for those pages which require perform CRUD data retrieval tasks against the Database.
+* /user_admin/ Classes, Scripts and AJAX files for Administering User Administration (Permissions and Profiles) on the site
+* /webpages/  all user-facing pages are served echoed from this folder 
