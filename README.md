@@ -106,8 +106,8 @@ Remaining Issues: Code Style
 
 * Consts_And_Functions
 * WidgetMaker class
-** Keyword argument
-** Remove onsubmit() from Form widget
+* * Keyword argument
+* * Remove onsubmit() from Form widget
 
 Remaining Issues:  Functionality
 ================================
