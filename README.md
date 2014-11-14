@@ -101,3 +101,15 @@ End users should confirm that the wabove pages can be reached.
 
 Furthermore, they should make sure that the various roles of users (No Role, User, Researcher, Administrator) are allowed or prohibited to perform the tasks available from the pages listed above.  
  
+Remaining Issues: Code Style
+=============================
+
+* Consts_And_Functions
+* WidgetMaker class
+** Keyword argument
+** Remove onsubmit() from Form widget
+
+Remaining Issues:  Functionality
+================================
+* Allow different search parameters
+* Refined Search
