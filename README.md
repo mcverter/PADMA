@@ -63,3 +63,41 @@ Directory Structure
 * /page_templates/  Contains base pages of all Pages: (1) WebPage for the creation of all HTML for each Page echoed from the server, and (2) DatabasePage for those pages which require perform CRUD data retrieval tasks against the Database.
 * /user_admin/ Classes, Scripts and AJAX files for Administering User Administration (Permissions and Profiles) on the site
 * /webpages/  all user-facing pages are served echoed from this folder 
+
+
+User Facing Pages
+=================
+* All in /webpages/ directory 
+* 
+* documentation/  Project Documentation Folder
+* about.php	: Information about PADMA project
+* advanced_search.php	: Search all columns of FULL_VIEW
+* change_password_page.php	: User change password
+* contact.php	: Contact PADMA staff
+* delete_experiment.php	: Administrator or Researcher delete experiment.
+* delete_reference.php	: Administrator delete version reference.
+* documentation.php	: Links to documents in documentation/ folder
+* edit_experiment.php :  Administrator or Researcher edit experiment description
+* edit_profile.php	: User edit profile information.
+* experiment_list.php	: Display lists of experiment.
+* faq.php	: Frequently Asked Questions
+* index.php	: Main page
+* manage_data_main.php : Navigation page for Admin or Researcher manage experiments and reference versions.	
+* manage_users.php	: Administrator manage PADMA users.
+* new_user_terms.php	: New User agreement
+* registration.php	: New User profile creation
+* search_main.php	: Navigation page for search choices 
+* search_result.php	: Result of search of FULL_VIEW 
+* support.php	: Support information for PADMA
+* upload_agreement.php : Agreement for uploading experiment
+* upload_experiment.php	: Administrator or Researcher upload experiment
+* upload_reference.php	: Administrator upload version reference
+
+Tests
+=====
+No automated test infrastructure has yet been implemented.
+
+End users should confirm that the wabove pages can be reached.
+
+Furthermore, they should make sure that the various roles of users (No Role, User, Researcher, Administrator) are allowed or prohibited to perform the tasks available from the pages listed above.  
+ 
