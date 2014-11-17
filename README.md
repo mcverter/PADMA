@@ -105,11 +105,17 @@ Remaining Issues: Code Style
 =============================
 
 * Consts_And_Functions
++ Overdetermined
++ Too much happening?
++ Refactor UPLOAD consts_and_functions into DATA_ADMIN?
+
 * WidgetMaker class
-* * Keyword argument
-* * Remove onsubmit() from Form widget
++ Needs Refactoring
++ Use Named Arguments. Hard to keep track of positional arguments
++ Remove unused arguments: (eg) onsubmit() from Form widget
 
 Remaining Issues:  Functionality
 ================================
 * Allow different search parameters
 * Refined Search
+* Delete Users doesn't delete from DB, only sets delete flag: bug or feature?
