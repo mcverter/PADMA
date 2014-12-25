@@ -162,20 +162,29 @@ The following tasks should be verified by end users before adopting the code bas
 *  Guests who do not agree to these terms can not reach this page.
 *  Users, Researchers, and Administrators can not reach this page
 
-(17) search_main.php	: Navigation page for search choices 
+(17) search_main.php	
+* Guests, Users, Researchers, and Administrators can visit the page and can view the menu of search choices 
 
-(18) search_result.php	: Result of search of FULL_VIEW 
+(18) search_result.php	
+* Guests, Users, Researchers, and Administrators can visit the page and can view the result of search 
 
-(20) support.php	: Support information for PADMA
+(20) support.php	
+* Guests, Users, Researchers, and Administrators can visit the page and can view support information for PADMA
 
-(21) upload_agreement.php : Agreement for uploading experiment
+(21) upload_agreement.php 
+* Administrator or Researcher can visit the page and agreement to the rules for uploading experiment
+* Guests and Users can not reach this page
 
 (22) upload_experiment.php	: Administrator or Researcher upload experiment
+* Administrator or Researcher can visit the page and upload experiments
+* Researchers and Administrators must agree to the upload agreement to reach this page
+* Researchers and Administrators who do not agree to these terms can not reach this page.
+* Guests and Users can not reach this page
 
 (23) upload_reference.php	: Administrator upload version reference
+* Administrator or Researcher can visit the page and upload reference version
+* Guests, Users, and Researchers can not reach this page
 
-
- 
 Remaining Issues: Code Style
 =============================
 
