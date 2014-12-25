@@ -152,9 +152,15 @@ The following tasks should be verified by end users before adopting the code bas
 * Administrators can visit the page and  manage PADMA users.
 *  Guests, Users, and Researchers can not reach this page
   
-(15) new_user_terms.php	: New User agreement
+(15) new_user_terms.php	
+*  Guests can visit the page and agree to be a New User
+*  Users, Researchers, and Administrators can not reach this page
 
-(16) registration.php	: New User profile creation
+(16) registration.php	
+*  Guests can visit the page and agree to be a New User
+*  Guests must agree to the New User Terms of agreement to reach this page
+*  Guests who do not agree to these terms can not reach this page.
+*  Users, Researchers, and Administrators can not reach this page
 
 (17) search_main.php	: Navigation page for search choices 
 
