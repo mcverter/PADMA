@@ -68,7 +68,7 @@ Directory Structure
 User Facing Pages
 =================
 * All in /webpages/ directory 
-* 
+
 * documentation/  Project Documentation Folder
 * about.php	: Information about PADMA project
 * advanced_search.php	: Search all columns of FULL_VIEW
@@ -97,9 +97,74 @@ Tests
 =====
 No automated test infrastructure has yet been implemented.
 
-End users should confirm that the wabove pages can be reached.
+End users should confirm that the above pages can be reached.
 
 Furthermore, they should make sure that the various roles of users (No Role, User, Researcher, Administrator) are allowed or prohibited to perform the tasks available from the pages listed above.  
+ 
+The following tasks should be verified by end users before adopting the code base.
+
+(1) about.php
+* Guests, Users, Researchers, and Administrators can visit the page and learn information about the project 
+
+(2) advanced_search.php:
+Guests, Users, Researchers, and Administrators can visit the page, where they can thoroughly search the database
+
+(3) change_password_page.php	
+* Users, Researchers, and Administrators can visit the page and change their passwords
+* Guests can not reach this page
+
+(4) contact.php	: 
+* Guests, Users, Researchers, and Administrators can visit the page and contact PADMA staff
+
+(5) delete_experiment.php	: 
+*  Administrator or Researcher can visit the page and delete experiments.
+*  Guests and Users can not reach this page
+
+(6)  delete_reference.php	: 
+* Administrator can visit the page and delete version reference.
+* Guests, Users, and Researchers can not reach this page
+
+(7) documentation.php	
+* Guests, Users, Researchers, and Administrators can visit the page and links to documents in documentation/ folder
+
+(8) edit_experiment.php :  
+* Administrator or Researcher can visit the page and edit experiment description
+*  Guests and Users can not reach this page
+
+(9) edit_profile.php	: 
+* Users, Researchers, and Administrators can visit the page and edit profile information.
+*  Guests can not reach this page
+
+(10) experiment_list.php	: 
+* Guests, Users, Researchers, and Administrators can visit the page and can view a list of experiment.
+
+(11) faq.php	: 
+* Guests, Users, Researchers, and Administrators can visit the page and can view the Frequently Asked Questions
+
+(12) index.php	: 
+* Guests, Users, Researchers, and Administrators can visit the page and can view the Main page
+
+(13) manage_data_main.php : Navigation page for Admin or Researcher manage experiments and reference versions.	
+
+(14) manage_users.php	: Administrator manage PADMA users.
+
+(15) new_user_terms.php	: New User agreement
+
+(16) registration.php	: New User profile creation
+
+(17) search_main.php	: Navigation page for search choices 
+
+(18) search_result.php	: Result of search of FULL_VIEW 
+
+(20) support.php	: Support information for PADMA
+
+(21) upload_agreement.php : Agreement for uploading experiment
+
+(22) upload_experiment.php	: Administrator or Researcher upload experiment
+
+(23) upload_reference.php	: Administrator upload version reference
+
+
  
 Remaining Issues: Code Style
 =============================
