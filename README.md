@@ -101,89 +101,9 @@ End users should confirm that the above pages can be reached.
 
 Furthermore, they should make sure that the various roles of users (No Role, User, Researcher, Administrator) are allowed or prohibited to perform the tasks available from the pages listed above.  
  
-The following tasks should be verified by end users before adopting the code base.
+A list of tests for client-side system verification can be found at the following link:
 
-(1) about.php
-* Guests, Users, Researchers, and Administrators can visit the page and learn information about the project 
-
-(2) advanced_search.php
-* Guests, Users, Researchers, and Administrators can visit the page, where they can thoroughly search the database
-
-(3) change_password_page.php	
-* Users, Researchers, and Administrators can visit the page and change their passwords
-* Guests can not reach this page
-
-(4) contact.php	
-* Guests, Users, Researchers, and Administrators can visit the page and contact PADMA staff
-
-(5) delete_experiment.php	
-*  Administrator or Researcher can visit the page and delete experiments.
-*  Guests and Users can not reach this page
-
-(6)  delete_reference.php	 
-* Administrator can visit the page and delete version reference.
-* Guests, Users, and Researchers can not reach this page
-
-(7) documentation.php	
-* Guests, Users, Researchers, and Administrators can visit the page and links to documents in documentation/ folder
-
-(8) edit_experiment.php  
-* Administrator or Researcher can visit the page and edit experiment description
-*  Guests and Users can not reach this page
-
-(9) edit_profile.php	
-* Users, Researchers, and Administrators can visit the page and edit profile information.
-*  Guests can not reach this page
-
-(10) experiment_list.php 
-* Guests, Users, Researchers, and Administrators can visit the page and can view a list of experiment.
-
-(11) faq.php	
-* Guests, Users, Researchers, and Administrators can visit the page and can view the Frequently Asked Questions
-
-(12) index.php 
-* Guests, Users, Researchers, and Administrators can visit the page and can view the Main page
-
-(13) manage_data_main.php 
-* Researchers and Administrators can visit the page and manage experiments and reference versions.	
-*  Guests and Users can not reach this page
-
-(14) manage_users.php	 
-* Administrators can visit the page and  manage PADMA users.
-*  Guests, Users, and Researchers can not reach this page
-  
-(15) new_user_terms.php	
-*  Guests can visit the page and agree to be a New User
-*  Users, Researchers, and Administrators can not reach this page
-
-(16) registration.php	
-*  Guests can visit the page and agree to be a New User
-*  Guests must agree to the New User Terms of agreement to reach this page
-*  Guests who do not agree to these terms can not reach this page.
-*  Users, Researchers, and Administrators can not reach this page
-
-(17) search_main.php	
-* Guests, Users, Researchers, and Administrators can visit the page and can view the menu of search choices 
-
-(18) search_result.php	
-* Guests, Users, Researchers, and Administrators can visit the page and can view the result of search 
-
-(20) support.php	
-* Guests, Users, Researchers, and Administrators can visit the page and can view support information for PADMA
-
-(21) upload_agreement.php 
-* Administrator or Researcher can visit the page and agreement to the rules for uploading experiment
-* Guests and Users can not reach this page
-
-(22) upload_experiment.php	: Administrator or Researcher upload experiment
-* Administrator or Researcher can visit the page and upload experiments
-* Researchers and Administrators must agree to the upload agreement to reach this page
-* Researchers and Administrators who do not agree to these terms can not reach this page.
-* Guests and Users can not reach this page
-
-(23) upload_reference.php	: Administrator upload version reference
-* Administrator or Researcher can visit the page and upload reference version
-* Guests, Users, and Researchers can not reach this page
+ [PADMA Testing](https://github.com/mcverter/PADMA/wiki/PADMA-Testing:-Client-side-tests-for-system-verification)
 
 Remaining Issues: Code Style
 =============================
